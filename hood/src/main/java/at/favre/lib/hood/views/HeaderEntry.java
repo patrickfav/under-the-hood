@@ -33,6 +33,11 @@ public class HeaderEntry extends AbstractPageEntry<CharSequence> {
         return true;
     }
 
+    @Override
+    public String toLogString() {
+        return "#" + header.toString();
+    }
+
     private static class Template implements ViewTemplate<CharSequence> {
         @Override
         public int getViewType() {

@@ -50,6 +50,11 @@ public class KeyValueEntry extends AbstractPageEntry<Map.Entry<CharSequence, Str
     }
 
     @Override
+    public String toLogString() {
+        return "\t"+data.getKey()+"="+data.getValue();
+    }
+
+    @Override
     public int compare(KeyValueEntry o1, KeyValueEntry o2) {
         return String.valueOf(o1.getValue().getKey()).compareTo(o2.getValue().getKey().toString());
     }
@@ -81,7 +86,6 @@ public class KeyValueEntry extends AbstractPageEntry<Map.Entry<CharSequence, Str
 
         @Override
         public void decorateViewWithZebra(View view, boolean hasZebra) {
-
             Drawable zebra = null;
 
             if (hasZebra) {

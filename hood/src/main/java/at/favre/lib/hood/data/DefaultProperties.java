@@ -18,9 +18,9 @@ import at.favre.lib.hood.views.HeaderEntry;
 import at.favre.lib.hood.views.KeyValueEntry;
 import at.favre.lib.hood.views.PageEntry;
 
-public class Defaults {
+public class DefaultProperties {
 
-    private static final String TAG = Defaults.class.getName();
+    private static final String TAG = DefaultProperties.class.getName();
 
     public static List<PageEntry<?>> createDeviceInfo(boolean includeHeader) {
         List<PageEntry<?>> entries = new ArrayList<>();
@@ -35,7 +35,6 @@ public class Defaults {
         entries.add(new KeyValueEntry("build_id", Build.ID));
         entries.add(new KeyValueEntry("sdk_int", String.valueOf(Build.VERSION.SDK_INT)));
         entries.add(new KeyValueEntry("serial", Build.SERIAL));
-        entries.add(new KeyValueEntry("hardware", Build.HARDWARE));
 
         return entries;
     }

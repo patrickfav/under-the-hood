@@ -43,6 +43,11 @@ public class ActionEntry extends AbstractPageEntry<List<ActionEntry.Action>> {
         return true;
     }
 
+    @Override
+    public String toLogString() {
+        return null;
+    }
+
     private static class Template implements ViewTemplate<List<Action>> {
         private boolean isSingleAction;
 

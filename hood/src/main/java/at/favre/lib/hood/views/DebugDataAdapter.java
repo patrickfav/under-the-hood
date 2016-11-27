@@ -15,7 +15,7 @@ public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.Debu
 
     @Override
     public DebugViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewTemplate<?> template = page.getTemplateMap().get(viewType);
+        ViewTemplate<?> template = page.getTemplateForViewType(viewType);
 
         if (null == template) {
             throw new IllegalArgumentException("could not find view template with type " + viewType);
