@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="160dp"
+                     android:background="#aaaaaa">
+
+            <TextView
+                android:id="@+id/key"
+                android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:padding="16dp"
+                      android:textColor="#ffffff"
+                      android:textSize="28sp"
+                      tools:text="version_name"
+            />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/value"
+            android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="16dp"
+                  android:textSize="18sp"
+                  android:typeface="monospace"
+                  tools:text="This is the very long content that goes on and on and on in several different lines"
+        />
+
+        <Button
+            android:id="@+id/copy_clipboard"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_gravity="bottom"
+                android:text="Copy to Clipboard"
+        />
+    </LinearLayout>
+</ScrollView>

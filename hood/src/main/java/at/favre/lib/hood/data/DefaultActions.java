@@ -4,6 +4,7 @@ package at.favre.lib.hood.data;
 import android.app.Activity;
 import android.view.View;
 
+import at.favre.lib.hood.util.DebugCrashException;
 import at.favre.lib.hood.views.ActionEntry;
 
 public class DefaultActions {
@@ -26,5 +27,12 @@ public class DefaultActions {
         });
     }
 
-
+    public static ActionEntry.Action getCrashAction() {
+        return new ActionEntry.Action("Crash Activity", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                throw new DebugCrashException();
+            }
+        });
+    }
 }

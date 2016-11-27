@@ -1,18 +1,20 @@
 package at.favre.lib.hood.views;
 
+import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Map;
 
+import at.favre.lib.hood.KeyValueDetailActivity;
 import at.favre.lib.hood.R;
 
 public class KeyValueEntry extends AbstractPageEntry<Map.Entry<CharSequence, String>> implements Comparator<KeyValueEntry> {
@@ -64,13 +66,15 @@ public class KeyValueEntry extends AbstractPageEntry<Map.Entry<CharSequence, Str
         }
 
         @Override
-        public void setContent(final Map.Entry<CharSequence, String> value, View view) {
-            ((TextView) view.findViewById(R.id.key)).setText(value.getKey());
-            ((TextView) view.findViewById(R.id.value)).setText(value.getValue());
+        public void setContent(final Map.Entry<CharSequence, String> entry, final View view) {
+            ((TextView) view.findViewById(R.id.key)).setText(entry.getKey());
+            ((TextView) view.findViewById(R.id.value)).setText(entry.getValue());
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), value.getKey() + ":" + value.getValue(), Toast.LENGTH_SHORT).show();
+                    ActivityOptionsCompat options =
+                            ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(), view.findViewById(R.id.value), "value");
+                    KeyValueDetailActivity.start(v.getContext(), entry.getKey().toString(), entry.getValue(),options.toBundle());
                 }
             });
         }

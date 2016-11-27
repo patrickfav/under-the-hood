@@ -13,7 +13,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.favre.lib.hood.HoodUtil;
+import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.views.HeaderEntry;
 import at.favre.lib.hood.views.KeyValueEntry;
 import at.favre.lib.hood.views.PageEntry;
