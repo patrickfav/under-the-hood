@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             style="@style/HoodLibActionWrapper">
+    <Button
+        android:id="@+id/button"
+        style="@style/HoodLibActionButton"
+        tools:text="Button Text"/>
+</FrameLayout>

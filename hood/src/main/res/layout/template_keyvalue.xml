@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    style="@style/HoodLibKeyValue"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/inner_wrapper"
+        style="@style/HoodLibKeyValueInner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/key"
+            style="@style/HoodLibTextViewSingleLine.HoodLibKeyValueTextView.Key"
+            android:layout_weight="3"
+            android:background="@android:color/transparent"
+            tools:text="version"/>
+
+        <TextView
+            android:id="@+id/value"
+            style="@style/HoodLibTextViewSingleLine.HoodLibKeyValueTextView.Value"
+            android:layout_weight="7"
+            android:background="@android:color/transparent"
+            tools:text="v2.3.4 this is longer and longer and so on"/>
+
+    </LinearLayout>
+</FrameLayout>

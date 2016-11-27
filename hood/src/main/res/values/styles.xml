@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL -->
+
+    <style name="HoodLibTextViewSingleLine">
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">middle</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <dimen name="side_padding">16dp</dimen>
+    <dimen name="small_horizontal_padding">4dp</dimen>
+    <color name="zebra_color">#f0f0f0f0</color>
+
+    <!-- SECTION HEADER -->
+
+    <style name="HoodLibHeaderWrapper">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="HoodLibTextViewSingleLine.HoodLibHeaderTextView">
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingLeft">@dimen/side_padding</item>
+        <item name="android:paddingRight">@dimen/side_padding</item>
+
+        <item name="android:textSize">28sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <!-- KEY VALUE PROPERTY -->
+
+    <style name="HoodLibKeyValue">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="HoodLibKeyValueInner">
+        <item name="android:paddingTop">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingBottom">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingLeft">@dimen/side_padding</item>
+        <item name="android:paddingRight">@dimen/side_padding</item>
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="HoodLibTextViewSingleLine.HoodLibKeyValueTextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textStyle"></item>
+    </style>
+
+    <style name="HoodLibTextViewSingleLine.HoodLibKeyValueTextView.Key">
+        <item name="android:minWidth">100dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="HoodLibTextViewSingleLine.HoodLibKeyValueTextView.Value">
+        <item name="android:gravity">end</item>
+        <item name="android:textAlignment">textEnd</item>
+    </style>
+
+    <!-- ACTIONS HEADER -->
+
+    <style name="HoodLibActionWrapper">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingBottom">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingLeft">@dimen/side_padding</item>
+        <item name="android:paddingRight">@dimen/side_padding</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="HoodLibActionButton" parent="HoodLibTextViewSingleLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             style="@style/HoodLibActionWrapper">
+    <Button
+        android:id="@+id/buttonLeft"
+        style="@style/HoodLibActionButton"
+        android:layout_weight="1"
+        tools:text="Button Text2"/>
+    <Button
+        android:id="@+id/buttonRight"
+        style="@style/HoodLibActionButton"
+        android:layout_weight="1"
+        tools:text="Button Text2"/>
+</LinearLayout>
