@@ -1,8 +1,5 @@
-package at.favre.lib.hood.views;
+package at.favre.lib.hood.page.entries;
 
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +8,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import at.favre.lib.hood.R;
+import at.favre.lib.hood.page.PageEntry;
+import at.favre.lib.hood.page.ViewTemplate;
+import at.favre.lib.hood.page.values.ChangeableValue;
+import at.favre.lib.hood.util.HoodUtil;
 
-public class ConfigBoolEntry extends AbstractPageEntry<ConfigBoolEntry.BoolConfigAction> {
-    public static final int VIEWTYPE_CONFIG_BOOL = 1 << 16 + 4;
+import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_CONFIG_BOOL;
+
+public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigAction> {
 
     private final BoolConfigAction action;
     private final Template template;
@@ -34,13 +36,13 @@ public class ConfigBoolEntry extends AbstractPageEntry<ConfigBoolEntry.BoolConfi
     }
 
     @Override
-    public boolean isStaticContent() {
-        return true;
+    public String toLogString() {
+        return "\t" + action.label + ": " + action.changeableValue.getValue();
     }
 
     @Override
-    public String toLogString() {
-        return "\t" + action.label + ": " + action.changeableValue.getValue();
+    public void refresh() {
+        //no-op
     }
 
     private static class Template implements ViewTemplate<BoolConfigAction> {
@@ -79,25 +81,15 @@ public class ConfigBoolEntry extends AbstractPageEntry<ConfigBoolEntry.BoolConfi
 
         @Override
         public void decorateViewWithZebra(View view, boolean hasZebra) {
-            Drawable zebra = null;
-
-            if (hasZebra) {
-                zebra = new ColorDrawable(ContextCompat.getColor(view.getContext(), R.color.zebra_color));
-            }
-
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                view.findViewById(R.id.inner_wrapper).setBackgroundDrawable(zebra);
-            } else {
-                view.findViewById(R.id.inner_wrapper).setBackground(zebra);
-            }
+            HoodUtil.setZebraToView(view, hasZebra);
         }
     }
 
     public static class BoolConfigAction {
         public final String label;
-        public final ChangeableValue<Boolean> changeableValue;
+        public final ChangeableValue<Boolean, Boolean> changeableValue;
 
-        public BoolConfigAction(String label, ChangeableValue<Boolean> boolValue) {
+        public BoolConfigAction(String label, ChangeableValue<Boolean, Boolean> boolValue) {
             this.label = label;
             this.changeableValue = boolValue;
         }

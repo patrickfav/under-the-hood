@@ -84,4 +84,17 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <!-- CONFIG SPINNNER -->
+
+    <style name="HoodLibTextViewSingleLine.SpinnerItem">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">@dimen/side_padding</item>
+        <item name="android:paddingRight">@dimen/side_padding</item>
+
+        <item name="android:textSize">18sp</item>
+    </style>
+
+
 </resources>

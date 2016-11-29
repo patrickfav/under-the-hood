@@ -1,11 +1,11 @@
-package at.favre.lib.hood.data;
+package at.favre.lib.hood.defaults;
 
 
 import android.app.Activity;
 import android.view.View;
 
 import at.favre.lib.hood.util.DebugCrashException;
-import at.favre.lib.hood.views.ActionEntry;
+import at.favre.lib.hood.page.entries.ActionEntry;
 
 public class DefaultActions {
 

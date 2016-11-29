@@ -1,21 +1,28 @@
-package at.favre.lib.hood.views;
+package at.favre.lib.hood.page;
 
+
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DebugViewPage implements Page {
+import at.favre.lib.hood.page.entries.ActionEntry;
+import at.favre.lib.hood.page.entries.HeaderEntry;
+import at.favre.lib.hood.page.entries.KeyValueEntry;
+import at.favre.lib.hood.page.values.DynamicValue;
+
+public class DebugPage implements Page {
     private List<PageEntry> entries = new ArrayList<>();
     private Map<Integer, ViewTemplate<?>> templateMap = new HashMap<>();
     private Config config;
 
-    public DebugViewPage() {
+    public DebugPage() {
         this(new Config(true));
     }
 
-    public DebugViewPage(Config config) {
+    public DebugPage(Config config) {
         this.config = config;
     }
 
@@ -33,12 +40,12 @@ public class DebugViewPage implements Page {
         return config;
     }
 
-    public void addProperty(CharSequence key, String value) {
-        addProperty(key, value, true);
+    public void addProperty(CharSequence key, DynamicValue<String> value) {
+        addEntry(new KeyValueEntry(key, value, false));
     }
 
-    public void addProperty(CharSequence key, String value, boolean staticContent) {
-        addEntry(new KeyValueEntry(key, value, staticContent));
+    public void addProperty(CharSequence key, String value) {
+        addEntry(new KeyValueEntry(key, value));
     }
 
     public void addTitle(CharSequence title) {
@@ -71,6 +78,35 @@ public class DebugViewPage implements Page {
         entries.clear();
         templateMap.clear();
     }
+
+    @Override
+    public void log(String tag) {
+        Log.w(tag, getDebugDataAsString());
+    }
+
+    @Override
+    public void refreshData() {
+        for (PageEntry entry : entries) {
+            entry.refresh();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return getDebugDataAsString();
+    }
+
+    private String getDebugDataAsString() {
+        StringBuilder sb = new StringBuilder();
+        for (PageEntry pageEntry : entries) {
+            String log = pageEntry.toLogString();
+            if (log != null) {
+                sb.append(pageEntry.toLogString()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
 
     public static class Config {
         public final boolean showZebra;

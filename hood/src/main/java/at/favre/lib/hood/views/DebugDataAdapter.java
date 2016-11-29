@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import at.favre.lib.hood.page.Page;
+import at.favre.lib.hood.page.ViewTemplate;
+
 public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.DebugViewHolder> {
 
     private Page page;

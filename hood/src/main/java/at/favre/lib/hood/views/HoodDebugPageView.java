@@ -1,27 +1,26 @@
-package at.favre.lib.hood;
+package at.favre.lib.hood.views;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
-import at.favre.lib.hood.views.DebugDataAdapter;
-import at.favre.lib.hood.views.Page;
-import at.favre.lib.hood.views.PageEntry;
+import at.favre.lib.hood.R;
+import at.favre.lib.hood.page.Page;
 
-public class HoodDebugView extends FrameLayout {
+public class HoodDebugPageView extends FrameLayout {
     private RecyclerView mRecyclerView;
+    private DebugDataAdapter mAdapter;
     private Page page;
 
-    public HoodDebugView(Context context) {
+    public HoodDebugPageView(Context context) {
         super(context);
         setup();
     }
 
-    public HoodDebugView(Context context, AttributeSet attrs) {
+    public HoodDebugPageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup();
     }
@@ -34,24 +33,23 @@ public class HoodDebugView extends FrameLayout {
 
     public void setPageData(Page page) {
         this.page = page;
-        DebugDataAdapter mAdapter = new DebugDataAdapter(page);
+        mAdapter = new DebugDataAdapter(page);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public String getDebugDataAsString() {
+    public Page getPage() {
+        return page;
+    }
+
+    public void refresh() {
         checkPreconditions();
-        StringBuilder sb = new StringBuilder();
-        for (PageEntry pageEntry : page.getEntries()) {
-            String log = pageEntry.toLogString();
-            if (log != null) {
-                sb.append(pageEntry.toLogString()).append("\n");
-            }
-        }
-        return sb.toString();
+        page.refreshData();
+        mAdapter.notifyDataSetChanged();
     }
 
     public void log(String tag) {
-        Log.w(tag, getDebugDataAsString());
+        checkPreconditions();
+        page.log(tag);
     }
 
     private void checkPreconditions() {

@@ -1,4 +1,4 @@
-package at.favre.lib.hood.views;
+package at.favre.lib.hood.page;
 
 
 import android.support.annotation.Nullable;
@@ -9,7 +9,7 @@ public interface PageEntry<T> {
 
     ViewTemplate<T> getViewTemplate();
 
-    boolean isStaticContent();
-
     @Nullable String toLogString();
+
+    void refresh();
 }

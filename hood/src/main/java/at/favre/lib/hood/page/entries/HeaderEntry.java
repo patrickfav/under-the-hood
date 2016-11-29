@@ -1,4 +1,4 @@
-package at.favre.lib.hood.views;
+package at.favre.lib.hood.page.entries;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,9 +6,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import at.favre.lib.hood.R;
+import at.favre.lib.hood.page.PageEntry;
+import at.favre.lib.hood.page.ViewTemplate;
 
-public class HeaderEntry extends AbstractPageEntry<CharSequence> {
-    public static final int VIEWTYPE_HEADER = 1 << 16;
+import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_HEADER;
+
+public class HeaderEntry implements PageEntry<CharSequence> {
 
     private final CharSequence header;
     private final Template template;
@@ -29,13 +32,13 @@ public class HeaderEntry extends AbstractPageEntry<CharSequence> {
     }
 
     @Override
-    public boolean isStaticContent() {
-        return true;
+    public String toLogString() {
+        return "#" + header.toString();
     }
 
     @Override
-    public String toLogString() {
-        return "#" + header.toString();
+    public void refresh() {
+        //no-op
     }
 
     private static class Template implements ViewTemplate<CharSequence> {

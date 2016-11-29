@@ -1,7 +1,7 @@
 package at.favre.lib.hood.underthehood;
 
-import at.favre.lib.hood.HoodActivity;
+import at.favre.lib.hood.PopHoodActivity;
 
-public class MainActivity extends HoodActivity {
+public class MainActivity extends PopHoodActivity {
 
 }

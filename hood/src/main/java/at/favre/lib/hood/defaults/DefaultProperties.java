@@ -1,6 +1,7 @@
-package at.favre.lib.hood.data;
+package at.favre.lib.hood.defaults;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,12 +12,14 @@ import android.util.Log;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import at.favre.lib.hood.page.values.DynamicValue;
 import at.favre.lib.hood.util.HoodUtil;
-import at.favre.lib.hood.views.HeaderEntry;
-import at.favre.lib.hood.views.KeyValueEntry;
-import at.favre.lib.hood.views.PageEntry;
+import at.favre.lib.hood.page.entries.HeaderEntry;
+import at.favre.lib.hood.page.entries.KeyValueEntry;
+import at.favre.lib.hood.page.PageEntry;
 
 public class DefaultProperties {
 
@@ -47,7 +50,7 @@ public class DefaultProperties {
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
                 md.update(signature.toByteArray());
-                entries.add(new KeyValueEntry("signer_sha256", HoodUtil.byteToHex(md.digest())));
+                entries.add(new KeyValueEntry("signer_sha256", HoodUtil.byteToHex(md.digest()),true));
             }
         } catch (Exception e) {
             Log.e(TAG, "could not read apk signature", e);
@@ -98,6 +101,37 @@ public class DefaultProperties {
                 }
 
             }
+        }
+
+        return entries;
+    }
+
+    public static List<PageEntry<?>> createRuntimePermissionInfo(final Activity activity, boolean includeHeader, String androidPermission, String... morePermissions) {
+        final List<String> permissions = new ArrayList<>();
+        List<PageEntry<?>> entries = new ArrayList<>();
+        permissions.add(androidPermission);
+        Collections.addAll(permissions, morePermissions);
+
+        if (includeHeader) {
+            entries.add(new HeaderEntry("Permissions"));
+        }
+
+        for (final String perm : permissions) {
+            entries.add(new KeyValueEntry(perm.replace("android.permission.", ""), new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    switch (HoodUtil.getPermissionStatus(activity, perm)) {
+                        case HoodUtil.GRANTED:
+                            return "GRANTED";
+                        case HoodUtil.DENIED:
+                            return "DENIED";
+                        case HoodUtil.BLOCKED:
+                            return "BLOCKED/NOT ASKED";
+                        default:
+                            return "UNKNOWN";
+                    }
+                }
+            },false));
         }
 
         return entries;

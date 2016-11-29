@@ -1,4 +1,4 @@
-package at.favre.lib.hood.data;
+package at.favre.lib.hood.defaults;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;

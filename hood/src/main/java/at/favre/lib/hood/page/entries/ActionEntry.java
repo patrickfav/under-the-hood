@@ -1,4 +1,4 @@
-package at.favre.lib.hood.views;
+package at.favre.lib.hood.page.entries;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +10,13 @@ import java.util.Collections;
 import java.util.List;
 
 import at.favre.lib.hood.R;
+import at.favre.lib.hood.page.PageEntry;
+import at.favre.lib.hood.page.ViewTemplate;
 
-public class ActionEntry extends AbstractPageEntry<List<ActionEntry.Action>> {
-    public static final int VIEWTYPE_ACTION = 1 << 16 + 2;
-    public static final int VIEWTYPE_ACTION_DOUBLE = 1 << 16 + 3;
+import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_ACTION;
+import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_ACTION_DOUBLE;
+
+public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
 
     private final List<Action> actionList;
     private final Template template;
@@ -39,13 +42,13 @@ public class ActionEntry extends AbstractPageEntry<List<ActionEntry.Action>> {
     }
 
     @Override
-    public boolean isStaticContent() {
-        return true;
+    public String toLogString() {
+        return null;
     }
 
     @Override
-    public String toLogString() {
-        return null;
+    public void refresh() {
+        //no-op
     }
 
     private static class Template implements ViewTemplate<List<Action>> {

@@ -1,4 +1,4 @@
-package at.favre.lib.hood.views;
+package at.favre.lib.hood.page;
 
 
 import android.view.LayoutInflater;
