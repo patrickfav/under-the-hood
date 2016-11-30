@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Hood</string>
+    <string name="hood_toast_already_allowed">This permission was already granted.</string>
+    <string name="hood_copy_to_clipboard">Copy to Clipboard</string>
+    <string name="hood_toast_copied">Value copied to clipboard.</string>
 </resources>

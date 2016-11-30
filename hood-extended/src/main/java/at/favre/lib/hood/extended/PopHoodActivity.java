@@ -26,6 +26,12 @@ public abstract class PopHoodActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        debugView.refresh();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_pophood, menu);
@@ -39,6 +45,11 @@ public abstract class PopHoodActivity extends AppCompatActivity {
             debugView.refresh();
         }
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        debugView.refresh();
     }
 
     protected abstract Page getPageData();

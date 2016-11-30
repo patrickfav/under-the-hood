@@ -113,7 +113,7 @@ public class DefaultProperties {
                 List<String> permissionsList = new ArrayList<>(info.requestedPermissions.length);
                 Collections.addAll(permissionsList, info.requestedPermissions);
 
-                return createRuntimePermissionInfo(activity, includeHeader, permissionsList.get(0), permissionsList.subList(1, permissionsList.size()).toArray(new String[permissionsList.size()-1]));
+                return createRuntimePermissionInfo(activity, includeHeader, permissionsList.get(0), permissionsList.subList(1, permissionsList.size()).toArray(new String[permissionsList.size() - 1]));
             }
         } catch (PackageManager.NameNotFoundException e) {
             throw new IllegalStateException(e);
@@ -149,7 +149,7 @@ public class DefaultProperties {
                             return "UNKNOWN";
                     }
                 }
-            }, false));
+            }, new KeyValueEntry.AskPermissionClickAction(perm, activity), false));
         }
 
         return entries;

@@ -1,23 +1,29 @@
 package at.favre.lib.hood.page.entries;
 
 import android.app.Activity;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Map;
 
-import at.favre.lib.hood.KeyValueDetailActivity;
 import at.favre.lib.hood.R;
+import at.favre.lib.hood.defaults.DefaultIntents;
 import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.ViewTemplate;
 import at.favre.lib.hood.page.values.DynamicValue;
 import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.views.KeyValueDetailDialog;
 
+import static android.content.ContentValues.TAG;
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_KEYVALUE;
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_KEYVALUE_MULTILINE;
 
@@ -27,10 +33,23 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     private final Template template;
     private final DynamicValue<String> value;
 
-    public KeyValueEntry(CharSequence key, DynamicValue<String> value, boolean multiLine) {
+    public KeyValueEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
         this.value = value;
         this.data = new AbstractMap.SimpleEntry<>(key, value.getValue());
-        this.template = new Template(multiLine);
+        this.template = new Template(multiLine, action);
+    }
+
+    public KeyValueEntry(CharSequence key, DynamicValue<String> value, boolean multiLine) {
+        this(key, value, new DialogClickAction(), multiLine);
+    }
+
+    public KeyValueEntry(CharSequence key, final String value, OnClickAction action, boolean multiLine) {
+        this(key, new DynamicValue<String>() {
+            @Override
+            public String getValue() {
+                return value;
+            }
+        }, action, multiLine);
     }
 
     public KeyValueEntry(CharSequence key, final String value, boolean multiLine) {
@@ -39,7 +58,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             public String getValue() {
                 return value;
             }
-        }, multiLine);
+        }, new DialogClickAction(), multiLine);
     }
 
     public KeyValueEntry(CharSequence key, final String value) {
@@ -73,9 +92,11 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     private static class Template implements ViewTemplate<Map.Entry<CharSequence, String>> {
         private final boolean multiLine;
+        private final OnClickAction clickAction;
 
-        public Template(boolean multiLine) {
+        public Template(boolean multiLine, OnClickAction clickAction) {
             this.multiLine = multiLine;
+            this.clickAction = clickAction;
         }
 
         @Override
@@ -96,19 +117,64 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         public void setContent(final Map.Entry<CharSequence, String> entry, final View view) {
             ((TextView) view.findViewById(R.id.key)).setText(entry.getKey());
             ((TextView) view.findViewById(R.id.value)).setText(entry.getValue());
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ActivityOptionsCompat options =
-                            ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) v.getContext(), view.findViewById(R.id.value), "value");
-                    KeyValueDetailActivity.start(v.getContext(), entry.getKey().toString(), entry.getValue(), options.toBundle());
-                }
-            });
+            if (clickAction != null) {
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickAction.onClick(v, entry);
+                    }
+                });
+                view.setClickable(true);
+            } else {
+                view.setOnClickListener(null);
+                view.setClickable(false);
+            }
         }
 
         @Override
         public void decorateViewWithZebra(View view, boolean hasZebra) {
             HoodUtil.setZebraToView(view, hasZebra);
+        }
+    }
+
+    public interface OnClickAction {
+        void onClick(View v, Map.Entry<CharSequence, String> value);
+    }
+
+    public static class ToastClickAction implements OnClickAction {
+        @Override
+        public void onClick(View v, Map.Entry<CharSequence, String> value) {
+            Toast.makeText(v.getContext(), value.getKey() + "\n" + value.getValue(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static class AskPermissionClickAction implements OnClickAction {
+        public static final int REQUEST_CODE_CLICK_PERMISSION = 31443;
+        private String androidPermissionName;
+        private Activity activity;
+
+        public AskPermissionClickAction(String androidPermissionName, Activity activity) {
+            this.androidPermissionName = androidPermissionName;
+            this.activity = activity;
+        }
+
+        @Override
+        public void onClick(View v, Map.Entry<CharSequence, String> value) {
+            Log.d(TAG, "check android permissions for " + androidPermissionName);
+            if (ContextCompat.checkSelfPermission(v.getContext(), androidPermissionName) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "permission not granted yet, show dialog");
+                ActivityCompat.requestPermissions(activity, new String[]{androidPermissionName}, REQUEST_CODE_CLICK_PERMISSION);
+            } else {
+                Toast.makeText(activity, R.string.hood_toast_already_allowed, Toast.LENGTH_SHORT).show();
+                v.getContext().startActivity(DefaultIntents.getAppInfoIntent(v.getContext()));
+            }
+        }
+    }
+
+    public static class DialogClickAction implements OnClickAction {
+        @Override
+        public void onClick(View v, Map.Entry<CharSequence, String> value) {
+            new KeyValueDetailDialog(v.getContext(), value.getKey(), value.getValue()).show();
         }
     }
 }

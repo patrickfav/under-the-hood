@@ -11,7 +11,7 @@
     </style>
 
     <dimen name="side_padding">16dp</dimen>
-    <dimen name="small_horizontal_padding">4dp</dimen>
+    <dimen name="small_horizontal_padding">6dp</dimen>
     <color name="zebra_color">#f0f0f0f0</color>
 
     <!-- SECTION HEADER -->
