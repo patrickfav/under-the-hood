@@ -17,6 +17,7 @@ import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.values.ChangeableValue;
 import at.favre.lib.hood.page.values.SpinnerElement;
+import at.favre.lib.hood.page.values.SpinnerValue;
 import at.favre.lib.hood.views.HoodDebugPageView;
 
 public class PopHoodActivity extends AppCompatActivity {
@@ -39,7 +40,6 @@ public class PopHoodActivity extends AppCompatActivity {
 
         page.addEntries(DefaultProperties.createAppVersionInfo(BuildConfig.class, true));
 
-        page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\n be too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
         page.addEntries(DefaultProperties.createSignatureHashInfo(this));
 
@@ -59,21 +59,27 @@ public class PopHoodActivity extends AppCompatActivity {
 
         page.addAction(DefaultActions.getAppInfoAction(this));
 
-        page.addEntry(new ConfigSpinnerEntry(new ConfigSpinnerEntry.SingleSelectListConfigAction(null, new ChangeableValue<List<SpinnerElement>, SpinnerElement>() {
-            String backend;
+        page.addEntry(new ConfigSpinnerEntry(new ConfigSpinnerEntry.SingleSelectListConfigAction(null, new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
+            SpinnerElement backend;
 
             @Override
-            public void onChange(SpinnerElement value) {
-                backend = value.getId();
+            public SpinnerElement getValue() {
+                return backend;
             }
 
             @Override
-            public List<SpinnerElement> getValue() {
+            public void onChange(SpinnerElement value) {
+                backend = value;
+            }
+
+            @Override
+            public List<SpinnerElement> getAlPossibleValues() {
                 return Arrays.asList(new SpinnerElement("1", "backend 1"), new SpinnerElement("2", "backend 2"), new SpinnerElement("3", "backend 3"), new SpinnerElement("4", "backend 4"));
             }
         })));
 
         page.addEntries(DefaultProperties.createDeviceInfo(true));
+        page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
         page.addEntries(DefaultProperties.createRuntimePermissionInfo(this, true, Manifest.permission.READ_CONTACTS,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA));
 
@@ -93,16 +99,21 @@ public class PopHoodActivity extends AppCompatActivity {
             }
         })));
 
-        page.addEntry(new ConfigSpinnerEntry(new ConfigSpinnerEntry.SingleSelectListConfigAction("Backends", new ChangeableValue<List<SpinnerElement>, SpinnerElement>() {
-            String backend;
+        page.addEntry(new ConfigSpinnerEntry(new ConfigSpinnerEntry.SingleSelectListConfigAction("Backend Selector", new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
+            SpinnerElement backend;
 
             @Override
-            public void onChange(SpinnerElement value) {
-                backend = value.getId();
+            public SpinnerElement getValue() {
+                return backend;
             }
 
             @Override
-            public List<SpinnerElement> getValue() {
+            public void onChange(SpinnerElement value) {
+                backend = value;
+            }
+
+            @Override
+            public List<SpinnerElement> getAlPossibleValues() {
                 return Arrays.asList(new SpinnerElement("1", "backend 1"), new SpinnerElement("2", "backend 2"), new SpinnerElement("3", "backend 3"), new SpinnerElement("4", "backend 4"));
             }
         })));

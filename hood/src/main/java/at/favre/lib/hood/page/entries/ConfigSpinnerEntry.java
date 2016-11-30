@@ -19,6 +19,7 @@ import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.ViewTemplate;
 import at.favre.lib.hood.page.values.ChangeableValue;
 import at.favre.lib.hood.page.values.SpinnerElement;
+import at.favre.lib.hood.page.values.SpinnerValue;
 import at.favre.lib.hood.util.HoodUtil;
 
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_CONFIG_SPINNER;
@@ -76,9 +77,9 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
                 textView.setVisibility(View.VISIBLE);
             }
 
-            spinnerView.setAdapter(new ConfigSpinnerAdapter(view.getContext(), value.changeableValue.getValue()));
+            spinnerView.setAdapter(new ConfigSpinnerAdapter(view.getContext(), value.changeableValue.getAlPossibleValues()));
             spinnerView.setOnItemSelectedListener(null);
-            //spinnerView.setSelection(spinnerView.getAdapter().value.changeableValue.getValue());
+            spinnerView.setSelection(((ConfigSpinnerAdapter) spinnerView.getAdapter()).getPosition(value.changeableValue.getValue()));
             spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -136,13 +137,22 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
             text.setText(getItem(position).getName());
             return view;
         }
+
+        public int getPosForItem(SpinnerElement element) {
+            for (int i = 0; i < getCount(); i++) {
+                if (element.equals(getItem(i))) {
+                    return i;
+                }
+            }
+            return 0;
+        }
     }
 
     public static class SingleSelectListConfigAction {
         public final String label;
-        public final ChangeableValue<List<SpinnerElement>, SpinnerElement> changeableValue;
+        public final SpinnerValue<List<SpinnerElement>, SpinnerElement> changeableValue;
 
-        public SingleSelectListConfigAction(@Nullable String label, ChangeableValue<List<SpinnerElement>, SpinnerElement> value) {
+        public SingleSelectListConfigAction(@Nullable String label, SpinnerValue<List<SpinnerElement>, SpinnerElement> value) {
             this.label = label;
             this.changeableValue = value;
         }
