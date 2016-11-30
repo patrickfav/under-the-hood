@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".PopHoodActivityy">
+
+    <item
+        android:id="@+id/action_refresh"
+        android:title="@string/hood_action_refresh"
+        android:icon="@android:drawable/ic_menu_zoom"
+        app:showAsAction="always" />
+</menu>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">hood-extended</string>
+    <string name="hood_action_refresh">Refresh</string>
+</resources>

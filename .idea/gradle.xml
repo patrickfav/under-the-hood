@@ -9,7 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/hood" />
+            <option value="$PROJECT_DIR$/hood-core" />
+            <option value="$PROJECT_DIR$/hood-extended" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
