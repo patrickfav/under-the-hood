@@ -1,6 +1,7 @@
 package at.favre.lib.hood.page;
 
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -52,18 +53,28 @@ public class DebugPage implements Page {
         addEntry(new HeaderEntry(title));
     }
 
-    public void addAction(ActionEntry.Action action) {
-        addEntry(new ActionEntry(action));
+    public void addAction(@Nullable ActionEntry.Action action) {
+        if (action != null) {
+            addEntry(new ActionEntry(action));
+        }
     }
 
-    public void addAction(ActionEntry.Action action1, ActionEntry.Action action2) {
-        addEntry(new ActionEntry(action1, action2));
+    public void addAction(@Nullable ActionEntry.Action action1, @Nullable ActionEntry.Action action2) {
+        if (action1 == null && action2 != null) {
+            addAction(action2);
+        } else if (action1 != null && action2 == null) {
+            addAction(action1);
+        } else if (action1 != null && action2 != null) {
+            addEntry(new ActionEntry(action1, action2));
+        }
     }
 
     @Override
-    public void addEntry(PageEntry<?> pageEntry) {
-        entries.add(pageEntry);
-        templateMap.put(pageEntry.getViewTemplate().getViewType(), pageEntry.getViewTemplate());
+    public void addEntry(@Nullable PageEntry<?> pageEntry) {
+        if (pageEntry != null) {
+            entries.add(pageEntry);
+            templateMap.put(pageEntry.getViewTemplate().getViewType(), pageEntry.getViewTemplate());
+        }
     }
 
     @Override

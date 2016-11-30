@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import at.favre.lib.hood.defaults.DefaultIntents;
 import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.views.HoodDebugPageView;
 
@@ -43,6 +44,10 @@ public abstract class PopHoodActivity extends AppCompatActivity {
         int i = item.getItemId();
         if (i == R.id.action_refresh) {
             debugView.refresh();
+        } else if (i == R.id.action_app_info) {
+            startActivity(DefaultIntents.getAppInfoIntent(this));
+        } else if (i == R.id.action_uninstall) {
+            startActivity(DefaultIntents.getAppUnisntallIntent(this));
         }
         return true;
     }

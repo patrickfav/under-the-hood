@@ -82,8 +82,8 @@
     <style name="HoodLibActionWrapper">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/small_horizontal_padding</item>
-        <item name="android:paddingBottom">@dimen/small_horizontal_padding</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
         <item name="android:paddingLeft">@dimen/side_padding</item>
         <item name="android:paddingRight">@dimen/side_padding</item>
         <item name="android:orientation">horizontal</item>
@@ -100,11 +100,12 @@
     </style>
     <style name="HoodLibConfigInnerWrapper" parent="HoodLibKeyValueInner">
     </style>
+
     <!-- CONFIG SPINNNER -->
 
     <style name="HoodLibTextViewSingleLine.SpinnerItem">
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingLeft">@dimen/side_padding</item>
         <item name="android:paddingRight">@dimen/side_padding</item>
 

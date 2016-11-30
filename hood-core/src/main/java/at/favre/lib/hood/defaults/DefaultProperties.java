@@ -10,10 +10,15 @@ import android.os.Build;
 import android.util.Log;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.entries.HeaderEntry;
@@ -59,6 +64,28 @@ public class DefaultProperties {
         return entries;
     }
 
+    public static List<PageEntry<?>> createStaticFieldsInfo(Class<?> clazz) {
+        List<PageEntry<?>> entries = new ArrayList<>();
+
+        Field[] declaredFields = clazz.getDeclaredFields();
+        for (Field field : declaredFields) {
+            if (Modifier.isStatic(field.getModifiers()))
+                try {
+                    String key = field.getName();
+                    String value = String.valueOf(field.get(null));
+
+                    if (key != null && !key.equals("serialVersionUID") &&
+                            value != null && !value.equals("null") && !value.trim().isEmpty()) {
+                        entries.add(new KeyValueEntry(key, String.valueOf(field.get(null))));
+                    }
+                } catch (Exception e) {
+                    Log.w(TAG, "could not get field from class (" + field + ")");
+                }
+        }
+
+        return entries;
+    }
+
     public static List<PageEntry<?>> createAppVersionInfo(Class<?> buildConfig, boolean includeHeader) {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (includeHeader) {
@@ -67,7 +94,7 @@ public class DefaultProperties {
 
         Field[] declaredFields = buildConfig.getDeclaredFields();
         for (Field field : declaredFields) {
-            if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+            if (Modifier.isStatic(field.getModifiers())) {
                 try {
                     String key = null;
                     String value = String.valueOf(field.get(null));
@@ -99,7 +126,6 @@ public class DefaultProperties {
                 } catch (Exception e) {
                     Log.w(TAG, "could not get field from BuildConfig (" + field + ")");
                 }
-
             }
         }
 
@@ -122,9 +148,7 @@ public class DefaultProperties {
         return Collections.emptyList();
     }
 
-
     public static List<PageEntry<?>> createRuntimePermissionInfo(final Activity activity, boolean includeHeader, String androidPermission, String... morePermissions) {
-
         final List<String> permissions = new ArrayList<>();
         List<PageEntry<?>> entries = new ArrayList<>();
         permissions.add(androidPermission);
@@ -152,6 +176,24 @@ public class DefaultProperties {
             }, new KeyValueEntry.AskPermissionClickAction(perm, activity), false));
         }
 
+        return entries;
+    }
+
+    public static List<PageEntry<?>> createPropertiesEntries(Properties properties) {
+        return createFromMap(properties);
+    }
+
+    public static List<PageEntry<?>> createFromMap(Map<?, ?> hashMap) {
+        return createFromEntrySet(hashMap.entrySet());
+    }
+
+    private static List<PageEntry<?>> createFromEntrySet(Set<? extends Map.Entry<?, ?>> entrySet) {
+        List<PageEntry<?>> entries = new ArrayList<>();
+        for (Map.Entry propEntry : entrySet) {
+            if (propEntry != null && propEntry.getKey() != null && propEntry.getValue() != null) {
+                entries.add(new KeyValueEntry(propEntry.getKey().toString(), propEntry.getValue().toString()));
+            }
+        }
         return entries;
     }
 }
