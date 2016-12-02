@@ -3,6 +3,7 @@ package at.favre.lib.hood.extended;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import at.favre.lib.hood.views.HoodDebugPageView;
 public abstract class PopHoodActivity extends AppCompatActivity {
 
     private HoodDebugPageView debugView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +26,10 @@ public abstract class PopHoodActivity extends AppCompatActivity {
         debugView.setPageData(getPageData());
 
         debugView.log("test");
+
+        toolbar = ((Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -48,6 +54,8 @@ public abstract class PopHoodActivity extends AppCompatActivity {
             startActivity(DefaultIntents.getAppInfoIntent(this));
         } else if (i == R.id.action_uninstall) {
             startActivity(DefaultIntents.getAppUnisntallIntent(this));
+        } else if (i == android.R.id.home) {
+            onBackPressed();
         }
         return true;
     }

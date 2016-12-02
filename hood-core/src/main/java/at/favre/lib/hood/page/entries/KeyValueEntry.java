@@ -1,6 +1,7 @@
 package at.favre.lib.hood.page.entries;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -149,7 +150,6 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     public static class AskPermissionClickAction implements OnClickAction {
-        public static final int REQUEST_CODE_CLICK_PERMISSION = 31443;
         private String androidPermissionName;
         private Activity activity;
 
@@ -163,7 +163,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             Log.d(TAG, "check android permissions for " + androidPermissionName);
             if (ContextCompat.checkSelfPermission(v.getContext(), androidPermissionName) != PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "permission not granted yet, show dialog");
-                ActivityCompat.requestPermissions(activity, new String[]{androidPermissionName}, REQUEST_CODE_CLICK_PERMISSION);
+                ActivityCompat.requestPermissions(activity, new String[]{androidPermissionName}, 2587);
             } else {
                 Toast.makeText(activity, R.string.hood_toast_already_allowed, Toast.LENGTH_SHORT).show();
                 v.getContext().startActivity(DefaultIntents.getAppInfoIntent(v.getContext()));
@@ -175,6 +175,19 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
             new KeyValueDetailDialog(v.getContext(), value.getKey(), value.getValue()).show();
+        }
+    }
+
+    public static class StartIntentAction implements OnClickAction {
+        private final Intent intent;
+
+        public StartIntentAction(Intent intent) {
+            this.intent = intent;
+        }
+
+        @Override
+        public void onClick(View v, Map.Entry<CharSequence, String> value) {
+            v.getContext().startActivity(intent);
         }
     }
 }

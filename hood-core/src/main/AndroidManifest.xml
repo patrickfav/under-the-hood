@@ -3,11 +3,6 @@
 
     <application android:allowBackup="true"
                  android:label="@string/app_name"
-                 android:supportsRtl="true"
-    >
-        <activity android:name=".KeyValueDetailActivity">
-        </activity>
+                 android:supportsRtl="true">
     </application>
-
-
 </manifest>

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/UnderTheHood.iml" filepath="$PROJECT_DIR$/UnderTheHood.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/hood-core/hood-core.iml" filepath="$PROJECT_DIR$/hood-core/hood-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/hood-extended/hood-extended.iml" filepath="$PROJECT_DIR$/hood-extended/hood-extended.iml" />

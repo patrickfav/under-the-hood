@@ -1,9 +1,9 @@
 package at.favre.app.hoodtest;
 
-import android.Manifest;
-
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import at.favre.lib.hood.BuildConfig;
@@ -16,7 +16,6 @@ import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.page.entries.ConfigBoolEntry;
 import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
-import at.favre.lib.hood.page.values.ChangeableValue;
 import at.favre.lib.hood.page.values.SpinnerElement;
 import at.favre.lib.hood.page.values.SpinnerValue;
 import at.favre.lib.hood.util.HoodUtil;
@@ -29,7 +28,9 @@ public class MainActivity extends PopHoodActivity {
         page.addEntries(DefaultProperties.createAppVersionInfo(BuildConfig.class, true));
         page.addEntries(DefaultProperties.createSignatureHashInfo(this));
 
-        page.addEntries(DefaultProperties.createDeviceInfo(true));
+        page.addEntries(DefaultProperties.createBasicDeviceInfo(true));
+        page.addEntries(DefaultProperties.createDetailedDeviceInfo(this));
+
         page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
         page.addTitle("Debug Config");
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", false)));
@@ -75,8 +76,18 @@ public class MainActivity extends PopHoodActivity {
 
         page.addEntries(DefaultProperties.createRuntimePermissionInfo(this, true));
 
+        page.addTitle("System Features");
+        Map<String, String> systemFeatureMap = new HashMap<>();
+        systemFeatureMap.put("hasHce", "android.hardware.nfc.hce");
+        systemFeatureMap.put("hasCamera", "android.hardware.camera");
+        systemFeatureMap.put("hasGPS", "android.hardware.location.gps");
+        systemFeatureMap.put("hasWebview", "android.software.webview");
+        page.addEntries(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
+
         page.addTitle("Property File");
         page.addEntries(DefaultProperties.createPropertiesEntries(getTestProperties()));
+
+        page.addEntries(DefaultProperties.createConnectivityStatusInfo(this, true));
 
         return page;
     }

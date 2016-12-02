@@ -11,9 +11,11 @@ import at.favre.lib.hood.page.ViewTemplate;
 public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.DebugViewHolder> {
 
     private Page page;
+    private HoodDebugPageView.Config config;
 
-    public DebugDataAdapter(Page page) {
+    public DebugDataAdapter(Page page, HoodDebugPageView.Config config) {
         this.page = page;
+        this.config = config;
     }
 
     @Override
@@ -31,7 +33,9 @@ public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.Debu
     public void onBindViewHolder(DebugViewHolder holder, int position) {
         ViewTemplate<Object> template = page.getEntries().get(position).getViewTemplate();
         template.setContent(page.getEntries().get(position).getValue(), holder.holderView);
-        template.decorateViewWithZebra(holder.holderView,position % 2 == 1);
+        if (config.showZebra) {
+            template.decorateViewWithZebra(holder.holderView, position % 2 == 1);
+        }
     }
 
     @Override

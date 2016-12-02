@@ -17,14 +17,8 @@ import at.favre.lib.hood.page.values.DynamicValue;
 public class DebugPage implements Page {
     private List<PageEntry> entries = new ArrayList<>();
     private Map<Integer, ViewTemplate<?>> templateMap = new HashMap<>();
-    private Config config;
 
     public DebugPage() {
-        this(new Config(true));
-    }
-
-    public DebugPage(Config config) {
-        this.config = config;
     }
 
     @Override
@@ -35,10 +29,6 @@ public class DebugPage implements Page {
     @Override
     public ViewTemplate<?> getTemplateForViewType(int viewType) {
         return templateMap.get(viewType);
-    }
-
-    Config getConfig() {
-        return config;
     }
 
     public void addProperty(CharSequence key, DynamicValue<String> value) {
@@ -118,12 +108,4 @@ public class DebugPage implements Page {
         return sb.toString();
     }
 
-
-    public static class Config {
-        public final boolean showZebra;
-
-        public Config(boolean showZebra) {
-            this.showZebra = showZebra;
-        }
-    }
 }
