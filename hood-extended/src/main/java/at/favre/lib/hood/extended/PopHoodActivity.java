@@ -7,12 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import at.favre.lib.hood.defaults.DefaultIntents;
+import at.favre.lib.hood.defaults.DefaultMiscActions;
 import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.views.HoodDebugPageView;
 
 public abstract class PopHoodActivity extends AppCompatActivity {
+    private final String TAG = getClass().getName();
 
     private HoodDebugPageView debugView;
     private Toolbar toolbar;
@@ -24,8 +26,6 @@ public abstract class PopHoodActivity extends AppCompatActivity {
 
         debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
         debugView.setPageData(getPageData());
-
-        debugView.log("test");
 
         toolbar = ((Toolbar) findViewById(R.id.toolbar));
         setSupportActionBar(toolbar);
@@ -51,9 +51,16 @@ public abstract class PopHoodActivity extends AppCompatActivity {
         if (i == R.id.action_refresh) {
             debugView.refresh();
         } else if (i == R.id.action_app_info) {
-            startActivity(DefaultIntents.getAppInfoIntent(this));
+            startActivity(DefaultMiscActions.getAppInfoIntent(this));
         } else if (i == R.id.action_uninstall) {
-            startActivity(DefaultIntents.getAppUnisntallIntent(this));
+            startActivity(DefaultMiscActions.getAppUninstallIntent(this));
+        } else if (i == R.id.action_kill_process) {
+            DefaultMiscActions.killProcessesAround(this);
+        } else if (i == R.id.action_clear_date) {
+            DefaultMiscActions.promtptUserToClearData(this);
+        } else if (i == R.id.action_log) {
+            debugView.log(TAG);
+            Toast.makeText(this, R.string.hood_toast_log_to_console, Toast.LENGTH_SHORT).show();
         } else if (i == android.R.id.home) {
             onBackPressed();
         }

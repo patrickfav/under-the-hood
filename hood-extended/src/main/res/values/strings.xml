@@ -3,4 +3,8 @@
     <string name="hood_action_refresh">Refresh</string>
     <string name="hood_action_app_info">App Info</string>
     <string name="hood_action_uninstall">Uninstall</string>
+    <string name="hood_action_kill_process">Force Stop</string>
+    <string name="hood_action_log">Log To Console</string>
+    <string name="hood_action_clear_data">Clear Data</string>
+    <string name="hood_toast_log_to_console">Data was logged to console.</string>
 </resources>

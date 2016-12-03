@@ -2,7 +2,6 @@ package at.favre.lib.hood.util;
 
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 
 import java.lang.annotation.Retention;
@@ -22,7 +20,6 @@ import at.favre.lib.hood.R;
 
 
 public class HoodUtil {
-    private static final String TAG = HoodUtil.class.getName();
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     public static String byteToHex(byte[] bytes) {
@@ -79,20 +76,4 @@ public class HoodUtil {
         return shouldReturnEntry ? object : null;
     }
 
-    public static void killProcessesAround(Activity activity) {
-        try {
-            ActivityManager am = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
-            String myProcessPrefix = activity.getApplicationInfo().processName;
-            String myProcessName = activity.getPackageManager().getActivityInfo(activity.getComponentName(), 0).processName;
-            for (ActivityManager.RunningAppProcessInfo proc : am.getRunningAppProcesses()) {
-                if (proc.processName.startsWith(myProcessPrefix) && !proc.processName.equals(myProcessName)) {
-                    android.os.Process.killProcess(proc.pid);
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "could not kill process", e);
-        } finally {
-            android.os.Process.killProcess(android.os.Process.myPid());
-        }
-    }
 }

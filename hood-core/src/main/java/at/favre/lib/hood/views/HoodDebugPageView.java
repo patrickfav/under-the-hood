@@ -1,6 +1,7 @@
 package at.favre.lib.hood.views;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,8 @@ import at.favre.lib.hood.R;
 import at.favre.lib.hood.page.Page;
 
 public class HoodDebugPageView extends FrameLayout implements NestedScrollingChild {
+    private static final String TAG = HoodDebugPageView.class.getName();
+
     private RecyclerView mRecyclerView;
     private DebugDataAdapter mAdapter;
     private Page page;
@@ -42,15 +45,19 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
         mRecyclerView.setNestedScrollingEnabled(true);
     }
 
-    public void setPageData(Page page) {
+    public void setPageData(@NonNull Page page) {
         setPageData(page, new Config(true));
     }
 
-    public void setPageData(Page page, Config config) {
+    public void setPageData(@NonNull Page page, @NonNull Config config) {
         this.page = page;
         this.config = config;
         this.mAdapter = new DebugDataAdapter(page, config);
         this.mRecyclerView.setAdapter(mAdapter);
+
+        if (config.autoLog) {
+            page.log(TAG);
+        }
     }
 
     public Page getPage() {
@@ -131,6 +138,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
 
     public static class Config {
         public final boolean showZebra;
+        public final boolean autoLog = true;
 
         public Config(boolean showZebra) {
             this.showZebra = showZebra;

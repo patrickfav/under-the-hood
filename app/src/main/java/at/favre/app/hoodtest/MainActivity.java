@@ -61,8 +61,8 @@ public class MainActivity extends PopHoodActivity {
         page.addTitle("Misc Actions");
         page.addAction(DefaultActions.getAppInfoAction(this));
         page.addAction(DefaultActions.getCrashAction(), DefaultActions.getUninstallAction(this));
-        page.addAction(DefaultActions.getKilleProcessAction(this), DefaultActions.getClearAppDataAction(this));
-        page.addAction(HoodUtil.getConditionally(DefaultActions.getKilleProcessAction(this), BuildConfig.DEBUG));
+        page.addAction(DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
+        page.addAction(HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), BuildConfig.DEBUG));
 
         page.addTitle("Lib BuildConfig");
         page.addEntries(DefaultProperties.createStaticFieldsInfo(BuildConfig.class));

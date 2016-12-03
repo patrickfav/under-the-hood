@@ -60,8 +60,8 @@ public class DefaultProperties {
         entries.add(new KeyValueEntry("brand", Build.MANUFACTURER));
         entries.add(new KeyValueEntry("version", Build.VERSION.RELEASE));
         entries.add(new KeyValueEntry("version_minor", Build.VERSION.INCREMENTAL));
-        entries.add(new KeyValueEntry("build_id", Build.ID));
-        entries.add(new KeyValueEntry("sdk_int", String.valueOf(Build.VERSION.SDK_INT)));
+        entries.add(new KeyValueEntry("build-id", Build.ID));
+        entries.add(new KeyValueEntry("sdk-int", String.valueOf(Build.VERSION.SDK_INT)));
         entries.add(new KeyValueEntry("serial", Build.SERIAL));
 
         return entries;
@@ -98,7 +98,7 @@ public class DefaultProperties {
                 for (Signature signature : info.signatures) {
                     MessageDigest md = MessageDigest.getInstance("SHA-256");
                     md.update(signature.toByteArray());
-                    entries.add(new KeyValueEntry("signer_sha256", HoodUtil.byteToHex(md.digest()), true));
+                    entries.add(new KeyValueEntry("apk-signature-sha256", HoodUtil.byteToHex(md.digest()), true));
                 }
             } catch (Exception e) {
                 Log.e(TAG, "could not read apk signature", e);
@@ -161,13 +161,13 @@ public class DefaultProperties {
                             key = "version";
                             break;
                         case "version_code":
-                            key = "version_code";
+                            key = "version-code";
                             break;
                         case "application_id":
-                            key = "app_id";
+                            key = "app-id";
                             break;
                         case "build_type":
-                            key = "build_type";
+                            key = "build-type";
                             break;
                         case "flavor":
                             key = "flavor";
@@ -327,20 +327,6 @@ public class DefaultProperties {
         return entries;
     }
 
-//    TelephonyManager telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
-//    map.put("sim_id",telephonyManager!=null?DeviceUtil.getRawSimSerialNumber(telephonyManager):"null");
-//    map.put("IMSI",telephonyManager!=null?telephonyManager.getSubscriberId():"null");
-//    map.put("MSISD",telephonyManager!=null?telephonyManager.getLine1Number():"null");
-//
-//    map.put("network",telephonyManager!=null?telephonyManager.getNetworkOperatorName():"null");
-//    map.put("sim_state",telephonyManager!=null?DeviceUtil.translateSimStatus(telephonyManager.getSimState()):"null");
-//    map.put("sim_slots",telephonyManager!=null&&android.os.Build.VERSION.SDK_INT>=23?String.valueOf(telephonyManager.getPhoneCount()):"?");
-//    sections.add(new
-//
-//    InfoSection("SIM",map)
-//
-//    );
-
     @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     public static List<PageEntry<?>> createTelephonyMangerInfo(@Nullable Context context, boolean includeHeader) {
         List<PageEntry<?>> entries = new ArrayList<>();
@@ -378,28 +364,28 @@ public class DefaultProperties {
                     return telephonyManager.getSubscriberId();
                 }
             }));
-            entries.add(new KeyValueEntry("MSISDN", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return telephonyManager.getLine1Number();
-                }
-            }));
             entries.add(new KeyValueEntry("operator", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getNetworkOperatorName();
                 }
             }));
-            entries.add(new KeyValueEntry("IMEI", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return telephonyManager.getDeviceId();
-                }
-            }));
             entries.add(new KeyValueEntry("connection-type", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return TypeTranslators.translateTelephonyNetworkType(telephonyManager.getNetworkType());
+                }
+            }));
+            entries.add(new KeyValueEntry("MSISDN", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return telephonyManager.getLine1Number();
+                }
+            }));
+            entries.add(new KeyValueEntry("IMEI", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return telephonyManager.getDeviceId();
                 }
             }));
 

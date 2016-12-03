@@ -2,22 +2,17 @@ package at.favre.lib.hood.defaults;
 
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import at.favre.lib.hood.page.entries.ActionEntry;
 import at.favre.lib.hood.util.DebugCrashException;
-import at.favre.lib.hood.util.HoodUtil;
-
-import static android.content.Context.ACTIVITY_SERVICE;
 
 public class DefaultActions {
 
@@ -25,7 +20,7 @@ public class DefaultActions {
         return new ActionEntry.Action("App Info", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startActivity(DefaultIntents.getAppInfoIntent(activity));
+                activity.startActivity(DefaultMiscActions.getAppInfoIntent(activity));
             }
         });
     }
@@ -34,7 +29,7 @@ public class DefaultActions {
         return new ActionEntry.Action("Uninstall", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startActivity(DefaultIntents.getAppUnisntallIntent(activity));
+                activity.startActivity(DefaultMiscActions.getAppUninstallIntent(activity));
             }
         });
     }
@@ -109,6 +104,7 @@ public class DefaultActions {
         return getGenericAndroidSettingsAction(activity, "Date Settings", Settings.ACTION_DATE_SETTINGS, null);
     }
 
+    @Nullable
     public static ActionEntry.Action getGenericAndroidSettingsAction(final Activity activity, String label, final String settingsIntentAction, Integer minSdkVersion) {
         if (minSdkVersion == null || android.os.Build.VERSION.SDK_INT >= minSdkVersion) {
             return new ActionEntry.Action(label, new View.OnClickListener() {
@@ -122,31 +118,23 @@ public class DefaultActions {
         }
     }
 
-    public static ActionEntry.Action getKilleProcessAction(final Activity activity) {
+    public static ActionEntry.Action getKillProcessAction(final Activity activity) {
         return new ActionEntry.Action("Kill Process", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HoodUtil.killProcessesAround(activity);
+                DefaultMiscActions.killProcessesAround(activity);
             }
         });
     }
 
+    @Nullable
     public static ActionEntry.Action getClearAppDataAction(final Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             return new ActionEntry.Action("Clear App Data", new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(v.getContext())
-                            .setTitle("Clear App Data")
-                            .setMessage("Do you really want to clear the whole app data? This cannot be undone.")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    ((ActivityManager) context.getSystemService(ACTIVITY_SERVICE))
-                                            .clearApplicationUserData();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null).show();
+                    DefaultMiscActions.promtptUserToClearData(v.getContext());
                 }
             });
         } else {

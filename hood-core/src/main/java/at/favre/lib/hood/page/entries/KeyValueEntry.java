@@ -17,7 +17,7 @@ import java.util.Comparator;
 import java.util.Map;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.defaults.DefaultIntents;
+import at.favre.lib.hood.defaults.DefaultMiscActions;
 import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.ViewTemplate;
 import at.favre.lib.hood.page.values.DynamicValue;
@@ -170,7 +170,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
                 ActivityCompat.requestPermissions(activity, new String[]{androidPermissionName}, 2587);
             } else {
                 Toast.makeText(activity, R.string.hood_toast_already_allowed, Toast.LENGTH_SHORT).show();
-                v.getContext().startActivity(DefaultIntents.getAppInfoIntent(v.getContext()));
+                v.getContext().startActivity(DefaultMiscActions.getAppInfoIntent(v.getContext()));
             }
         }
     }
@@ -178,7 +178,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     public static class DialogClickAction implements OnClickAction {
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
-            new KeyValueDetailDialog(v.getContext(), value.getKey(), value.getValue()).show();
+            new KeyValueDetailDialog.NativeDialog(v.getContext(), value.getKey(), value.getValue()).show();
         }
     }
 

@@ -3,4 +3,5 @@
     <string name="hood_toast_already_allowed">This permission was already granted.</string>
     <string name="hood_copy_to_clipboard">Copy to Clipboard</string>
     <string name="hood_toast_copied">Value copied to clipboard.</string>
+    <string name="hood_toast_logged">Logged to console.</string>
 </resources>
