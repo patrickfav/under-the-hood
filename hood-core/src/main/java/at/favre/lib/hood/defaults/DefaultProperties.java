@@ -295,7 +295,7 @@ public class DefaultProperties {
             entries.add(new KeyValueEntry("nfc", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
-                    return String.valueOf(DeviceStatusUtil.getBluetoothStatus(context));
+                    return String.valueOf(DeviceStatusUtil.getNfcState(context));
                 }
             }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_NFC_SETTINGS)), false));
         }
