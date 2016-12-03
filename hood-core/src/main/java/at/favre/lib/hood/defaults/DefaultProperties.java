@@ -1,6 +1,8 @@
 package at.favre.lib.hood.defaults;
 
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +13,9 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -30,6 +35,7 @@ import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.values.DynamicValue;
 import at.favre.lib.hood.util.DeviceStatusUtil;
 import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.util.TypeTranslators;
 
 /**
  * A set of methods that returns default {@link KeyValueEntry} type page entries.
@@ -321,9 +327,89 @@ public class DefaultProperties {
         return entries;
     }
 
+//    TelephonyManager telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+//    map.put("sim_id",telephonyManager!=null?DeviceUtil.getRawSimSerialNumber(telephonyManager):"null");
+//    map.put("IMSI",telephonyManager!=null?telephonyManager.getSubscriberId():"null");
+//    map.put("MSISD",telephonyManager!=null?telephonyManager.getLine1Number():"null");
+//
+//    map.put("network",telephonyManager!=null?telephonyManager.getNetworkOperatorName():"null");
+//    map.put("sim_state",telephonyManager!=null?DeviceUtil.translateSimStatus(telephonyManager.getSimState()):"null");
+//    map.put("sim_slots",telephonyManager!=null&&android.os.Build.VERSION.SDK_INT>=23?String.valueOf(telephonyManager.getPhoneCount()):"?");
+//    sections.add(new
+//
+//    InfoSection("SIM",map)
+//
+//    );
+
+    @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+    public static List<PageEntry<?>> createTelephonyMangerInfo(@Nullable Context context, boolean includeHeader) {
+        List<PageEntry<?>> entries = new ArrayList<>();
+
+        if (context != null && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            if (includeHeader) {
+                entries.add(new HeaderEntry("Telephony Status"));
+            }
+
+            final TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            entries.add(new KeyValueEntry("sim-serial", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return telephonyManager.getSimSerialNumber();
+                }
+            }));
+            entries.add(new KeyValueEntry("sim-state", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return TypeTranslators.translateSimState(telephonyManager.getSimState());
+                }
+            }));
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                entries.add(new KeyValueEntry("sim-slots", new DynamicValue<String>() {
+                    @TargetApi(Build.VERSION_CODES.M)
+                    @Override
+                    public String getValue() {
+                        return String.valueOf(telephonyManager.getPhoneCount());
+                    }
+                }));
+            }
+            entries.add(new KeyValueEntry("subscriber-id", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return telephonyManager.getSubscriberId();
+                }
+            }));
+            entries.add(new KeyValueEntry("MSISDN", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return telephonyManager.getLine1Number();
+                }
+            }));
+            entries.add(new KeyValueEntry("operator", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return telephonyManager.getNetworkOperatorName();
+                }
+            }));
+            entries.add(new KeyValueEntry("IMEI", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return telephonyManager.getDeviceId();
+                }
+            }));
+            entries.add(new KeyValueEntry("connection-type", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return TypeTranslators.translateTelephonyNetworkType(telephonyManager.getNetworkType());
+                }
+            }));
+
+        }
+        return entries;
+    }
 
     /**
      * Converts a {@link Properties} objekt to page-entries
+     *
      * @param properties
      * @return list of page-entries
      */

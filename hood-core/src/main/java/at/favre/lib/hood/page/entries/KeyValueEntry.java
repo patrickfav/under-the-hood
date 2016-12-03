@@ -44,6 +44,10 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         this(key, value, new DialogClickAction(), multiLine);
     }
 
+    public KeyValueEntry(CharSequence key, DynamicValue<String> value) {
+        this(key, value, new DialogClickAction(), false);
+    }
+
     public KeyValueEntry(CharSequence key, final String value, OnClickAction action, boolean multiLine) {
         this(key, new DynamicValue<String>() {
             @Override

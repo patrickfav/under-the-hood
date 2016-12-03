@@ -56,6 +56,8 @@ public class MainActivity extends PopHoodActivity {
             }
         })));
 
+        page.addEntries(DefaultProperties.createTelephonyMangerInfo(this,true));
+
         page.addTitle("Misc Actions");
         page.addAction(DefaultActions.getAppInfoAction(this));
         page.addAction(DefaultActions.getCrashAction(), DefaultActions.getUninstallAction(this));

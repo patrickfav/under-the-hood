@@ -12,10 +12,9 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.view.View;
-import android.widget.Toast;
 
-import at.favre.lib.hood.util.DebugCrashException;
 import at.favre.lib.hood.page.entries.ActionEntry;
+import at.favre.lib.hood.util.DebugCrashException;
 import at.favre.lib.hood.util.HoodUtil;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -83,11 +82,11 @@ public class DefaultActions {
     }
 
     public static ActionEntry.Action getDisplaySettingsAction(final Activity activity) {
-        return getGenericAndroidSettingsAction(activity, "Device Info Settings", Settings.ACTION_DISPLAY_SETTINGS, null);
+        return getGenericAndroidSettingsAction(activity, "Device Info Settings", Settings.ACTION_DEVICE_INFO_SETTINGS, null);
     }
 
     public static ActionEntry.Action getDeviceInfoSettingsAction(final Activity activity) {
-        return getGenericAndroidSettingsAction(activity, "Display Settings", Settings.ACTION_DEVICE_INFO_SETTINGS, null);
+        return getGenericAndroidSettingsAction(activity, "Display Settings", Settings.ACTION_DISPLAY_SETTINGS, null);
     }
 
     public static ActionEntry.Action getStorageSettingsAction(final Activity activity) {
