@@ -1,6 +1,7 @@
 package at.favre.lib.hood.page.entries;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -93,8 +94,8 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
         }
 
         @Override
-        public void decorateViewWithZebra(View view, boolean hasZebra) {
-            HoodUtil.setZebraToView(view, hasZebra);
+        public void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra) {
+            HoodUtil.setZebraToView(view, zebraColor, hasZebra);
         }
     }
 

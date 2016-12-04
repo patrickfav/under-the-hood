@@ -1,6 +1,7 @@
 package at.favre.lib.hood.page;
 
 
+import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,5 +14,5 @@ public interface ViewTemplate<T> {
 
     void setContent(T value, View view);
 
-    void decorateViewWithZebra(View view, boolean hasZebra);
+    void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra);
 }

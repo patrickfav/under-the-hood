@@ -1,5 +1,6 @@
 package at.favre.lib.hood.page.entries;
 
+import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,8 +81,8 @@ public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigActi
         }
 
         @Override
-        public void decorateViewWithZebra(View view, boolean hasZebra) {
-            HoodUtil.setZebraToView(view, hasZebra);
+        public void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra) {
+            HoodUtil.setZebraToView(view, zebraColor, hasZebra);
         }
     }
 

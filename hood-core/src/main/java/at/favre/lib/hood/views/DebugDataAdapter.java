@@ -1,5 +1,6 @@
 package at.favre.lib.hood.views;
 
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +11,15 @@ import at.favre.lib.hood.page.ViewTemplate;
 
 public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.DebugViewHolder> {
 
-    private Page page;
-    private HoodDebugPageView.Config config;
+    private final Page page;
+    private final HoodDebugPageView.Config config;
+    @ColorInt
+    private final int zebraColor;
 
-    public DebugDataAdapter(Page page, HoodDebugPageView.Config config) {
+    public DebugDataAdapter(Page page, HoodDebugPageView.Config config, int zebraColor) {
         this.page = page;
         this.config = config;
+        this.zebraColor = zebraColor;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.Debu
         ViewTemplate<Object> template = page.getEntries().get(position).getViewTemplate();
         template.setContent(page.getEntries().get(position).getValue(), holder.holderView);
         if (config.showZebra) {
-            template.decorateViewWithZebra(holder.holderView, position % 2 == 1);
+            template.decorateViewWithZebra(holder.holderView, zebraColor, position % 2 == 1);
         }
     }
 

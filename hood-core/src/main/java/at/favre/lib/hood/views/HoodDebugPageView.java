@@ -1,7 +1,11 @@
 package at.favre.lib.hood.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,24 +24,37 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     private DebugDataAdapter mAdapter;
     private Page page;
     private Config config;
+    @ColorInt
+    private int zebraColor;
     private NestedScrollingChildHelper mScrollingChildHelper;
 
     public HoodDebugPageView(Context context) {
         super(context);
-        setup();
+        setup(null);
     }
 
     public HoodDebugPageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setup();
+        setup(attrs);
     }
 
     public HoodDebugPageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setup();
+        setup(attrs);
     }
 
-    private void setup() {
+    private void setup(@Nullable AttributeSet attrs) {
+        if (attrs != null) {
+            TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.HoodDebugPageView, 0, 0);
+            try {
+                zebraColor = a.getColor(R.styleable.HoodDebugPageView_zebraBackgroundColor, getResources().getColor(R.color.hoodlib_zebra_color));
+            } finally {
+                a.recycle();
+            }
+        } else {
+            zebraColor = ContextCompat.getColor(getContext(), R.color.hoodlib_zebra_color);
+        }
+
         FrameLayout layout = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.hoodlib_view_debugview, this, true);
         setNestedScrollingEnabled(true);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
@@ -52,7 +69,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     public void setPageData(@NonNull Page page, @NonNull Config config) {
         this.page = page;
         this.config = config;
-        this.mAdapter = new DebugDataAdapter(page, config);
+        this.mAdapter = new DebugDataAdapter(page, config, zebraColor);
         this.mRecyclerView.setAdapter(mAdapter);
 
         if (config.autoLog) {

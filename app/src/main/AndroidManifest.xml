@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="at.favre.app.hoodtest.MainActivity"
-            android:theme="@style/HoodTheme">
+            android:theme="@style/HoodThemeDark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

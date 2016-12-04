@@ -1,5 +1,6 @@
 package at.favre.lib.hood.page.entries;
 
+import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,7 @@ public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
         }
 
         @Override
-        public void decorateViewWithZebra(View view, boolean hasZebra) {
+        public void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra) {
             //no-op
         }
     }

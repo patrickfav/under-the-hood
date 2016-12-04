@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -58,11 +59,11 @@ public class HoodUtil {
         return GRANTED;
     }
 
-    public static void setZebraToView(View view, boolean hasZebra) {
+    public static void setZebraToView(View view, @ColorInt int zebraColor, boolean hasZebra) {
         Drawable zebra = null;
 
         if (hasZebra) {
-            zebra = new ColorDrawable(ContextCompat.getColor(view.getContext(), R.color.zebra_color));
+            zebra = new ColorDrawable(zebraColor);
         }
 
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {

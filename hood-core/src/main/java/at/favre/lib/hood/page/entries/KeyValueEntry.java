@@ -3,6 +3,7 @@ package at.favre.lib.hood.page.entries;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -137,8 +138,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
 
         @Override
-        public void decorateViewWithZebra(View view, boolean hasZebra) {
-            HoodUtil.setZebraToView(view, hasZebra);
+        public void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra) {
+            HoodUtil.setZebraToView(view,zebraColor, hasZebra);
         }
     }
 
