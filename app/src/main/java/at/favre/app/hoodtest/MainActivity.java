@@ -31,7 +31,13 @@ public class MainActivity extends PopHoodActivity {
         page.addEntries(DefaultProperties.createBasicDeviceInfo(true));
         page.addEntries(DefaultProperties.createDetailedDeviceInfo(this));
 
-        page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
+        page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\n" +
+                "be too long to fit into one screen. \n" +
+                "I need to make my TextView scrollable. How can i do\n" +
+                "that? Here is the code\n" +
+                "be too long to fit into one screen. \n" +
+                "I need to make my TextView scrollable. How can i do\n" +
+                "that? Here is the code", true));
         page.addTitle("Debug Config");
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", false)));
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", false)));

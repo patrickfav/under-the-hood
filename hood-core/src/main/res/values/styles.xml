@@ -112,5 +112,11 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <!-- DIALOG -->
+
+    <style name="HoodKeyValueDialogMinWidth">
+        <item name="android:windowMinWidthMajor">95%</item>
+        <item name="android:windowMinWidthMinor">65%</item>
+    </style>
 
 </resources>

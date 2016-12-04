@@ -4,4 +4,5 @@
     <string name="hood_copy_to_clipboard">Copy to Clipboard</string>
     <string name="hood_toast_copied">Value copied to clipboard.</string>
     <string name="hood_toast_logged">Logged to console.</string>
+    <string name="hood_log_to_console">Log</string>
 </resources>
