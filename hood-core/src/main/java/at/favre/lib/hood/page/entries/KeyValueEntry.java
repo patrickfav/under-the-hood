@@ -178,7 +178,12 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     public static class DialogClickAction implements OnClickAction {
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
-            new KeyValueDetailDialogs.CustomDialog(v.getContext(), value.getKey(), value.getValue()).show();
+            if (v.getContext() instanceof Activity) {
+                KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(value.getKey(), value.getValue())
+                        .show(((Activity) v.getContext()).getFragmentManager(), String.valueOf(value.getKey()));
+            } else {
+                new KeyValueDetailDialogs.CustomDialog(v.getContext(), value.getKey(), value.getValue()).show();
+            }
         }
     }
 

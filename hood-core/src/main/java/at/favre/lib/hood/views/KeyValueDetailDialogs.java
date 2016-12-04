@@ -2,8 +2,10 @@ package at.favre.lib.hood.views;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -16,6 +18,22 @@ import at.favre.lib.hood.util.HoodUtil;
 
 public class KeyValueDetailDialogs {
     private static final String TAG = KeyValueDetailDialogs.class.getName();
+
+    public static class DialogFragmentWrapper extends DialogFragment {
+        public static DialogFragmentWrapper newInstance(CharSequence key, String value) {
+            DialogFragmentWrapper frag = new DialogFragmentWrapper();
+            Bundle args = new Bundle();
+            args.putString("key", String.valueOf(key));
+            args.putString("value", value);
+            frag.setArguments(args);
+            return frag;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return new CustomDialog(getActivity(), getArguments().getString("key"), getArguments().getString("value"));
+        }
+    }
 
     public static class CustomDialog extends Dialog {
         private CharSequence key;
