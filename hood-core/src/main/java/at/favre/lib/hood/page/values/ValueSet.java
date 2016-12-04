@@ -1,5 +1,10 @@
 package at.favre.lib.hood.page.values;
 
-public interface ValueSet<T> {
+import java.util.Collection;
+
+/**
+ *
+ */
+public interface ValueSet<T extends Collection> {
     T getAlPossibleValues();
 }

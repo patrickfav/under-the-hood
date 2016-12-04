@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.page.ViewTemplate;
 
+/**
+ * The adapter managing the entries from given {@link Page}. Instead of a {@link android.support.v7.widget.RecyclerView.ViewHolder}
+ * the {@link ViewTemplate} from the entry is used.
+ */
 public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.DebugViewHolder> {
 
     private final Page page;

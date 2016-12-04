@@ -17,13 +17,17 @@ import android.widget.FrameLayout;
 import at.favre.lib.hood.R;
 import at.favre.lib.hood.page.Page;
 
+/**
+ * The view encapsulating the rendering logic of a {@link Page}. Internally has an recyclerview
+ * with a {@link DebugDataAdapter}. Implements the {@link NestedScrollingChild} to be able to be
+ * used in a CoordinatorLayout.
+ */
 public class HoodDebugPageView extends FrameLayout implements NestedScrollingChild {
     private static final String TAG = HoodDebugPageView.class.getName();
 
     private RecyclerView mRecyclerView;
     private DebugDataAdapter mAdapter;
     private Page page;
-    private Config config;
     @ColorInt
     private int zebraColor;
     private NestedScrollingChildHelper mScrollingChildHelper;
@@ -62,13 +66,21 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
         mRecyclerView.setNestedScrollingEnabled(true);
     }
 
+    /**
+     * Sets the page data (required to for the ui to show anything)
+     * @param page
+     */
     public void setPageData(@NonNull Page page) {
         setPageData(page, new Config(true));
     }
 
+    /**
+     * Sets the page data (required to for the ui to show anything)
+     * @param page
+     * @param config
+     */
     public void setPageData(@NonNull Page page, @NonNull Config config) {
         this.page = page;
-        this.config = config;
         this.mAdapter = new DebugDataAdapter(page, config, zebraColor);
         this.mRecyclerView.setAdapter(mAdapter);
 
@@ -81,12 +93,19 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
         return page;
     }
 
+    /**
+     * Refreshes all dynamic values
+     */
     public void refresh() {
         checkPreconditions();
         page.refreshData();
         mAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Logs a entries to console
+     * @param tag
+     */
     public void log(String tag) {
         checkPreconditions();
         page.log(tag);

@@ -1,6 +1,7 @@
 package at.favre.lib.hood.page.entries;
 
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import at.favre.lib.hood.util.HoodUtil;
 
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_CONFIG_BOOL;
 
+/**
+ * A boolean switch used to change a debug setting
+ */
 public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigAction> {
 
     private final BoolConfigAction action;
@@ -58,7 +62,7 @@ public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigActi
         }
 
         @Override
-        public void setContent(final BoolConfigAction value, View view) {
+        public void setContent(final BoolConfigAction value, @NonNull View view) {
             final Switch switchView = ((Switch) view.findViewById(R.id.config_switch));
             final TextView textView = ((TextView) view.findViewById(R.id.label));
 
@@ -81,11 +85,15 @@ public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigActi
         }
 
         @Override
-        public void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra) {
-            HoodUtil.setZebraToView(view, zebraColor, hasZebra);
+        public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
+            HoodUtil.setZebraToView(view, zebraColor, isOdd);
         }
     }
 
+    /**
+     * The abstraction of the switch containing a label (as shown in ui) and a changeable value
+     * representing the boolean switch value. Default implementation see {@link at.favre.lib.hood.defaults.DefaultConfigActions}
+     */
     public static class BoolConfigAction {
         public final String label;
         public final ChangeableValue<Boolean, Boolean> changeableValue;

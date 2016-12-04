@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -29,44 +30,68 @@ import static android.content.ContentValues.TAG;
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_KEYVALUE;
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_KEYVALUE_MULTILINE;
 
+/**
+ * An entry that has an key and value (e.g. normal properties). Supports custom click actions, multi line values
+ * and dynamic values.
+ */
 public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.Entry<CharSequence, String>> {
 
     private Map.Entry<CharSequence, String> data;
     private final Template template;
     private final DynamicValue<String> value;
 
+    /**
+     * @param key       as shown in ui
+     * @param value     dynamic value (e.g. from {@link android.content.SharedPreferences}
+     * @param action    used when clicked on
+     * @param multiLine if a different layout should be used for long values
+     */
     public KeyValueEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
         this.value = value;
         this.data = new AbstractMap.SimpleEntry<>(key, value.getValue());
         this.template = new Template(multiLine, action);
     }
 
+    /**
+     * @param key       as shown in ui
+     * @param value     dynamic value (e.g. from {@link android.content.SharedPreferences}
+     * @param multiLine if a different layout should be used for long values
+     */
     public KeyValueEntry(CharSequence key, DynamicValue<String> value, boolean multiLine) {
         this(key, value, new DialogClickAction(), multiLine);
     }
 
+    /**
+     * @param key   as shown in ui
+     * @param value dynamic value (e.g. from {@link android.content.SharedPreferences}
+     */
     public KeyValueEntry(CharSequence key, DynamicValue<String> value) {
         this(key, value, new DialogClickAction(), false);
     }
 
+    /**
+     * @param key       as shown in ui
+     * @param value     static value
+     * @param action    used when clicked on
+     * @param multiLine if a different layout should be used for long values
+     */
     public KeyValueEntry(CharSequence key, final String value, OnClickAction action, boolean multiLine) {
-        this(key, new DynamicValue<String>() {
-            @Override
-            public String getValue() {
-                return value;
-            }
-        }, action, multiLine);
+        this(key, new DynamicValue.DefaultStaticValue<>(value), action, multiLine);
     }
 
+    /**
+     * @param key       as shown in ui
+     * @param value     static value
+     * @param multiLine if a different layout should be used for long values
+     */
     public KeyValueEntry(CharSequence key, final String value, boolean multiLine) {
-        this(key, new DynamicValue<String>() {
-            @Override
-            public String getValue() {
-                return value;
-            }
-        }, new DialogClickAction(), multiLine);
+        this(key, new DynamicValue.DefaultStaticValue<>(value), new DialogClickAction(), multiLine);
     }
 
+    /**
+     * @param key   as shown in ui
+     * @param value static value
+     */
     public KeyValueEntry(CharSequence key, final String value) {
         this(key, value, false);
     }
@@ -88,7 +113,9 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     @Override
     public void refresh() {
-        data = new AbstractMap.SimpleEntry<>(data.getKey(), value.getValue());
+        if (!(value instanceof DynamicValue.DefaultStaticValue)) {
+            data = new AbstractMap.SimpleEntry<>(data.getKey(), value.getValue());
+        }
     }
 
     @Override
@@ -120,7 +147,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
 
         @Override
-        public void setContent(final Map.Entry<CharSequence, String> entry, final View view) {
+        public void setContent(final Map.Entry<CharSequence, String> entry, @NonNull final View view) {
             ((TextView) view.findViewById(R.id.key)).setText(entry.getKey());
             ((TextView) view.findViewById(R.id.value)).setText(entry.getValue());
             if (clickAction != null) {
@@ -138,15 +165,23 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
 
         @Override
-        public void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra) {
-            HoodUtil.setZebraToView(view,zebraColor, hasZebra);
+        public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
+            HoodUtil.setZebraToView(view, zebraColor, isOdd);
         }
     }
 
+    /**
+     * Used to define what should happen on click of an entry
+     */
     public interface OnClickAction {
         void onClick(View v, Map.Entry<CharSequence, String> value);
     }
 
+    /* *************************************************************************** ONCLICKACTIONS */
+
+    /**
+     * Shows a simple toast with key/value
+     */
     public static class ToastClickAction implements OnClickAction {
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
@@ -154,6 +189,9 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
     }
 
+    /**
+     * Starts the defined runtime permission check on click
+     */
     public static class AskPermissionClickAction implements OnClickAction {
         private String androidPermissionName;
         private Activity activity;
@@ -176,6 +214,9 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
     }
 
+    /**
+     * An click action that shows key/value in a dialog
+     */
     public static class DialogClickAction implements OnClickAction {
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
@@ -188,6 +229,9 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
     }
 
+    /**
+     * An click action that starts an {@link Intent}
+     */
     public static class StartIntentAction implements OnClickAction {
         private final Intent intent;
 

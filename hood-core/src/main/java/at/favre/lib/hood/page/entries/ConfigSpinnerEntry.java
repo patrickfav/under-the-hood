@@ -24,6 +24,10 @@ import at.favre.lib.hood.util.HoodUtil;
 
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_CONFIG_SPINNER;
 
+/**
+ * A dropdown-type ui page entry element (select one in a list). Uses defined interface to get/set the
+ * values of the list.
+ */
 public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSelectListConfigAction> {
 
     private final SingleSelectListConfigAction action;
@@ -66,7 +70,7 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
         }
 
         @Override
-        public void setContent(final SingleSelectListConfigAction value, View view) {
+        public void setContent(final SingleSelectListConfigAction value, @NonNull View view) {
             final Spinner spinnerView = ((Spinner) view.findViewById(R.id.config_spinner));
             final TextView textView = ((TextView) view.findViewById(R.id.label));
 
@@ -79,7 +83,7 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
 
             spinnerView.setAdapter(new ConfigSpinnerAdapter(view.getContext(), value.changeableValue.getAlPossibleValues()));
             spinnerView.setOnItemSelectedListener(null);
-            spinnerView.setSelection(((ConfigSpinnerAdapter) spinnerView.getAdapter()).getPosition(value.changeableValue.getValue()));
+            spinnerView.setSelection(((ConfigSpinnerAdapter) spinnerView.getAdapter()).getPosForItem(value.changeableValue.getValue()));
             spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -94,8 +98,8 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
         }
 
         @Override
-        public void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra) {
-            HoodUtil.setZebraToView(view, zebraColor, hasZebra);
+        public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
+            HoodUtil.setZebraToView(view, zebraColor, isOdd);
         }
     }
 
@@ -133,15 +137,20 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
         }
 
         public int getPosForItem(SpinnerElement element) {
-            for (int i = 0; i < getCount(); i++) {
-                if (element.equals(getItem(i))) {
-                    return i;
+            if(element != null) {
+                for (int i = 0; i < getCount(); i++) {
+                    if (element.equals(getItem(i))) {
+                        return i;
+                    }
                 }
             }
             return 0;
         }
     }
 
+    /**
+     * Defines the ui label and list elements (as well as how changing it will be handled
+     */
     public static class SingleSelectListConfigAction {
         public final String label;
         public final SpinnerValue<List<SpinnerElement>, SpinnerElement> changeableValue;

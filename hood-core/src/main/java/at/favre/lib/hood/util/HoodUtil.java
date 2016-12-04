@@ -59,10 +59,10 @@ public class HoodUtil {
         return GRANTED;
     }
 
-    public static void setZebraToView(View view, @ColorInt int zebraColor, boolean hasZebra) {
+    public static void setZebraToView(View view, @ColorInt int zebraColor, boolean isOdd) {
         Drawable zebra = null;
 
-        if (hasZebra) {
+        if (isOdd) {
             zebra = new ColorDrawable(zebraColor);
         }
 

@@ -9,9 +9,13 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
 import android.support.v4.content.ContextCompat;
 
+/**
+ * Reads and abstracts Android OS device states (wifi, bt, etc.)
+ */
 public class DeviceStatusUtil {
     public enum Status {
         UNSUPPORTED, NEEDS_PERMISSION, ENABLED, DISABLED
@@ -21,8 +25,14 @@ public class DeviceStatusUtil {
         PERMISSION_NEEDED, DISCONNECTED, CONNECTED_WIFI, CONNECTED_MOBILE, CONNECTED_ETHERNET, CONNECTED_BT, ONNECTED_VPN, CONNECTED_OTHER
     }
 
+    /**
+     * The current network (ie. internet) connectivity state. Needs correct permission to work.
+     *
+     * @param context
+     * @return state
+     */
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    public static ConnectionState getNetworkConnectivityState(Context context) {
+    public static ConnectionState getNetworkConnectivityState(@NonNull Context context) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -53,8 +63,14 @@ public class DeviceStatusUtil {
         return ConnectionState.PERMISSION_NEEDED;
     }
 
+    /**
+     * Current BT hardware state. Needs correct permission to work.
+     *
+     * @param context
+     * @return state
+     */
     @RequiresPermission(Manifest.permission.BLUETOOTH)
-    public static Status getBluetoothStatus(Context context) {
+    public static Status getBluetoothStatus(@NonNull Context context) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
             return Status.UNSUPPORTED;
@@ -67,8 +83,14 @@ public class DeviceStatusUtil {
         }
     }
 
+    /**
+     * Current Wifi hardware state. Needs correct permission to work.
+     *
+     * @param context
+     * @return state
+     */
     @RequiresPermission(Manifest.permission.ACCESS_WIFI_STATE)
-    public static Status getWlanStatus(Context context) {
+    public static Status getWifiStatus(Context context) {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         if (wifi == null) {
             return Status.UNSUPPORTED;
@@ -81,6 +103,12 @@ public class DeviceStatusUtil {
         }
     }
 
+    /**
+     * Current NFC hardware state. Needs correct permission to work.
+     *
+     * @param context
+     * @return state
+     */
     @RequiresPermission(Manifest.permission.NFC)
     public static Status getNfcState(Context context) {
         NfcManager nfcManager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);

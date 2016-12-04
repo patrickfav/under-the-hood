@@ -1,6 +1,7 @@
 package at.favre.lib.hood.page.entries;
 
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,17 @@ import at.favre.lib.hood.page.ViewTemplate;
 
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_HEADER;
 
+/**
+ * A simple, non-interactive header used to separate other entries
+ */
 public class HeaderEntry implements PageEntry<CharSequence> {
 
     private final CharSequence header;
     private final Template template;
 
+    /**
+     * @param header as shown in ui
+     */
     public HeaderEntry(CharSequence header) {
         this.header = header;
         template = new Template();
@@ -54,12 +61,12 @@ public class HeaderEntry implements PageEntry<CharSequence> {
         }
 
         @Override
-        public void setContent(CharSequence value, View view) {
+        public void setContent(CharSequence value, @NonNull View view) {
             ((TextView) view.findViewById(R.id.title)).setText(value);
         }
 
         @Override
-        public void decorateViewWithZebra(View view, @ColorInt int zebraColor, boolean hasZebra) {
+        public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
             //no-op
         }
     }

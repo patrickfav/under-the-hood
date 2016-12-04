@@ -15,10 +15,16 @@ import android.widget.Toast;
 import at.favre.lib.hood.R;
 import at.favre.lib.hood.util.HoodUtil;
 
-
+/**
+ * Dialogs used as detail view in {@link at.favre.lib.hood.page.entries.KeyValueEntry}. See
+ * {@link at.favre.lib.hood.page.entries.KeyValueEntry.DialogClickAction}
+ */
 public class KeyValueDetailDialogs {
     private static final String TAG = KeyValueDetailDialogs.class.getName();
 
+    /**
+     * DialogFragment Wrapper for the dialog
+     */
     public static class DialogFragmentWrapper extends DialogFragment {
         public static DialogFragmentWrapper newInstance(CharSequence key, String value) {
             DialogFragmentWrapper frag = new DialogFragmentWrapper();
@@ -35,6 +41,9 @@ public class KeyValueDetailDialogs {
         }
     }
 
+    /**
+     * Custom view dialog
+     */
     public static class CustomDialog extends Dialog {
         private CharSequence key;
         private String value;
@@ -69,6 +78,9 @@ public class KeyValueDetailDialogs {
         }
     }
 
+    /**
+     * Basic, nativate styled dialog
+     */
     public static class NativeDialog extends AlertDialog {
         private CharSequence key;
         private String value;

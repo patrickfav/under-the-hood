@@ -14,8 +14,14 @@ import android.view.View;
 import at.favre.lib.hood.page.entries.ActionEntry;
 import at.favre.lib.hood.util.DebugCrashException;
 
+/**
+ * A couple of default action implementations used with {@link ActionEntry}
+ */
 public class DefaultActions {
 
+    /**
+     * Will open the app's OS info screen
+     */
     public static ActionEntry.Action getAppInfoAction(final Activity activity) {
         return new ActionEntry.Action("App Info", new View.OnClickListener() {
             @Override
@@ -25,6 +31,9 @@ public class DefaultActions {
         });
     }
 
+    /**
+     * Will start the OS' uninstall activity for this app
+     */
     public static ActionEntry.Action getUninstallAction(final Activity activity) {
         return new ActionEntry.Action("Uninstall", new View.OnClickListener() {
             @Override
@@ -34,6 +43,9 @@ public class DefaultActions {
         });
     }
 
+    /**
+     * Will through a runtime exception (to test crash recovery of the app)
+     */
     public static ActionEntry.Action getCrashAction() {
         return new ActionEntry.Action("Crash Activity", new View.OnClickListener() {
             @Override
@@ -43,6 +55,9 @@ public class DefaultActions {
         });
     }
 
+    /**
+     * Will open the "Set lock screen" wizard of the OS
+     */
     public static ActionEntry.Action getSetLockScreenAction(final Activity activity) {
         return new ActionEntry.Action("Set Lockscreen", new View.OnClickListener() {
             @Override
@@ -104,6 +119,14 @@ public class DefaultActions {
         return getGenericAndroidSettingsAction(activity, "Date Settings", Settings.ACTION_DATE_SETTINGS, null);
     }
 
+    /**
+     * Will open an Android setting
+     * @param activity the context
+     * @param label ui text
+     * @param settingsIntentAction the settings name wrapped as intent
+     * @param minSdkVersion if non-null a sdk-int that is requried to use this settings
+     * @return a non-null action if sdk-int is null or greater or equal than minSdkVersion
+     */
     @Nullable
     public static ActionEntry.Action getGenericAndroidSettingsAction(final Activity activity, String label, final String settingsIntentAction, Integer minSdkVersion) {
         if (minSdkVersion == null || android.os.Build.VERSION.SDK_INT >= minSdkVersion) {
@@ -118,6 +141,10 @@ public class DefaultActions {
         }
     }
 
+    /**
+     * Will kill all associated processes (similar behavior as force-stop in the app's info menu) and
+     * therefor forcefully ends the app
+     */
     public static ActionEntry.Action getKillProcessAction(final Activity activity) {
         return new ActionEntry.Action("Kill Process", new View.OnClickListener() {
             @Override
@@ -127,6 +154,10 @@ public class DefaultActions {
         });
     }
 
+    /**
+     * Will open a prompt to ask the user if he/she wants to clear the whole app data or null
+     * if SDK < 19
+     */
     @Nullable
     public static ActionEntry.Action getClearAppDataAction(final Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -134,7 +165,7 @@ public class DefaultActions {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void onClick(View v) {
-                    DefaultMiscActions.promtptUserToClearData(v.getContext());
+                    DefaultMiscActions.promptUserToClearData(v.getContext());
                 }
             });
         } else {

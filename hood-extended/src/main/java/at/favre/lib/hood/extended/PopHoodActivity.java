@@ -57,7 +57,7 @@ public abstract class PopHoodActivity extends AppCompatActivity {
         } else if (i == R.id.action_kill_process) {
             DefaultMiscActions.killProcessesAround(this);
         } else if (i == R.id.action_clear_date) {
-            DefaultMiscActions.promtptUserToClearData(this);
+            DefaultMiscActions.promptUserToClearData(this);
         } else if (i == R.id.action_log) {
             debugView.log(TAG);
             Toast.makeText(this, R.string.hood_toast_log_to_console, Toast.LENGTH_SHORT).show();

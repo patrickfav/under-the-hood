@@ -14,16 +14,24 @@ import android.util.Log;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
-
+/**
+ * Some default actions (also used in other Default* classes)
+ */
 public class DefaultMiscActions {
     private static final String TAG = DefaultMiscActions.class.getName();
 
+    /**
+     * Raw intent to open app's uninstall prompt
+     */
     public static Intent getAppUninstallIntent(Context ctx) {
         Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
         intent.setData(Uri.parse("package:" + ctx.getPackageName()));
         return intent;
     }
 
+    /**
+     * Raw intent to open app's info menu
+     */
     public static Intent getAppInfoIntent(Context ctx) {
         try {
             Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -36,7 +44,11 @@ public class DefaultMiscActions {
         }
     }
 
-    public static void promtptUserToClearData(final Context ctx) {
+    /**
+     * Starts an {@link AlertDialog} prompt and if accepted will clear the app's data or just opens
+     * the app's info menu if SDK < 19
+     */
+    public static void promptUserToClearData(final Context ctx) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             new AlertDialog.Builder(ctx)
                     .setTitle("Clear App Data")
@@ -54,6 +66,9 @@ public class DefaultMiscActions {
         }
     }
 
+    /**
+     * Kills all associated processes
+     */
     public static void killProcessesAround(Activity activity) {
         try {
             ActivityManager am = (ActivityManager) activity.getSystemService(ACTIVITY_SERVICE);

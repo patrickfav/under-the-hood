@@ -2,23 +2,35 @@ package at.favre.lib.hood.util;
 
 import android.telephony.TelephonyManager;
 
+/**
+ * Translates Android int states to human-readable Strings
+ */
 public class TypeTranslators {
-    public static String translateSimState(int simstate) {
-        switch (simstate) {
+
+    /**
+     * @param simState expected to be from {@link TelephonyManager#getSimState()}
+     * @return human-readable state
+     */
+    public static String translateSimState(int simState) {
+        switch (simState) {
             case TelephonyManager.SIM_STATE_READY:
                 return "STATE_READY";
             case TelephonyManager.SIM_STATE_PUK_REQUIRED:
             case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
             case TelephonyManager.SIM_STATE_PIN_REQUIRED:
-                return "STATE_LOCKED (" + simstate + ")";
+                return "STATE_LOCKED (" + simState + ")";
             case TelephonyManager.SIM_STATE_ABSENT:
                 return "STATE_ABSENT";
             default:
             case TelephonyManager.SIM_STATE_UNKNOWN:
-                return "UNKNOWN (" + simstate + ")";
+                return "UNKNOWN (" + simState + ")";
         }
     }
 
+    /**
+     * @param networkType expected to from {@link TelephonyManager#getDataNetworkType()}
+     * @return human-readable state
+     */
     public static String translateTelephonyNetworkType(int networkType) {
         switch (networkType) {
             case TelephonyManager.NETWORK_TYPE_EDGE:

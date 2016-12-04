@@ -1,5 +1,8 @@
 package at.favre.lib.hood.page.values;
 
+/**
+ * Wrapper of a spinner element containing a name used in UI and an id
+ */
 public class SpinnerElement {
     private final String id;
     private final String name;

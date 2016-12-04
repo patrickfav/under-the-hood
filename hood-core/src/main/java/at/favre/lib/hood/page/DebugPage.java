@@ -14,6 +14,9 @@ import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.values.DynamicValue;
 
+/**
+ * The default implementation of the debug view page.
+ */
 public class DebugPage implements Page {
     private List<PageEntry> entries = new ArrayList<>();
     private Map<Integer, ViewTemplate<?>> templateMap = new HashMap<>();

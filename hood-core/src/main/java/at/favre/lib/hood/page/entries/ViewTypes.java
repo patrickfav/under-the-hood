@@ -1,6 +1,11 @@
 package at.favre.lib.hood.page.entries;
 
+import at.favre.lib.hood.page.ViewTemplate;
 
+/**
+ * All pre-defined view-types used for {@link ViewTemplate#getViewType()} in {@link at.favre.lib.hood.page.values}
+ *
+ */
 final class ViewTypes {
 
     static final int VIEWTYPE_HEADER = 1 << 16;

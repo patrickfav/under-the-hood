@@ -287,7 +287,7 @@ public class DefaultProperties {
             entries.add(new KeyValueEntry("wifi", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
-                    return String.valueOf(DeviceStatusUtil.getWlanStatus(context));
+                    return String.valueOf(DeviceStatusUtil.getWifiStatus(context));
                 }
             }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_WIFI_SETTINGS)), false));
 
@@ -327,6 +327,15 @@ public class DefaultProperties {
         return entries;
     }
 
+    /**
+     * Returns a list of the most important {@link TelephonyManager} states and ids. Will only
+     * work if the app has the {@link Manifest.permission#READ_PHONE_STATE} permission or just
+     * returns an empty list.
+     *
+     * @param context       can be null, but will just return an empty list
+     * @param includeHeader adds a title entry if true
+     * @return the list of entries
+     */
     @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     public static List<PageEntry<?>> createTelephonyMangerInfo(@Nullable Context context, boolean includeHeader) {
         List<PageEntry<?>> entries = new ArrayList<>();

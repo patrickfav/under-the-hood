@@ -1,4 +1,11 @@
 package at.favre.lib.hood.page.values;
 
-public interface SpinnerValue<T, E> extends ChangeableValue<E, E>, ValueSet<T> {
+import java.util.Collection;
+
+/**
+ * A spinner (dropdown list) value, which has the list of all values and a changeable-value
+ * @param <T> type of the while list
+ * @param <E> type of the changeable value
+ */
+public interface SpinnerValue<T extends Collection, E> extends ChangeableValue<E, E>, ValueSet<T> {
 }

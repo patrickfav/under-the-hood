@@ -44,6 +44,25 @@ public class MainActivity extends PopHoodActivity {
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "a debug feature", false)));
 
         page.addEntry(new ConfigSpinnerEntry(new ConfigSpinnerEntry.SingleSelectListConfigAction("Backend Selector", new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
+            SpinnerElement backend = new SpinnerElement("2", "backend 2");
+
+            @Override
+            public SpinnerElement getValue() {
+                return backend;
+            }
+
+            @Override
+            public void onChange(SpinnerElement value) {
+                backend = value;
+            }
+
+            @Override
+            public List<SpinnerElement> getAlPossibleValues() {
+                return Arrays.asList(new SpinnerElement("1", "backend 1"), new SpinnerElement("2", "backend 2"), new SpinnerElement("3", "backend 3"), new SpinnerElement("4", "backend 4"));
+            }
+        })));
+
+        page.addEntry(new ConfigSpinnerEntry(new ConfigSpinnerEntry.SingleSelectListConfigAction(null, new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
             SpinnerElement backend;
 
             @Override
@@ -62,7 +81,7 @@ public class MainActivity extends PopHoodActivity {
             }
         })));
 
-        page.addEntries(DefaultProperties.createTelephonyMangerInfo(this,true));
+        page.addEntries(DefaultProperties.createTelephonyMangerInfo(this, true));
 
         page.addTitle("Misc Actions");
         page.addAction(DefaultActions.getAppInfoAction(this));
