@@ -20,7 +20,7 @@
             android:id="@+id/config_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/hoodlib_item_spinner"
+            tools:listitem="@layout/hoodlib_item_spinner_dropdown"
         />
     </LinearLayout>
 </FrameLayout>

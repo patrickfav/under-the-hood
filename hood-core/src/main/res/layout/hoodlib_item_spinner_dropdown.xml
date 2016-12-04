@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView style="@style/HoodLibTextViewSingleLine.SpinnerItem"
+<TextView style="@style/HoodLibTextViewSingleLine.SpinnerItemDropdown"
           xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           tools:text="Backend 1">

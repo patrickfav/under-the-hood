@@ -100,35 +100,29 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
     }
 
     private static class ConfigSpinnerAdapter extends ArrayAdapter<SpinnerElement> {
-
-        private
-        @LayoutRes
-        int layout;
-
         public ConfigSpinnerAdapter(Context context, List<SpinnerElement> objects) {
-            super(context, R.layout.hoodlib_item_spinner, objects);
-            layout = R.layout.hoodlib_item_spinner;
+            super(context, 0, objects);
         }
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView,
-                            @NonNull ViewGroup parent) {
-            return getFromResources(position, convertView, parent);
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            return getFromResources(position, convertView, parent, R.layout.hoodlib_item_spinner, "normal");
         }
 
         @Override
         public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            return getFromResources(position, convertView, parent);
+            return getFromResources(position, convertView, parent, R.layout.hoodlib_item_spinner_dropdown, "dropdown");
         }
 
         private View getFromResources(int position, @Nullable View convertView,
-                                      @NonNull ViewGroup parent) {
+                                      @NonNull ViewGroup parent, @LayoutRes int layout, String tag) {
             final LayoutInflater inflater = LayoutInflater.from(getContext());
             final View view;
 
-            if (convertView == null) {
+            if (convertView == null || convertView.getTag() == null || !convertView.getTag().equals(tag)) {
                 view = inflater.inflate(layout, parent, false);
+                view.setTag(tag);
             } else {
                 view = convertView;
             }
