@@ -66,9 +66,9 @@ public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
             if (isSingleAction) {
-                return inflater.inflate(R.layout.template_action_single, viewGroup, false);
+                return inflater.inflate(R.layout.hoodlib_template_action_single, viewGroup, false);
             } else {
-                return inflater.inflate(R.layout.template_action_double, viewGroup, false);
+                return inflater.inflate(R.layout.hoodlib_template_action_double, viewGroup, false);
             }
         }
 

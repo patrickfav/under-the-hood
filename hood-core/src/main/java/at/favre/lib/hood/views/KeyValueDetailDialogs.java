@@ -48,7 +48,7 @@ public class KeyValueDetailDialogs {
         }
 
         private void setup() {
-            setContentView(R.layout.dialog_detail);
+            setContentView(R.layout.hoodlib_dialog_detail);
             setTitle(key);
             ((TextView) findViewById(R.id.key)).setText(key);
             ((TextView) findViewById(R.id.value)).setText(value);

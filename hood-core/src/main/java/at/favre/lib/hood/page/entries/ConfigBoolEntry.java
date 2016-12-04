@@ -53,7 +53,7 @@ public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigActi
 
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
-            return inflater.inflate(R.layout.template_config_bool, viewGroup, false);
+            return inflater.inflate(R.layout.hoodlib_template_config_bool, viewGroup, false);
         }
 
         @Override

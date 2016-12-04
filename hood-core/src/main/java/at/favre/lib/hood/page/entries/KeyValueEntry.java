@@ -112,9 +112,9 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
             if (multiLine) {
-                return inflater.inflate(R.layout.template_keyvalue_multiline, viewGroup, false);
+                return inflater.inflate(R.layout.hoodlib_template_keyvalue_multiline, viewGroup, false);
             } else {
-                return inflater.inflate(R.layout.template_keyvalue, viewGroup, false);
+                return inflater.inflate(R.layout.hoodlib_template_keyvalue, viewGroup, false);
             }
         }
 

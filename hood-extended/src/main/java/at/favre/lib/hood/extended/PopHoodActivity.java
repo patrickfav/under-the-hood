@@ -22,7 +22,7 @@ public abstract class PopHoodActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hood);
+        setContentView(R.layout.hoodlib_activity_hood);
 
         debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
         debugView.setPageData(getPageData());

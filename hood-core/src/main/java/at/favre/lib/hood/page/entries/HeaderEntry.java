@@ -49,7 +49,7 @@ public class HeaderEntry implements PageEntry<CharSequence> {
 
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
-            return inflater.inflate(R.layout.template_header, viewGroup, false);
+            return inflater.inflate(R.layout.hoodlib_template_header, viewGroup, false);
         }
 
         @Override

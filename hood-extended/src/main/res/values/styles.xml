@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="HoodTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -9,6 +9,6 @@
     </style>
 
     <style name="HoodThemeToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:elevation">6dp</item>
+        <item name="android:elevation" tools:targetApi="lollipop">6dp</item>
     </style>
 </resources>

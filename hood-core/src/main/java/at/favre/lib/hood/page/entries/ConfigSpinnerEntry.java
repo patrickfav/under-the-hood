@@ -17,7 +17,6 @@ import java.util.List;
 import at.favre.lib.hood.R;
 import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.ViewTemplate;
-import at.favre.lib.hood.page.values.ChangeableValue;
 import at.favre.lib.hood.page.values.SpinnerElement;
 import at.favre.lib.hood.page.values.SpinnerValue;
 import at.favre.lib.hood.util.HoodUtil;
@@ -62,7 +61,7 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
 
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
-            return inflater.inflate(R.layout.template_config_spinner, viewGroup, false);
+            return inflater.inflate(R.layout.hoodlib_template_config_spinner, viewGroup, false);
         }
 
         @Override
@@ -106,8 +105,8 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
         int layout;
 
         public ConfigSpinnerAdapter(Context context, List<SpinnerElement> objects) {
-            super(context, R.layout.item_spinner, objects);
-            layout = R.layout.item_spinner;
+            super(context, R.layout.hoodlib_item_spinner, objects);
+            layout = R.layout.hoodlib_item_spinner;
         }
 
         @NonNull

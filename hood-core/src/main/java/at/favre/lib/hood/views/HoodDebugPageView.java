@@ -38,7 +38,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     }
 
     private void setup() {
-        FrameLayout layout = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.view_debugview, this, true);
+        FrameLayout layout = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.hoodlib_view_debugview, this, true);
         setNestedScrollingEnabled(true);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
