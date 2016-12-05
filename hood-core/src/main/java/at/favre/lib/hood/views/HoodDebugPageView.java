@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import at.favre.lib.hood.R;
@@ -31,6 +33,13 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     @ColorInt
     private int zebraColor;
     private NestedScrollingChildHelper mScrollingChildHelper;
+    private View progressBarView;
+    private RecyclerView.SimpleOnItemTouchListener blockRecyclerViewListener = new RecyclerView.SimpleOnItemTouchListener() {
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            return true;
+        }
+    };
 
     public HoodDebugPageView(Context context) {
         super(context);
@@ -64,10 +73,12 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setNestedScrollingEnabled(true);
+        progressBarView = findViewById(R.id.progress_bar);
     }
 
     /**
      * Sets the page data (required to for the ui to show anything)
+     *
      * @param page
      */
     public void setPageData(@NonNull Page page) {
@@ -76,6 +87,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
 
     /**
      * Sets the page data (required to for the ui to show anything)
+     *
      * @param page
      * @param config
      */
@@ -104,11 +116,23 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
 
     /**
      * Logs a entries to console
+     *
      * @param tag
      */
     public void log(String tag) {
         checkPreconditions();
         page.log(tag);
+    }
+
+    public void setProgressBarVisible(boolean isVisible) {
+        if (progressBarView != null) {
+            progressBarView.setVisibility(isVisible ? VISIBLE : GONE);
+        }
+        if(isVisible) {
+            mRecyclerView.addOnItemTouchListener(blockRecyclerViewListener);
+        } else {
+            mRecyclerView.removeOnItemTouchListener(blockRecyclerViewListener);
+        }
     }
 
     private void checkPreconditions() {

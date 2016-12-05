@@ -49,7 +49,7 @@ public class KeyValueDetailDialogs {
         private String value;
 
         public CustomDialog(Context context, CharSequence key, String value) {
-            super(new ContextThemeWrapper(context, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth));
+            super(new ContextThemeWrapper(context, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth));
 
             this.key = key;
             this.value = value;

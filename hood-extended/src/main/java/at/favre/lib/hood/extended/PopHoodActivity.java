@@ -1,5 +1,7 @@
 package at.favre.lib.hood.extended;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import at.favre.lib.hood.defaults.DefaultMiscActions;
@@ -16,20 +19,34 @@ import at.favre.lib.hood.views.HoodDebugPageView;
 public abstract class PopHoodActivity extends AppCompatActivity {
     private final String TAG = getClass().getName();
 
+    private static final String KEY_HEADLESS = "HEADLESS";
+
     private HoodDebugPageView debugView;
     private Toolbar toolbar;
+
+    public static void start(Context context, Class<?> activityClass) {
+        Intent starter = new Intent(context, activityClass);
+        starter.putExtra(KEY_HEADLESS, false);
+        starter.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hoodlib_activity_hood);
+        if (getIntent().getBooleanExtra(KEY_HEADLESS, false)) {
+            getPageData().log(TAG);
+            finish();
+        } else {
+            setContentView(R.layout.hoodlib_activity_hood);
 
-        debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
-        debugView.setPageData(getPageData());
+            debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
+            debugView.setPageData(getPageData());
 
-        toolbar = ((Toolbar) findViewById(R.id.toolbar));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar = ((Toolbar) findViewById(R.id.toolbar));
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -73,4 +90,8 @@ public abstract class PopHoodActivity extends AppCompatActivity {
     }
 
     protected abstract Page getPageData();
+
+    protected HoodDebugPageView getDebugView() {
+        return debugView;
+    }
 }

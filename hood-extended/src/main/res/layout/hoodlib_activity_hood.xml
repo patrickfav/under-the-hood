@@ -10,7 +10,7 @@
         android:id="@+id/debug_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        custom:zebraBackgroundColor="#f0595959"
+        custom:zebraBackgroundColor="?hoodZebraColor"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <android.support.design.widget.AppBarLayout

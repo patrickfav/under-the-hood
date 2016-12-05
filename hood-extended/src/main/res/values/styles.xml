@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="hoodZebraColor">#f0f0f0f0</item>
     </style>
 
     <style name="HoodThemeDark" parent="Theme.AppCompat.NoActionBar">
@@ -13,6 +14,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="hoodZebraColor">#f0595959</item>
     </style>
     <style name="HoodThemeToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:elevation" tools:targetApi="lollipop">6dp</item>
