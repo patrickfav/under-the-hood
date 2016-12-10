@@ -2,11 +2,9 @@ package at.favre.lib.hood.page.entries;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +39,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     private final DynamicValue<String> value;
 
     /**
+     * Creates Key-Value style page entry.
+     *
      * @param key       as shown in ui
      * @param value     dynamic value (e.g. from {@link android.content.SharedPreferences}
      * @param action    used when clicked on
@@ -53,6 +53,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     /**
+     * Creates Key-Value style page entry. Uses dialog as default click action.
+     *
      * @param key       as shown in ui
      * @param value     dynamic value (e.g. from {@link android.content.SharedPreferences}
      * @param multiLine if a different layout should be used for long values
@@ -62,6 +64,9 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     /**
+     * Creates Key-Value style page entry. Uses dialog as default click action and is not
+     * multiline enabled.
+     *
      * @param key   as shown in ui
      * @param value dynamic value (e.g. from {@link android.content.SharedPreferences}
      */
@@ -70,6 +75,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     /**
+     * Creates Key-Value style page entry with a static value.
+     *
      * @param key       as shown in ui
      * @param value     static value
      * @param action    used when clicked on
@@ -80,6 +87,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     /**
+     * Creates Key-Value style page entry with a static value. Uses dialog as default click action.
+     *
      * @param key       as shown in ui
      * @param value     static value
      * @param multiLine if a different layout should be used for long values
@@ -89,6 +98,9 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     /**
+     * Creates Key-Value style page entry with a static value. Uses dialog as default click action and
+     * ist not multi-line enabled.
+     *
      * @param key   as shown in ui
      * @param value static value
      */
@@ -125,11 +137,15 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     private static class Template implements ViewTemplate<Map.Entry<CharSequence, String>> {
         private final boolean multiLine;
-        private final OnClickAction clickAction;
+        private OnClickAction clickAction;
 
         public Template(boolean multiLine, OnClickAction clickAction) {
             this.multiLine = multiLine;
             this.clickAction = clickAction;
+        }
+
+        void setClickAction(OnClickAction action) {
+            clickAction = action;
         }
 
         @Override
@@ -190,11 +206,11 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     /**
-     * Starts the defined runtime permission check on click
+     * Starts the defined runtime permission check on click or shows current status if grandted
      */
     public static class AskPermissionClickAction implements OnClickAction {
-        private String androidPermissionName;
-        private Activity activity;
+        private final String androidPermissionName;
+        private final Activity activity;
 
         public AskPermissionClickAction(String androidPermissionName, Activity activity) {
             this.androidPermissionName = androidPermissionName;
@@ -204,12 +220,17 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
             Log.d(TAG, "check android permissions for " + androidPermissionName);
-            if (ContextCompat.checkSelfPermission(v.getContext(), androidPermissionName) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "permission not granted yet, show dialog");
-                ActivityCompat.requestPermissions(activity, new String[]{androidPermissionName}, 2587);
-            } else {
+            @HoodUtil.PermissionState int permissionState = HoodUtil.getPermissionStatus(activity, androidPermissionName);
+
+            if (permissionState == HoodUtil.GRANTED) {
                 Toast.makeText(activity, R.string.hood_toast_already_allowed, Toast.LENGTH_SHORT).show();
                 v.getContext().startActivity(DefaultMiscActions.getAppInfoIntent(v.getContext()));
+            } else if (permissionState == HoodUtil.GRANTED_ON_INSTALL) {
+                KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(value.getKey(), value.getValue())
+                        .show(((Activity) v.getContext()).getFragmentManager(), String.valueOf(value.getKey()));
+            } else {
+                Log.d(TAG, "permission " + androidPermissionName + " not granted yet, show dialog");
+                ActivityCompat.requestPermissions(activity, new String[]{androidPermissionName}, 2587);
             }
         }
     }
@@ -218,13 +239,14 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
      * An click action that shows key/value in a dialog
      */
     public static class DialogClickAction implements OnClickAction {
+
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
             if (v.getContext() instanceof Activity) {
                 KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(value.getKey(), value.getValue())
                         .show(((Activity) v.getContext()).getFragmentManager(), String.valueOf(value.getKey()));
             } else {
-                new KeyValueDetailDialogs.CustomDialog(v.getContext(), value.getKey(), value.getValue()).show();
+                new KeyValueDetailDialogs.CustomDialog(v.getContext(), value.getKey(), value.getValue(), null).show();
             }
         }
     }

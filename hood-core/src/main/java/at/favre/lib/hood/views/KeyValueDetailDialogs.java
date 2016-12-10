@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,18 +27,41 @@ public class KeyValueDetailDialogs {
      * DialogFragment Wrapper for the dialog
      */
     public static class DialogFragmentWrapper extends DialogFragment {
+        private LogRunnable logFunction;
+
         public static DialogFragmentWrapper newInstance(CharSequence key, String value) {
             DialogFragmentWrapper frag = new DialogFragmentWrapper();
             Bundle args = new Bundle();
             args.putString("key", String.valueOf(key));
             args.putString("value", value);
+            args.putString("tag", null);
             frag.setArguments(args);
             return frag;
         }
 
         @Override
+        public void onAttach(final Context context) {
+            super.onAttach(context);
+
+            if (context instanceof IHoodDebugController) {
+                logFunction = new LogRunnable() {
+                    @Override
+                    public void logImpl(String msg) {
+                        ((IHoodDebugController) context).getPage().log(msg);
+                    }
+                };
+
+                if (getDialog() != null) {
+                    ((CustomDialog) getDialog()).setLogImpl(logFunction);
+                }
+            }
+        }
+
+        @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            return new CustomDialog(getActivity(), getArguments().getString("key"), getArguments().getString("value"));
+            CustomDialog d = new CustomDialog(getActivity(), getArguments().getString("key"), getArguments().getString("value"), getArguments().getString("tag", TAG));
+            d.setLogImpl(logFunction);
+            return d;
         }
     }
 
@@ -45,18 +69,21 @@ public class KeyValueDetailDialogs {
      * Custom view dialog
      */
     public static class CustomDialog extends Dialog {
-        private CharSequence key;
-        private String value;
+        private final CharSequence key;
+        private final String value;
+        private final String logTag;
+        private LogRunnable logFunction;
 
-        public CustomDialog(Context context, CharSequence key, String value) {
+        public CustomDialog(Context context, CharSequence key, String value, String logTag) {
             super(new ContextThemeWrapper(context, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth));
-
             this.key = key;
             this.value = value;
+            this.logTag = logTag;
             setup();
         }
 
         private void setup() {
+            getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.hoodlib_dialog_detail);
             setTitle(key);
             ((TextView) findViewById(R.id.key)).setText(key);
@@ -71,10 +98,19 @@ public class KeyValueDetailDialogs {
             findViewById(R.id.btn_log).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.w(TAG, key + "\n" + value);
+                    String logMsg = key + "\n" + value;
+                    if (logFunction != null) {
+                        logFunction.logImpl(logMsg);
+                    } else {
+                        Log.w(logTag, logMsg);
+                    }
                     Toast.makeText(getContext(), R.string.hood_toast_logged, Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+
+        public void setLogImpl(LogRunnable logFunction) {
+            this.logFunction = logFunction;
         }
     }
 
@@ -82,13 +118,15 @@ public class KeyValueDetailDialogs {
      * Basic, nativate styled dialog
      */
     public static class NativeDialog extends AlertDialog {
-        private CharSequence key;
-        private String value;
+        private final CharSequence key;
+        private final String value;
+        private final String logTag;
 
-        public NativeDialog(Context context, CharSequence key, String value) {
+        public NativeDialog(Context context, CharSequence key, String value, String logTag) {
             super(context);
             this.key = key;
             this.value = value;
+            this.logTag = logTag;
             setup();
         }
 
@@ -111,10 +149,14 @@ public class KeyValueDetailDialogs {
             setButton(BUTTON_NEGATIVE, "Log", new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.w(TAG, key + "\n" + value);
+                    Log.w(logTag, key + "\n" + value);
                     Toast.makeText(getContext(), R.string.hood_toast_logged, Toast.LENGTH_SHORT).show();
                 }
             });
         }
+    }
+
+    public interface LogRunnable {
+        void logImpl(String msg);
     }
 }

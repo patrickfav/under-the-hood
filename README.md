@@ -39,6 +39,10 @@ For interactive debug features the standard implementations for switches and spi
 
 There is a standard implementation for `ConfigBoolEntry` in `DefaultConfigActions` backed by shared preferences.
 
+## Recipe
+
+
+
 ## Build
 
 ## Libraries & Credits

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import at.favre.lib.hood.page.Config;
 import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.page.ViewTemplate;
 
@@ -16,11 +17,11 @@ import at.favre.lib.hood.page.ViewTemplate;
 public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.DebugViewHolder> {
 
     private final Page page;
-    private final HoodDebugPageView.Config config;
+    private final Config config;
     @ColorInt
     private final int zebraColor;
 
-    public DebugDataAdapter(Page page, HoodDebugPageView.Config config, int zebraColor) {
+    public DebugDataAdapter(Page page, Config config, int zebraColor) {
         this.page = page;
         this.config = config;
         this.zebraColor = zebraColor;

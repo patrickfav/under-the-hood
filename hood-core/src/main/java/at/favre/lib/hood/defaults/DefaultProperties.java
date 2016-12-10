@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.FeatureInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -13,7 +14,6 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresPermission;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
@@ -24,6 +24,7 @@ import java.lang.reflect.Modifier;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -243,16 +244,7 @@ public class DefaultProperties {
                 entries.add(new KeyValueEntry(perm.replace("android.permission.", ""), new DynamicValue<String>() {
                     @Override
                     public String getValue() {
-                        switch (HoodUtil.getPermissionStatus(activity, perm)) {
-                            case HoodUtil.GRANTED:
-                                return "GRANTED";
-                            case HoodUtil.DENIED:
-                                return "DENIED";
-                            case HoodUtil.BLOCKED:
-                                return "BLOCKED/NOT ASKED";
-                            default:
-                                return "UNKNOWN";
-                        }
+                        return TypeTranslators.translatePermissionState(HoodUtil.getPermissionStatus(activity, perm));
                     }
                 }, new KeyValueEntry.AskPermissionClickAction(perm, activity), false));
             }
@@ -271,46 +263,107 @@ public class DefaultProperties {
      * @return the list of entries
      */
     public static List<PageEntry<?>> createConnectivityStatusInfo(@Nullable final Context context, boolean includeHeader) {
+        return createConnectivityStatusInfo(context, includeHeader, true, true, true, true);
+    }
+
+    /**
+     * See {@link #createConnectivityStatusInfo(Context, boolean)}
+     *
+     * @param context             can be null, but will just return an empty list
+     * @param includeHeader       adds a title entry if true
+     * @param includeNetworkState if network state should be included
+     * @param includeWifiState    if wifi state should be included
+     * @param includeBtState      if bluetooth state should be included
+     * @param includeNfcState     if nfc state should be included
+     * @return the list of entries
+     */
+    public static List<PageEntry<?>> createConnectivityStatusInfo(@Nullable final Context context, boolean includeHeader, boolean includeNetworkState, boolean includeWifiState, boolean includeBtState, boolean includeNfcState) {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (context != null) {
             if (includeHeader) {
                 entries.add(new HeaderEntry("Connectivity Status"));
             }
 
-            entries.add(new KeyValueEntry("internet", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return String.valueOf(DeviceStatusUtil.getNetworkConnectivityState(context));
-                }
-            }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_SETTINGS)), false));
+            if (includeNetworkState) {
+                entries.add(new KeyValueEntry("internet", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return String.valueOf(DeviceStatusUtil.getNetworkConnectivityState(context));
+                    }
+                }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_SETTINGS)), false));
+            }
 
-            entries.add(new KeyValueEntry("wifi", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return String.valueOf(DeviceStatusUtil.getWifiStatus(context));
-                }
-            }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_WIFI_SETTINGS)), false));
+            if (includeWifiState) {
+                entries.add(new KeyValueEntry("wifi", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return String.valueOf(DeviceStatusUtil.getWifiStatus(context));
+                    }
+                }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_WIFI_SETTINGS)), false));
+            }
 
-            entries.add(new KeyValueEntry("bluetooth", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return String.valueOf(DeviceStatusUtil.getBluetoothStatus(context));
-                }
-            }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)), false));
+            if (includeBtState) {
+                entries.add(new KeyValueEntry("bluetooth", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return String.valueOf(DeviceStatusUtil.getBluetoothStatus(context));
+                    }
+                }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)), false));
+            }
 
-            entries.add(new KeyValueEntry("nfc", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return String.valueOf(DeviceStatusUtil.getNfcState(context));
-                }
-            }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_NFC_SETTINGS)), false));
+            if (includeNfcState) {
+                entries.add(new KeyValueEntry("nfc", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return String.valueOf(DeviceStatusUtil.getNfcState(context));
+                    }
+                }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_NFC_SETTINGS)), false));
+            }
         }
         return entries;
     }
 
     /**
+     * Convince feature to add state of all declared system features (see Manifest uses-feature tags)
+     * Uses {@link #createSystemFeatureInfo(Context, Map)} call.
+     *
+     * @param context       can be null, but will just return an empty list
+     * @param includeHeader adds a title entry if true
+     * @return list of all declared uses-feature tags in AndroidManifest as page entries
+     */
+    public static List<PageEntry<?>> createDeclaredSystemFeatureInfo(@Nullable Context context, boolean includeHeader) {
+        if (context != null) {
+            try {
+                PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+                Map<String, String> featureMap = new HashMap<>();
+                if (info.reqFeatures != null && info.reqFeatures.length > 0) {
+                    for (FeatureInfo reqFeature : info.reqFeatures) {
+                        boolean required = reqFeature.flags == FeatureInfo.FLAG_REQUIRED;
+                        featureMap.put(reqFeature.name + (required ? " (req)" : ""), reqFeature.name);
+                    }
+                }
+
+                List<PageEntry<?>> entries = new ArrayList<>();
+                if (includeHeader) {
+                    entries.add(new HeaderEntry("System Features"));
+                }
+                entries.addAll(createSystemFeatureInfo(context, featureMap));
+                if (entries.size() > 1) {
+                    return entries;
+                }
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    /**
      * Convince feature to add state of multiple system features.
      * Uses {@link PackageManager#hasSystemFeature(String)} call.
+     * <p>
+     * See https://developer.android.com/guide/topics/manifest/uses-feature-element.html#features-reference for
+     * available system features.
      *
      * @param context               can be null, but will just return an empty list
      * @param labelSystemFeatureMap a map which has ui labels as key and android system feature string
@@ -336,7 +389,7 @@ public class DefaultProperties {
      * @param includeHeader adds a title entry if true
      * @return the list of entries
      */
-    @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+    //@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     public static List<PageEntry<?>> createTelephonyMangerInfo(@Nullable Context context, boolean includeHeader) {
         List<PageEntry<?>> entries = new ArrayList<>();
 

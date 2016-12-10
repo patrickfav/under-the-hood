@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import at.favre.lib.hood.R;
+import at.favre.lib.hood.page.Config;
 import at.favre.lib.hood.page.Page;
 
 /**
@@ -25,7 +26,6 @@ import at.favre.lib.hood.page.Page;
  * used in a CoordinatorLayout.
  */
 public class HoodDebugPageView extends FrameLayout implements NestedScrollingChild {
-    private static final String TAG = HoodDebugPageView.class.getName();
 
     private RecyclerView mRecyclerView;
     private DebugDataAdapter mAdapter;
@@ -82,7 +82,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
      * @param page
      */
     public void setPageData(@NonNull Page page) {
-        setPageData(page, new Config(true));
+        setPageData(page, new Config.Builder().build());
     }
 
     /**
@@ -97,7 +97,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
         this.mRecyclerView.setAdapter(mAdapter);
 
         if (config.autoLog) {
-            page.log(TAG);
+            page.logPage();
         }
     }
 
@@ -116,12 +116,10 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
 
     /**
      * Logs a entries to console
-     *
-     * @param tag
      */
-    public void log(String tag) {
+    public void log() {
         checkPreconditions();
-        page.log(tag);
+        page.logPage();
     }
 
     public void setProgressBarVisible(boolean isVisible) {
@@ -196,12 +194,4 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
         return mScrollingChildHelper;
     }
 
-    public static class Config {
-        public final boolean showZebra;
-        public final boolean autoLog = true;
-
-        public Config(boolean showZebra) {
-            this.showZebra = showZebra;
-        }
-    }
 }

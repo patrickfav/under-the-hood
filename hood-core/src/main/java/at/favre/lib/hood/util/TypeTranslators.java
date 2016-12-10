@@ -51,4 +51,19 @@ public class TypeTranslators {
                 return "UNKNOWN (" + networkType + ")";
         }
     }
+
+    public static String translatePermissionState(@HoodUtil.PermissionState int permissionState) {
+        switch (permissionState) {
+            case HoodUtil.GRANTED:
+                return "GRANTED";
+            case HoodUtil.GRANTED_ON_INSTALL:
+                return "GRANTED (INSTALL)";
+            case HoodUtil.DENIED:
+                return "DENIED";
+            case HoodUtil.BLOCKED:
+                return "BLOCKED/NOT ASKED";
+            default:
+                return "UNKNOWN";
+        }
+    }
 }

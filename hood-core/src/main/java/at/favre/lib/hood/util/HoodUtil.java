@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
@@ -40,15 +41,16 @@ public class HoodUtil {
     }
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({GRANTED, DENIED, BLOCKED})
-    public @interface PermissionStatus {
+    @IntDef({GRANTED, GRANTED_ON_INSTALL, DENIED, BLOCKED})
+    public @interface PermissionState {
     }
 
     public static final int GRANTED = 0;
-    public static final int DENIED = 1;
-    public static final int BLOCKED = 2;
+    public static final int GRANTED_ON_INSTALL = 1;
+    public static final int DENIED = 2;
+    public static final int BLOCKED = 3;
 
-    @PermissionStatus
+    @PermissionState
     public static int getPermissionStatus(Activity activity, String androidPermissionName) {
         if (ContextCompat.checkSelfPermission(activity, androidPermissionName) != PackageManager.PERMISSION_GRANTED) {
             if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, androidPermissionName)) {
@@ -56,7 +58,11 @@ public class HoodUtil {
             }
             return DENIED;
         }
-        return GRANTED;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return GRANTED;
+        } else {
+            return GRANTED_ON_INSTALL;
+        }
     }
 
     public static void setZebraToView(View view, @ColorInt int zebraColor, boolean isOdd) {

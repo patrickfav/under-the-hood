@@ -15,13 +15,24 @@ import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.values.DynamicValue;
 
 /**
- * The default implementation of the debug view page.
+ * The default implementation of the debug view page. Use factory to create instance.
  */
 public class DebugPage implements Page {
     private List<PageEntry> entries = new ArrayList<>();
     private Map<Integer, ViewTemplate<?>> templateMap = new HashMap<>();
+    private final String logTag;
 
-    public DebugPage() {
+    /**
+     * Use this factory to create a instance of {@link DebugPage}
+     */
+    public static class Factory {
+        public static DebugPage create(Config config) {
+            return new DebugPage(config.logTag);
+        }
+    }
+
+    private DebugPage(String logTag) {
+        this.logTag = logTag;
     }
 
     @Override
@@ -84,15 +95,20 @@ public class DebugPage implements Page {
     }
 
     @Override
-    public void log(String tag) {
-        Log.w(tag, getDebugDataAsString());
-    }
-
-    @Override
     public void refreshData() {
         for (PageEntry entry : entries) {
             entry.refresh();
         }
+    }
+
+    @Override
+    public void log(String message) {
+        Log.w(logTag, message);
+    }
+
+    @Override
+    public void logPage() {
+        log(getDebugDataAsString());
     }
 
     @Override

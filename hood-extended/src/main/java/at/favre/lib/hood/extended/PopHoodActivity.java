@@ -3,22 +3,23 @@ package at.favre.lib.hood.extended;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import at.favre.lib.hood.defaults.DefaultMiscActions;
+import at.favre.lib.hood.page.Config;
+import at.favre.lib.hood.page.DebugPage;
 import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.views.HoodDebugPageView;
+import at.favre.lib.hood.views.IHoodDebugController;
 
-public abstract class PopHoodActivity extends AppCompatActivity {
-    private final String TAG = getClass().getName();
-
+public abstract class PopHoodActivity extends AppCompatActivity implements IHoodDebugController {
     private static final String KEY_HEADLESS = "HEADLESS";
 
     private HoodDebugPageView debugView;
@@ -34,14 +35,15 @@ public abstract class PopHoodActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Config config = getConfig();
         if (getIntent().getBooleanExtra(KEY_HEADLESS, false)) {
-            getPageData().log(TAG);
+            getPageData(DebugPage.Factory.create(config)).logPage();
             finish();
         } else {
             setContentView(R.layout.hoodlib_activity_hood);
 
             debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
-            debugView.setPageData(getPageData());
+            debugView.setPageData(getPageData(DebugPage.Factory.create(config)), getConfig());
 
             toolbar = ((Toolbar) findViewById(R.id.toolbar));
             setSupportActionBar(toolbar);
@@ -76,7 +78,7 @@ public abstract class PopHoodActivity extends AppCompatActivity {
         } else if (i == R.id.action_clear_date) {
             DefaultMiscActions.promptUserToClearData(this);
         } else if (i == R.id.action_log) {
-            debugView.log(TAG);
+            debugView.log();
             Toast.makeText(this, R.string.hood_toast_log_to_console, Toast.LENGTH_SHORT).show();
         } else if (i == android.R.id.home) {
             onBackPressed();
@@ -89,9 +91,33 @@ public abstract class PopHoodActivity extends AppCompatActivity {
         debugView.refresh();
     }
 
-    protected abstract Page getPageData();
+    /**
+     * Implement this method to pass a {@link Page} filled with entries.
+     * Use {@link at.favre.lib.hood.page.DebugPage} as default implementation.
+     *
+     * @param emptyPage use this to add entries (or create new one)
+     * @return set up page
+     */
+    @NonNull
+    public abstract Page getPageData(@NonNull DebugPage emptyPage);
+
+    /**
+     * Override this method to pass a custom config
+     *
+     * @return the config
+     */
+    @NonNull
+    public Config getConfig() {
+        return new Config.Builder().build();
+    }
 
     protected HoodDebugPageView getDebugView() {
         return debugView;
+    }
+
+    @NonNull
+    @Override
+    public Page getPage() {
+        return debugView.getPage();
     }
 }

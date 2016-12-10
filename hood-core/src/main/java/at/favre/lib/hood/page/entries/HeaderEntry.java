@@ -20,13 +20,19 @@ public class HeaderEntry implements PageEntry<CharSequence> {
 
     private final CharSequence header;
     private final Template template;
+    private final boolean hideInLog;
 
     /**
      * @param header as shown in ui
      */
     public HeaderEntry(CharSequence header) {
+        this(header, false);
+    }
+
+    public HeaderEntry(CharSequence header, boolean hideInLog) {
         this.header = header;
-        template = new Template();
+        this.template = new Template();
+        this.hideInLog = hideInLog;
     }
 
     @Override
@@ -41,7 +47,10 @@ public class HeaderEntry implements PageEntry<CharSequence> {
 
     @Override
     public String toLogString() {
-        return "#" + header.toString();
+        if (!hideInLog) {
+            return "#" + header.toString();
+        }
+        return null;
     }
 
     @Override

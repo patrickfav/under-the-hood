@@ -39,10 +39,15 @@ public interface Page {
     void refreshData();
 
     /**
-     * Calls {@link PageEntry#toLogString()} on every element and logs it to console
-     * @param tag used in Logcat
+     * The default implementation of what should happen when a component wants to log something.
+     * You can set e.g. tag, formatting, etc.
      */
-    void log(String tag);
+    void log(String message);
+
+    /**
+     * Logs the whole page data
+     */
+    void logPage();
 
     /**
      * Clears all the entries

@@ -3,47 +3,65 @@ package at.favre.lib.hood.page.values;
 /**
  * Wrapper of a spinner element containing a name used in UI and an id
  */
-public class SpinnerElement {
-    private final String id;
-    private final String name;
+public interface SpinnerElement {
 
-    public SpinnerElement(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    /**
+     * Stable id used for identifying this element
+     *
+     * @return unique id
+     */
+    String getId();
 
-    public String getId() {
-        return id;
-    }
+    /**
+     * Human readable label used in UI
+     *
+     * @return name
+     */
+    String getName();
 
-    public String getName() {
-        return name;
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    class Default implements SpinnerElement {
+        private final String id;
+        private final String name;
 
-        SpinnerElement that = (SpinnerElement) o;
+        public Default(String id, String name) {
+            this.id = id;
+            this.name = name;
+        }
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return name != null ? name.equals(that.name) : that.name == null;
+        public String getId() {
+            return id;
+        }
 
-    }
+        public String getName() {
+            return name;
+        }
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
 
-    @Override
-    public String toString() {
-        return "SpinnerElement{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+            Default aDefault = (Default) o;
+
+            if (id != null ? !id.equals(aDefault.id) : aDefault.id != null) return false;
+            return name != null ? name.equals(aDefault.name) : aDefault.name == null;
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = id != null ? id.hashCode() : 0;
+            result = 31 * result + (name != null ? name.hashCode() : 0);
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "DefaultSpinnerElement{" +
+                    "id='" + id + '\'' +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
     }
 }

@@ -1,30 +1,30 @@
 package at.favre.app.hoodtest;
 
-import java.util.Arrays;
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import at.favre.lib.hood.*;
 import at.favre.lib.hood.defaults.DefaultActions;
 import at.favre.lib.hood.defaults.DefaultConfigActions;
 import at.favre.lib.hood.defaults.DefaultProperties;
 import at.favre.lib.hood.extended.PopHoodActivity;
+import at.favre.lib.hood.page.Config;
 import at.favre.lib.hood.page.DebugPage;
 import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.page.entries.ConfigBoolEntry;
 import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
-import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.values.SpinnerElement;
-import at.favre.lib.hood.page.values.SpinnerValue;
 import at.favre.lib.hood.util.HoodUtil;
 
 public class DebugLightActivity extends PopHoodActivity {
+    private static final String TAG = DebugLightActivity.class.getName();
 
-    public Page getPageData() {
-        DebugPage page = new DebugPage();
-
+    @NonNull
+    @Override
+    public Page getPageData(DebugPage page) {
         page.addEntries(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
         page.addEntries(DefaultProperties.createSignatureHashInfo(this));
 
@@ -35,24 +35,7 @@ public class DebugLightActivity extends PopHoodActivity {
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", false)));
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "a debug feature", false)));
 
-        page.addEntry(new ConfigSpinnerEntry(new ConfigSpinnerEntry.SingleSelectListConfigAction("Backend Selector", new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
-            SpinnerElement backend = new SpinnerElement("2", "backend 2");
-
-            @Override
-            public SpinnerElement getValue() {
-                return backend;
-            }
-
-            @Override
-            public void onChange(SpinnerElement value) {
-                backend = value;
-            }
-
-            @Override
-            public List<SpinnerElement> getAlPossibleValues() {
-                return Arrays.asList(new SpinnerElement("1", "backend 1"), new SpinnerElement("2", "backend 2"), new SpinnerElement("3", "backend 3"), new SpinnerElement("4", "backend 4"));
-            }
-        })));
+        page.addEntry(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(getPreferences(MODE_PRIVATE), "W_BACKEND_KEY", null, getBackendElements())));
 
         page.addEntries(DefaultProperties.createTelephonyMangerInfo(this, true));
 
@@ -74,5 +57,21 @@ public class DebugLightActivity extends PopHoodActivity {
         page.addEntries(DefaultProperties.createConnectivityStatusInfo(this, true));
 
         return page;
+    }
+
+    private List<SpinnerElement> getBackendElements() {
+        List<SpinnerElement> elements = new ArrayList<>();
+        elements.add(new SpinnerElement.Default("1", "dev.backend.com"));
+        elements.add(new SpinnerElement.Default("2", "dev2.backend.com"));
+        elements.add(new SpinnerElement.Default("3", "dev3.backend.com"));
+        elements.add(new SpinnerElement.Default("4", "stage.backend.com"));
+        elements.add(new SpinnerElement.Default("5", "prod.backend.com"));
+        return elements;
+    }
+
+    @NonNull
+    @Override
+    public Config getConfig() {
+        return new Config.Builder().setLogTag(TAG).setAutoLog(false).build();
     }
 }
