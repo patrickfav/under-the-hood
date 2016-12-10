@@ -16,6 +16,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="hoodZebraColor">#f0595959</item>
     </style>
+
     <style name="HoodThemeToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:elevation" tools:targetApi="lollipop">6dp</item>
     </style>

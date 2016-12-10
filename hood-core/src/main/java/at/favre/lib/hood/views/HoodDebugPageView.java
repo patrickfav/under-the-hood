@@ -24,6 +24,12 @@ import at.favre.lib.hood.page.Page;
  * The view encapsulating the rendering logic of a {@link Page}. Internally has an recyclerview
  * with a {@link DebugDataAdapter}. Implements the {@link NestedScrollingChild} to be able to be
  * used in a CoordinatorLayout.
+ *
+ * Currently there are the following xml settings:
+ * <ul>
+ *     <li>zebraBackgroundColor: color -- color used in zebra highlighting</li>
+ * </ul>
+ *
  */
 public class HoodDebugPageView extends FrameLayout implements NestedScrollingChild {
 
@@ -34,7 +40,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     private int zebraColor;
     private NestedScrollingChildHelper mScrollingChildHelper;
     private View progressBarView;
-    private RecyclerView.SimpleOnItemTouchListener blockRecyclerViewListener = new RecyclerView.SimpleOnItemTouchListener() {
+    private RecyclerView.SimpleOnItemTouchListener blockRecyclerViewInteraction = new RecyclerView.SimpleOnItemTouchListener() {
         @Override
         public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
             return true;
@@ -77,7 +83,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     }
 
     /**
-     * Sets the page data (required to for the ui to show anything)
+     * Sets the page data (required to for the ui to show anything) with default config
      *
      * @param page
      */
@@ -115,31 +121,29 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     }
 
     /**
-     * Logs a entries to console
+     * Sets a progressbar visible/invisible depending on param and blocks UI interactions if is
+     * visible
+     * @param isVisible
      */
-    public void log() {
-        checkPreconditions();
-        page.logPage();
-    }
-
     public void setProgressBarVisible(boolean isVisible) {
         if (progressBarView != null) {
             progressBarView.setVisibility(isVisible ? VISIBLE : GONE);
         }
-        if(isVisible) {
-            mRecyclerView.addOnItemTouchListener(blockRecyclerViewListener);
+        if (isVisible) {
+            mRecyclerView.addOnItemTouchListener(blockRecyclerViewInteraction);
         } else {
-            mRecyclerView.removeOnItemTouchListener(blockRecyclerViewListener);
+            mRecyclerView.removeOnItemTouchListener(blockRecyclerViewInteraction);
         }
     }
 
     private void checkPreconditions() {
         if (page == null) {
-            throw new IllegalStateException("you have to call setPageData first");
+            throw new IllegalStateException("call setPageData() before using any view features");
         }
     }
 
-    // NestedScrollingChild
+    /* ****************************************************** NestedScrollingChild */
+
     @Override
     public void setNestedScrollingEnabled(boolean enabled) {
         getScrollingChildHelper().setNestedScrollingEnabled(enabled);

@@ -31,16 +31,17 @@ public class DebugDarkActivity extends PopHoodActivity {
         page.addEntries(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
         page.addEntries(DefaultProperties.createSignatureHashInfo(this));
 
-        page.addEntries(DefaultProperties.createBasicDeviceInfo(true));
-        page.addEntries(DefaultProperties.createDetailedDeviceInfo(this));
-
-        page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
-
         page.addTitle("Debug Config");
         page.addEntry(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
         page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
+
+        page.addEntries(DefaultProperties.createBasicDeviceInfo(true));
+        page.addEntries(DefaultProperties.createDetailedDeviceInfo(this));
+
+        page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
+
 
         page.addEntries(DefaultProperties.createTelephonyMangerInfo(this, true));
 
@@ -59,7 +60,7 @@ public class DebugDarkActivity extends PopHoodActivity {
                 }, 2000);
             }
         }));
-        page.addAction(DefaultActions.getCrashAction(), DefaultActions.getUninstallAction(this));
+        page.addAction(DefaultActions.getCrashAction(), DefaultActions.getInstalledAppSettings(this));
         page.addAction(DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
         page.addAction(HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
 
@@ -91,8 +92,6 @@ public class DebugDarkActivity extends PopHoodActivity {
         p.setProperty("propKey1", "value1");
         p.setProperty("propKey2", "value2");
         p.setProperty("propKey3", "value3");
-        p.setProperty("propKey4", "value4");
-        p.setProperty("propKey5", "value5");
         return p;
     }
 

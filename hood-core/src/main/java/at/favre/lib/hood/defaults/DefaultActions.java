@@ -119,6 +119,10 @@ public class DefaultActions {
         return getGenericAndroidSettingsAction(activity, "Date Settings", Settings.ACTION_DATE_SETTINGS, null);
     }
 
+    public static ActionEntry.Action getInstalledAppSettings(final Activity activity) {
+        return getGenericAndroidSettingsAction(activity, "Apps Settings", android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS, null);
+    }
+
     /**
      * Will open an Android setting
      * @param activity the context

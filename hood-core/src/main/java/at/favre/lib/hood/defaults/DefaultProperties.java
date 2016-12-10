@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeMap;
 
 import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.entries.HeaderEntry;
@@ -207,7 +208,7 @@ public class DefaultProperties {
                 if (info.requestedPermissions != null && info.requestedPermissions.length > 0) {
                     List<String> permissionsList = new ArrayList<>(info.requestedPermissions.length);
                     Collections.addAll(permissionsList, info.requestedPermissions);
-
+                    Collections.sort(permissionsList);
                     return createRuntimePermissionInfo(activity, includeHeader, permissionsList.get(0), permissionsList.subList(1, permissionsList.size()).toArray(new String[permissionsList.size() - 1]));
                 }
             } catch (PackageManager.NameNotFoundException e) {
@@ -293,31 +294,41 @@ public class DefaultProperties {
                 }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_SETTINGS)), false));
             }
 
+
             if (includeWifiState) {
+                final DeviceStatusUtil.Status wifiState = DeviceStatusUtil.getWifiStatus(context);
                 entries.add(new KeyValueEntry("wifi", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
-                        return String.valueOf(DeviceStatusUtil.getWifiStatus(context));
+                        return String.valueOf(wifiState);
                     }
-                }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_WIFI_SETTINGS)), false));
+                }, wifiState == DeviceStatusUtil.Status.UNSUPPORTED ?
+                        new KeyValueEntry.ToastClickAction() :
+                        new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_WIFI_SETTINGS)), false));
             }
 
             if (includeBtState) {
+                final DeviceStatusUtil.Status btState = DeviceStatusUtil.getBluetoothStatus(context);
                 entries.add(new KeyValueEntry("bluetooth", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
-                        return String.valueOf(DeviceStatusUtil.getBluetoothStatus(context));
+                        return String.valueOf(btState);
                     }
-                }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)), false));
+                }, btState == DeviceStatusUtil.Status.UNSUPPORTED ?
+                        new KeyValueEntry.ToastClickAction() :
+                        new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)), false));
             }
 
             if (includeNfcState) {
+                final DeviceStatusUtil.Status nfcState = DeviceStatusUtil.getNfcState(context);
                 entries.add(new KeyValueEntry("nfc", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
-                        return String.valueOf(DeviceStatusUtil.getNfcState(context));
+                        return String.valueOf(nfcState);
                     }
-                }, new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_NFC_SETTINGS)), false));
+                }, nfcState == DeviceStatusUtil.Status.UNSUPPORTED ?
+                        new KeyValueEntry.ToastClickAction() :
+                        new KeyValueEntry.StartIntentAction(new Intent(Settings.ACTION_NFC_SETTINGS)), false));
             }
         }
         return entries;
@@ -335,11 +346,11 @@ public class DefaultProperties {
         if (context != null) {
             try {
                 PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
-                Map<String, String> featureMap = new HashMap<>();
+                Map<String, String> featureMap = new TreeMap<>();
                 if (info.reqFeatures != null && info.reqFeatures.length > 0) {
                     for (FeatureInfo reqFeature : info.reqFeatures) {
                         boolean required = reqFeature.flags == FeatureInfo.FLAG_REQUIRED;
-                        featureMap.put(reqFeature.name + (required ? " (req)" : ""), reqFeature.name);
+                        featureMap.put(reqFeature.name.replace("android.hardware.", "") + (required ? " (req)" : ""), reqFeature.name);
                     }
                 }
 

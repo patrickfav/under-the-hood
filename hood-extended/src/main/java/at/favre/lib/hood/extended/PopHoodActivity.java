@@ -44,7 +44,6 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
 
             debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
             debugView.setPageData(getPageData(DebugPage.Factory.create(config)), getConfig());
-
             toolbar = ((Toolbar) findViewById(R.id.toolbar));
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,7 +77,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
         } else if (i == R.id.action_clear_date) {
             DefaultMiscActions.promptUserToClearData(this);
         } else if (i == R.id.action_log) {
-            debugView.log();
+            debugView.getPage().logPage();
             Toast.makeText(this, R.string.hood_toast_log_to_console, Toast.LENGTH_SHORT).show();
         } else if (i == android.R.id.home) {
             onBackPressed();
