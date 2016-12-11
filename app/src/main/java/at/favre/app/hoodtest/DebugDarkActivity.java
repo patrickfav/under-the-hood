@@ -42,6 +42,7 @@ public class DebugDarkActivity extends PopHoodActivity {
 
         page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
+        page.addEntries(DefaultProperties.createInternalProcessDebugInfo(this, true));
 
         page.addEntries(DefaultProperties.createTelephonyMangerInfo(this, true));
 
@@ -57,7 +58,7 @@ public class DebugDarkActivity extends PopHoodActivity {
                         view.setEnabled(true);
                         getDebugView().setProgressBarVisible(false);
                     }
-                }, 2000);
+                }, 3000);
             }
         }));
         page.addAction(DefaultActions.getCrashAction(), DefaultActions.getInstalledAppSettings(this));

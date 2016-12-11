@@ -17,6 +17,7 @@ import android.view.View;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Locale;
 
 import at.favre.lib.hood.R;
 
@@ -83,4 +84,20 @@ public class HoodUtil {
         return shouldReturnEntry ? object : null;
     }
 
+    public static Locale getCurrentLocale(Context ctx) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return ctx.getResources().getConfiguration().getLocales().get(0);
+        } else {
+            //noinspection deprecation
+            return ctx.getResources().getConfiguration().locale;
+        }
+    }
+
+    public static String humanReadableByteCount(long bytes, boolean si) {
+        int unit = si ? 1000 : 1024;
+        if (bytes < unit) return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
+        return String.format(Locale.US, "%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    }
 }

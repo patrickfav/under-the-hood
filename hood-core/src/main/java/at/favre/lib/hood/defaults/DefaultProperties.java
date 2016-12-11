@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Build;
+import android.os.Debug;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,11 +25,11 @@ import java.lang.reflect.Modifier;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 import at.favre.lib.hood.page.PageEntry;
@@ -75,13 +76,67 @@ public class DefaultProperties {
      * @param activity can be null, but will just return an empty list
      * @return list of page-entries
      */
-    public static List<PageEntry<?>> createDetailedDeviceInfo(@Nullable Activity activity) {
+    public static List<PageEntry<?>> createDetailedDeviceInfo(@Nullable final Activity activity) {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (activity != null) {
             DisplayMetrics metrics = new DisplayMetrics();
             activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
             entries.add(new KeyValueEntry("dpi", "x" + metrics.density + "/" + metrics.densityDpi + "dpi"));
             entries.add(new KeyValueEntry("resolution", metrics.heightPixels + "x" + metrics.widthPixels));
+            entries.add(new KeyValueEntry("locale/timezone", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return HoodUtil.getCurrentLocale(activity).toString() + "/" + TimeZone.getDefault().getDisplayName();
+                }
+            }));
+        }
+        return entries;
+    }
+
+    public static List<PageEntry<?>> createInternalProcessDebugInfo(@Nullable final Context context, boolean includeHeader) {
+        List<PageEntry<?>> entries = new ArrayList<>();
+        if (context != null) {
+            if (includeHeader) {
+                entries.add(new HeaderEntry("Process Debug Info"));
+            }
+
+            entries.add(new KeyValueEntry("heap-native", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return "used " + HoodUtil.humanReadableByteCount(Debug.getNativeHeapAllocatedSize(), false) + " of " + HoodUtil.humanReadableByteCount(Debug.getNativeHeapSize(), false);
+                }
+            }));
+
+            entries.add(new KeyValueEntry("memory", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return "used " + HoodUtil.humanReadableByteCount(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory(), false) + " (max:" + HoodUtil.humanReadableByteCount(Runtime.getRuntime().maxMemory(), false) + ")";
+                }
+            }));
+            entries.add(new KeyValueEntry("pss", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return HoodUtil.humanReadableByteCount(Debug.getPss(), false);
+                }
+            }));
+            entries.add(new KeyValueEntry("loaded-classes", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return String.valueOf(Debug.getLoadedClassCount());
+                }
+            }));
+            entries.add(new KeyValueEntry("local/death/proxy objs", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return String.valueOf(Debug.getBinderLocalObjectCount()) + "/" + String.valueOf(Debug.getBinderDeathObjectCount()) + "/" + String.valueOf(Debug.getBinderProxyObjectCount());
+                }
+            }));
+            entries.add(new KeyValueEntry("debugger-connected", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return String.valueOf(Debug.isDebuggerConnected());
+                }
+            }));
         }
         return entries;
     }

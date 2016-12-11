@@ -1,6 +1,7 @@
 package at.favre.app.hoodtest;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import at.favre.lib.hood.extended.PopHoodActivity;
 import at.favre.lib.hood.page.Config;
 import at.favre.lib.hood.page.DebugPage;
 import at.favre.lib.hood.page.Page;
+import at.favre.lib.hood.page.entries.ActionEntry;
 import at.favre.lib.hood.page.entries.ConfigBoolEntry;
 import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
 import at.favre.lib.hood.page.values.SpinnerElement;
@@ -52,6 +54,20 @@ public class DebugLightActivity extends PopHoodActivity {
         systemFeatureMap.put("hasHce", "android.hardware.nfc.hce");
         systemFeatureMap.put("hasCamera", "android.hardware.camera");
         systemFeatureMap.put("hasWebview", "android.software.webview");
+        page.addAction(new ActionEntry.Action("Test Loading", new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                view.setEnabled(false);
+                getDebugView().setProgressBarVisible(true);
+                view.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.setEnabled(true);
+                        getDebugView().setProgressBarVisible(false);
+                    }
+                }, 3000);
+            }
+        }));
         page.addEntries(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
         page.addEntries(DefaultProperties.createConnectivityStatusInfo(this, true));
