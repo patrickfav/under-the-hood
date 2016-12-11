@@ -89,6 +89,9 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
         debugView.refresh();
     }
 
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
 
     @NonNull
     @Override

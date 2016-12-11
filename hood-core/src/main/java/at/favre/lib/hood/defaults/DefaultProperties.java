@@ -403,11 +403,12 @@ public class DefaultProperties {
         if (context != null) {
             try {
                 PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
-                Map<String, String> featureMap = new TreeMap<>();
+                Map<CharSequence, String> featureMap = new TreeMap<>();
                 if (info.reqFeatures != null && info.reqFeatures.length > 0) {
                     for (FeatureInfo reqFeature : info.reqFeatures) {
                         boolean required = reqFeature.flags == FeatureInfo.FLAG_REQUIRED;
-                        featureMap.put(reqFeature.name.replace("android.hardware.", "") + (required ? " (req)" : ""), reqFeature.name);
+                        String fullLabel = reqFeature.name + (required ? " (req)" : "");
+                        featureMap.put(new KeyValueEntry.Label(fullLabel.replace("android.hardware.", ""), fullLabel), reqFeature.name);
                     }
                 }
 
@@ -438,10 +439,10 @@ public class DefaultProperties {
      *                              (as returned as name by {@link PackageManager#getSystemAvailableFeatures()}) as value
      * @return list of page-entries (one for each map entry)
      */
-    public static List<PageEntry<?>> createSystemFeatureInfo(@Nullable Context context, Map<String, String> labelSystemFeatureMap) {
+    public static List<PageEntry<?>> createSystemFeatureInfo(@Nullable Context context, Map<CharSequence, String> labelSystemFeatureMap) {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (context != null) {
-            for (Map.Entry<String, String> entry : labelSystemFeatureMap.entrySet()) {
+            for (Map.Entry<CharSequence, String> entry : labelSystemFeatureMap.entrySet()) {
                 entries.add(new KeyValueEntry(entry.getKey(), String.valueOf(context.getPackageManager().hasSystemFeature(entry.getValue()))));
             }
         }

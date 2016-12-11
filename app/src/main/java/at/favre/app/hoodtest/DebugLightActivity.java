@@ -26,7 +26,7 @@ public class DebugLightActivity extends PopHoodActivity {
 
     @NonNull
     @Override
-    public Page getPageData(DebugPage page) {
+    public Page getPageData(@NonNull DebugPage page) {
         page.addEntries(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
         page.addEntries(DefaultProperties.createSignatureHashInfo(this));
 
@@ -50,7 +50,7 @@ public class DebugLightActivity extends PopHoodActivity {
         page.addEntries(DefaultProperties.createRuntimePermissionInfo(this, true, true));
 
         page.addTitle("System Features");
-        Map<String, String> systemFeatureMap = new HashMap<>();
+        Map<CharSequence, String> systemFeatureMap = new HashMap<>();
         systemFeatureMap.put("hasHce", "android.hardware.nfc.hce");
         systemFeatureMap.put("hasCamera", "android.hardware.camera");
         systemFeatureMap.put("hasWebview", "android.software.webview");

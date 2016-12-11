@@ -2,16 +2,69 @@
 
 ## Quick Start
 
+Add the following to your dependencies
+
+    dependencies {
+        compile 'at.favre.lib.hood:extended:0.1.0'
+     }
+
+Create an activity and extend `PopHoodActivity`. Define it in your AndroidManifest:
+
+        <activity
+            android:name="com.example.your.Activity"
+            android:label="App Info"
+            android:theme="@style/HoodThemeDark">
+        </activity>
+
+Implement the config and page setter (see test app for examples)
+
 ## Details
 
 The library comes in 2 flavors: 
 
-### `core` 
+### Library: `core` 
 Contains only the base code without the default implementation of the debug activity. The advantage is that there is only minimal dependencies of `support*` libraries and therefore very lightweight, not adding to much methods to your app.
 
-### `extended`
+### Library: `extended`
 
 Extends the `core` with an default implementation of a debug activity using `appcompat-v7` support library.
+
+### Using PopHoodActivity
+
+The easiest way is the create an `Activity` in your App and extend `PopHoodActivity`. Define it in your AndroidManifest:
+        
+        <activity
+            android:name="com.example.your.Activity"
+            android:exported="true" 
+            android:label="App Info"
+            android:theme="@style/HoodThemeDark">
+        </activity>
+
+As theme either use `@style/HoodThemeDark` or `@style/HoodThemeLight`. If you want to customize the theme extend either of the basic ones and override e.g. `colorPrimary`, `colorPrimaryDark` and colorAccent as well as `hoodZebraColor`.
+
+Use `android:exported="true"` if you want to start your activity with adb.
+
+### HoodDebugPageView
+
+If you decide to use the `core` lib or want to implement your own `Activity` you need to create a HoodDebugPageView in your layout (see `PopHoodActivity` for a full example)
+
+    <at.favre.lib.hood.views.HoodDebugPageView
+        android:id="@+id/debug_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        custom:zebraBackgroundColor="?hoodZebraColor" />
+
+The config `zebraBackgroundColor` defines the zebra highlighting color. In code set the up like this:
+
+    HoodDebugPageView debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
+    debugView.setPageData(getPageData(DebugPage.Factory.create(config)), new Config.Builder().build());
+
+The view has the following notable features:
+
+* refresh() - refreshes the dynamic values and sets it to ui
+* setProgressBarVisible(boolean isVisible) - shows a blocking progress ui
+
+Note that your Activity should implement `IHoodDebugController` to enable all features.
 
 ### Template System
 
@@ -41,7 +94,21 @@ There is a standard implementation for `ConfigBoolEntry` in `DefaultConfigAction
 
 ## Recipe
 
+### What Properties/Actions to add to your Page
 
+Apart from `DefaultProperties` the following could be useful:
+
+> git-hash, git-branch, CI build no, build time, login-data, internal states
+
+The following debug actions might be useful:
+
+> clear (image) caches, manually calling requests, updating ui
+
+### Start your debug activity through adb
+
+Add `android:exported="true"` to your activity definition and use the following adb call:
+
+     adb shell am start -n com.example.your.app-id/com.example.your.app.pacakge.DebugActivity
 
 ## Build
 
