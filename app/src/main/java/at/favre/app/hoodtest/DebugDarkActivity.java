@@ -10,6 +10,7 @@ import java.util.Properties;
 import at.favre.lib.hood.defaults.DefaultActions;
 import at.favre.lib.hood.defaults.DefaultConfigActions;
 import at.favre.lib.hood.defaults.DefaultProperties;
+import at.favre.lib.hood.defaults.misc.Backend;
 import at.favre.lib.hood.extended.PopHoodActivity;
 import at.favre.lib.hood.page.Config;
 import at.favre.lib.hood.page.DebugPage;
@@ -77,7 +78,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         page.addAction(DefaultActions.getInputModeSettingsAction(this), DefaultActions.getStorageSettingsAction(this));
         page.addAction(DefaultActions.getSecuritySettingsAction(this), DefaultActions.getSyncSettingsAction(this));
 
-        page.addEntries(DefaultProperties.createRuntimePermissionInfo(this, true));
+        page.addEntries(DefaultProperties.createRuntimePermissionInfo(this, true, false));
 
         page.addEntries(DefaultProperties.createDeclaredSystemFeatureInfo(this, true));
         page.addTitle("Property File");
@@ -98,11 +99,11 @@ public class DebugDarkActivity extends PopHoodActivity {
 
     private List<SpinnerElement> getBackendElements() {
         List<SpinnerElement> elements = new ArrayList<>();
-        elements.add(new SpinnerElement.Default("1", "dev.backend.com"));
-        elements.add(new SpinnerElement.Default("2", "dev2.backend.com"));
-        elements.add(new SpinnerElement.Default("3", "dev3.backend.com"));
-        elements.add(new SpinnerElement.Default("4", "stage.backend.com"));
-        elements.add(new SpinnerElement.Default("5", "prod.backend.com"));
+        elements.add(new Backend(1, "dev.backend.com", 443));
+        elements.add(new Backend(2, "dev2.backend.com", 80));
+        elements.add(new Backend(3, "dev3.backend.com", 80));
+        elements.add(new Backend(4, "stage.backend.com", 443));
+        elements.add(new Backend(5, "prod.backend.com", 443));
         return elements;
     }
 

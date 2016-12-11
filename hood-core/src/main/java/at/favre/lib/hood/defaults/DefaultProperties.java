@@ -2,6 +2,7 @@ package at.favre.lib.hood.defaults;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PermissionInfo;
 import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Debug;
@@ -250,27 +252,32 @@ public class DefaultProperties {
     /**
      * Returns pageentry for each defined permission in the app (the passed activity belongs to).
      * <p>
-     * See {@link #createRuntimePermissionInfo(Activity, boolean, String, String...)} for more details
+     * See {@link #createRuntimePermissionInfo(Activity, boolean, List)} for more details
      *
-     * @param activity      can be null, but will just return an empty list
-     * @param includeHeader adds a title entry if true
+     * @param activity                 can be null, but will just return an empty list
+     * @param includeHeader            adds a title entry if
+     * @param onlyDangerousPermissions only include permissions with flag PROTECTION_DANGEROUS (ie. have to be granted by the user)
      * @return list of page-entries
      */
-    public static List<PageEntry<?>> createRuntimePermissionInfo(@Nullable final Activity activity, boolean includeHeader) {
+    @SuppressLint("NewApi")
+    public static List<PageEntry<?>> createRuntimePermissionInfo(@Nullable final Activity activity, boolean includeHeader, boolean onlyDangerousPermissions) {
         if (activity != null) {
             try {
                 PackageInfo info = activity.getPackageManager().getPackageInfo(activity.getPackageName(), PackageManager.GET_PERMISSIONS);
                 if (info.requestedPermissions != null && info.requestedPermissions.length > 0) {
-                    List<String> permissionsList = new ArrayList<>(info.requestedPermissions.length);
-                    Collections.addAll(permissionsList, info.requestedPermissions);
-                    Collections.sort(permissionsList);
-                    return createRuntimePermissionInfo(activity, includeHeader, permissionsList.get(0), permissionsList.subList(1, permissionsList.size()).toArray(new String[permissionsList.size() - 1]));
+                    List<String> permissionNames = new ArrayList<>();
+                    for (int i = 0; i < info.requestedPermissions.length; i++) {
+                        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 || onlyDangerousPermissions || info.requestedPermissionsFlags[i] == PermissionInfo.PROTECTION_DANGEROUS) {
+                            permissionNames.add(info.requestedPermissions[i]);
+                        }
+                    }
+                    Collections.sort(permissionNames);
+                    return createRuntimePermissionInfo(activity, includeHeader, permissionNames);
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 throw new IllegalStateException(e);
             }
         }
-
         return Collections.emptyList();
     }
 
@@ -278,25 +285,20 @@ public class DefaultProperties {
      * Returns for each provided permission a pageentry containing the current dynamic state (granted, denied, etc.) including click
      * actions to request the permission.
      *
-     * @param activity          can be null, but will just return an empty list
-     * @param includeHeader     adds a title entry if true
-     * @param androidPermission see {@link android.Manifest.permission}
-     * @param morePermissions   more permissions
+     * @param activity           can be null, but will just return an empty list
+     * @param includeHeader      adds a title entry if true
+     * @param androidPermissions see {@link android.Manifest.permission}
      * @return list of page-entries
      */
-    public static List<PageEntry<?>> createRuntimePermissionInfo(@Nullable final Activity activity, boolean includeHeader, String androidPermission, String... morePermissions) {
-        final List<String> permissions = new ArrayList<>();
+    public static List<PageEntry<?>> createRuntimePermissionInfo(@Nullable final Activity activity, boolean includeHeader, List<String> androidPermissions) {
         List<PageEntry<?>> entries = new ArrayList<>();
 
-        if (activity != null) {
-            permissions.add(androidPermission);
-            Collections.addAll(permissions, morePermissions);
-
+        if (activity != null && !androidPermissions.isEmpty()) {
             if (includeHeader) {
                 entries.add(new HeaderEntry("Permissions"));
             }
 
-            for (final String perm : permissions) {
+            for (final String perm : androidPermissions) {
                 entries.add(new KeyValueEntry(perm.replace("android.permission.", ""), new DynamicValue<String>() {
                     @Override
                     public String getValue() {

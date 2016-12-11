@@ -32,9 +32,9 @@ import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_KEYVALUE_MULTILI
  * An entry that has an key and value (e.g. normal properties). Supports custom click actions, multi line values
  * and dynamic values.
  */
-public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.Entry<CharSequence, String>> {
+public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.Entry<KeyValueEntry.Label, String>> {
 
-    private Map.Entry<CharSequence, String> data;
+    private Map.Entry<Label, String> data;
     private final Template template;
     private final DynamicValue<String> value;
 
@@ -46,10 +46,22 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
      * @param action    used when clicked on
      * @param multiLine if a different layout should be used for long values
      */
-    public KeyValueEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
+    public KeyValueEntry(Label key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
         this.value = value;
         this.data = new AbstractMap.SimpleEntry<>(key, value.getValue());
         this.template = new Template(multiLine, action);
+    }
+
+    /**
+     * Creates Key-Value style page entry.
+     *
+     * @param key       as shown in ui
+     * @param value     dynamic value (e.g. from {@link android.content.SharedPreferences}
+     * @param action    used when clicked on
+     * @param multiLine if a different layout should be used for long values
+     */
+    public KeyValueEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
+        this(new Label(key), value, action, multiLine);
     }
 
     /**
@@ -109,12 +121,12 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     @Override
-    public Map.Entry<CharSequence, String> getValue() {
+    public Map.Entry<Label, String> getValue() {
         return data;
     }
 
     @Override
-    public ViewTemplate<Map.Entry<CharSequence, String>> getViewTemplate() {
+    public ViewTemplate<Map.Entry<Label, String>> getViewTemplate() {
         return template;
     }
 
@@ -135,7 +147,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         return String.valueOf(o1.getValue().getKey()).compareTo(o2.getValue().getKey().toString());
     }
 
-    private static class Template implements ViewTemplate<Map.Entry<CharSequence, String>> {
+    private static class Template implements ViewTemplate<Map.Entry<Label, String>> {
         private final boolean multiLine;
         private OnClickAction clickAction;
 
@@ -163,8 +175,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
 
         @Override
-        public void setContent(final Map.Entry<CharSequence, String> entry, @NonNull final View view) {
-            ((TextView) view.findViewById(R.id.key)).setText(entry.getKey());
+        public void setContent(final Map.Entry<Label, String> entry, @NonNull final View view) {
+            ((TextView) view.findViewById(R.id.key)).setText(entry.getKey().label);
             ((TextView) view.findViewById(R.id.value)).setText(entry.getValue());
             if (clickAction != null) {
                 view.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +202,21 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
      * Used to define what should happen on click of an entry
      */
     public interface OnClickAction {
-        void onClick(View v, Map.Entry<CharSequence, String> value);
+        void onClick(View v, Map.Entry<Label, String> value);
+    }
+
+    public static class Label {
+        public final CharSequence label;
+        public final CharSequence longLabel;
+
+        public Label(CharSequence label) {
+            this(label, label);
+        }
+
+        public Label(CharSequence label, CharSequence longLabel) {
+            this.label = label;
+            this.longLabel = longLabel;
+        }
     }
 
     /* *************************************************************************** ONCLICKACTIONS */
@@ -200,8 +226,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
      */
     public static class ToastClickAction implements OnClickAction {
         @Override
-        public void onClick(View v, Map.Entry<CharSequence, String> value) {
-            Toast.makeText(v.getContext(), value.getKey() + "\n" + value.getValue(), Toast.LENGTH_SHORT).show();
+        public void onClick(View v, Map.Entry<Label, String> value) {
+            Toast.makeText(v.getContext(), value.getKey().longLabel + "\n" + value.getValue(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -218,7 +244,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
 
         @Override
-        public void onClick(View v, Map.Entry<CharSequence, String> value) {
+        public void onClick(View v, Map.Entry<Label, String> value) {
             Log.d(TAG, "check android permissions for " + androidPermissionName);
             @HoodUtil.PermissionState int permissionState = HoodUtil.getPermissionStatus(activity, androidPermissionName);
 
@@ -226,7 +252,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
                 Toast.makeText(activity, R.string.hood_toast_already_allowed, Toast.LENGTH_SHORT).show();
                 v.getContext().startActivity(DefaultMiscActions.getAppInfoIntent(v.getContext()));
             } else if (permissionState == HoodUtil.GRANTED_ON_INSTALL) {
-                KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(value.getKey(), value.getValue())
+                KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(value.getKey().longLabel, value.getValue())
                         .show(((Activity) v.getContext()).getFragmentManager(), String.valueOf(value.getKey()));
             } else {
                 Log.d(TAG, "permission " + androidPermissionName + " not granted yet, show dialog");
@@ -241,12 +267,12 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     public static class DialogClickAction implements OnClickAction {
 
         @Override
-        public void onClick(View v, Map.Entry<CharSequence, String> value) {
+        public void onClick(View v, Map.Entry<Label, String> value) {
             if (v.getContext() instanceof Activity) {
-                KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(value.getKey(), value.getValue())
+                KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(value.getKey().longLabel, value.getValue())
                         .show(((Activity) v.getContext()).getFragmentManager(), String.valueOf(value.getKey()));
             } else {
-                new KeyValueDetailDialogs.CustomDialog(v.getContext(), value.getKey(), value.getValue(), null).show();
+                new KeyValueDetailDialogs.CustomDialog(v.getContext(), value.getKey().longLabel, value.getValue(), null).show();
             }
         }
     }
@@ -262,7 +288,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
 
         @Override
-        public void onClick(View v, Map.Entry<CharSequence, String> value) {
+        public void onClick(View v, Map.Entry<Label, String> value) {
             v.getContext().startActivity(intent);
         }
     }

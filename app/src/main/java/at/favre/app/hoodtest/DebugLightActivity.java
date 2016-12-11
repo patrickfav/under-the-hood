@@ -47,7 +47,7 @@ public class DebugLightActivity extends PopHoodActivity {
         page.addAction(DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
         page.addAction(HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
 
-        page.addEntries(DefaultProperties.createRuntimePermissionInfo(this, true));
+        page.addEntries(DefaultProperties.createRuntimePermissionInfo(this, true, true));
 
         page.addTitle("System Features");
         Map<String, String> systemFeatureMap = new HashMap<>();
