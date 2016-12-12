@@ -18,16 +18,30 @@ public class Config {
         private boolean autoLog = true;
         private String logTag = TAG;
 
+        /**
+         * If the ui should have a zebra (highlighting every other row)
+         *
+         * @param showZebra
+         */
         public Builder setShowZebra(boolean showZebra) {
             this.showZebra = showZebra;
             return this;
         }
 
+        /**
+         * If true will automatically log the whole page content to console when the view
+         * is instantiated.
+         * @param autoLog
+         */
         public Builder setAutoLog(boolean autoLog) {
             this.autoLog = autoLog;
             return this;
         }
 
+        /**
+         * Sets the tag which is used to log debug data to console (see {@link android.util.Log#w(String, String)}
+         * @param logTag
+         */
         public Builder setLogTag(String logTag) {
             this.logTag = logTag;
             return this;

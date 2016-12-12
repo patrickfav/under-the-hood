@@ -92,9 +92,9 @@ For interactive debug features the standard implementations for switches and spi
 
 There is a standard implementation for `ConfigBoolEntry` in `DefaultConfigActions` backed by shared preferences.
 
-## Recipe
+## Recipes
 
-### What Properties/Actions to add to your Page
+### Suggestions on what Properties/Actions to add to your Page
 
 Apart from `DefaultProperties` the following could be useful:
 
@@ -102,7 +102,7 @@ Apart from `DefaultProperties` the following could be useful:
 
 The following debug actions might be useful:
 
-> clear (image) caches, manually calling requests, updating ui
+> clear (image) caches, manually calling requests, updating ui, changing shared pref states, directly open activities
 
 ### Start your debug activity through adb
 
@@ -110,9 +110,29 @@ Add `android:exported="true"` to your activity definition and use the following 
 
      adb shell am start -n com.example.your.app-id/com.example.your.app.pacakge.DebugActivity
 
+### Have certain debug features only in debug builds
+
+Use a static boolean (e.g. `BuildConfig.DEBUG`) in an if like
+
+    if(BuildConfig.DEBUG) {
+        page.addAction(...)
+    }
+    
+Although verbose, the advantage is that the compiler will remove the unreachable code in release builds similar to using C macros.
+
 ## Build
 
+Assemble the lib with the following command
+
+    gradlew :hood-core:assemble
+    gradlew :hood-extended:assemble
+    
+The `.aar` files can then be found in `/hood-*/build/outputs/aar` folder 
+
+
 ## Libraries & Credits
+
+* [Icon by by Freepik](http://www.flaticon.com/free-icon/nut_264316#term=nut&page=1&position=8)
 
 # License
 
