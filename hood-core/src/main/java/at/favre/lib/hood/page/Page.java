@@ -61,4 +61,11 @@ public interface Page {
      * Clears all the entries
      */
     void removeEntries();
+
+    /**
+     * The config should be passed to this class
+     * @return the currently set config
+     */
+    @NonNull
+    Config getConfig();
 }

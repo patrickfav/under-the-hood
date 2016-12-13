@@ -43,5 +43,12 @@ public class MainActivity extends AppCompatActivity {
                 DebugLightActivity.start(MainActivity.this, DebugLightActivity.class);
             }
         });
+
+        findViewById(R.id.btn_start_drawer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DebugDrawerActivity.start(MainActivity.this);
+            }
+        });
     }
 }

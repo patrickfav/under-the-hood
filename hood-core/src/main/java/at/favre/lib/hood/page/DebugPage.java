@@ -21,19 +21,23 @@ import at.favre.lib.hood.page.values.DynamicValue;
 public class DebugPage implements Page {
     private List<PageEntry> entries = new ArrayList<>();
     private Map<Integer, ViewTemplate<?>> templateMap = new HashMap<>();
-    private final String logTag;
+    private final Config config;
 
     /**
      * Use this factory to create a instance of {@link DebugPage}
      */
     public static class Factory {
         public static DebugPage create(Config config) {
-            return new DebugPage(config.logTag);
+            return new DebugPage(config);
+        }
+
+        public static DebugPage create() {
+            return new DebugPage(new Config.Builder().build());
         }
     }
 
-    private DebugPage(String logTag) {
-        this.logTag = logTag;
+    private DebugPage(Config config) {
+        this.config = config;
     }
 
     @Override
@@ -100,6 +104,12 @@ public class DebugPage implements Page {
         templateMap.clear();
     }
 
+    @NonNull
+    @Override
+    public Config getConfig() {
+        return config;
+    }
+
     @Override
     public void refreshData() {
         for (PageEntry entry : entries) {
@@ -109,7 +119,7 @@ public class DebugPage implements Page {
 
     @Override
     public void log(String message) {
-        Log.w(logTag, message);
+        Log.w(config.logTag, message);
     }
 
     @Override
@@ -132,5 +142,4 @@ public class DebugPage implements Page {
         }
         return sb.toString();
     }
-
 }

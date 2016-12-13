@@ -42,7 +42,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
         } else {
             setContentView(R.layout.hoodlib_activity_hood);
             debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
-            debugView.setPageData(getPageData(DebugPage.Factory.create(config)), config);
+            debugView.setPageData(getPageData(DebugPage.Factory.create(config)));
             toolbar = ((Toolbar) findViewById(R.id.toolbar));
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -93,12 +93,21 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
         return toolbar;
     }
 
+    /**
+     * Implement this method to pass a {@link Page} filled with entries.
+     *
+     * @param emptyPage use this to add entries (or create new one)
+     * @return non-null set up page
+     */
     @NonNull
-    @Override
     public abstract Page getPageData(@NonNull DebugPage emptyPage);
 
+    /**
+     * Create a config with this method. See {@link at.favre.lib.hood.page.Config.Builder}
+     *
+     * @return the config
+     */
     @NonNull
-    @Override
     public Config getConfig() {
         return new Config.Builder().build();
     }

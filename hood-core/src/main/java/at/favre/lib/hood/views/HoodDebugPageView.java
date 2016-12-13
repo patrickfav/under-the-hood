@@ -85,26 +85,16 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     }
 
     /**
-     * Sets the page data (required to for the ui to show anything) with default config
+     * Sets the page data (required to for the ui to show anything)
      *
      * @param page
      */
     public void setPageData(@NonNull Page page) {
-        setPageData(page, new Config.Builder().build());
-    }
-
-    /**
-     * Sets the page data (required to for the ui to show anything)
-     *
-     * @param page
-     * @param config
-     */
-    public void setPageData(@NonNull Page page, @NonNull Config config) {
         this.page = page;
-        this.mAdapter = new DebugDataAdapter(page, config, zebraColor);
+        this.mAdapter = new DebugDataAdapter(page, page.getConfig(), zebraColor);
         this.mRecyclerView.setAdapter(mAdapter);
 
-        if (config.autoLog) {
+        if (page.getConfig().autoLog) {
             page.logPage();
         }
 
