@@ -81,6 +81,8 @@
         <item name="android:paddingRight">4dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif</item>
     </style>
 
     <style name="HoodLibTextViewSingleLine.HoodLibKeyValueTextView.Value">

@@ -1,9 +1,13 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">#37474F</item>
-        <item name="colorPrimaryDark">#263238</item>
-        <item name="colorAccent">#3DC2FF</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#62A869</item>
+        <item name="colorPrimaryDark">#578F60</item>
+        <item name="colorAccent">#385E27</item>
+    </style>
+
+    <style name="AppThemeActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">?attr/colorPrimary</item>
     </style>
 
     <style name="CustomHoodThemeLight" parent="HoodThemeLight">

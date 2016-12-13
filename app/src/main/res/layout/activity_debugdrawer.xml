@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:theme="@style/AppThemeActionBar"
             android:elevation="4dp"/>
 
         <Button
@@ -32,7 +32,8 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="#222"
+        android:background="#333"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:elevation="6dp"
-        custom:zebraBackgroundColor="#333" />
+        custom:zebraBackgroundColor="#f4f4f4"/>
 </android.support.v4.widget.DrawerLayout>
