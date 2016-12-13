@@ -14,6 +14,5 @@
         <item name="colorPrimary">#9b26af</item>
         <item name="colorPrimaryDark">#7a1ea1</item>
         <item name="colorAccent">#68efad</item>
-        <item name="hoodZebraColor">#f0d6d6d6</item>
     </style>
 </resources>

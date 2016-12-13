@@ -24,12 +24,11 @@ import at.favre.lib.hood.page.Page;
  * The view encapsulating the rendering logic of a {@link Page}. Internally has an recyclerview
  * with a {@link DebugDataAdapter}. Implements the {@link NestedScrollingChild} to be able to be
  * used in a CoordinatorLayout.
- *
+ * <p>
  * Currently there are the following xml settings:
  * <ul>
- *     <li>zebraBackgroundColor: color -- color used in zebra highlighting</li>
+ * <li>zebraBackgroundColor: color -- color used in zebra highlighting</li>
  * </ul>
- *
  */
 public class HoodDebugPageView extends FrameLayout implements NestedScrollingChild {
 
@@ -63,16 +62,9 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     }
 
     private void setup(@Nullable AttributeSet attrs) {
-        if (attrs != null) {
-            TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.HoodDebugPageView, 0, 0);
-            try {
-                zebraColor = a.getColor(R.styleable.HoodDebugPageView_zebraBackgroundColor, getResources().getColor(R.color.hoodlib_zebra_color));
-            } finally {
-                a.recycle();
-            }
-        } else {
-            zebraColor = ContextCompat.getColor(getContext(), R.color.hoodlib_zebra_color);
-        }
+        TypedArray a = getContext().obtainStyledAttributes(new int[]{R.attr.hoodZebraColor});
+        zebraColor = a.getColor(0, ContextCompat.getColor(getContext(), android.R.color.transparent));
+        a.recycle();
 
         FrameLayout layout = (FrameLayout) LayoutInflater.from(getContext()).inflate(R.layout.hoodlib_view_debugview, this, true);
         setNestedScrollingEnabled(true);
@@ -80,8 +72,6 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setNestedScrollingEnabled(true);
         progressBarView = findViewById(R.id.progress_bar);
-
-
     }
 
     /**
@@ -119,6 +109,7 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
     /**
      * Sets a progressbar visible/invisible depending on param and blocks UI interactions if is
      * visible
+     *
      * @param isVisible
      */
     public void setProgressBarVisible(boolean isVisible) {

@@ -42,8 +42,8 @@ public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.Debu
     public void onBindViewHolder(DebugViewHolder holder, int position) {
         ViewTemplate<Object> template = page.getEntries().get(position).getViewTemplate();
         template.setContent(page.getEntries().get(position).getValue(), holder.holderView);
-        if (config.showZebra) {
-            template.decorateViewWithZebra(holder.holderView, zebraColor, position % 2 == 1);
+        if (config.showZebra || config.showHighlightContent) {
+            template.decorateViewWithZebra(holder.holderView, zebraColor, config.showHighlightContent || position % 2 == 1);
         }
     }
 

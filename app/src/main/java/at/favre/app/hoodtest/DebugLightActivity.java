@@ -37,7 +37,7 @@ public class DebugLightActivity extends PopHoodActivity {
         page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", false)));
         page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "a debug feature", false)));
 
-        page.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(getPreferences(MODE_PRIVATE), "W_BACKEND_KEY", null, getBackendElements())));
+        page.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(null, getPreferences(MODE_PRIVATE), "W_BACKEND_KEY", null, getBackendElements())));
 
         page.add(DefaultProperties.createSectionTelephonyManger(this));
 

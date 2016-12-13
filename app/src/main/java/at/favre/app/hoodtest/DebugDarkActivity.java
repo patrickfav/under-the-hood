@@ -33,7 +33,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         page.add(DefaultProperties.createSignatureHashInfo(this));
 
         page.addTitle("Debug Config");
-        page.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
+        page.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
         page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
         page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
         page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
@@ -110,6 +110,8 @@ public class DebugDarkActivity extends PopHoodActivity {
     @NonNull
     @Override
     public Config getConfig() {
-        return new Config.Builder().setLogTag(TAG).build();
+        return new Config.Builder()
+                .setShowHighlightContent(true)
+                .setLogTag(TAG).build();
     }
 }

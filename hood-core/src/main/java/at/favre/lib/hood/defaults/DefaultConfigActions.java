@@ -53,8 +53,8 @@ public class DefaultConfigActions {
         });
     }
 
-    public static ConfigSpinnerEntry.SingleSelectListConfigAction getDefaultSharedPrefBackedSpinnerAction(@NonNull final SharedPreferences prefs, final @NonNull String backendIdPrefKey, final @Nullable String defaultId, @NonNull final List<SpinnerElement> elements) {
-        return new ConfigSpinnerEntry.SingleSelectListConfigAction("Backend", new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
+    public static ConfigSpinnerEntry.SingleSelectListConfigAction getDefaultSharedPrefBackedSpinnerAction(@Nullable String label, @NonNull final SharedPreferences prefs, final @NonNull String backendIdPrefKey, final @Nullable String defaultId, @NonNull final List<SpinnerElement> elements) {
+        return new ConfigSpinnerEntry.SingleSelectListConfigAction(label, new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
 
             @SuppressLint("CommitPrefEdits")
             @Override

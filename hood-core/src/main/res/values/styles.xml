@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <dimen name="hoodlib_side_padding">16dp</dimen>
+    <dimen name="hoodlib_small_horizontal_padding">6dp</dimen>
+    <dimen name="hoodlib_standard_text_size_sm">12sp</dimen>
+    <dimen name="hoodlib_header_text_size_sm">28sp</dimen>
+    <dimen name="hoodlib_standard_text_size">14sp</dimen>
+    <dimen name="hoodlib_header_text_size">36sp</dimen>
+
+    <color name="hoodlib_zebra_color">#f0f0f0f0</color>
+    <color name="hoodlib_zebra_color_dark">#f0474747</color>
+
     <!-- GENERAL -->
 
     <style name="HoodLibTextViewSingleLine">
@@ -8,13 +19,8 @@
         <item name="android:ellipsize">middle</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
-
-    <dimen name="hoodlib_side_padding">16dp</dimen>
-    <dimen name="hoodlib_small_horizontal_padding">6dp</dimen>
-    <dimen name="hoodlib_standard_text_size">12sp</dimen>
-    <dimen name="hoodlib_header_text_size">28sp</dimen>
-    <color name="hoodlib_zebra_color">#f0f0f0f0</color> <!-- dark: #f0595959 -->
 
     <!-- HEADER ENTRY -->
 
@@ -28,7 +34,7 @@
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingLeft">@dimen/hoodlib_side_padding</item>
         <item name="android:paddingRight">@dimen/hoodlib_side_padding</item>
-        <item name="android:textSize">@dimen/hoodlib_header_text_size</item>
+        <item name="android:textSize">?hoodTextSizeHeader</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
     </style>
 
@@ -44,7 +50,7 @@
     </style>
 
     <style name="HoodLibMessageTextView">
-        <item name="android:textSize">@dimen/hoodlib_standard_text_size</item>
+        <item name="android:textSize">?hoodTextSizeNormal</item>
         <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
@@ -71,7 +77,7 @@
     </style>
 
     <style name="HoodLibTextViewSingleLine.HoodLibKeyValueTextView">
-        <item name="android:textSize">@dimen/hoodlib_standard_text_size</item>
+        <item name="android:textSize">?hoodTextSizeNormal</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">monospace</item>
         <item name="android:typeface">monospace</item>
     </style>
@@ -97,6 +103,7 @@
         <item name="android:typeface">monospace</item>
         <item name="android:maxHeight">80dp</item>
         <item name="android:paddingTop">12dp</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <!-- ACTIONS HEADER -->
@@ -111,9 +118,12 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="HoodLibActionButton" parent="HoodLibTextViewSingleLine">
+    <style name="HoodLibActionButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">middle</item>
     </style>
 
     <!-- CONFIG  -->
@@ -133,6 +143,7 @@
         <item name="android:paddingRight">0dp</item>
         <item name="android:textSize">18sp</item>
         <item name="android:gravity">center_horizontal|left|start</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="HoodLibTextViewSingleLine.SpinnerItemDropdown" parent="HoodLibTextViewSingleLine.SpinnerItem">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#366695</color>
-    <color name="colorPrimaryDark">#204a72</color>
-    <color name="colorAccent">#FFC61B</color>
+    <color name="hoodLibDefaultColorPrimary">#366695</color>
+    <color name="hoodLibDefaultColorPrimaryDark">#204a72</color>
+    <color name="hoodLibDefaultColorAccent">#FFC61B</color>
 </resources>

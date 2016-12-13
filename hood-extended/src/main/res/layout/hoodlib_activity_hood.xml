@@ -10,7 +10,6 @@
         android:id="@+id/debug_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        custom:zebraBackgroundColor="?hoodZebraColor"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <android.support.design.widget.AppBarLayout
@@ -21,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/HoodThemeToolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:elevation="4dp"
             app:layout_scrollFlags="scroll|enterAlways"
             />

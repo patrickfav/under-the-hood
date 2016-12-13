@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="hoodZebraColor" format="reference|color" />
-
-    <declare-styleable name="HoodDebugPageView">
-        <attr name="zebraBackgroundColor" format="reference|color" />
-    </declare-styleable>
+    <attr name="hoodTextSizeNormal" format="reference|dimension" />
+    <attr name="hoodTextSizeHeader" format="reference|dimension" />
 </resources>
