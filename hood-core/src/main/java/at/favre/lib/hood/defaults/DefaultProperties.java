@@ -37,6 +37,7 @@ import java.util.TreeMap;
 import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
+import at.favre.lib.hood.page.sections.HeaderSection;
 import at.favre.lib.hood.page.values.DynamicValue;
 import at.favre.lib.hood.util.DeviceStatusUtil;
 import at.favre.lib.hood.util.HoodUtil;
@@ -252,33 +253,34 @@ public class DefaultProperties {
     /**
      * Returns pageentry for each defined permission in the app (the passed activity belongs to).
      * <p>
-     * See {@link #createRuntimePermissionInfo(Activity, boolean, List)} for more details
+     * See {@link #createSectionRuntimePermissions(Activity, List)} for more details
      *
      * @param activity                 can be null, but will just return an empty list
-     * @param includeHeader            adds a title entry if
      * @param onlyDangerousPermissions only include permissions with flag PROTECTION_DANGEROUS (ie. have to be granted by the user)
      * @return list of page-entries
      */
     @SuppressLint("NewApi")
-    public static List<PageEntry<?>> createRuntimePermissionInfo(@Nullable final Activity activity, boolean includeHeader, boolean onlyDangerousPermissions) {
+    public static HeaderSection createSectionRuntimePermissions(@Nullable final Activity activity, boolean onlyDangerousPermissions) {
         if (activity != null) {
             try {
                 PackageInfo info = activity.getPackageManager().getPackageInfo(activity.getPackageName(), PackageManager.GET_PERMISSIONS);
                 if (info.requestedPermissions != null && info.requestedPermissions.length > 0) {
                     List<String> permissionNames = new ArrayList<>();
                     for (int i = 0; i < info.requestedPermissions.length; i++) {
-                        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 || onlyDangerousPermissions || info.requestedPermissionsFlags[i] == PermissionInfo.PROTECTION_DANGEROUS) {
+                        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1
+                                || !onlyDangerousPermissions
+                                || info.requestedPermissionsFlags[i] == PermissionInfo.PROTECTION_DANGEROUS) {
                             permissionNames.add(info.requestedPermissions[i]);
                         }
                     }
                     Collections.sort(permissionNames);
-                    return createRuntimePermissionInfo(activity, includeHeader, permissionNames);
+                    return createSectionRuntimePermissions(activity, permissionNames);
                 }
             } catch (PackageManager.NameNotFoundException e) {
                 throw new IllegalStateException(e);
             }
         }
-        return Collections.emptyList();
+        return HeaderSection.EMPTY;
     }
 
     /**
@@ -286,20 +288,15 @@ public class DefaultProperties {
      * actions to request the permission.
      *
      * @param activity           can be null, but will just return an empty list
-     * @param includeHeader      adds a title entry if true
      * @param androidPermissions see {@link android.Manifest.permission}
      * @return list of page-entries
      */
-    public static List<PageEntry<?>> createRuntimePermissionInfo(@Nullable final Activity activity, boolean includeHeader, List<String> androidPermissions) {
-        List<PageEntry<?>> entries = new ArrayList<>();
+    public static HeaderSection createSectionRuntimePermissions(@Nullable final Activity activity, List<String> androidPermissions) {
+        HeaderSection section = new HeaderSection("Permissions");
 
         if (activity != null && !androidPermissions.isEmpty()) {
-            if (includeHeader) {
-                entries.add(new HeaderEntry("Permissions"));
-            }
-
             for (final String perm : androidPermissions) {
-                entries.add(new KeyValueEntry(perm.replace("android.permission.", ""), new DynamicValue<String>() {
+                section.add(new KeyValueEntry(perm.replace("android.permission.", ""), new DynamicValue<String>() {
                     @Override
                     public String getValue() {
                         return TypeTranslators.translatePermissionState(HoodUtil.getPermissionStatus(activity, perm));
@@ -307,7 +304,7 @@ public class DefaultProperties {
                 }, new KeyValueEntry.AskPermissionClickAction(perm, activity), false));
             }
         }
-        return entries;
+        return section;
     }
 
     /**
@@ -454,34 +451,30 @@ public class DefaultProperties {
      * work if the app has the {@link Manifest.permission#READ_PHONE_STATE} permission or just
      * returns an empty list.
      *
-     * @param context       can be null, but will just return an empty list
-     * @param includeHeader adds a title entry if true
+     * @param context can be null, but will just return an empty list
      * @return the list of entries
      */
     //@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-    public static List<PageEntry<?>> createTelephonyMangerInfo(@Nullable Context context, boolean includeHeader) {
-        List<PageEntry<?>> entries = new ArrayList<>();
-
-        if (context != null && ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            if (includeHeader) {
-                entries.add(new HeaderEntry("Telephony Status"));
-            }
-
+    public static HeaderSection createSectionTelephonyManger(@Nullable Context context) {
+        HeaderSection section = new HeaderSection("Telephony Status");
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            section.setErrorMessage("Cannot display data - requires READ_PHONE_STATE permission.");
+        } else if (context != null) {
             final TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            entries.add(new KeyValueEntry("sim-serial", new DynamicValue<String>() {
+            section.add(new KeyValueEntry("sim-serial", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getSimSerialNumber();
                 }
             }));
-            entries.add(new KeyValueEntry("sim-state", new DynamicValue<String>() {
+            section.add(new KeyValueEntry("sim-state", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return TypeTranslators.translateSimState(telephonyManager.getSimState());
                 }
             }));
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                entries.add(new KeyValueEntry("sim-slots", new DynamicValue<String>() {
+                section.add(new KeyValueEntry("sim-slots", new DynamicValue<String>() {
                     @TargetApi(Build.VERSION_CODES.M)
                     @Override
                     public String getValue() {
@@ -489,39 +482,38 @@ public class DefaultProperties {
                     }
                 }));
             }
-            entries.add(new KeyValueEntry("subscriber-id", new DynamicValue<String>() {
+            section.add(new KeyValueEntry("subscriber-id", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getSubscriberId();
                 }
             }));
-            entries.add(new KeyValueEntry("operator", new DynamicValue<String>() {
+            section.add(new KeyValueEntry("operator", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getNetworkOperatorName();
                 }
             }));
-            entries.add(new KeyValueEntry("connection-type", new DynamicValue<String>() {
+            section.add(new KeyValueEntry("connection-type", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return TypeTranslators.translateTelephonyNetworkType(telephonyManager.getNetworkType());
                 }
             }));
-            entries.add(new KeyValueEntry("MSISDN", new DynamicValue<String>() {
+            section.add(new KeyValueEntry("MSISDN", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getLine1Number();
                 }
             }));
-            entries.add(new KeyValueEntry("IMEI", new DynamicValue<String>() {
+            section.add(new KeyValueEntry("IMEI", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getDeviceId();
                 }
             }));
-
         }
-        return entries;
+        return section;
     }
 
     /**

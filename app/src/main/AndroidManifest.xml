@@ -38,7 +38,7 @@
         <activity
             android:name="at.favre.app.hoodtest.DebugLightActivity"
             android:label="Light Debug View"
-            android:theme="@style/HoodThemeLight">
+            android:theme="@style/CustomHoodThemeLight">
         </activity>
     </application>
 

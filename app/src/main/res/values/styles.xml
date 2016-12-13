@@ -7,4 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="CustomHoodThemeLight" parent="HoodThemeLight">
+        <item name="colorPrimary">#9b26af</item>
+        <item name="colorPrimaryDark">#7a1ea1</item>
+        <item name="colorAccent">#68efad</item>
+        <item name="hoodZebraColor">#f0d6d6d6</item>
+    </style>
 </resources>

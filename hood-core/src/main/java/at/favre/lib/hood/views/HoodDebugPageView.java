@@ -80,6 +80,8 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setNestedScrollingEnabled(true);
         progressBarView = findViewById(R.id.progress_bar);
+
+
     }
 
     /**
@@ -104,6 +106,10 @@ public class HoodDebugPageView extends FrameLayout implements NestedScrollingChi
 
         if (config.autoLog) {
             page.logPage();
+        }
+
+        if (!(getContext() instanceof IHoodDebugController)) {
+            page.log("activity does not implement IHoodDebugController - some features might not work");
         }
     }
 

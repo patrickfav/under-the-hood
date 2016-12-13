@@ -29,25 +29,25 @@ public class DebugDarkActivity extends PopHoodActivity {
     @NonNull
     @Override
     public Page getPageData(DebugPage page) {
-        page.addEntries(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
-        page.addEntries(DefaultProperties.createSignatureHashInfo(this));
+        page.add(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
+        page.add(DefaultProperties.createSignatureHashInfo(this));
 
         page.addTitle("Debug Config");
-        page.addEntry(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
-        page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
-        page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
-        page.addEntry(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
+        page.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
+        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
+        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
+        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
 
-        page.addEntries(DefaultProperties.createBasicDeviceInfo(true));
-        page.addEntries(DefaultProperties.createDetailedDeviceInfo(this));
+        page.add(DefaultProperties.createBasicDeviceInfo(true));
+        page.add(DefaultProperties.createDetailedDeviceInfo(this));
 
-        page.addEntry(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
+        page.add(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
-        page.addEntries(DefaultProperties.createInternalProcessDebugInfo(this, true));
+        page.add(DefaultProperties.createInternalProcessDebugInfo(this, true));
 
-        page.addEntries(DefaultProperties.createTelephonyMangerInfo(this, true));
+        page.add(DefaultProperties.createSectionTelephonyManger(this));
 
-        page.addEntry(new HeaderEntry("Misc Action", true));
+        page.add(new HeaderEntry("Misc Action", true));
         page.addAction(new ActionEntry.Action("Test Loading", new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -62,29 +62,29 @@ public class DebugDarkActivity extends PopHoodActivity {
                 }, 3000);
             }
         }));
-        page.addAction(DefaultActions.getCrashAction(), DefaultActions.getInstalledAppSettings(this));
+        page.addAction(DefaultActions.getCrashAction());
         page.addAction(DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
         page.addAction(HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
 
         page.addTitle("Lib BuildConfig");
-        page.addEntries(DefaultProperties.createStaticFieldsInfo(at.favre.lib.hood.BuildConfig.class));
+        page.add(DefaultProperties.createStaticFieldsInfo(at.favre.lib.hood.BuildConfig.class));
 
-        page.addEntry(new HeaderEntry("Settings", true));
+        page.add(new HeaderEntry("Settings", true));
         page.addAction(DefaultActions.getGlobalSettingsAction(this), DefaultActions.getNfcSettingsAction(this));
         page.addAction(DefaultActions.getNfcPaymentSettingsAction(this), DefaultActions.getDevSettingsAction(this));
         page.addAction(DefaultActions.getDateSettingsAction(this), DefaultActions.getAirplaneModeSettingsAction(this));
         page.addAction(DefaultActions.getSetLockScreenAction(this), DefaultActions.getDeviceInfoSettingsAction(this));
         page.addAction(DefaultActions.getBattSaverSettingsAction(this), DefaultActions.getDisplaySettingsAction(this));
         page.addAction(DefaultActions.getInputModeSettingsAction(this), DefaultActions.getStorageSettingsAction(this));
-        page.addAction(DefaultActions.getSecuritySettingsAction(this), DefaultActions.getSyncSettingsAction(this));
+        page.addAction(DefaultActions.getSecuritySettingsAction(this), DefaultActions.getInstalledAppSettings(this));
 
-        page.addEntries(DefaultProperties.createRuntimePermissionInfo(this, true, false));
+        page.add(DefaultProperties.createSectionRuntimePermissions(this, false));
 
-        page.addEntries(DefaultProperties.createDeclaredSystemFeatureInfo(this, true));
+        page.add(DefaultProperties.createDeclaredSystemFeatureInfo(this, true));
         page.addTitle("Property File");
-        page.addEntries(DefaultProperties.createPropertiesEntries(getTestProperties()));
+        page.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
 
-        page.addEntries(DefaultProperties.createConnectivityStatusInfo(this, true));
+        page.add(DefaultProperties.createConnectivityStatusInfo(this, true));
 
         return page;
     }

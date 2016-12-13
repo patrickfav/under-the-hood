@@ -12,9 +12,10 @@
 
     <dimen name="hoodlib_side_padding">16dp</dimen>
     <dimen name="hoodlib_small_horizontal_padding">6dp</dimen>
+    <dimen name="hoodlib_standard_text_size">14sp</dimen>
     <color name="hoodlib_zebra_color">#f0f0f0f0</color> <!-- dark: #f0595959 -->
 
-    <!-- SECTION HEADER -->
+    <!-- HEADER ENTRY -->
 
     <style name="HoodLibHeaderWrapper">
         <item name="android:layout_width">match_parent</item>
@@ -29,6 +30,25 @@
 
         <item name="android:textSize">32sp</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
+    </style>
+
+    <!-- MESSAGE ENTRY -->
+
+    <style name="HoodLibMessageWrapper">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/hoodlib_small_horizontal_padding</item>
+        <item name="android:paddingBottom">@dimen/hoodlib_small_horizontal_padding</item>
+        <item name="android:paddingLeft">@dimen/hoodlib_side_padding</item>
+        <item name="android:paddingRight">@dimen/hoodlib_side_padding</item>
+    </style>
+
+    <style name="HoodLibMessageTextView">
+        <item name="android:textSize">@dimen/hoodlib_standard_text_size</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- KEY VALUE PROPERTY -->
@@ -51,7 +71,7 @@
     </style>
 
     <style name="HoodLibTextViewSingleLine.HoodLibKeyValueTextView">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/hoodlib_standard_text_size</item>
         <item name="android:fontFamily" tools:targetApi="jelly_bean">monospace</item>
         <item name="android:typeface">monospace</item>
     </style>

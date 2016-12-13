@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/inner_wrapper"
+             style="@style/HoodLibMessageWrapper">
+
+    <TextView
+        android:id="@+id/message"
+        style="@style/HoodLibMessageTextView"
+        tools:text="Text Header"
+        />
+</FrameLayout>

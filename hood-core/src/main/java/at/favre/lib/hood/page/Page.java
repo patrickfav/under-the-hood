@@ -1,5 +1,6 @@
 package at.favre.lib.hood.page;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.List;
@@ -25,13 +26,20 @@ public interface Page {
      * Adds a single page entry
      * @param pageEntry might be null, in which case it won't be added
      */
-    void addEntry(@Nullable PageEntry<?> pageEntry);
+    void add(@Nullable PageEntry<?> pageEntry);
 
     /**
      * Adds a list of entries
      * @param entries might be null, in which case it won't be added
      */
-    void addEntries(@Nullable List<PageEntry<?>> entries);
+    void add(@Nullable List<PageEntry<?>> entries);
+
+    /**
+     * Adds a whole section to the page
+     *
+     * @param section
+     */
+    void add(@NonNull Section section);
 
     /**
      * Calls {@link PageEntry#refresh()} on every entry.

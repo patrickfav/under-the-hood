@@ -134,6 +134,12 @@ The `.aar` files can then be found in `/hood-*/build/outputs/aar` folder
 
 * [Icon by by Freepik](http://www.flaticon.com/free-icon/nut_264316#term=nut&page=1&position=8)
 
+## Similar Projects:
+
+* [Bee - Debug and QA tool for android](https://github.com/orhanobut/bee)
+* [DebugDrawer - Android Debug Drawer for faster development](https://github.com/palaima/DebugDrawer)
+* [debugdrawer - Debug Drawer for android debug builds](https://github.com/palaima/DebugDrawer)
+
 # License
 
 Copyright 2016 Patrick Favre-Bulle

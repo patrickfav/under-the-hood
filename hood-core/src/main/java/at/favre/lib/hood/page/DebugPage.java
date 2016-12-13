@@ -1,6 +1,7 @@
 package at.favre.lib.hood.page;
 
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -46,20 +47,20 @@ public class DebugPage implements Page {
     }
 
     public void addProperty(CharSequence key, DynamicValue<String> value) {
-        addEntry(new KeyValueEntry(key, value, false));
+        add(new KeyValueEntry(key, value, false));
     }
 
     public void addProperty(CharSequence key, String value) {
-        addEntry(new KeyValueEntry(key, value));
+        add(new KeyValueEntry(key, value));
     }
 
     public void addTitle(CharSequence title) {
-        addEntry(new HeaderEntry(title));
+        add(new HeaderEntry(title));
     }
 
     public void addAction(@Nullable ActionEntry.Action action) {
         if (action != null) {
-            addEntry(new ActionEntry(action));
+            add(new ActionEntry(action));
         }
     }
 
@@ -69,12 +70,12 @@ public class DebugPage implements Page {
         } else if (action1 != null && action2 == null) {
             addAction(action1);
         } else if (action1 != null && action2 != null) {
-            addEntry(new ActionEntry(action1, action2));
+            add(new ActionEntry(action1, action2));
         }
     }
 
     @Override
-    public void addEntry(@Nullable PageEntry<?> pageEntry) {
+    public void add(@Nullable PageEntry<?> pageEntry) {
         if (pageEntry != null) {
             entries.add(pageEntry);
             templateMap.put(pageEntry.getViewTemplate().getViewType(), pageEntry.getViewTemplate());
@@ -82,10 +83,15 @@ public class DebugPage implements Page {
     }
 
     @Override
-    public void addEntries(List<PageEntry<?>> entries) {
+    public void add(List<PageEntry<?>> entries) {
         for (PageEntry<?> entry : entries) {
-            addEntry(entry);
+            add(entry);
         }
+    }
+
+    @Override
+    public void add(@NonNull Section section) {
+        add(section.asEntryList());
     }
 
     @Override
