@@ -1,4 +1,4 @@
-package at.favre.lib.hood.views;
+package at.favre.lib.hood.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -43,11 +43,11 @@ public class KeyValueDetailDialogs {
         public void onAttach(final Context context) {
             super.onAttach(context);
 
-            if (context instanceof IHoodDebugController) {
+            if (context instanceof HoodController) {
                 logFunction = new LogRunnable() {
                     @Override
                     public void logImpl(String msg) {
-                        ((IHoodDebugController) context).getPage().log(msg);
+                        ((HoodController) context).getPages().log(msg);
                     }
                 };
 

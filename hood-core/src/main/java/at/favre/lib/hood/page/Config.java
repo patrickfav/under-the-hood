@@ -7,12 +7,14 @@ public class Config {
     public final boolean showHighlightContent;
     public final boolean autoLog;
     public final String logTag;
+    public final boolean showPagesIndicator;
 
-    private Config(boolean showZebra, boolean showHighlightContent, boolean autoLog, String logTag) {
+    private Config(boolean showZebra, boolean showHighlightContent, boolean autoLog, String logTag, boolean showPagesIndicator) {
         this.showZebra = showZebra;
         this.showHighlightContent = showHighlightContent;
         this.autoLog = autoLog;
         this.logTag = logTag;
+        this.showPagesIndicator = showPagesIndicator;
     }
 
     public static class Builder {
@@ -20,6 +22,7 @@ public class Config {
         private boolean showHighlightContent = false;
         private boolean autoLog = true;
         private String logTag = TAG;
+        private boolean showPagesIndicator = true;
 
         /**
          * UI showing zebra pattern (highlighting every other row)
@@ -62,8 +65,18 @@ public class Config {
             return this;
         }
 
+        /**
+         * Enables or disables the viewpager page indicator (only visible if more than one page)
+         *
+         * @param showPagesIndicator
+         */
+        public Builder setShowPagesIndicatorOnMultiplePages(boolean showPagesIndicator) {
+            this.showPagesIndicator = showPagesIndicator;
+            return this;
+        }
+
         public Config build() {
-            return new Config(showZebra, showHighlightContent, autoLog, logTag);
+            return new Config(showZebra, showHighlightContent, autoLog, logTag, showPagesIndicator);
         }
     }
 }

@@ -22,7 +22,7 @@ import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.ViewTemplate;
 import at.favre.lib.hood.page.values.DynamicValue;
 import at.favre.lib.hood.util.HoodUtil;
-import at.favre.lib.hood.views.KeyValueDetailDialogs;
+import at.favre.lib.hood.view.KeyValueDetailDialogs;
 
 import static android.content.ContentValues.TAG;
 import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_KEYVALUE;

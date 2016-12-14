@@ -7,6 +7,7 @@
     <dimen name="hoodlib_header_text_size_sm">28sp</dimen>
     <dimen name="hoodlib_standard_text_size">14sp</dimen>
     <dimen name="hoodlib_header_text_size">36sp</dimen>
+    <dimen name="hoodlib_toolbar_elevation">4dp</dimen>
 
     <color name="hoodlib_zebra_color">#f0f0f0f0</color>
     <color name="hoodlib_zebra_color_dark">#f0474747</color>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="hoodZebraColor" format="reference|color" />
+    <attr name="hoodZebraColor" format="color"/>
     <attr name="hoodTextSizeNormal" format="reference|dimension" />
     <attr name="hoodTextSizeHeader" format="reference|dimension" />
+    <attr name="colorPrimary" format="color"/>
 </resources>

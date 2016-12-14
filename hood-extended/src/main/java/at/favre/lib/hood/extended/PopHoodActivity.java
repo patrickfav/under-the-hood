@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,14 +14,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.defaults.DefaultMiscActions;
 import at.favre.lib.hood.page.Config;
-import at.favre.lib.hood.page.DebugPage;
-import at.favre.lib.hood.page.Page;
-import at.favre.lib.hood.views.HoodDebugPageView;
-import at.favre.lib.hood.views.IHoodDebugController;
+import at.favre.lib.hood.page.Pages;
+import at.favre.lib.hood.view.HoodController;
+import at.favre.lib.hood.view.HoodDebugPageView;
 
-public abstract class PopHoodActivity extends AppCompatActivity implements IHoodDebugController {
+public abstract class PopHoodActivity extends AppCompatActivity implements HoodController {
     private static final String KEY_HEADLESS = "HEADLESS";
 
     private HoodDebugPageView debugView;
@@ -35,17 +37,31 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Config config = getConfig();
         if (getIntent().getBooleanExtra(KEY_HEADLESS, false)) {
-            getPageData(DebugPage.Factory.create(config)).logPage();
+            getPageData(getPageData(Hood.create(getConfig()))).logPages();
             finish();
         } else {
             setContentView(R.layout.hoodlib_activity_hood);
             debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
-            debugView.setPageData(getPageData(DebugPage.Factory.create(config)));
+            debugView.setPageData(getPageData(Hood.create(getConfig())));
             toolbar = ((Toolbar) findViewById(R.id.toolbar));
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            debugView.addViewPagerChangeListner(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    ((AppBarLayout) findViewById(R.id.app_bar_layout)).setExpanded(true, true);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
         }
     }
 
@@ -76,7 +92,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
         } else if (i == R.id.action_clear_date) {
             DefaultMiscActions.promptUserToClearData(this);
         } else if (i == R.id.action_log) {
-            debugView.getPage().logPage();
+            debugView.getPages().logPages();
             Toast.makeText(this, R.string.hood_toast_log_to_console, Toast.LENGTH_SHORT).show();
         } else if (i == android.R.id.home) {
             onBackPressed();
@@ -94,13 +110,13 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
     }
 
     /**
-     * Implement this method to pass a {@link Page} filled with entries.
+     * Implement this method to pass a {@link Pages} filled with pages entries.
      *
-     * @param emptyPage use this to add entries (or create new one)
+     * @param emptyPages use this to add entries (or create new one)
      * @return non-null set up page
      */
     @NonNull
-    public abstract Page getPageData(@NonNull DebugPage emptyPage);
+    public abstract Pages getPageData(@NonNull Pages emptyPages);
 
     /**
      * Create a config with this method. See {@link at.favre.lib.hood.page.Config.Builder}
@@ -118,7 +134,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements IHood
 
     @NonNull
     @Override
-    public Page getPage() {
-        return debugView.getPage();
+    public Pages getPages() {
+        return debugView.getPages();
     }
 }

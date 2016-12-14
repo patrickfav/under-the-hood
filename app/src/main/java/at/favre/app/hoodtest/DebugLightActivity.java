@@ -13,48 +13,51 @@ import at.favre.lib.hood.defaults.DefaultConfigActions;
 import at.favre.lib.hood.defaults.DefaultProperties;
 import at.favre.lib.hood.extended.PopHoodActivity;
 import at.favre.lib.hood.page.Config;
-import at.favre.lib.hood.page.DebugPage;
 import at.favre.lib.hood.page.Page;
+import at.favre.lib.hood.page.Pages;
 import at.favre.lib.hood.page.entries.ActionEntry;
 import at.favre.lib.hood.page.entries.ConfigBoolEntry;
 import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
 import at.favre.lib.hood.page.values.SpinnerElement;
 import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.util.PageUtil;
 
 public class DebugLightActivity extends PopHoodActivity {
     private static final String TAG = DebugLightActivity.class.getName();
 
     @NonNull
     @Override
-    public Page getPageData(@NonNull DebugPage page) {
-        page.add(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
-        page.add(DefaultProperties.createSignatureHashInfo(this));
+    public Pages getPageData(@NonNull Pages pages) {
+        Page firstPage = pages.addNewPage();
 
-        page.add(DefaultProperties.createBasicDeviceInfo(true));
-        page.add(DefaultProperties.createDetailedDeviceInfo(this));
+        firstPage.add(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
+        firstPage.add(DefaultProperties.createSignatureHashInfo(this));
 
-        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", false)));
-        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", false)));
-        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "a debug feature", false)));
+        firstPage.add(DefaultProperties.createBasicDeviceInfo(true));
+        firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
 
-        page.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(null, getPreferences(MODE_PRIVATE), "W_BACKEND_KEY", null, getBackendElements())));
+        firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", false)));
+        firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", false)));
+        firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "a debug feature", false)));
 
-        page.add(DefaultProperties.createSectionTelephonyManger(this));
+        firstPage.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(null, getPreferences(MODE_PRIVATE), "W_BACKEND_KEY", null, getBackendElements())));
 
-        page.addTitle("Misc Actions");
-        page.addAction(DefaultActions.getAppInfoAction(this));
-        page.addAction(DefaultActions.getCrashAction(), DefaultActions.getUninstallAction(this));
-        page.addAction(DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
-        page.addAction(HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
+        firstPage.add(DefaultProperties.createSectionTelephonyManger(this));
 
-        page.add(DefaultProperties.createSectionRuntimePermissions(this, true));
+        PageUtil.addTitle(firstPage, "Misc Actions");
+        PageUtil.addAction(firstPage, DefaultActions.getAppInfoAction(this));
+        PageUtil.addAction(firstPage, DefaultActions.getCrashAction(), DefaultActions.getUninstallAction(this));
+        PageUtil.addAction(firstPage, DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
+        PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
 
-        page.addTitle("System Features");
+        firstPage.add(DefaultProperties.createSectionRuntimePermissions(this, true));
+
+        PageUtil.addTitle(firstPage, "System Features");
         Map<CharSequence, String> systemFeatureMap = new HashMap<>();
         systemFeatureMap.put("hasHce", "android.hardware.nfc.hce");
         systemFeatureMap.put("hasCamera", "android.hardware.camera");
         systemFeatureMap.put("hasWebview", "android.software.webview");
-        page.addAction(new ActionEntry.Action("Test Loading", new View.OnClickListener() {
+        PageUtil.addAction(firstPage, new ActionEntry.Action("Test Loading", new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 view.setEnabled(false);
@@ -68,11 +71,11 @@ public class DebugLightActivity extends PopHoodActivity {
                 }, 3000);
             }
         }));
-        page.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
+        firstPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
-        page.add(DefaultProperties.createConnectivityStatusInfo(this, true));
+        firstPage.add(DefaultProperties.createConnectivityStatusInfo(this, true));
 
-        return page;
+        return pages;
     }
 
     private List<SpinnerElement> getBackendElements() {

@@ -4,17 +4,20 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import at.favre.lib.hood.BuildConfig;
 import at.favre.lib.hood.defaults.DefaultActions;
 import at.favre.lib.hood.defaults.DefaultConfigActions;
 import at.favre.lib.hood.defaults.DefaultProperties;
 import at.favre.lib.hood.defaults.misc.Backend;
 import at.favre.lib.hood.extended.PopHoodActivity;
 import at.favre.lib.hood.page.Config;
-import at.favre.lib.hood.page.DebugPage;
 import at.favre.lib.hood.page.Page;
+import at.favre.lib.hood.page.Pages;
 import at.favre.lib.hood.page.entries.ActionEntry;
 import at.favre.lib.hood.page.entries.ConfigBoolEntry;
 import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
@@ -22,33 +25,32 @@ import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.values.SpinnerElement;
 import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.util.PageUtil;
 
 public class DebugDarkActivity extends PopHoodActivity {
     private static final String TAG = DebugDarkActivity.class.getName();
 
     @NonNull
     @Override
-    public Page getPageData(DebugPage page) {
-        page.add(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
-        page.add(DefaultProperties.createSignatureHashInfo(this));
+    public Pages getPageData(@NonNull Pages pages) {
+        Page firstPage = pages.addNewPage("General");
 
-        page.addTitle("Debug Config");
-        page.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
-        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
-        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
-        page.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
+        firstPage.add(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
+        firstPage.add(DefaultProperties.createSignatureHashInfo(this));
 
-        page.add(DefaultProperties.createBasicDeviceInfo(true));
-        page.add(DefaultProperties.createDetailedDeviceInfo(this));
+        PageUtil.addTitle(firstPage, "Debug Config");
+        firstPage.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
+        firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
+        firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
+        firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
 
-        page.add(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
+        firstPage.add(DefaultProperties.createBasicDeviceInfo(true));
+        firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
 
-        page.add(DefaultProperties.createInternalProcessDebugInfo(this, true));
+        firstPage.add(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
-        page.add(DefaultProperties.createSectionTelephonyManger(this));
-
-        page.add(new HeaderEntry("Misc Action", true));
-        page.addAction(new ActionEntry.Action("Test Loading", new View.OnClickListener() {
+        firstPage.add(new HeaderEntry("Misc Action", true));
+        PageUtil.addAction(firstPage, new ActionEntry.Action("Test Loading", new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 view.setEnabled(false);
@@ -62,31 +64,45 @@ public class DebugDarkActivity extends PopHoodActivity {
                 }, 3000);
             }
         }));
-        page.addAction(DefaultActions.getCrashAction());
-        page.addAction(DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
-        page.addAction(HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
+        PageUtil.addAction(firstPage, DefaultActions.getCrashAction());
+        PageUtil.addAction(firstPage, DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
+        PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), BuildConfig.DEBUG));
 
-        page.addTitle("Lib BuildConfig");
-        page.add(DefaultProperties.createStaticFieldsInfo(at.favre.lib.hood.BuildConfig.class));
+        PageUtil.addTitle(firstPage, "Lib BuildConfig");
+        firstPage.add(DefaultProperties.createStaticFieldsInfo(BuildConfig.class));
+        firstPage.add(DefaultProperties.createSectionRuntimePermissions(this, false));
 
-        page.add(new HeaderEntry("Settings", true));
-        page.addAction(DefaultActions.getGlobalSettingsAction(this), DefaultActions.getNfcSettingsAction(this));
-        page.addAction(DefaultActions.getNfcPaymentSettingsAction(this), DefaultActions.getDevSettingsAction(this));
-        page.addAction(DefaultActions.getDateSettingsAction(this), DefaultActions.getAirplaneModeSettingsAction(this));
-        page.addAction(DefaultActions.getSetLockScreenAction(this), DefaultActions.getDeviceInfoSettingsAction(this));
-        page.addAction(DefaultActions.getBattSaverSettingsAction(this), DefaultActions.getDisplaySettingsAction(this));
-        page.addAction(DefaultActions.getInputModeSettingsAction(this), DefaultActions.getStorageSettingsAction(this));
-        page.addAction(DefaultActions.getSecuritySettingsAction(this), DefaultActions.getInstalledAppSettings(this));
+        firstPage.add(DefaultProperties.createDeclaredSystemFeatureInfo(this, true));
+        PageUtil.addTitle(firstPage, "Property File");
+        firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
 
-        page.add(DefaultProperties.createSectionRuntimePermissions(this, false));
+        firstPage.add(DefaultProperties.createConnectivityStatusInfo(this, true));
 
-        page.add(DefaultProperties.createDeclaredSystemFeatureInfo(this, true));
-        page.addTitle("Property File");
-        page.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
+        Page secondPage = pages.addNewPage("Details");
+        PageUtil.addTitle(secondPage, "System Features");
+        Map<CharSequence, String> systemFeatureMap = new HashMap<>();
+        systemFeatureMap.put("hasHce", "android.hardware.nfc.hce");
+        systemFeatureMap.put("hasCamera", "android.hardware.camera");
+        systemFeatureMap.put("hasWebview", "android.software.webview");
+        secondPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
-        page.add(DefaultProperties.createConnectivityStatusInfo(this, true));
+        secondPage.add(DefaultProperties.createInternalProcessDebugInfo(this, true));
+        secondPage.add(DefaultProperties.createBasicDeviceInfo(true));
+        secondPage.add(DefaultProperties.createDetailedDeviceInfo(this));
+        secondPage.add(DefaultProperties.createAppVersionInfo(BuildConfig.class, true));
+        secondPage.add(DefaultProperties.createSignatureHashInfo(this));
+        secondPage.add(DefaultProperties.createSectionTelephonyManger(this));
+        secondPage.add(new HeaderEntry("Settings", true));
 
-        return page;
+        PageUtil.addAction(secondPage, DefaultActions.getGlobalSettingsAction(this), DefaultActions.getNfcSettingsAction(this));
+        PageUtil.addAction(secondPage, DefaultActions.getNfcPaymentSettingsAction(this), DefaultActions.getDevSettingsAction(this));
+        PageUtil.addAction(secondPage, DefaultActions.getDateSettingsAction(this), DefaultActions.getAirplaneModeSettingsAction(this));
+        PageUtil.addAction(secondPage, DefaultActions.getSetLockScreenAction(this), DefaultActions.getDeviceInfoSettingsAction(this));
+        PageUtil.addAction(secondPage, DefaultActions.getBattSaverSettingsAction(this), DefaultActions.getDisplaySettingsAction(this));
+        PageUtil.addAction(secondPage, DefaultActions.getInputModeSettingsAction(this), DefaultActions.getStorageSettingsAction(this));
+        PageUtil.addAction(secondPage, DefaultActions.getSecuritySettingsAction(this), DefaultActions.getInstalledAppSettings(this));
+
+        return pages;
     }
 
     private Properties getTestProperties() {
@@ -111,7 +127,7 @@ public class DebugDarkActivity extends PopHoodActivity {
     @Override
     public Config getConfig() {
         return new Config.Builder()
-                .setShowHighlightContent(true)
+                .setShowHighlightContent(false)
                 .setLogTag(TAG).build();
     }
 }

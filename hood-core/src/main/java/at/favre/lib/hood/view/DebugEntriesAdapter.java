@@ -1,4 +1,4 @@
-package at.favre.lib.hood.views;
+package at.favre.lib.hood.view;
 
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import at.favre.lib.hood.page.Config;
 import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.page.ViewTemplate;
 
@@ -14,16 +13,14 @@ import at.favre.lib.hood.page.ViewTemplate;
  * The adapter managing the entries from given {@link Page}. Instead of a {@link android.support.v7.widget.RecyclerView.ViewHolder}
  * the {@link ViewTemplate} from the entry is used.
  */
-public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.DebugViewHolder> {
+public class DebugEntriesAdapter extends RecyclerView.Adapter<DebugEntriesAdapter.DebugViewHolder> {
 
     private final Page page;
-    private final Config config;
     @ColorInt
     private final int zebraColor;
 
-    public DebugDataAdapter(Page page, Config config, int zebraColor) {
+    public DebugEntriesAdapter(Page page, int zebraColor) {
         this.page = page;
-        this.config = config;
         this.zebraColor = zebraColor;
     }
 
@@ -42,8 +39,8 @@ public class DebugDataAdapter extends RecyclerView.Adapter<DebugDataAdapter.Debu
     public void onBindViewHolder(DebugViewHolder holder, int position) {
         ViewTemplate<Object> template = page.getEntries().get(position).getViewTemplate();
         template.setContent(page.getEntries().get(position).getValue(), holder.holderView);
-        if (config.showZebra || config.showHighlightContent) {
-            template.decorateViewWithZebra(holder.holderView, zebraColor, config.showHighlightContent || position % 2 == 1);
+        if (page.getConfig().showZebra || page.getConfig().showHighlightContent) {
+            template.decorateViewWithZebra(holder.holderView, zebraColor, page.getConfig().showHighlightContent || position % 2 == 1);
         }
     }
 

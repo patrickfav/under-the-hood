@@ -9,6 +9,13 @@ import java.util.List;
  * Represents the model of a full page containing all entries. This can be used to render all entries.
  */
 public interface Page {
+
+    /**
+     * A title for a page can be set.
+     * @return title as shown in ui
+     */
+    String getTitle();
+
     /**
      * @return list of all defined entries
      */
@@ -45,12 +52,6 @@ public interface Page {
      * Calls {@link PageEntry#refresh()} on every entry.
      */
     void refreshData();
-
-    /**
-     * The default implementation of what should happen when a component wants to log something.
-     * You can set e.g. tag, formatting, etc.
-     */
-    void log(String message);
 
     /**
      * Logs the whole page data

@@ -3,41 +3,37 @@ package at.favre.lib.hood.page;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.util.SparseArray;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
-import at.favre.lib.hood.page.entries.ActionEntry;
-import at.favre.lib.hood.page.entries.HeaderEntry;
-import at.favre.lib.hood.page.entries.KeyValueEntry;
-import at.favre.lib.hood.page.values.DynamicValue;
 
 /**
  * The default implementation of the debug view page. Use factory to create instance.
  */
 public class DebugPage implements Page {
-    private List<PageEntry> entries = new ArrayList<>();
-    private Map<Integer, ViewTemplate<?>> templateMap = new HashMap<>();
-    private final Config config;
+    private List<PageEntry> entries = new LinkedList<>();
+    private SparseArray<ViewTemplate<?>> templateMap = new SparseArray<>();
+    private final Pages pages;
+    private final String title;
 
     /**
      * Use this factory to create a instance of {@link DebugPage}
      */
     public static class Factory {
-        public static DebugPage create(Config config) {
-            return new DebugPage(config);
-        }
-
-        public static DebugPage create() {
-            return new DebugPage(new Config.Builder().build());
+        public static DebugPage create(Pages pages, String title) {
+            return new DebugPage(pages, title);
         }
     }
 
-    private DebugPage(Config config) {
-        this.config = config;
+    private DebugPage(Pages pages, String title) {
+        this.pages = pages;
+        this.title = title;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
     }
 
     @Override
@@ -48,34 +44,6 @@ public class DebugPage implements Page {
     @Override
     public ViewTemplate<?> getTemplateForViewType(int viewType) {
         return templateMap.get(viewType);
-    }
-
-    public void addProperty(CharSequence key, DynamicValue<String> value) {
-        add(new KeyValueEntry(key, value, false));
-    }
-
-    public void addProperty(CharSequence key, String value) {
-        add(new KeyValueEntry(key, value));
-    }
-
-    public void addTitle(CharSequence title) {
-        add(new HeaderEntry(title));
-    }
-
-    public void addAction(@Nullable ActionEntry.Action action) {
-        if (action != null) {
-            add(new ActionEntry(action));
-        }
-    }
-
-    public void addAction(@Nullable ActionEntry.Action action1, @Nullable ActionEntry.Action action2) {
-        if (action1 == null && action2 != null) {
-            addAction(action2);
-        } else if (action1 != null && action2 == null) {
-            addAction(action1);
-        } else if (action1 != null && action2 != null) {
-            add(new ActionEntry(action1, action2));
-        }
     }
 
     @Override
@@ -107,7 +75,7 @@ public class DebugPage implements Page {
     @NonNull
     @Override
     public Config getConfig() {
-        return config;
+        return pages.getConfig();
     }
 
     @Override
@@ -118,13 +86,8 @@ public class DebugPage implements Page {
     }
 
     @Override
-    public void log(String message) {
-        Log.w(config.logTag, message);
-    }
-
-    @Override
     public void logPage() {
-        log(getDebugDataAsString());
+        pages.log(getDebugDataAsString());
     }
 
     @Override
@@ -141,5 +104,28 @@ public class DebugPage implements Page {
             }
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DebugPage debugPage = (DebugPage) o;
+
+        if (entries != null ? !entries.equals(debugPage.entries) : debugPage.entries != null)
+            return false;
+        if (templateMap != null ? !templateMap.equals(debugPage.templateMap) : debugPage.templateMap != null)
+            return false;
+        return pages != null ? pages.equals(debugPage.pages) : debugPage.pages == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = entries != null ? entries.hashCode() : 0;
+        result = 31 * result + (templateMap != null ? templateMap.hashCode() : 0);
+        result = 31 * result + (pages != null ? pages.hashCode() : 0);
+        return result;
     }
 }
