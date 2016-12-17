@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="at.favre.app.hoodtest">
+<manifest package="at.favre.app.hoodtest"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- this is just for testing purpose - the app needs none of these permissions -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <!-- this is just for testing purpose - the app needs none of these features -->
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.bluetooth"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
-        android:required="true" />
+        android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -30,19 +30,24 @@
             android:name="at.favre.app.hoodtest.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name="at.favre.app.hoodtest.DebugDrawerActivity"
-            android:label="Light Debug View"
+            android:label="Drawer Debug View"
             android:theme="@style/AppTheme"/>
         <activity
             android:name="at.favre.app.hoodtest.DebugDarkActivity"
             android:exported="true"
             android:label="Dark Debug View"
-            android:theme="@style/HoodThemeDark" />
+            android:theme="@style/HoodThemeDark"/>
+        <activity
+            android:name="at.favre.app.hoodtest.DebugDarkMultiPageActivity"
+            android:exported="true"
+            android:label="Dark Multi Page Debug View"
+            android:theme="@style/HoodThemeDark"/>
         <activity
             android:name="at.favre.app.hoodtest.DebugLightActivity"
             android:label="Light Debug View"

@@ -1,7 +1,10 @@
 package at.favre.lib.hood.view;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.PagerAdapter;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,11 +13,13 @@ import at.favre.lib.hood.page.Pages;
 
 
 public class DebugViewPageAdapter extends PagerAdapter {
+    private static final String TAG_VIEWS = "tagViews";
+
     private Pages pages;
     @ColorInt
     private int zebraColor;
+    private SparseArray<Parcelable> mViewStates = new SparseArray<>();
     private ViewGroup viewGroup;
-    private boolean enabled = true;
 
     public DebugViewPageAdapter(Pages pages, int zebraColor) {
         this.pages = pages;
@@ -65,5 +70,26 @@ public class DebugViewPageAdapter extends PagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return pages.getPage(position).getTitle();
+    }
+
+    @Override
+    public Parcelable saveState() {
+        Bundle state = new Bundle();
+        if (viewGroup != null) {
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                if (viewGroup.getChildAt(i) instanceof DebugPageContentView) {
+                    mViewStates.append(i, ((DebugPageContentView) viewGroup.getChildAt(i)).onSaveInstanceState());
+                }
+            }
+        }
+        state.putSparseParcelableArray(TAG_VIEWS, mViewStates);
+        return state;
+    }
+
+    @Override
+    public void restoreState(Parcelable state, ClassLoader loader) {
+        Bundle bundle = (Bundle) state;
+        bundle.setClassLoader(loader);
+        mViewStates = bundle.getSparseParcelableArray(TAG_VIEWS);
     }
 }

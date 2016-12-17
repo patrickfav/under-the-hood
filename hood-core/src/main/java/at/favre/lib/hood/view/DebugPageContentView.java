@@ -1,6 +1,7 @@
 package at.favre.lib.hood.view;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
@@ -43,6 +44,21 @@ public class DebugPageContentView extends FrameLayout {
     public void refresh() {
         page.refreshData();
         mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        if (mRecyclerView != null) {
+            return mRecyclerView.getLayoutManager().onSaveInstanceState();
+        }
+        return null;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (mRecyclerView != null) {
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(state);
+        }
     }
 
     /* ****************************************************** NestedScrollingChild*/
