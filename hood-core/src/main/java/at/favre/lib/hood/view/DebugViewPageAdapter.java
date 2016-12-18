@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,34 +12,40 @@ import android.view.ViewGroup;
 import at.favre.lib.hood.page.Page;
 import at.favre.lib.hood.page.Pages;
 
-
+/**
+ * The pager adapter for the main viewpager containing {@link DebugPageContentView} views.
+ * Supports saving and restoring of the view's states.
+ */
 public class DebugViewPageAdapter extends PagerAdapter {
     private static final String TAG_VIEWS = "tagViews";
 
-    private Pages pages;
+    private final Pages pages;
     @ColorInt
-    private int zebraColor;
+    private final int zebraColor;
     private SparseArray<Parcelable> mViewStates = new SparseArray<>();
-    private ViewGroup viewGroup;
+    private final ViewPager viewPager;
 
-    public DebugViewPageAdapter(Pages pages, int zebraColor) {
+    public DebugViewPageAdapter(ViewPager viewPager, Pages pages, int zebraColor) {
         this.pages = pages;
         this.zebraColor = zebraColor;
+        this.viewPager = viewPager;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        viewGroup = container;
         Page page = pages.getPage(position);
-        container.addView(new DebugPageContentView(container.getContext(), pages.getPage(position), zebraColor));
+        DebugPageContentView view = new DebugPageContentView(container.getContext(), pages.getPage(position), zebraColor);
+        view.onRestoreInstanceState(mViewStates.get(position));
+        container.addView(view);
         return page;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        viewGroup = container;
         for (int i = 0; i < container.getChildCount(); i++) {
             if (container.getChildAt(i) instanceof DebugPageContentView && ((DebugPageContentView) container.getChildAt(i)).getPage().equals(object)) {
+                DebugPageContentView contentView = ((DebugPageContentView) container.getChildAt(i));
+                mViewStates.append(getIndexForPage(contentView.getPage()), contentView.onSaveInstanceState());
                 container.removeViewAt(i);
                 break;
             }
@@ -47,10 +54,10 @@ public class DebugViewPageAdapter extends PagerAdapter {
 
     @Override
     public void notifyDataSetChanged() {
-        if (viewGroup != null) {
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                if (viewGroup.getChildAt(i) instanceof DebugPageContentView) {
-                    ((DebugPageContentView) viewGroup.getChildAt(i)).refresh();
+        if (viewPager != null) {
+            for (int i = 0; i < viewPager.getChildCount(); i++) {
+                if (viewPager.getChildAt(i) instanceof DebugPageContentView) {
+                    ((DebugPageContentView) viewPager.getChildAt(i)).refresh();
                 }
             }
         }
@@ -75,15 +82,25 @@ public class DebugViewPageAdapter extends PagerAdapter {
     @Override
     public Parcelable saveState() {
         Bundle state = new Bundle();
-        if (viewGroup != null) {
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                if (viewGroup.getChildAt(i) instanceof DebugPageContentView) {
-                    mViewStates.append(i, ((DebugPageContentView) viewGroup.getChildAt(i)).onSaveInstanceState());
+        if (viewPager != null) {
+            for (int i = 0; i < viewPager.getChildCount(); i++) {
+                if (viewPager.getChildAt(i) instanceof DebugPageContentView) {
+                    DebugPageContentView contentView = ((DebugPageContentView) viewPager.getChildAt(i));
+                    mViewStates.append(getIndexForPage(contentView.getPage()), contentView.onSaveInstanceState());
                 }
             }
         }
         state.putSparseParcelableArray(TAG_VIEWS, mViewStates);
         return state;
+    }
+
+    private int getIndexForPage(Page page) {
+        for (int i = 0; i < pages.getAll().size(); i++) {
+            if (pages.getAll().get(i).equals(page)) {
+                return i;
+            }
+        }
+        throw new IllegalStateException("unknown page " + page);
     }
 
     @Override

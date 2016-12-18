@@ -63,7 +63,7 @@ public class HoodDebugPageView extends FrameLayout {
      * @param pages
      */
     public void setPageData(@NonNull Pages pages) {
-        this.viewPager.setAdapter(new DebugViewPageAdapter(pages, zebraColor));
+        this.viewPager.setAdapter(new DebugViewPageAdapter(viewPager, pages, zebraColor));
         this.pages = pages;
         if (pages.getConfig().autoLog) {
             pages.logPages();
