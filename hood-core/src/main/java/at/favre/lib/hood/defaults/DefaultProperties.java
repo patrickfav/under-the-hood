@@ -2,18 +2,14 @@ package at.favre.lib.hood.defaults;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.FeatureInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PermissionInfo;
-import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Debug;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,20 +20,17 @@ import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.TreeMap;
 
 import at.favre.lib.hood.page.PageEntry;
 import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
-import at.favre.lib.hood.page.sections.HeaderSection;
+import at.favre.lib.hood.page.sections.DefaultSection;
 import at.favre.lib.hood.page.values.DynamicValue;
 import at.favre.lib.hood.util.DeviceStatusUtil;
 import at.favre.lib.hood.util.HoodUtil;
@@ -53,24 +46,20 @@ public class DefaultProperties {
     /**
      * Returns entries of some basic device data like model number and sdk version.
      *
-     * @param includeHeader adds a title entry if true
      * @return list of entries
      */
-    public static List<PageEntry<?>> createBasicDeviceInfo(boolean includeHeader) {
-        List<PageEntry<?>> entries = new ArrayList<>();
-        if (includeHeader) {
-            entries.add(new HeaderEntry("Device"));
-        }
-        entries.add(new KeyValueEntry("model", Build.MODEL));
-        entries.add(new KeyValueEntry("name", Build.DEVICE));
-        entries.add(new KeyValueEntry("brand", Build.MANUFACTURER));
-        entries.add(new KeyValueEntry("version", Build.VERSION.RELEASE));
-        entries.add(new KeyValueEntry("version_minor", Build.VERSION.INCREMENTAL));
-        entries.add(new KeyValueEntry("build-id", Build.ID));
-        entries.add(new KeyValueEntry("sdk-int", String.valueOf(Build.VERSION.SDK_INT)));
-        entries.add(new KeyValueEntry("serial", Build.SERIAL));
+    public static DefaultSection createSectionBasicDeviceInfo() {
+        DefaultSection section = new DefaultSection("Device");
+        section.add(new KeyValueEntry("model", Build.MODEL));
+        section.add(new KeyValueEntry("name", Build.DEVICE));
+        section.add(new KeyValueEntry("brand", Build.MANUFACTURER));
+        section.add(new KeyValueEntry("version", Build.VERSION.RELEASE));
+        section.add(new KeyValueEntry("version_minor", Build.VERSION.INCREMENTAL));
+        section.add(new KeyValueEntry("build-id", Build.ID));
+        section.add(new KeyValueEntry("sdk-int", String.valueOf(Build.VERSION.SDK_INT)));
+        section.add(new KeyValueEntry("serial", Build.SERIAL));
 
-        return entries;
+        return section;
     }
 
     /**
@@ -92,52 +81,10 @@ public class DefaultProperties {
                     return HoodUtil.getCurrentLocale(activity).toString() + "/" + TimeZone.getDefault().getDisplayName();
                 }
             }));
-        }
-        return entries;
-    }
-
-    public static List<PageEntry<?>> createInternalProcessDebugInfo(@Nullable final Context context, boolean includeHeader) {
-        List<PageEntry<?>> entries = new ArrayList<>();
-        if (context != null) {
-            if (includeHeader) {
-                entries.add(new HeaderEntry("Process Debug Info"));
-            }
-
-            entries.add(new KeyValueEntry("heap-native", new DynamicValue<String>() {
+            entries.add(new KeyValueEntry("uptime", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
-                    return "used " + HoodUtil.humanReadableByteCount(Debug.getNativeHeapAllocatedSize(), false) + " of " + HoodUtil.humanReadableByteCount(Debug.getNativeHeapSize(), false);
-                }
-            }));
-
-            entries.add(new KeyValueEntry("memory", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return "used " + HoodUtil.humanReadableByteCount(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory(), false) + " (max:" + HoodUtil.humanReadableByteCount(Runtime.getRuntime().maxMemory(), false) + ")";
-                }
-            }));
-            entries.add(new KeyValueEntry("pss", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return HoodUtil.humanReadableByteCount(Debug.getPss(), false);
-                }
-            }));
-            entries.add(new KeyValueEntry("loaded-classes", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return String.valueOf(Debug.getLoadedClassCount());
-                }
-            }));
-            entries.add(new KeyValueEntry("local/death/proxy objs", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return String.valueOf(Debug.getBinderLocalObjectCount()) + "/" + String.valueOf(Debug.getBinderDeathObjectCount()) + "/" + String.valueOf(Debug.getBinderProxyObjectCount());
-                }
-            }));
-            entries.add(new KeyValueEntry("debugger-connected", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return String.valueOf(Debug.isDebuggerConnected());
+                    return HoodUtil.millisToDaysHoursMinString(SystemClock.elapsedRealtime());
                 }
             }));
         }
@@ -145,27 +92,56 @@ public class DefaultProperties {
     }
 
     /**
-     * Creates page-entries for all the apk's signature sha256-hashes
+     * Very technical memory & classloader process states - this data is usually very volatile
      *
-     * @param context can be null, but will just return an empty list
-     * @return list of page-entries
+     * @param context
+     * @return section for info
      */
-    public static List<PageEntry<?>> createSignatureHashInfo(@Nullable Context context) {
-        List<PageEntry<?>> entries = new ArrayList<>();
+    public static DefaultSection createInternalProcessDebugInfo(@Nullable final Context context) {
+        DefaultSection section = new DefaultSection("Process Debug Info");
+
         if (context != null) {
-            try {
-                final PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
-                for (Signature signature : info.signatures) {
-                    MessageDigest md = MessageDigest.getInstance("SHA-256");
-                    md.update(signature.toByteArray());
-                    entries.add(new KeyValueEntry("apk-signature-sha256", HoodUtil.byteToHex(md.digest()), true));
+            section.add(new KeyValueEntry("heap-native", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return "used " + HoodUtil.humanReadableByteCount(Debug.getNativeHeapAllocatedSize(), false) + " of " + HoodUtil.humanReadableByteCount(Debug.getNativeHeapSize(), false);
                 }
-            } catch (Exception e) {
-                Log.e(TAG, "could not read apk signature", e);
-            }
+            }));
+
+            section.add(new KeyValueEntry("memory", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return "used " + HoodUtil.humanReadableByteCount(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory(), false) + " (max:" + HoodUtil.humanReadableByteCount(Runtime.getRuntime().maxMemory(), false) + ")";
+                }
+            }));
+            section.add(new KeyValueEntry("pss", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return HoodUtil.humanReadableByteCount(Debug.getPss(), false);
+                }
+            }));
+            section.add(new KeyValueEntry("loaded-classes", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return String.valueOf(Debug.getLoadedClassCount());
+                }
+            }));
+            section.add(new KeyValueEntry("local/death/proxy objs", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return String.valueOf(Debug.getBinderLocalObjectCount()) + "/" + String.valueOf(Debug.getBinderDeathObjectCount()) + "/" + String.valueOf(Debug.getBinderProxyObjectCount());
+                }
+            }));
+            section.add(new KeyValueEntry("debugger-connected", new DynamicValue<String>() {
+                @Override
+                public String getValue() {
+                    return String.valueOf(Debug.isDebuggerConnected());
+                }
+            }));
         }
-        return entries;
+        return section;
     }
+
 
     /**
      * Traverses the static fields of given arbitrary class. Will create an entry for each non-null
@@ -200,16 +176,11 @@ public class DefaultProperties {
      * Traverses the static fields of given class (which must be of Type BuildConfig) and parses the main
      * fields that is create by the android gradle plugin (ie. version, app_id, etc.)
      *
-     * @param buildConfig   the BuildConfig.java class you want the info
-     * @param includeHeader adds a title entry if true
+     * @param buildConfig the BuildConfig.java class you want the info
      * @return list of page-entries
      */
-    public static List<PageEntry<?>> createAppVersionInfo(Class<?> buildConfig, boolean includeHeader) {
-        List<PageEntry<?>> entries = new ArrayList<>();
-        if (includeHeader) {
-            entries.add(new HeaderEntry("App Version"));
-        }
-
+    public static DefaultSection createSectionAppVersionInfoFromBuildConfig(Class<?> buildConfig) {
+        DefaultSection section = new DefaultSection("App Version");
         Field[] declaredFields = buildConfig.getDeclaredFields();
         for (Field field : declaredFields) {
             if (Modifier.isStatic(field.getModifiers())) {
@@ -238,7 +209,7 @@ public class DefaultProperties {
                     }
 
                     if (key != null && value != null && !value.trim().isEmpty()) {
-                        entries.add(new KeyValueEntry(key, String.valueOf(field.get(null))));
+                        section.add(new KeyValueEntry(key, String.valueOf(field.get(null))));
                     }
 
                 } catch (Exception e) {
@@ -247,52 +218,19 @@ public class DefaultProperties {
             }
         }
 
-        return entries;
+        return section;
     }
 
     /**
-     * Returns pageentry for each defined permission in the app (the passed activity belongs to).
-     * <p>
-     * See {@link #createSectionRuntimePermissions(Activity, List)} for more details
-     *
-     * @param activity                 can be null, but will just return an empty list
-     * @param onlyDangerousPermissions only include permissions with flag PROTECTION_DANGEROUS (ie. have to be granted by the user)
-     * @return list of page-entries
-     */
-    @SuppressLint("NewApi")
-    public static HeaderSection createSectionRuntimePermissions(@Nullable final Activity activity, boolean onlyDangerousPermissions) {
-        if (activity != null) {
-            try {
-                PackageInfo info = activity.getPackageManager().getPackageInfo(activity.getPackageName(), PackageManager.GET_PERMISSIONS);
-                if (info.requestedPermissions != null && info.requestedPermissions.length > 0) {
-                    List<String> permissionNames = new ArrayList<>();
-                    for (int i = 0; i < info.requestedPermissions.length; i++) {
-                        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1
-                                || !onlyDangerousPermissions
-                                || info.requestedPermissionsFlags[i] == PermissionInfo.PROTECTION_DANGEROUS) {
-                            permissionNames.add(info.requestedPermissions[i]);
-                        }
-                    }
-                    Collections.sort(permissionNames);
-                    return createSectionRuntimePermissions(activity, permissionNames);
-                }
-            } catch (PackageManager.NameNotFoundException e) {
-                throw new IllegalStateException(e);
-            }
-        }
-        return HeaderSection.EMPTY;
-    }
-
-    /**
-     * Returns for each provided permission a pageentry containing the current dynamic state (granted, denied, etc.) including click
+     * Returns for each provided permission a page-entry containing the current dynamic state (granted, denied, etc.) including click
      * actions to request the permission.
      *
      * @param activity           can be null, but will just return an empty list
      * @param androidPermissions see {@link android.Manifest.permission}
      * @return list of page-entries
      */
-    public static HeaderSection createSectionRuntimePermissions(@Nullable final Activity activity, List<String> androidPermissions) {
-        HeaderSection section = new HeaderSection("Permissions");
+    public static DefaultSection createSectionRuntimePermissions(@Nullable final Activity activity, List<String> androidPermissions) {
+        DefaultSection section = new DefaultSection("Permissions");
 
         if (activity != null && !androidPermissions.isEmpty()) {
             for (final String perm : androidPermissions) {
@@ -389,42 +327,6 @@ public class DefaultProperties {
     }
 
     /**
-     * Convince feature to add state of all declared system features (see Manifest uses-feature tags)
-     * Uses {@link #createSystemFeatureInfo(Context, Map)} call.
-     *
-     * @param context       can be null, but will just return an empty list
-     * @param includeHeader adds a title entry if true
-     * @return list of all declared uses-feature tags in AndroidManifest as page entries
-     */
-    public static List<PageEntry<?>> createDeclaredSystemFeatureInfo(@Nullable Context context, boolean includeHeader) {
-        if (context != null) {
-            try {
-                PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
-                Map<CharSequence, String> featureMap = new TreeMap<>();
-                if (info.reqFeatures != null && info.reqFeatures.length > 0) {
-                    for (FeatureInfo reqFeature : info.reqFeatures) {
-                        boolean required = reqFeature.flags == FeatureInfo.FLAG_REQUIRED;
-                        String fullLabel = reqFeature.name + (required ? " (req)" : "");
-                        featureMap.put(new KeyValueEntry.Label(fullLabel.replace("android.hardware.", ""), fullLabel), reqFeature.name);
-                    }
-                }
-
-                List<PageEntry<?>> entries = new ArrayList<>();
-                if (includeHeader) {
-                    entries.add(new HeaderEntry("System Features"));
-                }
-                entries.addAll(createSystemFeatureInfo(context, featureMap));
-                if (entries.size() > 1) {
-                    return entries;
-                }
-            } catch (Exception e) {
-                throw new IllegalStateException(e);
-            }
-        }
-        return Collections.emptyList();
-    }
-
-    /**
      * Convince feature to add state of multiple system features.
      * Uses {@link PackageManager#hasSystemFeature(String)} call.
      * <p>
@@ -455,8 +357,8 @@ public class DefaultProperties {
      * @return the list of entries
      */
     //@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
-    public static HeaderSection createSectionTelephonyManger(@Nullable Context context) {
-        HeaderSection section = new HeaderSection("Telephony Status");
+    public static DefaultSection createSectionTelephonyManger(@Nullable Context context) {
+        DefaultSection section = new DefaultSection("Telephony Status");
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             section.setErrorMessage("Cannot display data - requires READ_PHONE_STATE permission.");
         } else if (context != null) {
@@ -517,7 +419,7 @@ public class DefaultProperties {
     }
 
     /**
-     * Converts a {@link Properties} objekt to page-entries
+     * Converts a {@link Properties} object to page-entries
      *
      * @param properties
      * @return list of page-entries

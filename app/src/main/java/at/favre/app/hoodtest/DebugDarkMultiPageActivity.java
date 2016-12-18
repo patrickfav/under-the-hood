@@ -25,6 +25,7 @@ import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.values.SpinnerElement;
 import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.util.PackageInfoAssembler;
 import at.favre.lib.hood.util.PageUtil;
 
 public class DebugDarkMultiPageActivity extends PopHoodActivity {
@@ -35,8 +36,8 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
     public Pages getPageData(@NonNull Pages pages) {
         Page firstPage = pages.addNewPage("General");
 
-        firstPage.add(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
-        firstPage.add(DefaultProperties.createSignatureHashInfo(this));
+        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
+        firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.SIGNATURE).createSection(this, false));
 
         PageUtil.addTitle(firstPage, "Debug Config");
         firstPage.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
@@ -44,7 +45,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
         firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
 
-        firstPage.add(DefaultProperties.createBasicDeviceInfo(true));
+        firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
 
         firstPage.add(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
@@ -70,9 +71,8 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
 
         PageUtil.addTitle(firstPage, "Lib BuildConfig");
         firstPage.add(DefaultProperties.createStaticFieldsInfo(BuildConfig.class));
-        firstPage.add(DefaultProperties.createSectionRuntimePermissions(this, false));
+        firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.USES_FEATURE, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
 
-        firstPage.add(DefaultProperties.createDeclaredSystemFeatureInfo(this, true));
         PageUtil.addTitle(firstPage, "Property File");
         firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
 
@@ -86,11 +86,10 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         systemFeatureMap.put("hasWebview", "android.software.webview");
         secondPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
-        secondPage.add(DefaultProperties.createInternalProcessDebugInfo(this, true));
-        secondPage.add(DefaultProperties.createBasicDeviceInfo(true));
+        secondPage.add(DefaultProperties.createInternalProcessDebugInfo(this));
+        secondPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         secondPage.add(DefaultProperties.createDetailedDeviceInfo(this));
-        secondPage.add(DefaultProperties.createAppVersionInfo(BuildConfig.class, true));
-        secondPage.add(DefaultProperties.createSignatureHashInfo(this));
+        secondPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
         secondPage.add(DefaultProperties.createSectionTelephonyManger(this));
         secondPage.add(new HeaderEntry("Settings", true));
 
@@ -101,6 +100,11 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         PageUtil.addAction(secondPage, DefaultActions.getBattSaverSettingsAction(this), DefaultActions.getDisplaySettingsAction(this));
         PageUtil.addAction(secondPage, DefaultActions.getInputModeSettingsAction(this), DefaultActions.getStorageSettingsAction(this));
         PageUtil.addAction(secondPage, DefaultActions.getSecuritySettingsAction(this), DefaultActions.getInstalledAppSettings(this));
+
+        secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO).createSection(this, true));
+
+        Page thirdPage = pages.addNewPage("Package Manager");
+        thirdPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.ACTIVITIES, PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.Type.PROVIDER, PackageInfoAssembler.Type.RECEIVERS, PackageInfoAssembler.Type.SERVICES, PackageInfoAssembler.Type.SIGNATURE, PackageInfoAssembler.Type.USES_FEATURE).createSection(this, true));
 
         return pages;
     }

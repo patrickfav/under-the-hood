@@ -29,6 +29,7 @@ import at.favre.lib.hood.page.entries.ConfigBoolEntry;
 import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
 import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.values.SpinnerElement;
+import at.favre.lib.hood.util.PackageInfoAssembler;
 import at.favre.lib.hood.util.PageUtil;
 import at.favre.lib.hood.view.HoodController;
 import at.favre.lib.hood.view.HoodDebugPageView;
@@ -66,11 +67,10 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
     public Pages getPages() {
         Pages pages = Hood.create(new Config.Builder().setShowHighlightContent(false).build());
         Page firstPage = pages.addNewPage("Debug Info");
-        firstPage.add(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
-        firstPage.add(DefaultProperties.createSignatureHashInfo(this));
-        firstPage.add(DefaultProperties.createBasicDeviceInfo(true));
-        firstPage.add(DefaultProperties.createSectionRuntimePermissions(this, false));
+        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
+        firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createConnectivityStatusInfo(this, true));
+        firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.Type.SIGNATURE).createSection(this, true));
 
         Page secondPage = pages.addNewPage("Debug Features");
         PageUtil.addTitle(secondPage, "System Features");

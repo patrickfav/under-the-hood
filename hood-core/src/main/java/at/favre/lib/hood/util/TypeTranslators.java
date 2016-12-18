@@ -1,5 +1,6 @@
 package at.favre.lib.hood.util;
 
+import android.content.pm.PackageInfo;
 import android.telephony.TelephonyManager;
 
 /**
@@ -64,6 +65,19 @@ public class TypeTranslators {
                 return "BLOCKED/NOT ASKED";
             default:
                 return "UNKNOWN";
+        }
+    }
+
+    public static String translatePMInstallLocation(int installLocationType) {
+        switch (installLocationType) {
+            case PackageInfo.INSTALL_LOCATION_AUTO:
+                return "AUTO";
+            case PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY:
+                return "INTERNAL_ONLY";
+            case PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL:
+                return "PREFER_EXTERNAL";
+            default:
+                return "UNKNOWN (" + installLocationType + ")";
         }
     }
 }

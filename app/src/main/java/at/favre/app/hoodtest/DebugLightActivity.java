@@ -30,10 +30,9 @@ public class DebugLightActivity extends PopHoodActivity {
     public Pages getPageData(@NonNull Pages pages) {
         Page firstPage = pages.addNewPage();
 
-        firstPage.add(DefaultProperties.createAppVersionInfo(at.favre.lib.hood.BuildConfig.class, true));
-        firstPage.add(DefaultProperties.createSignatureHashInfo(this));
+        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
 
-        firstPage.add(DefaultProperties.createBasicDeviceInfo(true));
+        firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
 
         firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", false)));
@@ -49,8 +48,6 @@ public class DebugLightActivity extends PopHoodActivity {
         PageUtil.addAction(firstPage, DefaultActions.getCrashAction(), DefaultActions.getUninstallAction(this));
         PageUtil.addAction(firstPage, DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
         PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
-
-        firstPage.add(DefaultProperties.createSectionRuntimePermissions(this, true));
 
         PageUtil.addTitle(firstPage, "System Features");
         Map<CharSequence, String> systemFeatureMap = new HashMap<>();

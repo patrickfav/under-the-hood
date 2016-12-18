@@ -25,6 +25,7 @@ import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.values.SpinnerElement;
 import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.util.PackageInfoAssembler;
 import at.favre.lib.hood.util.PageUtil;
 
 public class DebugDarkActivity extends PopHoodActivity {
@@ -35,8 +36,7 @@ public class DebugDarkActivity extends PopHoodActivity {
     public Pages getPageData(@NonNull Pages pages) {
         Page firstPage = pages.addNewPage("General");
 
-        firstPage.add(DefaultProperties.createAppVersionInfo(BuildConfig.class, true));
-        firstPage.add(DefaultProperties.createSignatureHashInfo(this));
+        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
 
         PageUtil.addTitle(firstPage, "Debug Config");
         firstPage.add(new ConfigSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
@@ -44,7 +44,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
         firstPage.add(new ConfigBoolEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
 
-        firstPage.add(DefaultProperties.createBasicDeviceInfo(true));
+        firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
 
         firstPage.add(new KeyValueEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
@@ -70,9 +70,7 @@ public class DebugDarkActivity extends PopHoodActivity {
 
         PageUtil.addTitle(firstPage, "Lib BuildConfig");
         firstPage.add(DefaultProperties.createStaticFieldsInfo(BuildConfig.class));
-        firstPage.add(DefaultProperties.createSectionRuntimePermissions(this, false));
-
-        firstPage.add(DefaultProperties.createDeclaredSystemFeatureInfo(this, true));
+        firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.USES_FEATURE, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
         PageUtil.addTitle(firstPage, "Property File");
         firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
 
@@ -85,11 +83,11 @@ public class DebugDarkActivity extends PopHoodActivity {
         systemFeatureMap.put("hasWebview", "android.software.webview");
         firstPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
-        firstPage.add(DefaultProperties.createInternalProcessDebugInfo(this, true));
-        firstPage.add(DefaultProperties.createBasicDeviceInfo(true));
+        firstPage.add(DefaultProperties.createInternalProcessDebugInfo(this));
+        firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
-        firstPage.add(DefaultProperties.createAppVersionInfo(BuildConfig.class, true));
-        firstPage.add(DefaultProperties.createSignatureHashInfo(this));
+        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
+        firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.SIGNATURE).createSection(this, false));
         firstPage.add(DefaultProperties.createSectionTelephonyManger(this));
         firstPage.add(new HeaderEntry("Settings", true));
 
