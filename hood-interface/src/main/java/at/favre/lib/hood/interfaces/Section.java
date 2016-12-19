@@ -1,5 +1,4 @@
-package at.favre.lib.hood.page;
-
+package at.favre.lib.hood.interfaces;
 
 import java.util.List;
 

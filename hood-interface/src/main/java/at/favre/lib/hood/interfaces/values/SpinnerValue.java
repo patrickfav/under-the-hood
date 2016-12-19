@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page.values;
+package at.favre.lib.hood.interfaces.values;
 
 import java.util.Collection;
 

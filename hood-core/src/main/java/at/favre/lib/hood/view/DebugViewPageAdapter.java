@@ -9,8 +9,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import at.favre.lib.hood.page.Page;
-import at.favre.lib.hood.page.Pages;
+import at.favre.lib.hood.interfaces.Page;
+import at.favre.lib.hood.interfaces.Pages;
 
 /**
  * The pager adapter for the main viewpager containing {@link DebugPageContentView} views.

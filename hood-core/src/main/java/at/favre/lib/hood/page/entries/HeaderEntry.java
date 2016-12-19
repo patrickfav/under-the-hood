@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.page.PageEntry;
-import at.favre.lib.hood.page.ViewTemplate;
-
-import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_HEADER;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.ViewTemplate;
+import at.favre.lib.hood.interfaces.ViewTypes;
 
 /**
  * A simple, non-interactive header used to separate other entries
@@ -29,6 +28,10 @@ public class HeaderEntry implements PageEntry<CharSequence> {
         this(header, false);
     }
 
+    /**
+     * @param header    as shown in ui
+     * @param hideInLog will omit it in log
+     */
     public HeaderEntry(CharSequence header, boolean hideInLog) {
         this.header = header;
         this.template = new Template();
@@ -61,7 +64,7 @@ public class HeaderEntry implements PageEntry<CharSequence> {
     private static class Template implements ViewTemplate<CharSequence> {
         @Override
         public int getViewType() {
-            return VIEWTYPE_HEADER;
+            return ViewTypes.VIEWTYPE_HEADER;
         }
 
         @Override

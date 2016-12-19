@@ -10,21 +10,25 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.page.PageEntry;
-import at.favre.lib.hood.page.ViewTemplate;
-import at.favre.lib.hood.page.values.ChangeableValue;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.ViewTemplate;
+import at.favre.lib.hood.interfaces.ViewTypes;
+import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
 import at.favre.lib.hood.util.HoodUtil;
-
-import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_CONFIG_BOOL;
 
 /**
  * A boolean switch used to change a debug setting
  */
-public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigAction> {
+public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
 
     private final BoolConfigAction action;
     private final Template template;
 
+    /**
+     * Creates an interactive switch like entry
+     *
+     * @param action
+     */
     public ConfigBoolEntry(BoolConfigAction action) {
         this.action = action;
         template = new Template();
@@ -53,7 +57,7 @@ public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigActi
     private static class Template implements ViewTemplate<BoolConfigAction> {
         @Override
         public int getViewType() {
-            return VIEWTYPE_CONFIG_BOOL;
+            return ViewTypes.VIEWTYPE_CONFIG_BOOL;
         }
 
         @Override
@@ -90,17 +94,4 @@ public class ConfigBoolEntry implements PageEntry<ConfigBoolEntry.BoolConfigActi
         }
     }
 
-    /**
-     * The abstraction of the switch containing a label (as shown in ui) and a changeable value
-     * representing the boolean switch value. Default implementation see {@link at.favre.lib.hood.defaults.DefaultConfigActions}
-     */
-    public static class BoolConfigAction {
-        public final String label;
-        public final ChangeableValue<Boolean, Boolean> changeableValue;
-
-        public BoolConfigAction(String label, ChangeableValue<Boolean, Boolean> boolValue) {
-            this.label = label;
-            this.changeableValue = boolValue;
-        }
-    }
 }

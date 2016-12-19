@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page.values;
+package at.favre.lib.hood.interfaces.values;
 
 /**
  * As en enhancement to {@link DynamicValue} a value that can also be changed (e.g. like a value in

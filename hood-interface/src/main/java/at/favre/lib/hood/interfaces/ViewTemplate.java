@@ -1,23 +1,22 @@
-package at.favre.lib.hood.page;
+package at.favre.lib.hood.interfaces;
 
 
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Used by the internal adapter as abstraction to a {@link android.support.v7.widget.RecyclerView.ViewHolder}
+ * Used by the internal adapter as abstraction to a RecyclerView.ViewHolder
  * @param <T>
  */
 public interface ViewTemplate<T> {
 
     /**
-     * Similar to {@link RecyclerView.Adapter#getItemViewType} return a view-type to be able
+     * Similar to RecyclerView.Adapter#getItemViewType return a view-type to be able
      * to recognize which views can be recycled. Free range is up to (excluding) 2^16 (65536).
-     * @return an int unique to the same type (see {@link at.favre.lib.hood.page.entries.ViewTypes} on
+     * @return an int unique to the same type (see {@link ViewTypes} on
      * what build-in view-types are already defined.
      */
     int getViewType();

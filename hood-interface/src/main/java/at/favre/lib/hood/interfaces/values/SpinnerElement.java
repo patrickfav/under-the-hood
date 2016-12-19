@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page.values;
+package at.favre.lib.hood.interfaces.values;
 
 /**
  * Wrapper of a spinner element containing a name used in UI and an id

@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.defaults.DefaultMiscActions;
-import at.favre.lib.hood.page.Config;
-import at.favre.lib.hood.page.Pages;
+import at.favre.lib.hood.interfaces.Config;
+import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.view.HoodController;
 import at.favre.lib.hood.view.HoodDebugPageView;
 
@@ -38,12 +38,12 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getIntent().getBooleanExtra(KEY_HEADLESS, false)) {
-            getPageData(getPageData(Hood.create(getConfig()))).logPages();
+            getPageData(getPageData(Hood.createPages(getConfig()))).logPages();
             finish();
         } else {
             setContentView(R.layout.hoodlib_activity_hood);
             debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
-            debugView.setPageData(getPageData(Hood.create(getConfig())));
+            debugView.setPageData(getPageData(Hood.createPages(getConfig())));
             toolbar = ((Toolbar) findViewById(R.id.toolbar));
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -119,7 +119,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     public abstract Pages getPageData(@NonNull Pages emptyPages);
 
     /**
-     * Create a config with this method. See {@link at.favre.lib.hood.page.Config.Builder}
+     * Create a config with this method. See {@link Config.Builder}
      *
      * @return the config
      */

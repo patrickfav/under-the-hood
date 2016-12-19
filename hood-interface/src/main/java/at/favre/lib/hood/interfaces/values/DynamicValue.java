@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page.values;
+package at.favre.lib.hood.interfaces.values;
 
 /**
  * Used for a value that might change (e.g. connectivity status).

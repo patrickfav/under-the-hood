@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.page.Page;
+import at.favre.lib.hood.interfaces.Page;
 
 /**
  * Implements the {@link NestedScrollingChild} to be able to be

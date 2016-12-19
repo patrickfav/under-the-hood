@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import at.favre.lib.hood.page.PageEntry;
-import at.favre.lib.hood.page.Section;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.TextMessageEntry;
 

@@ -7,11 +7,12 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
+import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
+import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
+import at.favre.lib.hood.interfaces.values.ChangeableValue;
+import at.favre.lib.hood.interfaces.values.SpinnerElement;
+import at.favre.lib.hood.interfaces.values.SpinnerValue;
 import at.favre.lib.hood.page.entries.ConfigBoolEntry;
-import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
-import at.favre.lib.hood.page.values.ChangeableValue;
-import at.favre.lib.hood.page.values.SpinnerElement;
-import at.favre.lib.hood.page.values.SpinnerValue;
 
 /**
  * Default implementations for Config* type entries
@@ -26,7 +27,7 @@ public class DefaultConfigActions {
      * @param defaultValue the default value if none is found
      * @return the action encapsolating t
      */
-    public static ConfigBoolEntry.BoolConfigAction getBoolSharedPreferencesConfigAction(final SharedPreferences prefs, final String booleKey, final boolean defaultValue) {
+    public static BoolConfigAction getBoolSharedPreferencesConfigAction(final SharedPreferences prefs, final String booleKey, final boolean defaultValue) {
         return getBoolSharedPreferencesConfigAction(prefs, booleKey, booleKey, defaultValue);
     }
 
@@ -39,8 +40,8 @@ public class DefaultConfigActions {
      * @param defaultValue the default value if none is found
      * @return the action encapsolating t
      */
-    public static ConfigBoolEntry.BoolConfigAction getBoolSharedPreferencesConfigAction(final SharedPreferences prefs, final String booleKey, String label, final boolean defaultValue) {
-        return new ConfigBoolEntry.BoolConfigAction(label, new ChangeableValue<Boolean, Boolean>() {
+    public static BoolConfigAction getBoolSharedPreferencesConfigAction(final SharedPreferences prefs, final String booleKey, String label, final boolean defaultValue) {
+        return new BoolConfigAction(label, new ChangeableValue<Boolean, Boolean>() {
             @Override
             public void onChange(Boolean value) {
                 prefs.edit().putBoolean(booleKey, value).apply();
@@ -53,8 +54,8 @@ public class DefaultConfigActions {
         });
     }
 
-    public static ConfigSpinnerEntry.SingleSelectListConfigAction getDefaultSharedPrefBackedSpinnerAction(@Nullable String label, @NonNull final SharedPreferences prefs, final @NonNull String backendIdPrefKey, final @Nullable String defaultId, @NonNull final List<SpinnerElement> elements) {
-        return new ConfigSpinnerEntry.SingleSelectListConfigAction(label, new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
+    public static SingleSelectListConfigAction getDefaultSharedPrefBackedSpinnerAction(@Nullable String label, @NonNull final SharedPreferences prefs, final @NonNull String backendIdPrefKey, final @Nullable String defaultId, @NonNull final List<SpinnerElement> elements) {
+        return new SingleSelectListConfigAction(label, new SpinnerValue<List<SpinnerElement>, SpinnerElement>() {
 
             @SuppressLint("CommitPrefEdits")
             @Override

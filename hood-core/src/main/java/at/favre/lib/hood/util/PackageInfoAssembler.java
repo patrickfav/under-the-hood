@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import at.favre.lib.hood.defaults.DefaultProperties;
-import at.favre.lib.hood.page.PageEntry;
-import at.favre.lib.hood.page.Section;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.sections.DefaultSection;
 

@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page;
+package at.favre.lib.hood.interfaces;
 
 
 import android.support.annotation.Nullable;

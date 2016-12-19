@@ -12,25 +12,24 @@ import java.util.Collections;
 import java.util.List;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.page.PageEntry;
-import at.favre.lib.hood.page.ViewTemplate;
-
-import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_ACTION;
-import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_ACTION_DOUBLE;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.ViewTemplate;
+import at.favre.lib.hood.interfaces.ViewTypes;
+import at.favre.lib.hood.interfaces.actions.ButtonAction;
 
 /**
  * An entry that is one or two buttons which have defined click action
  */
-public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
+public class ActionEntry implements PageEntry<List<ButtonAction>> {
 
-    private final List<Action> actionList;
+    private final List<ButtonAction> actionList;
     private final Template template;
 
     /**
      * Single column action
      * @param action
      */
-    public ActionEntry(Action action) {
+    public ActionEntry(ButtonAction action) {
         this.actionList = Collections.singletonList(action);
         template = new Template(actionList.size() == 1);
     }
@@ -40,18 +39,18 @@ public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
      * @param actionLeft
      * @param actionRight
      */
-    public ActionEntry(Action actionLeft, Action actionRight) {
+    public ActionEntry(ButtonAction actionLeft, ButtonAction actionRight) {
         this.actionList = Collections.unmodifiableList(Arrays.asList(actionLeft, actionRight));
         template = new Template(actionList.size() == 1);
     }
 
     @Override
-    public List<Action> getValue() {
+    public List<ButtonAction> getValue() {
         return actionList;
     }
 
     @Override
-    public ViewTemplate<List<Action>> getViewTemplate() {
+    public ViewTemplate<List<ButtonAction>> getViewTemplate() {
         return template;
     }
 
@@ -65,7 +64,7 @@ public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
         //no-op
     }
 
-    private static class Template implements ViewTemplate<List<Action>> {
+    private static class Template implements ViewTemplate<List<ButtonAction>> {
         private boolean isSingleAction;
 
         public Template(boolean isSingleAction) {
@@ -74,7 +73,7 @@ public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
 
         @Override
         public int getViewType() {
-            return isSingleAction ? VIEWTYPE_ACTION : VIEWTYPE_ACTION_DOUBLE;
+            return isSingleAction ? ViewTypes.VIEWTYPE_ACTION : ViewTypes.VIEWTYPE_ACTION_DOUBLE;
         }
 
         @Override
@@ -87,7 +86,7 @@ public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
         }
 
         @Override
-        public void setContent(List<Action> value, @NonNull View view) {
+        public void setContent(List<ButtonAction> value, @NonNull View view) {
             if (isSingleAction) {
                 ((TextView) view.findViewById(R.id.button)).setText(value.get(0).label);
                 view.findViewById(R.id.button).setOnClickListener(value.get(0).onClickListener);
@@ -103,19 +102,6 @@ public class ActionEntry implements PageEntry<List<ActionEntry.Action>> {
         @Override
         public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
             //no-op
-        }
-    }
-
-    /**
-     * An action containing a name (button text) and a click-listener used for the button
-     */
-    public static class Action {
-        public final String label;
-        public final View.OnClickListener onClickListener;
-
-        public Action(String label, View.OnClickListener onClickListener) {
-            this.label = label;
-            this.onClickListener = onClickListener;
         }
     }
 }

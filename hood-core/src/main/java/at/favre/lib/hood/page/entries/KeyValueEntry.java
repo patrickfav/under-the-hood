@@ -18,15 +18,14 @@ import java.util.Map;
 
 import at.favre.lib.hood.R;
 import at.favre.lib.hood.defaults.DefaultMiscActions;
-import at.favre.lib.hood.page.PageEntry;
-import at.favre.lib.hood.page.ViewTemplate;
-import at.favre.lib.hood.page.values.DynamicValue;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.ViewTemplate;
+import at.favre.lib.hood.interfaces.ViewTypes;
+import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.view.KeyValueDetailDialogs;
 
 import static android.content.ContentValues.TAG;
-import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_KEYVALUE;
-import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_KEYVALUE_MULTILINE;
 
 /**
  * An entry that has an key and value (e.g. normal properties). Supports custom click actions, multi line values
@@ -150,7 +149,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
         @Override
         public int getViewType() {
-            return multiLine ? VIEWTYPE_KEYVALUE_MULTILINE : VIEWTYPE_KEYVALUE;
+            return multiLine ? ViewTypes.VIEWTYPE_KEYVALUE_MULTILINE : ViewTypes.VIEWTYPE_KEYVALUE;
         }
 
         @Override

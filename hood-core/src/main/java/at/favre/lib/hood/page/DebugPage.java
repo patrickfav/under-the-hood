@@ -8,6 +8,12 @@ import android.util.SparseArray;
 import java.util.LinkedList;
 import java.util.List;
 
+import at.favre.lib.hood.interfaces.Page;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.Pages;
+import at.favre.lib.hood.interfaces.Section;
+import at.favre.lib.hood.interfaces.ViewTemplate;
+
 /**
  * The default implementation of the debug view page. Use factory to create instance.
  */
@@ -74,7 +80,7 @@ public class DebugPage implements Page {
 
     @NonNull
     @Override
-    public Config getConfig() {
+    public at.favre.lib.hood.interfaces.Config getConfig() {
         return pages.getConfig();
     }
 

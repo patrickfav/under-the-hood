@@ -16,23 +16,27 @@ import android.widget.TextView;
 import java.util.List;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.page.PageEntry;
-import at.favre.lib.hood.page.ViewTemplate;
-import at.favre.lib.hood.page.values.SpinnerElement;
-import at.favre.lib.hood.page.values.SpinnerValue;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.ViewTemplate;
+import at.favre.lib.hood.interfaces.ViewTypes;
+import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
+import at.favre.lib.hood.interfaces.values.SpinnerElement;
 import at.favre.lib.hood.util.HoodUtil;
-
-import static at.favre.lib.hood.page.entries.ViewTypes.VIEWTYPE_CONFIG_SPINNER;
 
 /**
  * A dropdown-type ui page entry element (select one in a list). Uses defined interface to get/set the
  * values of the list.
  */
-public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSelectListConfigAction> {
+public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigAction> {
 
     private final SingleSelectListConfigAction action;
     private final Template template;
 
+    /**
+     * Creates a single-select from list entry (ie. spinner or drop-down list)
+     *
+     * @param action
+     */
     public ConfigSpinnerEntry(SingleSelectListConfigAction action) {
         this.action = action;
         template = new Template();
@@ -61,7 +65,7 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
     private static class Template implements ViewTemplate<SingleSelectListConfigAction> {
         @Override
         public int getViewType() {
-            return VIEWTYPE_CONFIG_SPINNER;
+            return ViewTypes.VIEWTYPE_CONFIG_SPINNER;
         }
 
         @Override
@@ -148,16 +152,4 @@ public class ConfigSpinnerEntry implements PageEntry<ConfigSpinnerEntry.SingleSe
         }
     }
 
-    /**
-     * Defines the ui label and list elements (as well as how changing it will be handled
-     */
-    public static class SingleSelectListConfigAction {
-        public final String label;
-        public final SpinnerValue<List<SpinnerElement>, SpinnerElement> changeableValue;
-
-        public SingleSelectListConfigAction(@Nullable String label, SpinnerValue<List<SpinnerElement>, SpinnerElement> value) {
-            this.label = label;
-            this.changeableValue = value;
-        }
-    }
 }

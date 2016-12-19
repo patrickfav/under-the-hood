@@ -27,11 +27,11 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TimeZone;
 
-import at.favre.lib.hood.page.PageEntry;
+import at.favre.lib.hood.interfaces.PageEntry;
+import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.sections.DefaultSection;
-import at.favre.lib.hood.page.values.DynamicValue;
 import at.favre.lib.hood.util.DeviceStatusUtil;
 import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.util.TypeTranslators;

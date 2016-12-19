@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.page.Page;
-import at.favre.lib.hood.page.Pages;
+import at.favre.lib.hood.interfaces.Page;
+import at.favre.lib.hood.interfaces.Pages;
 
 /**
  * The view encapsulating the rendering logic of a {@link Page}. Internally has an recyclerview

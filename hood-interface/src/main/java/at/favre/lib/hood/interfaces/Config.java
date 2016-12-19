@@ -1,7 +1,7 @@
-package at.favre.lib.hood.page;
+package at.favre.lib.hood.interfaces;
 
 public class Config {
-    private static final String TAG = Config.class.getName();
+    private static final String TAG = at.favre.lib.hood.interfaces.Config.class.getName();
 
     public final boolean showZebra;
     public final boolean showHighlightContent;
@@ -76,7 +76,7 @@ public class Config {
         }
 
         public Config build() {
-            return new Config(showZebra, showHighlightContent, autoLog, logTag, showPagesIndicator);
+            return new at.favre.lib.hood.interfaces.Config(showZebra, showHighlightContent, autoLog, logTag, showPagesIndicator);
         }
     }
 }

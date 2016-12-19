@@ -25,10 +25,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.android.support:support-annotations:25.1.0'
 
-    compile 'com.android.support:support-compat:25.1.0'
-    compile 'com.android.support:support-core-utils:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile project(':hood-interface')
     testCompile 'junit:junit:4.12'
 }

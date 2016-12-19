@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import at.favre.lib.hood.page.Page;
-import at.favre.lib.hood.page.ViewTemplate;
+import at.favre.lib.hood.interfaces.Page;
+import at.favre.lib.hood.interfaces.ViewTemplate;
 
 /**
  * The adapter managing the entries from given {@link Page}. Instead of a {@link android.support.v7.widget.RecyclerView.ViewHolder}

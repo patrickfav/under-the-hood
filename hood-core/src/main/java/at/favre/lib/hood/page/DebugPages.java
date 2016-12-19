@@ -6,18 +6,20 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.favre.lib.hood.interfaces.Page;
+import at.favre.lib.hood.interfaces.Pages;
 
 public class DebugPages implements Pages {
     private List<Page> pages = new ArrayList<>();
-    private Config config;
+    private at.favre.lib.hood.interfaces.Config config;
 
     public static class Factory {
-        public static Pages create(Config config) {
+        public static Pages create(at.favre.lib.hood.interfaces.Config config) {
             return new DebugPages(config);
         }
     }
 
-    private DebugPages(Config config) {
+    private DebugPages(at.favre.lib.hood.interfaces.Config config) {
         this.config = config;
     }
 
@@ -74,7 +76,7 @@ public class DebugPages implements Pages {
 
     @NonNull
     @Override
-    public Config getConfig() {
+    public at.favre.lib.hood.interfaces.Config getConfig() {
         return config;
     }
 
