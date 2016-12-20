@@ -9,6 +9,7 @@ import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -82,6 +83,18 @@ public class HoodDebugPageView extends FrameLayout {
 
     public Pages getPages() {
         return pages;
+    }
+
+    public OnTouchListener getTouchInterceptorListener() {
+        return new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                /*if(event.getAction() == MotionEvent.ACTION_MOVE && viewPager.getCurrentItem() != 0) {
+                    return viewPager.onTouchEvent(event);
+                }*/
+                return false;
+            }
+        };
     }
 
     /**

@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 
 public class DebugDrawerActivity extends AppCompatActivity implements HoodController {
 
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout drawerLayout;
     private HoodDebugPageView hoodDebugPageView;
     private Toolbar toolbar;
 
@@ -46,17 +47,28 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debugdrawer);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         hoodDebugPageView = (HoodDebugPageView) findViewById(R.id.left_drawer);
         hoodDebugPageView.setPageData(getPages());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViewById(R.id.toggle_drawer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDrawerLayout.openDrawer(Gravity.RIGHT);
+                drawerLayout.openDrawer(Gravity.RIGHT);
             }
         });
+        drawerLayout.setOnTouchListener(hoodDebugPageView.getTouchInterceptorListener());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+        if (i == android.R.id.home) {
+            onBackPressed();
+        }
+        return true;
     }
 
     @NonNull
