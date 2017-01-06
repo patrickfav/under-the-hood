@@ -11,4 +11,24 @@ public interface Section {
      * @return content of this section as list
      */
     List<PageEntry<?>> asEntryList();
+
+    interface HeaderSection extends Section {
+        HeaderSection removeHeader();
+
+        HeaderSection ommitErrorMessage();
+    }
+
+    interface ModifiableHeaderSection extends HeaderSection {
+        HeaderSection add(PageEntry<?> entry);
+
+        HeaderSection add(List<PageEntry<?>> entries);
+
+        HeaderSection add(Section section);
+
+        HeaderSection setErrorMessage(String errorMessage);
+
+        String getErrorMessage();
+
+        HeaderSection setHeader(String header);
+    }
 }

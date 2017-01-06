@@ -73,7 +73,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         PageUtil.addHeader(firstPage, "Property File");
         firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
 
-        firstPage.add(DefaultProperties.createConnectivityStatusInfo(this, true));
+        firstPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
 
         Page secondPage = pages.addNewPage("Details");
         PageUtil.addHeader(secondPage, "System Features");
@@ -88,7 +88,8 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         secondPage.add(DefaultProperties.createDetailedDeviceInfo(this));
         secondPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
         secondPage.add(DefaultProperties.createSectionTelephonyManger(this));
-        secondPage.add(DefaultProperties.createStrictModeSection());
+        secondPage.add(DefaultProperties.createSectionStrictMode());
+        secondPage.add(DefaultProperties.createSectionAndroidDebugSettings(this));
         secondPage.add(Hood.createHeaderEntry("Settings", true));
         PageUtil.addAction(secondPage, DefaultActions.getGlobalSettingsAction(this), DefaultActions.getNfcSettingsAction(this));
         PageUtil.addAction(secondPage, DefaultActions.getNfcPaymentSettingsAction(this), DefaultActions.getDevSettingsAction(this));

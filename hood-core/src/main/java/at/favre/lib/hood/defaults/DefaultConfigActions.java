@@ -12,7 +12,6 @@ import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
 import at.favre.lib.hood.interfaces.values.ChangeableValue;
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
 import at.favre.lib.hood.interfaces.values.SpinnerValue;
-import at.favre.lib.hood.page.entries.ConfigBoolEntry;
 
 /**
  * Default implementations for Config* type entries
@@ -20,7 +19,7 @@ import at.favre.lib.hood.page.entries.ConfigBoolEntry;
 public class DefaultConfigActions {
 
     /**
-     * Used with {@link ConfigBoolEntry}. A changeable boolean value backed by shared preferences,
+     * Used with {@link at.favre.lib.hood.Hood#createSwitchEntry(BoolConfigAction)}. A changeable boolean value backed by shared preferences,
      *
      * @param prefs        shared preference containing the key
      * @param booleKey     the key in the pref
@@ -32,7 +31,7 @@ public class DefaultConfigActions {
     }
 
     /**
-     * Used with {@link ConfigBoolEntry}. A changeable boolean value backed by shared preferences,
+     * Used with {@link at.favre.lib.hood.Hood#createSwitchEntry(BoolConfigAction)}. A changeable boolean value backed by shared preferences,
      *
      * @param prefs        shared preference containing the key
      * @param booleKey     the key in the pref

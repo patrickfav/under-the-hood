@@ -14,7 +14,7 @@ import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.ViewTemplate;
 import at.favre.lib.hood.interfaces.ViewTypes;
 import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
-import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.view.HoodDebugPageView;
 
 /**
  * A boolean switch used to change a debug setting
@@ -90,7 +90,7 @@ public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
 
         @Override
         public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
-            HoodUtil.setZebraToView(view, zebraColor, isOdd);
+            HoodDebugPageView.setZebraToView(view, zebraColor, isOdd);
         }
     }
 

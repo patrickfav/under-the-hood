@@ -21,7 +21,7 @@ import at.favre.lib.hood.interfaces.ViewTemplate;
 import at.favre.lib.hood.interfaces.ViewTypes;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
-import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.view.HoodDebugPageView;
 
 /**
  * A dropdown-type ui page entry element (select one in a list). Uses defined interface to get/set the
@@ -103,7 +103,7 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
 
         @Override
         public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
-            HoodUtil.setZebraToView(view, zebraColor, isOdd);
+            HoodDebugPageView.setZebraToView(view, zebraColor, isOdd);
         }
     }
 

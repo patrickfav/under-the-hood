@@ -23,6 +23,7 @@ import at.favre.lib.hood.interfaces.ViewTemplate;
 import at.favre.lib.hood.interfaces.ViewTypes;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.view.HoodDebugPageView;
 import at.favre.lib.hood.view.KeyValueDetailDialogs;
 
 import static android.content.ContentValues.TAG;
@@ -181,7 +182,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
         @Override
         public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
-            HoodUtil.setZebraToView(view, zebraColor, isOdd);
+            HoodDebugPageView.setZebraToView(view, zebraColor, isOdd);
         }
     }
 

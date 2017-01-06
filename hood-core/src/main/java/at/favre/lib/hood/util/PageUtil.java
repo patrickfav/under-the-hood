@@ -10,7 +10,7 @@ import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.page.entries.ActionEntry;
 
 /**
- * Convenience methods for modifying pages
+ * Convenience methods for modifying pages. Most of them are null-safe.
  */
 public class PageUtil {
 

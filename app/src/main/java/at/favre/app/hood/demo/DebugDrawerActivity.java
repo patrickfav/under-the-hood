@@ -79,7 +79,7 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         Page firstPage = pages.addNewPage("Debug Info");
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
         firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
-        firstPage.add(DefaultProperties.createConnectivityStatusInfo(this, true));
+        firstPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
         firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.Type.SIGNATURE).createSection(this, true));
 
         Page secondPage = pages.addNewPage("Debug Features");

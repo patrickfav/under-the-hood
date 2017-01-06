@@ -71,7 +71,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         PageUtil.addHeader(firstPage, "Property File");
         firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
 
-        firstPage.add(DefaultProperties.createConnectivityStatusInfo(this, true));
+        firstPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
 
         PageUtil.addHeader(firstPage, "System Features");
         Map<CharSequence, String> systemFeatureMap = new HashMap<>();

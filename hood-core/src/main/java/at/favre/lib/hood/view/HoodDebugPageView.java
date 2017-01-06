@@ -2,6 +2,8 @@ package at.favre.lib.hood.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -169,4 +171,18 @@ public class HoodDebugPageView extends FrameLayout {
         return tabs;
     }
 
+
+    public static void setZebraToView(View view, @ColorInt int zebraColor, boolean isOdd) {
+        Drawable zebra = null;
+
+        if (isOdd) {
+            zebra = new ColorDrawable(zebraColor);
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            view.findViewById(R.id.inner_wrapper).setBackgroundDrawable(zebra);
+        } else {
+            view.findViewById(R.id.inner_wrapper).setBackground(zebra);
+        }
+    }
 }

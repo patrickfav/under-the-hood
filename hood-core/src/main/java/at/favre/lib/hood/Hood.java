@@ -16,6 +16,7 @@ import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.entries.TextMessageEntry;
 
 public class Hood {
+    private static final HoodInternal HOOD_INTERNAL = new HoodInternal();
 
     private Hood() {
     }
@@ -155,5 +156,9 @@ public class Hood {
      */
     public static PageEntry<?> createPropertyEntry(CharSequence key, String value) {
         return new KeyValueEntry(key, value);
+    }
+
+    public static HoodInternal internal() {
+        return HOOD_INTERNAL;
     }
 }

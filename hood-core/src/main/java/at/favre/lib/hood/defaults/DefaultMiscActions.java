@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
-import static android.content.Context.ACTIVITY_SERVICE;
 
 /**
  * Some default actions (also used in other Default* classes)
@@ -56,7 +55,7 @@ public class DefaultMiscActions {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @TargetApi(Build.VERSION_CODES.KITKAT)
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            ((ActivityManager) ctx.getSystemService(ACTIVITY_SERVICE))
+                            ((ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE))
                                     .clearApplicationUserData();
                         }
                     })
@@ -71,7 +70,7 @@ public class DefaultMiscActions {
      */
     public static void killProcessesAround(Activity activity) {
         try {
-            ActivityManager am = (ActivityManager) activity.getSystemService(ACTIVITY_SERVICE);
+            ActivityManager am = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
             String myProcessPrefix = activity.getApplicationInfo().processName;
             String myProcessName = activity.getPackageManager().getActivityInfo(activity.getComponentName(), 0).processName;
             for (ActivityManager.RunningAppProcessInfo proc : am.getRunningAppProcesses()) {

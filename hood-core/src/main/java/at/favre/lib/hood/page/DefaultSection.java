@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page.sections;
+package at.favre.lib.hood.page;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,6 @@ import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.TextMessageEntry;
 
-
 /**
  * The default implementation of the {@link Section} interface. Has a header, which can be removed
  * easily and can set a errorMessage for easier debugging. Has additional logic for empty content
@@ -17,7 +16,7 @@ import at.favre.lib.hood.page.entries.TextMessageEntry;
  * <p>
  * Most setters use the builder pattern for easy configuration.
  */
-public class DefaultSection implements Section {
+public class DefaultSection implements Section.ModifiableHeaderSection {
     /**
      * Use this for empty sections (where you cannot return null)
      */
@@ -31,10 +30,6 @@ public class DefaultSection implements Section {
         this((String) null);
     }
 
-    public DefaultSection(List<PageEntry<?>> entries) {
-        this(null, entries);
-    }
-
     public DefaultSection(String header) {
         this(header, new ArrayList<PageEntry<?>>());
     }
@@ -44,26 +39,31 @@ public class DefaultSection implements Section {
         this.entries = entries;
     }
 
+    @Override
     public DefaultSection removeHeader() {
         header = null;
         return this;
     }
 
+    @Override
     public DefaultSection ommitErrorMessage() {
         errorMessage = null;
         return this;
     }
 
+    @Override
     public DefaultSection add(PageEntry<?> entry) {
         this.entries.add(entry);
         return this;
     }
 
+    @Override
     public DefaultSection add(List<PageEntry<?>> entries) {
         this.entries.addAll(entries);
         return this;
     }
 
+    @Override
     public DefaultSection add(Section section) {
         this.entries.addAll(section.asEntryList());
         return this;
@@ -76,15 +76,18 @@ public class DefaultSection implements Section {
      * @param errorMessage
      * @return itself
      */
+    @Override
     public DefaultSection setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
+    @Override
     public String getErrorMessage() {
         return errorMessage;
     }
 
+    @Override
     public DefaultSection setHeader(String header) {
         this.header = header;
         return this;

@@ -6,14 +6,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,8 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import at.favre.lib.hood.R;
 
 
 public class HoodUtil {
@@ -66,20 +60,6 @@ public class HoodUtil {
             return GRANTED;
         } else {
             return GRANTED_ON_INSTALL;
-        }
-    }
-
-    public static void setZebraToView(View view, @ColorInt int zebraColor, boolean isOdd) {
-        Drawable zebra = null;
-
-        if (isOdd) {
-            zebra = new ColorDrawable(zebraColor);
-        }
-
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            view.findViewById(R.id.inner_wrapper).setBackgroundDrawable(zebra);
-        } else {
-            view.findViewById(R.id.inner_wrapper).setBackground(zebra);
         }
     }
 

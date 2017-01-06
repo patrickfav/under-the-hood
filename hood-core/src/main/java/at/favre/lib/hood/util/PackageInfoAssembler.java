@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.defaults.DefaultProperties;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
-import at.favre.lib.hood.page.sections.DefaultSection;
 
 /**
  * Helper class to assemble packageManager packageInfo data for different configurations;
@@ -125,7 +125,7 @@ public class PackageInfoAssembler {
         private final Integer requestFlag;
 
         /**
-         * Header for {@link DefaultSection}
+         * Header for {@link at.favre.lib.hood.interfaces.Section.HeaderSection}
          */
         private final String header;
 
@@ -181,7 +181,7 @@ public class PackageInfoAssembler {
      * @return section containing the info
      */
     public Section createSection(@Nullable Context context, boolean addSectionHeaders) {
-        DefaultSection mainSection = new DefaultSection("");
+        Section.ModifiableHeaderSection mainSection = Hood.internal().createSection("");
         if (context != null) {
             String targetPackageName = packageName == null ? context.getPackageName() : packageName;
             try {
@@ -193,7 +193,7 @@ public class PackageInfoAssembler {
                 }
 
                 for (Type type : typeSet) {
-                    mainSection.add(new DefaultSection(addSectionHeaders ? type.header : null, type.pageEntryProvider.getEntries(context, packageInfo)));
+                    mainSection.add(Hood.internal().createSection(addSectionHeaders ? type.header : null, type.pageEntryProvider.getEntries(context, packageInfo)));
                 }
             } catch (Exception e) {
                 mainSection.setErrorMessage("Could not get packageInfo for " + targetPackageName + ": " + e.getClass() + " (" + e.getMessage() + ")");
@@ -229,9 +229,9 @@ public class PackageInfoAssembler {
      */
     public static List<PageEntry<?>> createPmApkVersionInfo(@NonNull PackageInfo packageInfo) {
         List<PageEntry<?>> entries = new ArrayList<>();
-        entries.add(new KeyValueEntry("package-name", packageInfo.packageName));
-        entries.add(new KeyValueEntry("version-name", packageInfo.versionName));
-        entries.add(new KeyValueEntry("version-code", String.valueOf(packageInfo.versionCode)));
+        entries.add(Hood.createPropertyEntry("package-name", packageInfo.packageName));
+        entries.add(Hood.createPropertyEntry("version-name", packageInfo.versionName));
+        entries.add(Hood.createPropertyEntry("version-code", String.valueOf(packageInfo.versionCode)));
         return entries;
     }
 
@@ -246,7 +246,7 @@ public class PackageInfoAssembler {
         if (packageInfo.services != null) {
             for (ServiceInfo service : packageInfo.services) {
                 if (service != null) {
-                    entries.add(new KeyValueEntry(service.name,
+                    entries.add(Hood.createPropertyEntry(service.name,
                             "exported: " + service.exported + "\n" +
                                     "enabled: " + service.enabled + "\n" +
                                     "flags: " + service.exported + "\n" +
@@ -269,7 +269,7 @@ public class PackageInfoAssembler {
         if (packageInfo.receivers != null) {
             for (ActivityInfo receiver : packageInfo.receivers) {
                 if (receiver != null) {
-                    entries.add(new KeyValueEntry(receiver.name,
+                    entries.add(Hood.createPropertyEntry(receiver.name,
                             "exported: " + receiver.exported + "\n" +
                                     "enabled: " + receiver.enabled + "\n", true));
                 }
@@ -289,7 +289,7 @@ public class PackageInfoAssembler {
         if (packageInfo.providers != null) {
             for (ProviderInfo provider : packageInfo.providers) {
                 if (provider != null) {
-                    entries.add(new KeyValueEntry(provider.name,
+                    entries.add(Hood.createPropertyEntry(provider.name,
                             "exported: " + provider.exported + "\n" +
                                     "enabled: " + provider.enabled + "\n" +
                                     "authorities: " + provider.authority + "\n" +
@@ -313,7 +313,7 @@ public class PackageInfoAssembler {
         if (packageInfo.activities != null) {
             for (ActivityInfo receiver : packageInfo.activities) {
                 if (receiver != null) {
-                    entries.add(new KeyValueEntry(receiver.name,
+                    entries.add(Hood.createPropertyEntry(receiver.name,
                             "exported: " + receiver.exported + "\n" +
                                     "enabled: " + receiver.enabled + "\n", true));
                 }
@@ -331,10 +331,10 @@ public class PackageInfoAssembler {
     public static List<PageEntry<?>> createApkStateInfo(@NonNull PackageInfo packageInfo) {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            entries.add(new KeyValueEntry("apk-location", String.valueOf(TypeTranslators.translatePMInstallLocation(packageInfo.installLocation))));
+            entries.add(Hood.createPropertyEntry("apk-location", String.valueOf(TypeTranslators.translatePMInstallLocation(packageInfo.installLocation))));
         }
-        entries.add(new KeyValueEntry("apk-first-install", HoodUtil.toSimpleDateTimeFormat(packageInfo.firstInstallTime)));
-        entries.add(new KeyValueEntry("apk-reinstall", HoodUtil.toSimpleDateTimeFormat(packageInfo.lastUpdateTime)));
+        entries.add(Hood.createPropertyEntry("apk-first-install", HoodUtil.toSimpleDateTimeFormat(packageInfo.firstInstallTime)));
+        entries.add(Hood.createPropertyEntry("apk-reinstall", HoodUtil.toSimpleDateTimeFormat(packageInfo.lastUpdateTime)));
         return entries;
     }
 
@@ -350,7 +350,7 @@ public class PackageInfoAssembler {
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
                 md.update(signature.toByteArray());
-                entries.add(new KeyValueEntry("apk-signature-sha256", HoodUtil.byteToHex(md.digest()), true));
+                entries.add(Hood.createPropertyEntry("apk-signature-sha256", HoodUtil.byteToHex(md.digest()), true));
             }
         } catch (Exception e) {
             throw new IllegalStateException("could not create hash", e);

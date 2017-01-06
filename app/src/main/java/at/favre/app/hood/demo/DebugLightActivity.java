@@ -69,7 +69,7 @@ public class DebugLightActivity extends PopHoodActivity {
         }));
         firstPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
-        firstPage.add(DefaultProperties.createConnectivityStatusInfo(this, true));
+        firstPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
 
         return pages;
     }

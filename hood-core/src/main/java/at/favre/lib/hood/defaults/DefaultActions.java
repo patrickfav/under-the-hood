@@ -12,11 +12,10 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import at.favre.lib.hood.interfaces.actions.ButtonAction;
-import at.favre.lib.hood.page.entries.ActionEntry;
 import at.favre.lib.hood.util.DebugCrashException;
 
 /**
- * A couple of default action implementations used with {@link ActionEntry}
+ * A couple of default action implementations used with {@link at.favre.lib.hood.Hood#createActionEntry(ButtonAction)}
  */
 public class DefaultActions {
 
