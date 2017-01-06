@@ -1,4 +1,4 @@
-package at.favre.app.hoodtest;
+package at.favre.app.hood;
 
 
 import android.support.test.filters.LargeTest;
@@ -7,6 +7,8 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
 import org.junit.runner.RunWith;
+
+import at.favre.app.hood.demo.MainActivity;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)

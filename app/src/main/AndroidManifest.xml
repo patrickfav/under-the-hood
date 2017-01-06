@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="at.favre.app.hoodtest"
+<manifest package="at.favre.app.hood.demo"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- this is just for testing purpose - the app needs none of these permissions -->
@@ -27,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="at.favre.app.hoodtest.MainActivity"
+            android:name="at.favre.app.hood.demo.MainActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -35,27 +35,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="at.favre.app.hoodtest.DebugDrawerActivity"
+            android:name="at.favre.app.hood.demo.DebugDrawerActivity"
             android:label="Drawer Debug View"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name="at.favre.app.hoodtest.DebugDarkActivity"
+            android:name="at.favre.app.hood.demo.DebugDarkActivity"
             android:exported="true"
             android:label="Dark Debug View"
             android:theme="@style/HoodThemeDark"/>
         <activity
-            android:name="at.favre.app.hoodtest.DebugDarkMultiPageActivity"
+            android:name="at.favre.app.hood.demo.DebugDarkMultiPageActivity"
             android:exported="true"
             android:label="Dark Multi Page Debug View"
             android:theme="@style/HoodThemeDark"/>
         <activity
-            android:name="at.favre.app.hoodtest.DebugLightActivity"
+            android:name="at.favre.app.hood.demo.DebugLightActivity"
             android:label="Light Debug View"
-            android:theme="@style/CustomHoodThemeLight"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:theme="@style/CustomHoodThemeLight"/>
     </application>
 
 </manifest>

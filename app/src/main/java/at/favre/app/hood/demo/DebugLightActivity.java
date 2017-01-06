@@ -1,4 +1,4 @@
-package at.favre.app.hoodtest;
+package at.favre.app.hood.demo;
 
 import android.support.annotation.NonNull;
 import android.view.View;

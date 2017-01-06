@@ -1,4 +1,4 @@
-package at.favre.app.hoodtest;
+package at.favre.app.hood.demo;
 
 import android.content.Context;
 import android.content.Intent;

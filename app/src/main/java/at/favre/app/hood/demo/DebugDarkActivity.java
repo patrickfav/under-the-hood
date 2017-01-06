@@ -1,4 +1,4 @@
-package at.favre.app.hoodtest;
+package at.favre.app.hood.demo;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -25,16 +25,15 @@ import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.util.PackageInfoAssembler;
 import at.favre.lib.hood.util.PageUtil;
 
-public class DebugDarkMultiPageActivity extends PopHoodActivity {
-    private static final String TAG = DebugDarkMultiPageActivity.class.getName();
+public class DebugDarkActivity extends PopHoodActivity {
+    private static final String TAG = DebugDarkActivity.class.getName();
 
     @NonNull
     @Override
     public Pages getPageData(@NonNull Pages pages) {
         Page firstPage = pages.addNewPage("General");
 
-        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
-        firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.SIGNATURE).createSection(this, false));
+        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
 
         PageUtil.addHeader(firstPage, "Debug Config");
         firstPage.add(Hood.createSpinnerEnry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
@@ -69,39 +68,33 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         PageUtil.addHeader(firstPage, "Lib BuildConfig");
         firstPage.add(DefaultProperties.createStaticFieldsInfo(BuildConfig.class));
         firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.USES_FEATURE, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
-
         PageUtil.addHeader(firstPage, "Property File");
         firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
 
         firstPage.add(DefaultProperties.createConnectivityStatusInfo(this, true));
 
-        Page secondPage = pages.addNewPage("Details");
-        PageUtil.addHeader(secondPage, "System Features");
+        PageUtil.addHeader(firstPage, "System Features");
         Map<CharSequence, String> systemFeatureMap = new HashMap<>();
         systemFeatureMap.put("hasHce", "android.hardware.nfc.hce");
         systemFeatureMap.put("hasCamera", "android.hardware.camera");
         systemFeatureMap.put("hasWebview", "android.software.webview");
-        secondPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
+        firstPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
-        secondPage.add(DefaultProperties.createInternalProcessDebugInfo(this));
-        secondPage.add(DefaultProperties.createSectionBasicDeviceInfo());
-        secondPage.add(DefaultProperties.createDetailedDeviceInfo(this));
-        secondPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
-        secondPage.add(DefaultProperties.createSectionTelephonyManger(this));
-        secondPage.add(DefaultProperties.createStrictModeSection());
-        secondPage.add(Hood.createHeaderEntry("Settings", true));
-        PageUtil.addAction(secondPage, DefaultActions.getGlobalSettingsAction(this), DefaultActions.getNfcSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getNfcPaymentSettingsAction(this), DefaultActions.getDevSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getDateSettingsAction(this), DefaultActions.getAirplaneModeSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getSetLockScreenAction(this), DefaultActions.getDeviceInfoSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getBattSaverSettingsAction(this), DefaultActions.getDisplaySettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getInputModeSettingsAction(this), DefaultActions.getStorageSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getSecuritySettingsAction(this), DefaultActions.getInstalledAppSettings(this));
+        firstPage.add(DefaultProperties.createInternalProcessDebugInfo(this));
+        firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
+        firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
+        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
+        firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.SIGNATURE).createSection(this, false));
+        firstPage.add(DefaultProperties.createSectionTelephonyManger(this));
+        firstPage.add(Hood.createHeaderEntry("Settings", true));
 
-        secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO).createSection(this, true));
-
-        Page thirdPage = pages.addNewPage("Package Manager");
-        thirdPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.ACTIVITIES, PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.Type.PROVIDER, PackageInfoAssembler.Type.RECEIVERS, PackageInfoAssembler.Type.SERVICES, PackageInfoAssembler.Type.SIGNATURE, PackageInfoAssembler.Type.USES_FEATURE).createSection(this, true));
+        PageUtil.addAction(firstPage, DefaultActions.getGlobalSettingsAction(this), DefaultActions.getNfcSettingsAction(this));
+        PageUtil.addAction(firstPage, DefaultActions.getNfcPaymentSettingsAction(this), DefaultActions.getDevSettingsAction(this));
+        PageUtil.addAction(firstPage, DefaultActions.getDateSettingsAction(this), DefaultActions.getAirplaneModeSettingsAction(this));
+        PageUtil.addAction(firstPage, DefaultActions.getSetLockScreenAction(this), DefaultActions.getDeviceInfoSettingsAction(this));
+        PageUtil.addAction(firstPage, DefaultActions.getBattSaverSettingsAction(this), DefaultActions.getDisplaySettingsAction(this));
+        PageUtil.addAction(firstPage, DefaultActions.getInputModeSettingsAction(this), DefaultActions.getStorageSettingsAction(this));
+        PageUtil.addAction(firstPage, DefaultActions.getSecuritySettingsAction(this), DefaultActions.getInstalledAppSettings(this));
 
         return pages;
     }

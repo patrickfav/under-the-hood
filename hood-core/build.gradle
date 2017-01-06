@@ -22,13 +22,15 @@ android {
 }
 
 dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.dependencies.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.android.support:support-compat:25.1.0'
-    compile 'com.android.support:support-core-utils:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile "com.android.support:support-compat:$rootProject.ext.dependencies.support"
+    compile "com.android.support:support-core-utils:$rootProject.ext.dependencies.support"
+    compile "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
+
+    testCompile "junit:junit:$rootProject.ext.dependencies.junit"
+
     compile project(':hood-interface')
-    testCompile 'junit:junit:4.12'
 }
