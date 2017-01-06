@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Debug;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -415,6 +416,29 @@ public class DefaultProperties {
                 }
             }));
         }
+        return section;
+    }
+
+    /**
+     * Adds info for current {@link StrictMode} config. Currently only shows the bitmask used to
+     * store the policies states. Unfortunately there is not much public API to examine StrictMode
+     *
+     * @return section
+     */
+    public static DefaultSection createStrictModeSection() {
+        DefaultSection section = new DefaultSection("StrictMode");
+        section.add(new KeyValueEntry("thread-policy", new DynamicValue<String>() {
+            @Override
+            public String getValue() {
+                return String.valueOf(StrictMode.getThreadPolicy());
+            }
+        }, true));
+        section.add(new KeyValueEntry("vm-policy", new DynamicValue<String>() {
+            @Override
+            public String getValue() {
+                return StrictMode.getVmPolicy().toString();
+            }
+        }, true));
         return section;
     }
 

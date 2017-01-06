@@ -2,8 +2,10 @@ package at.favre.lib.hood.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.annotation.Px;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
@@ -16,6 +18,7 @@ import android.widget.FrameLayout;
 import at.favre.lib.hood.R;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
+import at.favre.lib.hood.page.DebugPages;
 
 /**
  * The view encapsulating the rendering logic of a {@link Page}. Internally has an recyclerview
@@ -56,6 +59,7 @@ public class HoodDebugPageView extends FrameLayout {
         viewPager = (SwitchableViewpager) findViewById(R.id.view_pager);
         progressBarView = findViewById(R.id.progress_bar);
         tabs = (PagerTitleStrip) findViewById(R.id.tabs);
+        setTabsElevation(getContext().getResources().getDimensionPixelSize(R.dimen.hoodlib_toolbar_elevation));
     }
 
     /**
@@ -65,7 +69,8 @@ public class HoodDebugPageView extends FrameLayout {
      */
     public void setPageData(@NonNull Pages pages) {
         this.viewPager.setAdapter(new DebugViewPageAdapter(viewPager, pages, zebraColor));
-        this.pages = pages;
+        this.pages = DebugPages.Factory.createImmutableCopy(pages);
+
         if (pages.getConfig().autoLog) {
             pages.logPages();
         }
@@ -81,6 +86,10 @@ public class HoodDebugPageView extends FrameLayout {
         }
     }
 
+    /**
+     * +
+     * Gets an immutable copy of the pages object provided by {@link #setPageData(Pages)}
+     */
     public Pages getPages() {
         return pages;
     }
@@ -127,6 +136,37 @@ public class HoodDebugPageView extends FrameLayout {
         if (pages == null) {
             throw new IllegalStateException("call setPageData() before using any view features");
         }
+    }
+
+    /**
+     * Sets the elevation (aka shadow) to the viewpager's tabs (if it is shown).
+     * This call is SDK 21- safe.
+     *
+     * @param dimensionPixel height as pixel
+     */
+    public void setTabsElevation(@Px int dimensionPixel) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && tabs != null && tabs.getVisibility() == VISIBLE) {
+            tabs.setElevation(dimensionPixel);
+        }
+    }
+
+    /**
+     * The internal viewpager for full control over the view.
+     * Use for customizing the view.
+     *
+     * @return current viewpager
+     */
+    public ViewPager getViewPager() {
+        return viewPager;
+    }
+
+    /**
+     * The tabs view. Use for customizing the view.
+     *
+     * @return tabs
+     */
+    public PagerTitleStrip getTabs() {
+        return tabs;
     }
 
 }

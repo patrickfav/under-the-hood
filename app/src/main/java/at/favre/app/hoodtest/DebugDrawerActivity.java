@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -33,6 +33,7 @@ import at.favre.lib.hood.view.HoodController;
 import at.favre.lib.hood.view.HoodDebugPageView;
 
 public class DebugDrawerActivity extends AppCompatActivity implements HoodController {
+    private static final int DRAWER_POSITION = GravityCompat.END;
 
     private DrawerLayout drawerLayout;
     private HoodDebugPageView hoodDebugPageView;
@@ -56,7 +57,7 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         findViewById(R.id.toggle_drawer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.openDrawer(Gravity.RIGHT);
+                drawerLayout.openDrawer(DRAWER_POSITION);
             }
         });
         drawerLayout.setOnTouchListener(hoodDebugPageView.getTouchInterceptorListener());
@@ -124,5 +125,14 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         elements.add(new Backend(4, "stage.backend.com", 443));
         elements.add(new Backend(5, "prod.backend.com", 443));
         return elements;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(DRAWER_POSITION)) {
+            drawerLayout.closeDrawer(DRAWER_POSITION, true);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

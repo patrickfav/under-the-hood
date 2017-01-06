@@ -2,6 +2,7 @@ package at.favre.lib.hood.extended;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -62,6 +63,11 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
                 public void onPageScrollStateChanged(int state) {
                 }
             });
+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && debugView.getPages().size() > 1) {
+                //because of a lack of a better API to disable the elevation in the AppBarLayout, uses deprecated method
+                ((AppBarLayout) findViewById(R.id.app_bar_layout)).setTargetElevation(0);
+            }
         }
     }
 

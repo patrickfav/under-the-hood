@@ -1,11 +1,13 @@
 package at.favre.lib.hood.page;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
 
@@ -14,12 +16,16 @@ public class DebugPages implements Pages {
     private at.favre.lib.hood.interfaces.Config config;
 
     public static class Factory {
-        public static Pages create(at.favre.lib.hood.interfaces.Config config) {
+        public static Pages create(@NonNull Config config) {
             return new DebugPages(config);
+        }
+
+        public static Pages createImmutableCopy(@NonNull Pages page) {
+            return new ImmutablePagesDelegate(page);
         }
     }
 
-    private DebugPages(at.favre.lib.hood.interfaces.Config config) {
+    private DebugPages(Config config) {
         this.config = config;
     }
 
@@ -37,6 +43,7 @@ public class DebugPages implements Pages {
         return p;
     }
 
+    @NonNull
     @Override
     public Page getFirstPage() {
         if (pages.size() < 1) {
@@ -45,6 +52,7 @@ public class DebugPages implements Pages {
         return pages.get(0);
     }
 
+    @Nullable
     @Override
     public Page getPage(int index) {
         return pages.get(index);
@@ -53,6 +61,11 @@ public class DebugPages implements Pages {
     @Override
     public List<Page> getAll() {
         return pages;
+    }
+
+    @Override
+    public int size() {
+        return pages.size();
     }
 
     @Override
@@ -98,4 +111,6 @@ public class DebugPages implements Pages {
         result = 31 * result + (config != null ? config.hashCode() : 0);
         return result;
     }
+
+
 }
