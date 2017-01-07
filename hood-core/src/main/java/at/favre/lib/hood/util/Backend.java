@@ -1,9 +1,9 @@
-package at.favre.lib.hood.defaults.misc;
+package at.favre.lib.hood.util;
 
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
 
 /**
- * Default implementation for a Backend - can be used with {@link at.favre.lib.hood.defaults.DefaultConfigActions} as backend
+ * Default implementation for a Backend - can be used with {@link at.favre.lib.hood.util.defaults.DefaultConfigActions} as backend
  * spinner element.
  */
 public class Backend extends SpinnerElement.Default {

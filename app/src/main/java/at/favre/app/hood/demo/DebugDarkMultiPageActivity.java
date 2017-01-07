@@ -10,10 +10,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import at.favre.lib.hood.Hood;
-import at.favre.lib.hood.defaults.DefaultButtonDefinitions;
-import at.favre.lib.hood.defaults.DefaultConfigActions;
-import at.favre.lib.hood.defaults.DefaultProperties;
-import at.favre.lib.hood.defaults.misc.Backend;
 import at.favre.lib.hood.extended.PopHoodActivity;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
@@ -21,9 +17,13 @@ import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
+import at.favre.lib.hood.util.Backend;
 import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.util.PackageInfoAssembler;
 import at.favre.lib.hood.util.PageUtil;
+import at.favre.lib.hood.util.defaults.DefaultButtonDefinitions;
+import at.favre.lib.hood.util.defaults.DefaultConfigActions;
+import at.favre.lib.hood.util.defaults.DefaultProperties;
 
 public class DebugDarkMultiPageActivity extends PopHoodActivity {
     private static final String TAG = DebugDarkMultiPageActivity.class.getName();

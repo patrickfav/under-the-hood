@@ -16,9 +16,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import at.favre.lib.hood.Hood;
-import at.favre.lib.hood.defaults.DefaultMiscActions;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Pages;
+import at.favre.lib.hood.util.defaults.DefaultMiscActions;
 import at.favre.lib.hood.view.HoodController;
 import at.favre.lib.hood.view.HoodDebugPageView;
 

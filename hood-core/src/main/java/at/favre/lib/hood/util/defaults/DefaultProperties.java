@@ -1,4 +1,4 @@
-package at.favre.lib.hood.defaults;
+package at.favre.lib.hood.util.defaults;
 
 
 import android.Manifest;
@@ -34,6 +34,7 @@ import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.util.DeviceStatusUtil;
 import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.util.PermissionTranslator;
 import at.favre.lib.hood.util.TypeTranslators;
 
 /**
@@ -251,7 +252,7 @@ public class DefaultProperties {
                 section.add(Hood.createPropertyEntry(perm.replace("android.permission.", ""), new DynamicValue<String>() {
                     @Override
                     public String getValue() {
-                        return TypeTranslators.translatePermissionState(HoodUtil.getPermissionStatus(activity, perm));
+                        return TypeTranslators.translatePermissionState(PermissionTranslator.getPermissionStatus(activity, perm));
                     }
                 }, Hood.internal().createOnClickActionAskPermission(perm, activity), false));
             }

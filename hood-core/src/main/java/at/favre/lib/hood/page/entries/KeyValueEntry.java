@@ -17,13 +17,13 @@ import java.util.Comparator;
 import java.util.Map;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.defaults.DefaultMiscActions;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.ViewTemplate;
 import at.favre.lib.hood.interfaces.ViewTypes;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
-import at.favre.lib.hood.util.HoodUtil;
+import at.favre.lib.hood.util.PermissionTranslator;
+import at.favre.lib.hood.util.defaults.DefaultMiscActions;
 import at.favre.lib.hood.view.HoodDebugPageView;
 import at.favre.lib.hood.view.KeyValueDetailDialogs;
 
@@ -263,12 +263,12 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
             Log.d(TAG, "check android permissions for " + androidPermissionName);
-            @HoodUtil.PermissionState int permissionState = HoodUtil.getPermissionStatus(activity, androidPermissionName);
+            @PermissionTranslator.PermissionState int permissionState = PermissionTranslator.getPermissionStatus(activity, androidPermissionName);
 
-            if (permissionState == HoodUtil.GRANTED) {
+            if (permissionState == PermissionTranslator.GRANTED) {
                 Toast.makeText(activity, R.string.hood_toast_already_allowed, Toast.LENGTH_SHORT).show();
                 v.getContext().startActivity(DefaultMiscActions.getAppInfoIntent(v.getContext()));
-            } else if (permissionState == HoodUtil.GRANTED_ON_INSTALL) {
+            } else if (permissionState == PermissionTranslator.GRANTED_ON_INSTALL) {
                 KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(getLongLabel(value.getKey()), value.getValue())
                         .show(((Activity) v.getContext()).getFragmentManager(), String.valueOf(value.getKey()));
             } else {

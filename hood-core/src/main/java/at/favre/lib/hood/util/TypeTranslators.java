@@ -53,15 +53,15 @@ public class TypeTranslators {
         }
     }
 
-    public static String translatePermissionState(@HoodUtil.PermissionState int permissionState) {
+    public static String translatePermissionState(@PermissionTranslator.PermissionState int permissionState) {
         switch (permissionState) {
-            case HoodUtil.GRANTED:
+            case PermissionTranslator.GRANTED:
                 return "GRANTED";
-            case HoodUtil.GRANTED_ON_INSTALL:
+            case PermissionTranslator.GRANTED_ON_INSTALL:
                 return "GRANTED (INSTALL)";
-            case HoodUtil.DENIED:
+            case PermissionTranslator.DENIED:
                 return "DENIED";
-            case HoodUtil.BLOCKED:
+            case PermissionTranslator.BLOCKED:
                 return "BLOCKED/NOT ASKED";
             default:
                 return "UNKNOWN";

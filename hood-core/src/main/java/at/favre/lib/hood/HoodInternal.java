@@ -34,4 +34,8 @@ public class HoodInternal {
     public OnClickAction createOnClickActionToast() {
         return new KeyValueEntry.ToastClickAction();
     }
+
+    public CharSequence createFullLabel(CharSequence shortLabel, CharSequence fullLabel) {
+        return new KeyValueEntry.Label(shortLabel, fullLabel);
+    }
 }

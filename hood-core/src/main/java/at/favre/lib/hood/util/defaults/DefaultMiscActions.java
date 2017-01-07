@@ -1,4 +1,4 @@
-package at.favre.lib.hood.defaults;
+package at.favre.lib.hood.util.defaults;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

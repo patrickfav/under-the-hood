@@ -25,10 +25,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import at.favre.lib.hood.Hood;
-import at.favre.lib.hood.defaults.DefaultProperties;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Section;
-import at.favre.lib.hood.page.entries.KeyValueEntry;
+import at.favre.lib.hood.util.defaults.DefaultProperties;
 
 /**
  * Helper class to assemble packageManager packageInfo data for different configurations;
@@ -408,7 +407,7 @@ public class PackageInfoAssembler {
                 for (FeatureInfo reqFeature : packageInfo.reqFeatures) {
                     boolean required = reqFeature.flags == FeatureInfo.FLAG_REQUIRED;
                     String fullLabel = reqFeature.name + (required ? " (req)" : "");
-                    featureMap.put(new KeyValueEntry.Label(fullLabel.replace("android.hardware.", ""), fullLabel), reqFeature.name);
+                    featureMap.put(Hood.internal().createFullLabel(fullLabel.replace("android.hardware.", ""), fullLabel), reqFeature.name);
                 }
             }
 

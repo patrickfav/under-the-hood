@@ -3,6 +3,8 @@ package at.favre.lib.hood.view;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -14,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import at.favre.lib.hood.R;
-import at.favre.lib.hood.util.HoodUtil;
 
 /**
  * Dialogs used as detail view in {@link at.favre.lib.hood.page.entries.KeyValueEntry}. See
@@ -91,7 +92,7 @@ public class KeyValueDetailDialogs {
             findViewById(R.id.btn_copy_clipboard).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HoodUtil.copyToClipboard(String.valueOf(key), value, getContext());
+                    copyToClipboard(String.valueOf(key), value, getContext());
                     Toast.makeText(getContext(), R.string.hood_toast_copied, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -136,7 +137,7 @@ public class KeyValueDetailDialogs {
             setButton(BUTTON_POSITIVE, "Copy", new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    HoodUtil.copyToClipboard(String.valueOf(key), value, getContext());
+                    copyToClipboard(String.valueOf(key), value, getContext());
                     Toast.makeText(getContext(), R.string.hood_toast_copied, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -154,6 +155,12 @@ public class KeyValueDetailDialogs {
                 }
             });
         }
+    }
+
+    private static void copyToClipboard(String label, String value, Context ctx) {
+        ClipboardManager clipboard = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(label, value);
+        clipboard.setPrimaryClip(clip);
     }
 
     public interface LogRunnable {
