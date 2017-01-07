@@ -11,6 +11,11 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionNameLib
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "GIT_REV", "\"" + getGitRev() + "\""
+        buildConfigField "String", "GIT_BRANCH", "\"" + getGitBranch() + "\""
+        buildConfigField "String", "GIT_DATE", "\"" + getGitCommitDate() + "\""
+
     }
 
     buildTypes {
@@ -46,4 +51,35 @@ dependencies {
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 
     compile project(':hood-extended')
+}
+
+def String getGitRev() {
+    def git_rev = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'log', '-1', '--format=%H'
+        standardOutput = git_rev
+    }
+    git_rev = git_rev.toString().trim()
+    return git_rev
+}
+
+def String getGitCommitDate() {
+    def git_date = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'log', '-1', '--format=%cI'
+        standardOutput = git_date
+    }
+    git_date = git_date.toString().trim()
+    return git_date
+}
+
+def String getGitBranch() {
+    def git_branch = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        standardOutput = git_branch
+        ignoreExitValue = true
+    }
+    git_branch = git_branch.toString().trim()
+    return git_branch
 }

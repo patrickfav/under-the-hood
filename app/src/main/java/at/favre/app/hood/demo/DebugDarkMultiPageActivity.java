@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import at.favre.lib.hood.BuildConfig;
 import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.defaults.DefaultActions;
 import at.favre.lib.hood.defaults.DefaultConfigActions;
@@ -33,8 +32,9 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
     public Pages getPageData(@NonNull Pages pages) {
         Page firstPage = pages.addNewPage("General");
 
-        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
+        firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
         firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.SIGNATURE).createSection(this, false));
+        firstPage.add(DefaultProperties.createSectionSourceControlAndCI(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH, BuildConfig.GIT_DATE, null, null, null));
 
         PageUtil.addHeader(firstPage, "Debug Config");
         firstPage.add(Hood.createSpinnerEnry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
@@ -67,7 +67,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), BuildConfig.DEBUG));
 
         PageUtil.addHeader(firstPage, "Lib BuildConfig");
-        firstPage.add(DefaultProperties.createStaticFieldsInfo(BuildConfig.class));
+        firstPage.add(DefaultProperties.createStaticFieldsInfo(at.favre.lib.hood.BuildConfig.class));
         firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.USES_FEATURE, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
 
         PageUtil.addHeader(firstPage, "Property File");

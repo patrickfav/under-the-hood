@@ -147,6 +147,13 @@ public class DefaultProperties {
     /**
      * Traverses the static fields of given arbitrary class. Will create an entry for each non-null
      * static public field. Ignores "serialVersionUID".
+     * <p>
+     * NOTE: this uses reflection to traverse to class, so if you want to keep it after proguard, use
+     * a keep rule like:
+     * <p>
+     * <pre>
+     *     -keep public class your.package.name.BuildConfig { public *;}
+     * </pre>
      *
      * @param clazz the BuildConfig.java class you want the info
      * @return list of page-entries
@@ -176,6 +183,12 @@ public class DefaultProperties {
     /**
      * Traverses the static fields of given class (which must be of Type BuildConfig) and parses the main
      * fields that is create by the android gradle plugin (ie. version, app_id, etc.)
+     * NOTE: this uses reflection to traverse to class, so if you want to keep it after proguard, use
+     * a keep rule like:
+     * <p>
+     * <pre>
+     *     -keep public class your.package.name.BuildConfig { public *;}
+     * </pre>
      *
      * @param buildConfig the BuildConfig.java class you want the info
      * @return the section containing header, entries etc.
@@ -445,10 +458,12 @@ public class DefaultProperties {
                 @Override
                 public String getValue() {
                     int settingsInt;
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR1) {
                         settingsInt = Settings.Global.getInt(context.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0);
-                    } else {
+                    } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
                         settingsInt = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.DEVELOPMENT_SETTINGS_ENABLED, 0);
+                    } else {
+                        return "unknown (SDK 16+ only)";
                     }
                     return String.valueOf(settingsInt == 1);
                 }
@@ -477,6 +492,40 @@ public class DefaultProperties {
                     return String.valueOf(settingsInt == 1);
                 }
             }, Hood.internal().createOnClickActionStartIntent(developerSettings), false));
+        }
+        return section;
+    }
+
+    /**
+     * Convenience to create a CI and source control section. Pass everything you want and keep the rest null.
+     *
+     * @param scmRev      git hash e.g. "git log -1 --format=%H"
+     * @param scmBranch   git branch e.g. "git rev-parse --abbrev-ref HEAD"
+     * @param ciBuildId   build number
+     * @param ciBuildJob  job name
+     * @param ciBuildTime time on ci server
+     * @return the section containing all the data
+     */
+    public static Section.HeaderSection createSectionSourceControlAndCI(@Nullable String scmRev, @Nullable String scmBranch, @Nullable String scmCommitDate,
+                                                                        @Nullable String ciBuildId, @Nullable String ciBuildJob, @Nullable String ciBuildTime) {
+        Section.ModifiableHeaderSection section = Hood.internal().createSection("Source Control & CI");
+        if (scmBranch != null) {
+            section.add(Hood.createPropertyEntry("scm-branch", scmBranch));
+        }
+        if (scmRev != null) {
+            section.add(Hood.createPropertyEntry("scm-rev", scmRev));
+        }
+        if (scmCommitDate != null) {
+            section.add(Hood.createPropertyEntry("scm-date", scmCommitDate));
+        }
+        if (ciBuildJob != null) {
+            section.add(Hood.createPropertyEntry("ci-job", ciBuildJob));
+        }
+        if (ciBuildId != null) {
+            section.add(Hood.createPropertyEntry("ci-build-id", ciBuildId));
+        }
+        if (ciBuildTime != null) {
+            section.add(Hood.createPropertyEntry("ci-build-time", ciBuildTime));
         }
         return section;
     }

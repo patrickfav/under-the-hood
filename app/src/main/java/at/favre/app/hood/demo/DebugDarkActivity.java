@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import at.favre.lib.hood.BuildConfig;
 import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.defaults.DefaultActions;
 import at.favre.lib.hood.defaults.DefaultConfigActions;
@@ -66,7 +65,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), BuildConfig.DEBUG));
 
         PageUtil.addHeader(firstPage, "Lib BuildConfig");
-        firstPage.add(DefaultProperties.createStaticFieldsInfo(BuildConfig.class));
+        firstPage.add(DefaultProperties.createStaticFieldsInfo(at.favre.lib.hood.BuildConfig.class));
         firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.USES_FEATURE, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
         PageUtil.addHeader(firstPage, "Property File");
         firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
