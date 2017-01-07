@@ -2,6 +2,7 @@ package at.favre.lib.hood.interfaces;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -15,7 +16,14 @@ import at.favre.lib.hood.interfaces.values.DynamicValue;
  * The main API for the lib
  */
 public interface HoodAPI {
-    Pages createPages(Config config);
+    /**
+     * Creates a new {@link Pages} object that can be used to fill with {@link Page}
+     *
+     * @param config the config used to create the pages
+     * @return pages
+     */
+    @NonNull
+    Pages createPages(@NonNull Config config);
 
     /**
      * Single column action
