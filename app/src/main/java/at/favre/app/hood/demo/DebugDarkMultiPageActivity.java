@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import at.favre.lib.hood.Hood;
-import at.favre.lib.hood.defaults.DefaultActions;
+import at.favre.lib.hood.defaults.DefaultButtonDefinitions;
 import at.favre.lib.hood.defaults.DefaultConfigActions;
 import at.favre.lib.hood.defaults.DefaultProperties;
 import at.favre.lib.hood.defaults.misc.Backend;
@@ -18,7 +18,8 @@ import at.favre.lib.hood.extended.PopHoodActivity;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
-import at.favre.lib.hood.interfaces.actions.ButtonAction;
+import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
+import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
 import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.util.PackageInfoAssembler;
@@ -48,9 +49,9 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         firstPage.add(Hood.createPropertyEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
         firstPage.add(Hood.createHeaderEntry("Misc Action", true));
-        PageUtil.addAction(firstPage, new ButtonAction("Test Loading", new View.OnClickListener() {
+        PageUtil.addAction(firstPage, new ButtonDefinition("Test Loading", new OnClickAction() {
             @Override
-            public void onClick(final View view) {
+            public void onClick(final View view, Map.Entry<CharSequence, String> value) {
                 view.setEnabled(false);
                 getDebugView().setProgressBarVisible(true);
                 view.postDelayed(new Runnable() {
@@ -62,9 +63,10 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
                 }, 3000);
             }
         }));
-        PageUtil.addAction(firstPage, DefaultActions.getCrashAction());
-        PageUtil.addAction(firstPage, DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
-        PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), BuildConfig.DEBUG));
+
+        PageUtil.addAction(firstPage, DefaultButtonDefinitions.getCrashAction());
+        PageUtil.addAction(firstPage, DefaultButtonDefinitions.getKillProcessAction(this), DefaultButtonDefinitions.getClearAppDataAction());
+        PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultButtonDefinitions.getKillProcessAction(this), BuildConfig.DEBUG));
 
         PageUtil.addHeader(firstPage, "Lib BuildConfig");
         firstPage.add(DefaultProperties.createStaticFieldsInfo(at.favre.lib.hood.BuildConfig.class));
@@ -91,13 +93,13 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         secondPage.add(DefaultProperties.createSectionStrictMode());
         secondPage.add(DefaultProperties.createSectionAndroidDebugSettings(this));
         secondPage.add(Hood.createHeaderEntry("Settings", true));
-        PageUtil.addAction(secondPage, DefaultActions.getGlobalSettingsAction(this), DefaultActions.getNfcSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getNfcPaymentSettingsAction(this), DefaultActions.getDevSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getDateSettingsAction(this), DefaultActions.getAirplaneModeSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getSetLockScreenAction(this), DefaultActions.getDeviceInfoSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getBattSaverSettingsAction(this), DefaultActions.getDisplaySettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getInputModeSettingsAction(this), DefaultActions.getStorageSettingsAction(this));
-        PageUtil.addAction(secondPage, DefaultActions.getSecuritySettingsAction(this), DefaultActions.getInstalledAppSettings(this));
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getGlobalSettingsAction(), DefaultButtonDefinitions.getNfcSettingsAction());
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getNfcPaymentSettingsAction(), DefaultButtonDefinitions.getDevSettingsAction());
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getDateSettingsAction(), DefaultButtonDefinitions.getAirplaneModeSettingsAction());
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getSetLockScreenAction(), DefaultButtonDefinitions.getDeviceInfoSettingsAction());
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getBattSaverSettingsAction(), DefaultButtonDefinitions.getDisplaySettingsAction());
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getInputModeSettingsAction(), DefaultButtonDefinitions.getStorageSettingsAction());
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getSecuritySettingsAction(), DefaultButtonDefinitions.getInstalledAppSettings());
 
         secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO).createSection(this, true));
 

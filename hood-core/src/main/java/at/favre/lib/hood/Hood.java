@@ -4,7 +4,8 @@ import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
-import at.favre.lib.hood.interfaces.actions.ButtonAction;
+import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
+import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.page.DebugPages;
@@ -30,7 +31,7 @@ public class Hood {
      *
      * @param action
      */
-    public static PageEntry<?> createActionEntry(ButtonAction action) {
+    public static PageEntry<?> createActionEntry(ButtonDefinition action) {
         return new ActionEntry(action);
     }
 
@@ -40,7 +41,7 @@ public class Hood {
      * @param actionLeft
      * @param actionRight
      */
-    public static PageEntry<?> createActionEntry(ButtonAction actionLeft, ButtonAction actionRight) {
+    public static PageEntry<?> createActionEntry(ButtonDefinition actionLeft, ButtonDefinition actionRight) {
         return new ActionEntry(actionLeft, actionRight);
     }
 
@@ -98,7 +99,7 @@ public class Hood {
      * @param action    used when clicked on
      * @param multiLine if a different layout should be used for long values
      */
-    public static PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, KeyValueEntry.OnClickAction action, boolean multiLine) {
+    public static PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
         return new KeyValueEntry(key, value, action, multiLine);
     }
 
@@ -132,7 +133,7 @@ public class Hood {
      * @param action    used when clicked on
      * @param multiLine if a different layout should be used for long values
      */
-    public static PageEntry<?> createPropertyEntry(CharSequence key, String value, KeyValueEntry.OnClickAction action, boolean multiLine) {
+    public static PageEntry<?> createPropertyEntry(CharSequence key, String value, OnClickAction action, boolean multiLine) {
         return new KeyValueEntry(key, value, action, multiLine);
     }
 

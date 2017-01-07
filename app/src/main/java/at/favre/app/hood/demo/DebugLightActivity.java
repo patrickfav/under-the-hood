@@ -9,14 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 import at.favre.lib.hood.Hood;
-import at.favre.lib.hood.defaults.DefaultActions;
+import at.favre.lib.hood.defaults.DefaultButtonDefinitions;
 import at.favre.lib.hood.defaults.DefaultConfigActions;
 import at.favre.lib.hood.defaults.DefaultProperties;
 import at.favre.lib.hood.extended.PopHoodActivity;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
-import at.favre.lib.hood.interfaces.actions.ButtonAction;
+import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
+import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
 import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.util.PageUtil;
@@ -45,19 +46,20 @@ public class DebugLightActivity extends PopHoodActivity {
         firstPage.add(DefaultProperties.createSectionTelephonyManger(this));
 
         PageUtil.addHeader(firstPage, "Misc Actions");
-        PageUtil.addAction(firstPage, DefaultActions.getAppInfoAction(this));
-        PageUtil.addAction(firstPage, DefaultActions.getCrashAction(), DefaultActions.getUninstallAction(this));
-        PageUtil.addAction(firstPage, DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this));
-        PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultActions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
+        PageUtil.addAction(firstPage, DefaultButtonDefinitions.getAppInfoAction());
+        PageUtil.addAction(firstPage, DefaultButtonDefinitions.getCrashAction(), DefaultButtonDefinitions.getUninstallAction());
+        PageUtil.addAction(firstPage, DefaultButtonDefinitions.getKillProcessAction(this), DefaultButtonDefinitions.getClearAppDataAction());
+        PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultButtonDefinitions.getKillProcessAction(this), at.favre.lib.hood.BuildConfig.DEBUG));
 
         PageUtil.addHeader(firstPage, "System Features");
         Map<CharSequence, String> systemFeatureMap = new HashMap<>();
         systemFeatureMap.put("hasHce", "android.hardware.nfc.hce");
         systemFeatureMap.put("hasCamera", "android.hardware.camera");
         systemFeatureMap.put("hasWebview", "android.software.webview");
-        PageUtil.addAction(firstPage, new ButtonAction("Test Loading", new View.OnClickListener() {
+
+        PageUtil.addAction(firstPage, new ButtonDefinition("Test Loading", new OnClickAction() {
             @Override
-            public void onClick(final View view) {
+            public void onClick(final View view, Map.Entry<CharSequence, String> value) {
                 view.setEnabled(false);
                 getDebugView().setProgressBarVisible(true);
                 view.postDelayed(new Runnable() {
@@ -69,6 +71,7 @@ public class DebugLightActivity extends PopHoodActivity {
                 }, 3000);
             }
         }));
+
         firstPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
         firstPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));

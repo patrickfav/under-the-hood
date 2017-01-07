@@ -18,14 +18,15 @@ import java.util.List;
 import java.util.Map;
 
 import at.favre.lib.hood.Hood;
-import at.favre.lib.hood.defaults.DefaultActions;
+import at.favre.lib.hood.defaults.DefaultButtonDefinitions;
 import at.favre.lib.hood.defaults.DefaultConfigActions;
 import at.favre.lib.hood.defaults.DefaultProperties;
 import at.favre.lib.hood.defaults.misc.Backend;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
-import at.favre.lib.hood.interfaces.actions.ButtonAction;
+import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
+import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
 import at.favre.lib.hood.util.PackageInfoAssembler;
 import at.favre.lib.hood.util.PageUtil;
@@ -96,9 +97,9 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         secondPage.add(Hood.createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
         secondPage.add(Hood.createSpinnerEnry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(null, getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
 
-        secondPage.add(Hood.createActionEntry(new ButtonAction("Test Loading", new View.OnClickListener() {
+        PageUtil.addAction(secondPage, new ButtonDefinition("Test Loading", new OnClickAction() {
             @Override
-            public void onClick(final View view) {
+            public void onClick(final View view, Map.Entry<CharSequence, String> value) {
                 view.setEnabled(false);
                 hoodDebugPageView.setProgressBarVisible(true);
                 view.postDelayed(new Runnable() {
@@ -109,10 +110,10 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
                     }
                 }, 3000);
             }
-        })));
-        secondPage.add(Hood.createActionEntry(DefaultActions.getCrashAction()));
-        secondPage.add(Hood.createActionEntry(DefaultActions.getKillProcessAction(this), DefaultActions.getClearAppDataAction(this)));
-        secondPage.add(Hood.createActionEntry(DefaultActions.getKillProcessAction(this)));
+        }));
+        secondPage.add(Hood.createActionEntry(DefaultButtonDefinitions.getCrashAction()));
+        secondPage.add(Hood.createActionEntry(DefaultButtonDefinitions.getKillProcessAction(this), DefaultButtonDefinitions.getClearAppDataAction()));
+        secondPage.add(Hood.createActionEntry(DefaultButtonDefinitions.getKillProcessAction(this)));
 
         return pages;
     }

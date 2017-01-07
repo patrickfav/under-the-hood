@@ -7,6 +7,7 @@ import java.util.List;
 
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Section;
+import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.page.DefaultSection;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 
@@ -22,15 +23,15 @@ public class HoodInternal {
         return new DefaultSection(header, entries);
     }
 
-    public KeyValueEntry.OnClickAction createOnClickActionAskPermission(String perm, Activity activity) {
+    public OnClickAction createOnClickActionAskPermission(String perm, Activity activity) {
         return new KeyValueEntry.AskPermissionClickAction(perm, activity);
     }
 
-    public KeyValueEntry.OnClickAction createOnClickActionStartIntent(Intent intent) {
+    public OnClickAction createOnClickActionStartIntent(Intent intent) {
         return new KeyValueEntry.StartIntentAction(intent);
     }
 
-    public KeyValueEntry.OnClickAction createOnClickActionToast() {
+    public OnClickAction createOnClickActionToast() {
         return new KeyValueEntry.ToastClickAction();
     }
 }

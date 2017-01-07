@@ -453,7 +453,6 @@ public class DefaultProperties {
     public static Section.HeaderSection createSectionAndroidDebugSettings(final Context context) {
         Section.ModifiableHeaderSection section = Hood.internal().createSection("Android Debug Settings");
         if (context != null) {
-            final Intent developerSettings = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
             section.add(Hood.createPropertyEntry("developer-mode", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
@@ -467,7 +466,7 @@ public class DefaultProperties {
                     }
                     return String.valueOf(settingsInt == 1);
                 }
-            }, Hood.internal().createOnClickActionStartIntent(developerSettings), false));
+            }, DefaultButtonDefinitions.getDevSettingsAction().onClickAction, false));
             section.add(Hood.createPropertyEntry("usb-debugging", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
@@ -479,7 +478,7 @@ public class DefaultProperties {
                     }
                     return String.valueOf(settingsInt == 1);
                 }
-            }, Hood.internal().createOnClickActionStartIntent(developerSettings), false));
+            }, DefaultButtonDefinitions.getDevSettingsAction().onClickAction, false));
             section.add(Hood.createPropertyEntry("don't keep activities", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
@@ -491,7 +490,7 @@ public class DefaultProperties {
                     }
                     return String.valueOf(settingsInt == 1);
                 }
-            }, Hood.internal().createOnClickActionStartIntent(developerSettings), false));
+            }, DefaultButtonDefinitions.getDevSettingsAction().onClickAction, false));
         }
         return section;
     }

@@ -21,6 +21,7 @@ import at.favre.lib.hood.defaults.DefaultMiscActions;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.ViewTemplate;
 import at.favre.lib.hood.interfaces.ViewTypes;
+import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.view.HoodDebugPageView;
@@ -184,13 +185,6 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
             HoodDebugPageView.setZebraToView(view, zebraColor, isOdd);
         }
-    }
-
-    /**
-     * Used to define what should happen on click of an entry
-     */
-    public interface OnClickAction {
-        void onClick(View v, Map.Entry<CharSequence, String> value);
     }
 
     /**
