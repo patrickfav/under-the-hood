@@ -100,7 +100,7 @@ public class DefaultProperties {
      * @return section for info
      */
     public static Section.HeaderSection createInternalProcessDebugInfo(@Nullable final Context context) {
-        Section.ModifiableHeaderSection section = Hood.get().internal().createSection("Process Debug Info");
+        Section.ModifiableHeaderSection section = Hood.internal().createSection("Process Debug Info");
 
         if (context != null) {
             section.add(Hood.get().createPropertyEntry("heap-native", new DynamicValue<String>() {
