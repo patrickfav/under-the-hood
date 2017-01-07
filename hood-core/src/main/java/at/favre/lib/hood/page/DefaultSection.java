@@ -46,7 +46,7 @@ public class DefaultSection implements Section.ModifiableHeaderSection {
     }
 
     @Override
-    public DefaultSection ommitErrorMessage() {
+    public DefaultSection omitErrorMessage() {
         errorMessage = null;
         return this;
     }

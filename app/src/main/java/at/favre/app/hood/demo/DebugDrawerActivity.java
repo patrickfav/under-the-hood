@@ -51,7 +51,7 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         setContentView(R.layout.activity_debugdrawer);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         hoodDebugPageView = (HoodDebugPageView) findViewById(R.id.left_drawer);
-        hoodDebugPageView.setPageData(getPages());
+        hoodDebugPageView.setPageData(createPages());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -73,9 +73,8 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         return true;
     }
 
-    @NonNull
-    @Override
-    public Pages getPages() {
+
+    public Pages createPages() {
         Pages pages = Hood.get().createPages(new Config.Builder().setShowHighlightContent(false).build());
         Page firstPage = pages.addNewPage("Debug Info");
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
@@ -126,6 +125,12 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         elements.add(new Backend(4, "stage.backend.com", 443));
         elements.add(new Backend(5, "prod.backend.com", 443));
         return elements;
+    }
+
+    @NonNull
+    @Override
+    public Pages getCurrentPagesFromThisView() {
+        return hoodDebugPageView.getPages();
     }
 
     @Override

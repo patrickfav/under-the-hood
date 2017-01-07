@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import at.favre.lib.hood.BuildConfig;
 import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Pages;
@@ -38,35 +39,37 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent().getBooleanExtra(KEY_HEADLESS, false)) {
-            getPageData(getPageData(Hood.get().createPages(getConfig()))).logPages();
-            finish();
-        } else {
-            setContentView(R.layout.hoodlib_activity_hood);
-            debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
-            debugView.setPageData(getPageData(Hood.get().createPages(getConfig())));
-            toolbar = ((Toolbar) findViewById(R.id.toolbar));
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (!BuildConfig.NO_OP) {
+            if (getIntent().getBooleanExtra(KEY_HEADLESS, false)) {
+                getPageData(getPageData(Hood.get().createPages(getConfig()))).logPages();
+                finish();
+            } else {
+                setContentView(R.layout.hoodlib_activity_hood);
+                debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
+                debugView.setPageData(getPageData(Hood.get().createPages(getConfig())));
+                toolbar = ((Toolbar) findViewById(R.id.toolbar));
+                setSupportActionBar(toolbar);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            debugView.addViewPagerChangeListner(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                debugView.addViewPagerChangeListner(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        ((AppBarLayout) findViewById(R.id.app_bar_layout)).setExpanded(true, true);
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+                    }
+                });
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && debugView.getPages().size() > 1) {
+                    //because of a lack of a better API to disable the elevation in the AppBarLayout, uses deprecated method
+                    ((AppBarLayout) findViewById(R.id.app_bar_layout)).setTargetElevation(0);
                 }
-
-                @Override
-                public void onPageSelected(int position) {
-                    ((AppBarLayout) findViewById(R.id.app_bar_layout)).setExpanded(true, true);
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                }
-            });
-
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && debugView.getPages().size() > 1) {
-                //because of a lack of a better API to disable the elevation in the AppBarLayout, uses deprecated method
-                ((AppBarLayout) findViewById(R.id.app_bar_layout)).setTargetElevation(0);
             }
         }
     }
@@ -74,7 +77,9 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     @Override
     protected void onResume() {
         super.onResume();
-        debugView.refresh();
+        if (debugView != null) {
+            debugView.refresh();
+        }
     }
 
     @Override
@@ -115,6 +120,10 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
         return toolbar;
     }
 
+    protected HoodDebugPageView getDebugView() {
+        return debugView;
+    }
+
     /**
      * Implement this method to pass a {@link Pages} filled with pages entries.
      *
@@ -134,13 +143,10 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
         return new Config.Builder().build();
     }
 
-    protected HoodDebugPageView getDebugView() {
-        return debugView;
-    }
 
     @NonNull
     @Override
-    public Pages getPages() {
+    public Pages getCurrentPagesFromThisView() {
         return debugView.getPages();
     }
 }

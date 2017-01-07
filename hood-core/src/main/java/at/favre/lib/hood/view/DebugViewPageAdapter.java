@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
+import timber.log.Timber;
 
 /**
  * The pager adapter for the main viewpager containing {@link DebugPageContentView} views.
@@ -29,6 +30,7 @@ public class DebugViewPageAdapter extends PagerAdapter {
         this.pages = pages;
         this.zebraColor = zebraColor;
         this.viewPager = viewPager;
+        Timber.d("should not be visible");
     }
 
     @Override

@@ -10,7 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
+
+import timber.log.Timber;
 
 
 /**
@@ -79,7 +80,7 @@ public class DefaultMiscActions {
                 }
             }
         } catch (Exception e) {
-            Log.e(TAG, "could not kill process", e);
+            Timber.e("could not kill process", e);
         } finally {
             android.os.Process.killProcess(android.os.Process.myPid());
         }

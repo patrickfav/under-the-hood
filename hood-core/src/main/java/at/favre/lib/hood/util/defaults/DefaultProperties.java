@@ -17,7 +17,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -36,6 +35,7 @@ import at.favre.lib.hood.util.DeviceStatusUtil;
 import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.util.PermissionTranslator;
 import at.favre.lib.hood.util.TypeTranslators;
+import timber.log.Timber;
 
 /**
  * A set of methods that returns default {@link Hood#createPropertyEntry(CharSequence, DynamicValue)} type page entries.
@@ -50,7 +50,7 @@ public class DefaultProperties {
      * @return list of entries
      */
     public static Section.HeaderSection createSectionBasicDeviceInfo() {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("Device");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Device");
         section.add(Hood.get().createPropertyEntry("model", Build.MODEL));
         section.add(Hood.get().createPropertyEntry("name", Build.DEVICE));
         section.add(Hood.get().createPropertyEntry("brand", Build.MANUFACTURER));
@@ -100,7 +100,7 @@ public class DefaultProperties {
      * @return section for info
      */
     public static Section.HeaderSection createInternalProcessDebugInfo(@Nullable final Context context) {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("Process Debug Info");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Process Debug Info");
 
         if (context != null) {
             section.add(Hood.get().createPropertyEntry("heap-native", new DynamicValue<String>() {
@@ -174,7 +174,7 @@ public class DefaultProperties {
                         entries.add(Hood.get().createPropertyEntry(key, String.valueOf(field.get(null))));
                     }
                 } catch (Exception e) {
-                    Log.w(TAG, "could not get field from class (" + field + ")");
+                    Timber.w("could not get field from class (" + field + ")");
                 }
         }
 
@@ -195,7 +195,7 @@ public class DefaultProperties {
      * @return the section containing header, entries etc.
      */
     public static Section.HeaderSection createSectionAppVersionInfoFromBuildConfig(Class<?> buildConfig) {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("App Version");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("App Version");
         Field[] declaredFields = buildConfig.getDeclaredFields();
         for (Field field : declaredFields) {
             if (Modifier.isStatic(field.getModifiers())) {
@@ -228,7 +228,7 @@ public class DefaultProperties {
                     }
 
                 } catch (Exception e) {
-                    Log.w(TAG, "could not get field from BuildConfig (" + field + ")");
+                    Timber.w("could not get field from BuildConfig (" + field + ")");
                 }
             }
         }
@@ -245,7 +245,7 @@ public class DefaultProperties {
      * @return the section containing header, entries etc.
      */
     public static Section.HeaderSection createSectionRuntimePermissions(@Nullable final Activity activity, List<String> androidPermissions) {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("Permissions");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Permissions");
 
         if (activity != null && !androidPermissions.isEmpty()) {
             for (final String perm : androidPermissions) {
@@ -254,7 +254,7 @@ public class DefaultProperties {
                     public String getValue() {
                         return TypeTranslators.translatePermissionState(PermissionTranslator.getPermissionStatus(activity, perm));
                     }
-                }, Hood.internal().createOnClickActionAskPermission(perm, activity), false));
+                }, Hood.ext().createOnClickActionAskPermission(perm, activity), false));
             }
         }
         return section;
@@ -284,7 +284,7 @@ public class DefaultProperties {
      * @return the section containing header, entries etc.
      */
     public static Section.HeaderSection createSectionConnectivityStatusInfo(@Nullable final Context context, boolean includeNetworkState, boolean includeWifiState, boolean includeBtState, boolean includeNfcState) {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("Connectivity Status");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Connectivity Status");
 
         if (context != null) {
             if (includeNetworkState) {
@@ -293,7 +293,7 @@ public class DefaultProperties {
                     public String getValue() {
                         return String.valueOf(DeviceStatusUtil.getNetworkConnectivityState(context));
                     }
-                }, Hood.internal().createOnClickActionStartIntent(new Intent(Settings.ACTION_SETTINGS)), false));
+                }, Hood.ext().createOnClickActionStartIntent(new Intent(Settings.ACTION_SETTINGS)), false));
             }
 
 
@@ -305,8 +305,8 @@ public class DefaultProperties {
                         return String.valueOf(wifiState);
                     }
                 }, wifiState == DeviceStatusUtil.Status.UNSUPPORTED ?
-                        Hood.internal().createOnClickActionToast() :
-                        Hood.internal().createOnClickActionStartIntent(new Intent(Settings.ACTION_WIFI_SETTINGS)), false));
+                        Hood.ext().createOnClickActionToast() :
+                        Hood.ext().createOnClickActionStartIntent(new Intent(Settings.ACTION_WIFI_SETTINGS)), false));
             }
 
             if (includeBtState) {
@@ -317,8 +317,8 @@ public class DefaultProperties {
                         return String.valueOf(btState);
                     }
                 }, btState == DeviceStatusUtil.Status.UNSUPPORTED ?
-                        Hood.internal().createOnClickActionToast() :
-                        Hood.internal().createOnClickActionStartIntent(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)), false));
+                        Hood.ext().createOnClickActionToast() :
+                        Hood.ext().createOnClickActionStartIntent(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)), false));
             }
 
             if (includeNfcState) {
@@ -329,8 +329,8 @@ public class DefaultProperties {
                         return String.valueOf(nfcState);
                     }
                 }, nfcState == DeviceStatusUtil.Status.UNSUPPORTED ?
-                        Hood.internal().createOnClickActionToast() :
-                        Hood.internal().createOnClickActionStartIntent(new Intent(Settings.ACTION_NFC_SETTINGS)), false));
+                        Hood.ext().createOnClickActionToast() :
+                        Hood.ext().createOnClickActionStartIntent(new Intent(Settings.ACTION_NFC_SETTINGS)), false));
             }
         }
         return section;
@@ -368,7 +368,7 @@ public class DefaultProperties {
      */
     //@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     public static Section.HeaderSection createSectionTelephonyManger(@Nullable Context context) {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("Telephony Status");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Telephony Status");
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             section.setErrorMessage("Cannot display data - requires READ_PHONE_STATE permission.");
         } else if (context != null) {
@@ -435,7 +435,7 @@ public class DefaultProperties {
      * @return section
      */
     public static Section.HeaderSection createSectionStrictMode() {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("StrictMode");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("StrictMode");
         section.add(Hood.get().createPropertyEntry("thread-policy", new DynamicValue<String>() {
             @Override
             public String getValue() {
@@ -452,7 +452,7 @@ public class DefaultProperties {
     }
 
     public static Section.HeaderSection createSectionAndroidDebugSettings(final Context context) {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("Android Debug Settings");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Android Debug Settings");
         if (context != null) {
             section.add(Hood.get().createPropertyEntry("developer-mode", new DynamicValue<String>() {
                 @Override
@@ -508,7 +508,7 @@ public class DefaultProperties {
      */
     public static Section.HeaderSection createSectionSourceControlAndCI(@Nullable String scmRev, @Nullable String scmBranch, @Nullable String scmCommitDate,
                                                                         @Nullable String ciBuildId, @Nullable String ciBuildJob, @Nullable String ciBuildTime) {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("Source Control & CI");
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Source Control & CI");
         if (scmBranch != null) {
             section.add(Hood.get().createPropertyEntry("scm-branch", scmBranch));
         }

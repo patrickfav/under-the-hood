@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    defaultPublishConfig "release"
+    publishNonDefault true
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -13,12 +13,20 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        buildConfigField "boolean", "NO_OP", "false"
     }
+
     buildTypes {
+        releaseNoop {
+            minifyEnabled false
+            buildConfigField "boolean", "NO_OP", "true"
+            consumerProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-noop.pro'
+        }
         release {
             minifyEnabled false
             consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
 }
 
@@ -30,8 +38,9 @@ dependencies {
     compile "com.android.support:support-compat:$rootProject.ext.dependencies.support"
     compile "com.android.support:support-core-utils:$rootProject.ext.dependencies.support"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
+    compile 'com.jakewharton.timber:timber:4.4.0'
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 
-    compile project(':hood-interface')
+    compile project(path: ':hood-interface', configuration: 'release')
 }

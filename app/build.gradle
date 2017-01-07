@@ -19,17 +19,24 @@ android {
     }
 
     buildTypes {
-        releaseTest {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        releaseTestNoop {
             signingConfig signingConfigs.debug
         }
 
+        releaseTest {
+            signingConfig signingConfigs.debug
+        }
+
+        releaseNoop {
+        }
+
         release {
+        }
+
+        buildTypes.all {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -50,7 +57,12 @@ dependencies {
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 
-    compile project(':hood-extended')
+    debugCompile project(path: ':hood-extended', configuration: 'release')
+    releaseTestNoopCompile project(path: ':hood-extended', configuration: 'releaseNoop')
+    releaseTestCompile project(path: ':hood-extended', configuration: 'release')
+    releaseNoopCompile project(path: ':hood-extended', configuration: 'releaseNoop')
+    releaseCompile project(path: ':hood-extended', configuration: 'release')
+
 }
 
 def String getGitRev() {

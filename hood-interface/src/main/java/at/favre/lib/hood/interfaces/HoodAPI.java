@@ -13,7 +13,7 @@ import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 
 /**
- * The main API for the lib
+ * The main API for the lib. Responsible for creating {@link Pages} and {@link PageEntry}
  */
 public interface HoodAPI {
     /**
@@ -132,7 +132,11 @@ public interface HoodAPI {
      */
     PageEntry<?> createPropertyEntry(CharSequence key, String value);
 
-    interface Internal {
+
+    /**
+     * Extension of the API to allow creation of {@link Section} and {@link OnClickAction} for {@link PageEntry}
+     */
+    interface Extension {
         Section.ModifiableHeaderSection createSection(String header);
 
         Section.ModifiableHeaderSection createSection(String header, List<PageEntry<?>> entries);

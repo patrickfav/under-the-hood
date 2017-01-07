@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,7 @@ import at.favre.lib.hood.util.PermissionTranslator;
 import at.favre.lib.hood.util.defaults.DefaultMiscActions;
 import at.favre.lib.hood.view.HoodDebugPageView;
 import at.favre.lib.hood.view.KeyValueDetailDialogs;
-
-import static android.content.ContentValues.TAG;
+import timber.log.Timber;
 
 /**
  * An entry that has an key and value (e.g. normal properties). Supports custom click actions, multi line values
@@ -262,7 +260,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
-            Log.d(TAG, "check android permissions for " + androidPermissionName);
+            Timber.d("check android permissions for " + androidPermissionName);
             @PermissionTranslator.PermissionState int permissionState = PermissionTranslator.getPermissionStatus(activity, androidPermissionName);
 
             if (permissionState == PermissionTranslator.GRANTED) {
@@ -272,7 +270,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
                 KeyValueDetailDialogs.DialogFragmentWrapper.newInstance(getLongLabel(value.getKey()), value.getValue())
                         .show(((Activity) v.getContext()).getFragmentManager(), String.valueOf(value.getKey()));
             } else {
-                Log.d(TAG, "permission " + androidPermissionName + " not granted yet, show dialog");
+                Timber.d("permission " + androidPermissionName + " not granted yet, show dialog");
                 ActivityCompat.requestPermissions(activity, new String[]{androidPermissionName}, 2587);
             }
         }

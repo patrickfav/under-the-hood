@@ -2,6 +2,7 @@ package at.favre.lib.hood;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
+import at.favre.lib.hood.noop.HoodNoop;
 import at.favre.lib.hood.page.DebugPages;
 import at.favre.lib.hood.page.DefaultSection;
 import at.favre.lib.hood.page.entries.ActionEntry;
@@ -23,104 +25,135 @@ import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
 import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.entries.TextMessageEntry;
+import timber.log.Timber;
 
 /**
  * This is the main API. Use the factory methods instead of directly
  * instantiating the internal classes.
  */
-public class Hood implements HoodAPI {
-    private static HoodAPI.Internal internalInstance;
+public final class Hood {
+    private static HoodAPI.Extension extensionInstance;
     private static HoodAPI instance;
 
+    /**
+     * This constructor will plant a {@link Timber} tree if none is set.
+     */
     private Hood() {
+        if (!BuildConfig.NO_OP && Timber.forest().isEmpty()) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
+    /**
+     * Gets the main API. See {@link HoodAPI}
+     *
+     * @return singleton instance
+     */
     public static HoodAPI get() {
         if (instance == null) {
-            instance = new Hood();
+            if (BuildConfig.NO_OP) {
+                instance = new HoodNoop();
+            } else {
+                instance = new HoodImpl();
+            }
         }
         return instance;
     }
 
-    public static HoodAPI.Internal internal() {
-        if (internalInstance == null) {
-            internalInstance = new HoodInternalImpl();
+    /**
+     * Gets the extension API. See {@link at.favre.lib.hood.interfaces.HoodAPI.Extension}
+     *
+     * @return singleton instance
+     */
+    public static HoodAPI.Extension ext() {
+        if (extensionInstance == null) {
+            if (BuildConfig.NO_OP) {
+                extensionInstance = new HoodNoop.HoodExtensionNoop();
+            } else {
+                extensionInstance = new HoodExtensionImpl();
+            }
         }
-        return internalInstance;
+        return extensionInstance;
     }
 
-    @Override
-    public Pages createPages(Config config) {
-        return DebugPages.Factory.create(config);
+    private static final class HoodImpl implements HoodAPI {
+        private HoodImpl() {
+        }
+
+        @NonNull
+        @Override
+        public Pages createPages(@NonNull Config config) {
+            return DebugPages.Factory.create(config);
+        }
+
+        @Override
+        public PageEntry<?> createActionEntry(ButtonDefinition action) {
+            return new ActionEntry(action);
+        }
+
+        @Override
+        public PageEntry<?> createActionEntry(ButtonDefinition actionLeft, ButtonDefinition actionRight) {
+            return new ActionEntry(actionLeft, actionRight);
+        }
+
+        @Override
+        public PageEntry<?> createHeaderEntry(CharSequence header) {
+            return new HeaderEntry(header);
+        }
+
+        @Override
+        public PageEntry<?> createHeaderEntry(CharSequence header, boolean hideInLog) {
+            return new HeaderEntry(header, hideInLog);
+        }
+
+        @Override
+        public PageEntry<?> createMessageEntry(CharSequence message) {
+            return new TextMessageEntry(message);
+        }
+
+        @Override
+        public PageEntry<?> createSwitchEntry(BoolConfigAction action) {
+            return new ConfigBoolEntry(action);
+        }
+
+        @Override
+        public PageEntry<?> createSpinnerEntry(SingleSelectListConfigAction action) {
+            return new ConfigSpinnerEntry(action);
+        }
+
+        @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
+            return new KeyValueEntry(key, value, action, multiLine);
+        }
+
+        @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, boolean multiLine) {
+            return new KeyValueEntry(key, value, multiLine);
+        }
+
+        @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value) {
+            return new KeyValueEntry(key, value);
+        }
+
+        @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, String value, OnClickAction action, boolean multiLine) {
+            return new KeyValueEntry(key, value, action, multiLine);
+        }
+
+        @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, String value, boolean multiLine) {
+            return new KeyValueEntry(key, value, multiLine);
+        }
+
+        @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, String value) {
+            return new KeyValueEntry(key, value);
+        }
     }
 
-    @Override
-    public PageEntry<?> createActionEntry(ButtonDefinition action) {
-        return new ActionEntry(action);
-    }
-
-    @Override
-    public PageEntry<?> createActionEntry(ButtonDefinition actionLeft, ButtonDefinition actionRight) {
-        return new ActionEntry(actionLeft, actionRight);
-    }
-
-    @Override
-    public PageEntry<?> createHeaderEntry(CharSequence header) {
-        return new HeaderEntry(header);
-    }
-
-    @Override
-    public PageEntry<?> createHeaderEntry(CharSequence header, boolean hideInLog) {
-        return new HeaderEntry(header, hideInLog);
-    }
-
-    @Override
-    public PageEntry<?> createMessageEntry(CharSequence message) {
-        return new TextMessageEntry(message);
-    }
-
-    @Override
-    public PageEntry<?> createSwitchEntry(BoolConfigAction action) {
-        return new ConfigBoolEntry(action);
-    }
-
-    @Override
-    public PageEntry<?> createSpinnerEntry(SingleSelectListConfigAction action) {
-        return new ConfigSpinnerEntry(action);
-    }
-
-    @Override
-    public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
-        return new KeyValueEntry(key, value, action, multiLine);
-    }
-
-    @Override
-    public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, boolean multiLine) {
-        return new KeyValueEntry(key, value, multiLine);
-    }
-
-    @Override
-    public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value) {
-        return new KeyValueEntry(key, value);
-    }
-
-    @Override
-    public PageEntry<?> createPropertyEntry(CharSequence key, String value, OnClickAction action, boolean multiLine) {
-        return new KeyValueEntry(key, value, action, multiLine);
-    }
-
-    @Override
-    public PageEntry<?> createPropertyEntry(CharSequence key, String value, boolean multiLine) {
-        return new KeyValueEntry(key, value, multiLine);
-    }
-
-    @Override
-    public PageEntry<?> createPropertyEntry(CharSequence key, String value) {
-        return new KeyValueEntry(key, value);
-    }
-
-    private static class HoodInternalImpl implements HoodAPI.Internal {
-        HoodInternalImpl() {
+    private static final class HoodExtensionImpl implements HoodAPI.Extension {
+        private HoodExtensionImpl() {
         }
 
         @Override

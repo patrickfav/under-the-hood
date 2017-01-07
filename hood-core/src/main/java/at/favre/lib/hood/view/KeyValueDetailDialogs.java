@@ -8,7 +8,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import at.favre.lib.hood.R;
+import timber.log.Timber;
 
 /**
  * Dialogs used as detail view in {@link at.favre.lib.hood.page.entries.KeyValueEntry}. See
@@ -48,7 +48,7 @@ public class KeyValueDetailDialogs {
                 logFunction = new LogRunnable() {
                     @Override
                     public void logImpl(String msg) {
-                        ((HoodController) context).getPages().log(msg);
+                        ((HoodController) context).getCurrentPagesFromThisView().log(msg);
                     }
                 };
 
@@ -103,7 +103,7 @@ public class KeyValueDetailDialogs {
                     if (logFunction != null) {
                         logFunction.logImpl(logMsg);
                     } else {
-                        Log.w(logTag, logMsg);
+                        Timber.tag(logTag).w(logMsg);
                     }
                     Toast.makeText(getContext(), R.string.hood_toast_logged, Toast.LENGTH_SHORT).show();
                 }
@@ -150,7 +150,7 @@ public class KeyValueDetailDialogs {
             setButton(BUTTON_NEGATIVE, "Log", new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.w(logTag, key + "\n" + value);
+                    Timber.tag(logTag).w(key + "\n" + value);
                     Toast.makeText(getContext(), R.string.hood_toast_logged, Toast.LENGTH_SHORT).show();
                 }
             });

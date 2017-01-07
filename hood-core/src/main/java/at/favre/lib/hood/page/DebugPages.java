@@ -2,7 +2,6 @@ package at.favre.lib.hood.page;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
+import timber.log.Timber;
 
 public class DebugPages implements Pages {
     private List<Page> pages = new ArrayList<>();
@@ -77,7 +77,7 @@ public class DebugPages implements Pages {
 
     @Override
     public void log(String message) {
-        Log.w(config.logTag, message);
+        Timber.tag(config.logTag).w(message);
     }
 
     @Override

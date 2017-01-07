@@ -15,7 +15,7 @@ public interface Section {
     interface HeaderSection extends Section {
         HeaderSection removeHeader();
 
-        HeaderSection ommitErrorMessage();
+        HeaderSection omitErrorMessage();
     }
 
     interface ModifiableHeaderSection extends HeaderSection {

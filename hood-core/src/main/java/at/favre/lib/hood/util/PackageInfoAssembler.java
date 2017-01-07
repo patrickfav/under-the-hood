@@ -14,7 +14,6 @@ import android.content.pm.Signature;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.util.defaults.DefaultProperties;
+import timber.log.Timber;
 
 /**
  * Helper class to assemble packageManager packageInfo data for different configurations;
@@ -180,7 +180,7 @@ public class PackageInfoAssembler {
      * @return section containing the info
      */
     public Section createSection(@Nullable Context context, boolean addSectionHeaders) {
-        Section.ModifiableHeaderSection mainSection = Hood.internal().createSection("");
+        Section.ModifiableHeaderSection mainSection = Hood.ext().createSection("");
         if (context != null) {
             String targetPackageName = packageName == null ? context.getPackageName() : packageName;
             try {
@@ -192,11 +192,11 @@ public class PackageInfoAssembler {
                 }
 
                 for (Type type : typeSet) {
-                    mainSection.add(Hood.internal().createSection(addSectionHeaders ? type.header : null, type.pageEntryProvider.getEntries(context, packageInfo)));
+                    mainSection.add(Hood.ext().createSection(addSectionHeaders ? type.header : null, type.pageEntryProvider.getEntries(context, packageInfo)));
                 }
             } catch (Exception e) {
                 mainSection.setErrorMessage("Could not get packageInfo for " + targetPackageName + ": " + e.getClass() + " (" + e.getMessage() + ")");
-                Log.w(TAG, mainSection.getErrorMessage(), e);
+                Timber.w(mainSection.getErrorMessage(), e);
             }
         }
         return mainSection.removeHeader();
@@ -407,7 +407,7 @@ public class PackageInfoAssembler {
                 for (FeatureInfo reqFeature : packageInfo.reqFeatures) {
                     boolean required = reqFeature.flags == FeatureInfo.FLAG_REQUIRED;
                     String fullLabel = reqFeature.name + (required ? " (req)" : "");
-                    featureMap.put(Hood.internal().createFullLabel(fullLabel.replace("android.hardware.", ""), fullLabel), reqFeature.name);
+                    featureMap.put(Hood.ext().createFullLabel(fullLabel.replace("android.hardware.", ""), fullLabel), reqFeature.name);
                 }
             }
 

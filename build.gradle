@@ -33,3 +33,13 @@ ext {
             junit   : "4.12"
     ]
 }
+
+//this defines an Android compatible provided scope, see: https://sinking.in/blog/provided-scope-in-gradle/
+configurations {
+    provided {
+        dependencies.all { dep ->
+            configurations.default.exclude group: dep.group, module: dep.name
+        }
+    }
+    compile.extendsFrom provided
+}
