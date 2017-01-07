@@ -228,9 +228,9 @@ public class PackageInfoAssembler {
      */
     public static List<PageEntry<?>> createPmApkVersionInfo(@NonNull PackageInfo packageInfo) {
         List<PageEntry<?>> entries = new ArrayList<>();
-        entries.add(Hood.createPropertyEntry("package-name", packageInfo.packageName));
-        entries.add(Hood.createPropertyEntry("version-name", packageInfo.versionName));
-        entries.add(Hood.createPropertyEntry("version-code", String.valueOf(packageInfo.versionCode)));
+        entries.add(Hood.get().createPropertyEntry("package-name", packageInfo.packageName));
+        entries.add(Hood.get().createPropertyEntry("version-name", packageInfo.versionName));
+        entries.add(Hood.get().createPropertyEntry("version-code", String.valueOf(packageInfo.versionCode)));
         return entries;
     }
 
@@ -245,7 +245,7 @@ public class PackageInfoAssembler {
         if (packageInfo.services != null) {
             for (ServiceInfo service : packageInfo.services) {
                 if (service != null) {
-                    entries.add(Hood.createPropertyEntry(service.name,
+                    entries.add(Hood.get().createPropertyEntry(service.name,
                             "exported: " + service.exported + "\n" +
                                     "enabled: " + service.enabled + "\n" +
                                     "flags: " + service.exported + "\n" +
@@ -268,7 +268,7 @@ public class PackageInfoAssembler {
         if (packageInfo.receivers != null) {
             for (ActivityInfo receiver : packageInfo.receivers) {
                 if (receiver != null) {
-                    entries.add(Hood.createPropertyEntry(receiver.name,
+                    entries.add(Hood.get().createPropertyEntry(receiver.name,
                             "exported: " + receiver.exported + "\n" +
                                     "enabled: " + receiver.enabled + "\n", true));
                 }
@@ -288,7 +288,7 @@ public class PackageInfoAssembler {
         if (packageInfo.providers != null) {
             for (ProviderInfo provider : packageInfo.providers) {
                 if (provider != null) {
-                    entries.add(Hood.createPropertyEntry(provider.name,
+                    entries.add(Hood.get().createPropertyEntry(provider.name,
                             "exported: " + provider.exported + "\n" +
                                     "enabled: " + provider.enabled + "\n" +
                                     "authorities: " + provider.authority + "\n" +
@@ -312,7 +312,7 @@ public class PackageInfoAssembler {
         if (packageInfo.activities != null) {
             for (ActivityInfo receiver : packageInfo.activities) {
                 if (receiver != null) {
-                    entries.add(Hood.createPropertyEntry(receiver.name,
+                    entries.add(Hood.get().createPropertyEntry(receiver.name,
                             "exported: " + receiver.exported + "\n" +
                                     "enabled: " + receiver.enabled + "\n", true));
                 }
@@ -330,10 +330,10 @@ public class PackageInfoAssembler {
     public static List<PageEntry<?>> createApkStateInfo(@NonNull PackageInfo packageInfo) {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            entries.add(Hood.createPropertyEntry("apk-location", String.valueOf(TypeTranslators.translatePMInstallLocation(packageInfo.installLocation))));
+            entries.add(Hood.get().createPropertyEntry("apk-location", String.valueOf(TypeTranslators.translatePMInstallLocation(packageInfo.installLocation))));
         }
-        entries.add(Hood.createPropertyEntry("apk-first-install", HoodUtil.toSimpleDateTimeFormat(packageInfo.firstInstallTime)));
-        entries.add(Hood.createPropertyEntry("apk-reinstall", HoodUtil.toSimpleDateTimeFormat(packageInfo.lastUpdateTime)));
+        entries.add(Hood.get().createPropertyEntry("apk-first-install", HoodUtil.toSimpleDateTimeFormat(packageInfo.firstInstallTime)));
+        entries.add(Hood.get().createPropertyEntry("apk-reinstall", HoodUtil.toSimpleDateTimeFormat(packageInfo.lastUpdateTime)));
         return entries;
     }
 
@@ -349,7 +349,7 @@ public class PackageInfoAssembler {
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
                 md.update(signature.toByteArray());
-                entries.add(Hood.createPropertyEntry("apk-signature-sha256", HoodUtil.byteToHex(md.digest()), true));
+                entries.add(Hood.get().createPropertyEntry("apk-signature-sha256", HoodUtil.byteToHex(md.digest()), true));
             }
         } catch (Exception e) {
             throw new IllegalStateException("could not create hash", e);

@@ -36,17 +36,17 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
 
         PageUtil.addHeader(firstPage, "Debug Config");
-        firstPage.add(Hood.createSpinnerEnry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
-        firstPage.add(Hood.createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
-        firstPage.add(Hood.createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
-        firstPage.add(Hood.createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
+        firstPage.add(Hood.get().createSpinnerEnry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction("Backend", getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
+        firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
+        firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
+        firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
 
         firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
 
-        firstPage.add(Hood.createPropertyEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
+        firstPage.add(Hood.get().createPropertyEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
-        firstPage.add(Hood.createHeaderEntry("Misc Action", true));
+        firstPage.add(Hood.get().createHeaderEntry("Misc Action", true));
         PageUtil.addAction(firstPage, new ButtonDefinition("Test Loading", new OnClickAction() {
             @Override
             public void onClick(final View view, Map.Entry<CharSequence, String> value) {
@@ -87,7 +87,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
         firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.SIGNATURE).createSection(this, false));
         firstPage.add(DefaultProperties.createSectionTelephonyManger(this));
-        firstPage.add(Hood.createHeaderEntry("Settings", true));
+        firstPage.add(Hood.get().createHeaderEntry("Settings", true));
 
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getGlobalSettingsAction(), DefaultButtonDefinitions.getNfcSettingsAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getNfcPaymentSettingsAction(), DefaultButtonDefinitions.getDevSettingsAction());

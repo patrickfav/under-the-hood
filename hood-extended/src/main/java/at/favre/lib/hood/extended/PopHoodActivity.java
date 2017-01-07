@@ -39,12 +39,12 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getIntent().getBooleanExtra(KEY_HEADLESS, false)) {
-            getPageData(getPageData(Hood.createPages(getConfig()))).logPages();
+            getPageData(getPageData(Hood.get().createPages(getConfig()))).logPages();
             finish();
         } else {
             setContentView(R.layout.hoodlib_activity_hood);
             debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
-            debugView.setPageData(getPageData(Hood.createPages(getConfig())));
+            debugView.setPageData(getPageData(Hood.get().createPages(getConfig())));
             toolbar = ((Toolbar) findViewById(R.id.toolbar));
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

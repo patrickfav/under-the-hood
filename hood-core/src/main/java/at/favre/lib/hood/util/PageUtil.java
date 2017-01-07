@@ -15,20 +15,20 @@ import at.favre.lib.hood.page.entries.ActionEntry;
 public class PageUtil {
 
     public void addProperty(@NonNull Page page, CharSequence key, DynamicValue<String> value) {
-        page.add(Hood.createPropertyEntry(key, value, false));
+        page.add(Hood.get().createPropertyEntry(key, value, false));
     }
 
     public static void addProperty(@NonNull Page page, CharSequence key, String value) {
-        page.add(Hood.createPropertyEntry(key, value));
+        page.add(Hood.get().createPropertyEntry(key, value));
     }
 
     public static void addHeader(@NonNull Page page, CharSequence title) {
-        page.add(Hood.createHeaderEntry(title));
+        page.add(Hood.get().createHeaderEntry(title));
     }
 
     public static void addAction(@NonNull Page page, @Nullable ButtonDefinition action) {
         if (action != null) {
-            page.add(Hood.createActionEntry(action));
+            page.add(Hood.get().createActionEntry(action));
         }
     }
 

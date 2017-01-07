@@ -17,12 +17,27 @@ import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.entries.TextMessageEntry;
 
 public class Hood {
-    private static final HoodInternal HOOD_INTERNAL = new HoodInternal();
+    private static HoodInternal internalInstance;
+    private static Hood instance;
 
     private Hood() {
     }
 
-    public static Pages createPages(Config config) {
+    public static Hood get() {
+        if (instance == null) {
+            instance = new Hood();
+        }
+        return instance;
+    }
+
+    public static HoodInternal internal() {
+        if (internalInstance == null) {
+            internalInstance = new HoodInternal();
+        }
+        return internalInstance;
+    }
+
+    public Pages createPages(Config config) {
         return DebugPages.Factory.create(config);
     }
 
@@ -31,7 +46,7 @@ public class Hood {
      *
      * @param action
      */
-    public static PageEntry<?> createActionEntry(ButtonDefinition action) {
+    public PageEntry<?> createActionEntry(ButtonDefinition action) {
         return new ActionEntry(action);
     }
 
@@ -41,7 +56,7 @@ public class Hood {
      * @param actionLeft
      * @param actionRight
      */
-    public static PageEntry<?> createActionEntry(ButtonDefinition actionLeft, ButtonDefinition actionRight) {
+    public PageEntry<?> createActionEntry(ButtonDefinition actionLeft, ButtonDefinition actionRight) {
         return new ActionEntry(actionLeft, actionRight);
     }
 
@@ -50,7 +65,7 @@ public class Hood {
      *
      * @param header as shown in ui
      */
-    public static PageEntry<?> createHeaderEntry(CharSequence header) {
+    public PageEntry<?> createHeaderEntry(CharSequence header) {
         return new HeaderEntry(header);
     }
 
@@ -60,7 +75,7 @@ public class Hood {
      * @param header    as shown in ui
      * @param hideInLog will omit it in log
      */
-    public static PageEntry<?> createHeaderEntry(CharSequence header, boolean hideInLog) {
+    public PageEntry<?> createHeaderEntry(CharSequence header, boolean hideInLog) {
         return new HeaderEntry(header, hideInLog);
     }
 
@@ -69,7 +84,7 @@ public class Hood {
      *
      * @param message as shown in
      */
-    public static PageEntry<?> createMessageEntry(CharSequence message) {
+    public PageEntry<?> createMessageEntry(CharSequence message) {
         return new TextMessageEntry(message);
     }
 
@@ -78,7 +93,7 @@ public class Hood {
      *
      * @param action
      */
-    public static PageEntry<?> createSwitchEntry(BoolConfigAction action) {
+    public PageEntry<?> createSwitchEntry(BoolConfigAction action) {
         return new ConfigBoolEntry(action);
     }
 
@@ -87,7 +102,7 @@ public class Hood {
      *
      * @param action
      */
-    public static PageEntry<?> createSpinnerEnry(SingleSelectListConfigAction action) {
+    public PageEntry<?> createSpinnerEnry(SingleSelectListConfigAction action) {
         return new ConfigSpinnerEntry(action);
     }
 
@@ -99,7 +114,7 @@ public class Hood {
      * @param action    used when clicked on
      * @param multiLine if a different layout should be used for long values
      */
-    public static PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
+    public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
         return new KeyValueEntry(key, value, action, multiLine);
     }
 
@@ -110,7 +125,7 @@ public class Hood {
      * @param value     dynamic value (e.g. from {@link android.content.SharedPreferences}
      * @param multiLine if a different layout should be used for long values
      */
-    public static PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, boolean multiLine) {
+    public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value, boolean multiLine) {
         return new KeyValueEntry(key, value, multiLine);
     }
 
@@ -121,7 +136,7 @@ public class Hood {
      * @param key   as shown in ui
      * @param value dynamic value (e.g. from {@link android.content.SharedPreferences}
      */
-    public static PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value) {
+    public PageEntry<?> createPropertyEntry(CharSequence key, DynamicValue<String> value) {
         return new KeyValueEntry(key, value);
     }
 
@@ -133,7 +148,7 @@ public class Hood {
      * @param action    used when clicked on
      * @param multiLine if a different layout should be used for long values
      */
-    public static PageEntry<?> createPropertyEntry(CharSequence key, String value, OnClickAction action, boolean multiLine) {
+    public PageEntry<?> createPropertyEntry(CharSequence key, String value, OnClickAction action, boolean multiLine) {
         return new KeyValueEntry(key, value, action, multiLine);
     }
 
@@ -144,7 +159,7 @@ public class Hood {
      * @param value     static value
      * @param multiLine if a different layout should be used for long values
      */
-    public static PageEntry<?> createPropertyEntry(CharSequence key, String value, boolean multiLine) {
+    public PageEntry<?> createPropertyEntry(CharSequence key, String value, boolean multiLine) {
         return new KeyValueEntry(key, value, multiLine);
     }
 
@@ -155,11 +170,7 @@ public class Hood {
      * @param key   as shown in ui
      * @param value static value
      */
-    public static PageEntry<?> createPropertyEntry(CharSequence key, String value) {
+    public PageEntry<?> createPropertyEntry(CharSequence key, String value) {
         return new KeyValueEntry(key, value);
-    }
-
-    public static HoodInternal internal() {
-        return HOOD_INTERNAL;
     }
 }

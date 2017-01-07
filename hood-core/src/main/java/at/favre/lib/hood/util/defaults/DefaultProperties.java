@@ -51,14 +51,14 @@ public class DefaultProperties {
      */
     public static Section.HeaderSection createSectionBasicDeviceInfo() {
         Section.ModifiableHeaderSection section = Hood.internal().createSection("Device");
-        section.add(Hood.createPropertyEntry("model", Build.MODEL));
-        section.add(Hood.createPropertyEntry("name", Build.DEVICE));
-        section.add(Hood.createPropertyEntry("brand", Build.MANUFACTURER));
-        section.add(Hood.createPropertyEntry("version", Build.VERSION.RELEASE));
-        section.add(Hood.createPropertyEntry("version_minor", Build.VERSION.INCREMENTAL));
-        section.add(Hood.createPropertyEntry("build-id", Build.ID));
-        section.add(Hood.createPropertyEntry("sdk-int", String.valueOf(Build.VERSION.SDK_INT)));
-        section.add(Hood.createPropertyEntry("serial", Build.SERIAL));
+        section.add(Hood.get().createPropertyEntry("model", Build.MODEL));
+        section.add(Hood.get().createPropertyEntry("name", Build.DEVICE));
+        section.add(Hood.get().createPropertyEntry("brand", Build.MANUFACTURER));
+        section.add(Hood.get().createPropertyEntry("version", Build.VERSION.RELEASE));
+        section.add(Hood.get().createPropertyEntry("version_minor", Build.VERSION.INCREMENTAL));
+        section.add(Hood.get().createPropertyEntry("build-id", Build.ID));
+        section.add(Hood.get().createPropertyEntry("sdk-int", String.valueOf(Build.VERSION.SDK_INT)));
+        section.add(Hood.get().createPropertyEntry("serial", Build.SERIAL));
 
         return section;
     }
@@ -74,21 +74,21 @@ public class DefaultProperties {
         if (activity != null) {
             DisplayMetrics metrics = new DisplayMetrics();
             activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            entries.add(Hood.createPropertyEntry("dpi", "x" + metrics.density + "/" + metrics.densityDpi + "dpi"));
-            entries.add(Hood.createPropertyEntry("resolution", metrics.heightPixels + "x" + metrics.widthPixels));
-            entries.add(Hood.createPropertyEntry("locale/timezone", new DynamicValue<String>() {
+            entries.add(Hood.get().createPropertyEntry("dpi", "x" + metrics.density + "/" + metrics.densityDpi + "dpi"));
+            entries.add(Hood.get().createPropertyEntry("resolution", metrics.heightPixels + "x" + metrics.widthPixels));
+            entries.add(Hood.get().createPropertyEntry("locale/timezone", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return HoodUtil.getCurrentLocale(activity).toString() + "/" + TimeZone.getDefault().getDisplayName();
                 }
             }));
-            entries.add(Hood.createPropertyEntry("uptime", new DynamicValue<String>() {
+            entries.add(Hood.get().createPropertyEntry("uptime", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return HoodUtil.millisToDaysHoursMinString(SystemClock.elapsedRealtime());
                 }
             }));
-            entries.add(Hood.createPropertyEntry("android-id", Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID)));
+            entries.add(Hood.get().createPropertyEntry("android-id", Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID)));
         }
         return entries;
     }
@@ -100,41 +100,41 @@ public class DefaultProperties {
      * @return section for info
      */
     public static Section.HeaderSection createInternalProcessDebugInfo(@Nullable final Context context) {
-        Section.ModifiableHeaderSection section = Hood.internal().createSection("Process Debug Info");
+        Section.ModifiableHeaderSection section = Hood.get().internal().createSection("Process Debug Info");
 
         if (context != null) {
-            section.add(Hood.createPropertyEntry("heap-native", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("heap-native", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return "used " + HoodUtil.humanReadableByteCount(Debug.getNativeHeapAllocatedSize(), false) + " of " + HoodUtil.humanReadableByteCount(Debug.getNativeHeapSize(), false);
                 }
             }));
 
-            section.add(Hood.createPropertyEntry("memory", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("memory", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return "used " + HoodUtil.humanReadableByteCount(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory(), false) + " (max:" + HoodUtil.humanReadableByteCount(Runtime.getRuntime().maxMemory(), false) + ")";
                 }
             }));
-            section.add(Hood.createPropertyEntry("pss", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("pss", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return HoodUtil.humanReadableByteCount(Debug.getPss(), false);
                 }
             }));
-            section.add(Hood.createPropertyEntry("loaded-classes", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("loaded-classes", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return String.valueOf(Debug.getLoadedClassCount());
                 }
             }));
-            section.add(Hood.createPropertyEntry("local/death/proxy objs", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("local/death/proxy objs", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return String.valueOf(Debug.getBinderLocalObjectCount()) + "/" + String.valueOf(Debug.getBinderDeathObjectCount()) + "/" + String.valueOf(Debug.getBinderProxyObjectCount());
                 }
             }));
-            section.add(Hood.createPropertyEntry("debugger-connected", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("debugger-connected", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return String.valueOf(Debug.isDebuggerConnected());
@@ -171,7 +171,7 @@ public class DefaultProperties {
 
                     if (key != null && !key.equals("serialVersionUID") &&
                             value != null && !value.equals("null") && !value.trim().isEmpty()) {
-                        entries.add(Hood.createPropertyEntry(key, String.valueOf(field.get(null))));
+                        entries.add(Hood.get().createPropertyEntry(key, String.valueOf(field.get(null))));
                     }
                 } catch (Exception e) {
                     Log.w(TAG, "could not get field from class (" + field + ")");
@@ -224,7 +224,7 @@ public class DefaultProperties {
                     }
 
                     if (key != null && value != null && !value.trim().isEmpty()) {
-                        section.add(Hood.createPropertyEntry(key, String.valueOf(field.get(null))));
+                        section.add(Hood.get().createPropertyEntry(key, String.valueOf(field.get(null))));
                     }
 
                 } catch (Exception e) {
@@ -249,7 +249,7 @@ public class DefaultProperties {
 
         if (activity != null && !androidPermissions.isEmpty()) {
             for (final String perm : androidPermissions) {
-                section.add(Hood.createPropertyEntry(perm.replace("android.permission.", ""), new DynamicValue<String>() {
+                section.add(Hood.get().createPropertyEntry(perm.replace("android.permission.", ""), new DynamicValue<String>() {
                     @Override
                     public String getValue() {
                         return TypeTranslators.translatePermissionState(PermissionTranslator.getPermissionStatus(activity, perm));
@@ -288,7 +288,7 @@ public class DefaultProperties {
 
         if (context != null) {
             if (includeNetworkState) {
-                section.add(Hood.createPropertyEntry("internet", new DynamicValue<String>() {
+                section.add(Hood.get().createPropertyEntry("internet", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
                         return String.valueOf(DeviceStatusUtil.getNetworkConnectivityState(context));
@@ -299,7 +299,7 @@ public class DefaultProperties {
 
             if (includeWifiState) {
                 final DeviceStatusUtil.Status wifiState = DeviceStatusUtil.getWifiStatus(context);
-                section.add(Hood.createPropertyEntry("wifi", new DynamicValue<String>() {
+                section.add(Hood.get().createPropertyEntry("wifi", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
                         return String.valueOf(wifiState);
@@ -311,7 +311,7 @@ public class DefaultProperties {
 
             if (includeBtState) {
                 final DeviceStatusUtil.Status btState = DeviceStatusUtil.getBluetoothStatus(context);
-                section.add(Hood.createPropertyEntry("bluetooth", new DynamicValue<String>() {
+                section.add(Hood.get().createPropertyEntry("bluetooth", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
                         return String.valueOf(btState);
@@ -323,7 +323,7 @@ public class DefaultProperties {
 
             if (includeNfcState) {
                 final DeviceStatusUtil.Status nfcState = DeviceStatusUtil.getNfcState(context);
-                section.add(Hood.createPropertyEntry("nfc", new DynamicValue<String>() {
+                section.add(Hood.get().createPropertyEntry("nfc", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
                         return String.valueOf(nfcState);
@@ -352,7 +352,7 @@ public class DefaultProperties {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (context != null) {
             for (Map.Entry<CharSequence, String> entry : labelSystemFeatureMap.entrySet()) {
-                entries.add(Hood.createPropertyEntry(entry.getKey(), String.valueOf(context.getPackageManager().hasSystemFeature(entry.getValue()))));
+                entries.add(Hood.get().createPropertyEntry(entry.getKey(), String.valueOf(context.getPackageManager().hasSystemFeature(entry.getValue()))));
             }
         }
         return entries;
@@ -373,20 +373,20 @@ public class DefaultProperties {
             section.setErrorMessage("Cannot display data - requires READ_PHONE_STATE permission.");
         } else if (context != null) {
             final TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            section.add(Hood.createPropertyEntry("sim-serial", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("sim-serial", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getSimSerialNumber();
                 }
             }));
-            section.add(Hood.createPropertyEntry("sim-state", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("sim-state", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return TypeTranslators.translateSimState(telephonyManager.getSimState());
                 }
             }));
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                section.add(Hood.createPropertyEntry("sim-slots", new DynamicValue<String>() {
+                section.add(Hood.get().createPropertyEntry("sim-slots", new DynamicValue<String>() {
                     @TargetApi(Build.VERSION_CODES.M)
                     @Override
                     public String getValue() {
@@ -394,31 +394,31 @@ public class DefaultProperties {
                     }
                 }));
             }
-            section.add(Hood.createPropertyEntry("subscriber-id", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("subscriber-id", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getSubscriberId();
                 }
             }));
-            section.add(Hood.createPropertyEntry("operator", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("operator", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getNetworkOperatorName();
                 }
             }));
-            section.add(Hood.createPropertyEntry("connection-type", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("connection-type", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return TypeTranslators.translateTelephonyNetworkType(telephonyManager.getNetworkType());
                 }
             }));
-            section.add(Hood.createPropertyEntry("MSISDN", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("MSISDN", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getLine1Number();
                 }
             }));
-            section.add(Hood.createPropertyEntry("IMEI", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("IMEI", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     return telephonyManager.getDeviceId();
@@ -436,13 +436,13 @@ public class DefaultProperties {
      */
     public static Section.HeaderSection createSectionStrictMode() {
         Section.ModifiableHeaderSection section = Hood.internal().createSection("StrictMode");
-        section.add(Hood.createPropertyEntry("thread-policy", new DynamicValue<String>() {
+        section.add(Hood.get().createPropertyEntry("thread-policy", new DynamicValue<String>() {
             @Override
             public String getValue() {
                 return String.valueOf(StrictMode.getThreadPolicy());
             }
         }, true));
-        section.add(Hood.createPropertyEntry("vm-policy", new DynamicValue<String>() {
+        section.add(Hood.get().createPropertyEntry("vm-policy", new DynamicValue<String>() {
             @Override
             public String getValue() {
                 return StrictMode.getVmPolicy().toString();
@@ -454,7 +454,7 @@ public class DefaultProperties {
     public static Section.HeaderSection createSectionAndroidDebugSettings(final Context context) {
         Section.ModifiableHeaderSection section = Hood.internal().createSection("Android Debug Settings");
         if (context != null) {
-            section.add(Hood.createPropertyEntry("developer-mode", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("developer-mode", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     int settingsInt;
@@ -468,7 +468,7 @@ public class DefaultProperties {
                     return String.valueOf(settingsInt == 1);
                 }
             }, DefaultButtonDefinitions.getDevSettingsAction().onClickAction, false));
-            section.add(Hood.createPropertyEntry("usb-debugging", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("usb-debugging", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     int settingsInt;
@@ -480,7 +480,7 @@ public class DefaultProperties {
                     return String.valueOf(settingsInt == 1);
                 }
             }, DefaultButtonDefinitions.getDevSettingsAction().onClickAction, false));
-            section.add(Hood.createPropertyEntry("don't keep activities", new DynamicValue<String>() {
+            section.add(Hood.get().createPropertyEntry("don't keep activities", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
                     int settingsInt;
@@ -510,22 +510,22 @@ public class DefaultProperties {
                                                                         @Nullable String ciBuildId, @Nullable String ciBuildJob, @Nullable String ciBuildTime) {
         Section.ModifiableHeaderSection section = Hood.internal().createSection("Source Control & CI");
         if (scmBranch != null) {
-            section.add(Hood.createPropertyEntry("scm-branch", scmBranch));
+            section.add(Hood.get().createPropertyEntry("scm-branch", scmBranch));
         }
         if (scmRev != null) {
-            section.add(Hood.createPropertyEntry("scm-rev", scmRev));
+            section.add(Hood.get().createPropertyEntry("scm-rev", scmRev));
         }
         if (scmCommitDate != null) {
-            section.add(Hood.createPropertyEntry("scm-date", scmCommitDate));
+            section.add(Hood.get().createPropertyEntry("scm-date", scmCommitDate));
         }
         if (ciBuildJob != null) {
-            section.add(Hood.createPropertyEntry("ci-job", ciBuildJob));
+            section.add(Hood.get().createPropertyEntry("ci-job", ciBuildJob));
         }
         if (ciBuildId != null) {
-            section.add(Hood.createPropertyEntry("ci-build-id", ciBuildId));
+            section.add(Hood.get().createPropertyEntry("ci-build-id", ciBuildId));
         }
         if (ciBuildTime != null) {
-            section.add(Hood.createPropertyEntry("ci-build-time", ciBuildTime));
+            section.add(Hood.get().createPropertyEntry("ci-build-time", ciBuildTime));
         }
         return section;
     }
@@ -554,7 +554,7 @@ public class DefaultProperties {
         List<PageEntry<?>> entries = new ArrayList<>();
         for (Map.Entry propEntry : entrySet) {
             if (propEntry != null && propEntry.getKey() != null && propEntry.getValue() != null) {
-                entries.add(Hood.createPropertyEntry(propEntry.getKey().toString(), propEntry.getValue().toString()));
+                entries.add(Hood.get().createPropertyEntry(propEntry.getKey().toString(), propEntry.getValue().toString()));
             }
         }
         return entries;

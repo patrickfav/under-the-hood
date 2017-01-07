@@ -76,7 +76,7 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
     @NonNull
     @Override
     public Pages getPages() {
-        Pages pages = Hood.createPages(new Config.Builder().setShowHighlightContent(false).build());
+        Pages pages = Hood.get().createPages(new Config.Builder().setShowHighlightContent(false).build());
         Page firstPage = pages.addNewPage("Debug Info");
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
         firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
@@ -91,11 +91,11 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         systemFeatureMap.put("hasWebview", "android.software.webview");
         secondPage.add(DefaultProperties.createSystemFeatureInfo(this, systemFeatureMap));
 
-        secondPage.add(Hood.createHeaderEntry("Debug Config"));
-        secondPage.add(Hood.createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
-        secondPage.add(Hood.createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
-        secondPage.add(Hood.createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
-        secondPage.add(Hood.createSpinnerEnry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(null, getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
+        secondPage.add(Hood.get().createHeaderEntry("Debug Config"));
+        secondPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
+        secondPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
+        secondPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
+        secondPage.add(Hood.get().createSpinnerEnry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(null, getPreferences(MODE_PRIVATE), "BACKEND_ID", null, getBackendElements())));
 
         PageUtil.addAction(secondPage, new ButtonDefinition("Test Loading", new OnClickAction() {
             @Override
@@ -111,9 +111,9 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
                 }, 3000);
             }
         }));
-        secondPage.add(Hood.createActionEntry(DefaultButtonDefinitions.getCrashAction()));
-        secondPage.add(Hood.createActionEntry(DefaultButtonDefinitions.getKillProcessAction(this), DefaultButtonDefinitions.getClearAppDataAction()));
-        secondPage.add(Hood.createActionEntry(DefaultButtonDefinitions.getKillProcessAction(this)));
+        secondPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getCrashAction()));
+        secondPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getKillProcessAction(this), DefaultButtonDefinitions.getClearAppDataAction()));
+        secondPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getKillProcessAction(this)));
 
         return pages;
     }
