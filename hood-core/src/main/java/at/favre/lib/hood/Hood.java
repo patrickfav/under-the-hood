@@ -35,13 +35,7 @@ public final class Hood {
     private static HoodAPI.Extension extensionInstance;
     private static HoodAPI instance;
 
-    /**
-     * This constructor will plant a {@link Timber} tree if none is set.
-     */
     private Hood() {
-        if (!BuildConfig.NO_OP && Timber.forest().isEmpty()) {
-            Timber.plant(new Timber.DebugTree());
-        }
     }
 
     /**
@@ -77,7 +71,13 @@ public final class Hood {
     }
 
     private static final class HoodImpl implements HoodAPI {
+        /**
+         * This constructor will plant a {@link Timber} tree if none is set.
+         */
         private HoodImpl() {
+            if (Timber.forest().isEmpty()) {
+                Timber.plant(new Timber.DebugTree());
+            }
         }
 
         @NonNull
