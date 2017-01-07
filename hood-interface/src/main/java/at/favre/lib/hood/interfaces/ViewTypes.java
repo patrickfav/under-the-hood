@@ -1,7 +1,7 @@
 package at.favre.lib.hood.interfaces;
 
 /**
- * All pre-defined view-types used for {@link ViewTemplate#getViewType()} in {@link at.favre.lib.hood.page.values}
+ * All pre-defined view-types used for {@link ViewTemplate#getViewType()} in {@link at.favre.lib.hood.page}
  */
 public final class ViewTypes {
 

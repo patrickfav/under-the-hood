@@ -12,8 +12,8 @@ import at.favre.lib.hood.interfaces.Pages;
 import timber.log.Timber;
 
 public class DebugPages implements Pages {
-    private List<Page> pages = new ArrayList<>();
-    private at.favre.lib.hood.interfaces.Config config;
+    private final List<Page> pages = new ArrayList<>();
+    private final Config config;
 
     public static class Factory {
         public static Pages create(@NonNull Config config) {
@@ -21,7 +21,7 @@ public class DebugPages implements Pages {
         }
 
         public static Pages createImmutableCopy(@NonNull Pages page) {
-            return new ImmutablePagesDelegate(page);
+            return new UnmodifiablePages(page);
         }
     }
 

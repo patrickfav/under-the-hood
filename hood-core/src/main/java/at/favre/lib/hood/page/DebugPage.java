@@ -18,8 +18,8 @@ import at.favre.lib.hood.interfaces.ViewTemplate;
  * The default implementation of the debug view page. Use factory to create instance.
  */
 public class DebugPage implements Page {
-    private List<PageEntry> entries = new LinkedList<>();
-    private SparseArray<ViewTemplate<?>> templateMap = new SparseArray<>();
+    private final List<PageEntry> entries = new LinkedList<>();
+    private final SparseArray<ViewTemplate<?>> templateMap = new SparseArray<>();
     private final Pages pages;
     private final String title;
 

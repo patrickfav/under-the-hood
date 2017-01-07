@@ -68,7 +68,7 @@ Note that your Activity should implement `IHoodDebugController` to enable all fe
 
 ### Template System
 
-The base is a simple template system that is optimized to create pages in an easy and succinct way. It is also very flexible; using the provided interfaces one can implement any custom view. The base interface is `PageEntry` which provides the value it represents and how this value will be rendered in UI (see `ViewTemplate` for the UI part). Internally this will be added to a `RecyclerView` adapter therefore createing the views should be reasonably efficient.
+The base is a simple template system that is optimized to create pages in an easy and succinct way. It is also very flexible; using the provided interfaces one can implement any custom view. The base interface is `PageEntry` which provides the value it represents and how this value will be rendered in UI (see `ViewTemplate` for the UI part). Internally this will be added to a `RecyclerView` adapter therefore creating the views should be reasonably efficient.
 
 ## Built-In Entries
 

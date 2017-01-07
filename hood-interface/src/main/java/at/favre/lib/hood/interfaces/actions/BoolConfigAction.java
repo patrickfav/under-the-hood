@@ -4,7 +4,7 @@ import at.favre.lib.hood.interfaces.values.ChangeableValue;
 
 /**
  * The abstraction of the switch containing a label (as shown in ui) and a changeable value
- * representing the boolean switch value. Default implementation see {@link at.favre.lib.hood.util.defaults.DefaultConfigActions}
+ * representing the boolean switch value. Default implementation see DefaultConfigActions
  */
 public class BoolConfigAction {
     public final String label;

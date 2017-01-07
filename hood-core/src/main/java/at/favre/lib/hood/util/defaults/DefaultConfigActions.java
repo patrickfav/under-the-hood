@@ -19,25 +19,25 @@ import at.favre.lib.hood.interfaces.values.SpinnerValue;
 public class DefaultConfigActions {
 
     /**
-     * Used with {@link at.favre.lib.hood.Hood#createSwitchEntry(BoolConfigAction)}. A changeable boolean value backed by shared preferences,
+     * Used with {@link at.favre.lib.hood.interfaces.HoodAPI#createSwitchEntry(BoolConfigAction)}. A changeable boolean value backed by shared preferences,
      *
      * @param prefs        shared preference containing the key
      * @param booleKey     the key in the pref
      * @param defaultValue the default value if none is found
-     * @return the action encapsolating t
+     * @return the action encapsulating
      */
     public static BoolConfigAction getBoolSharedPreferencesConfigAction(final SharedPreferences prefs, final String booleKey, final boolean defaultValue) {
         return getBoolSharedPreferencesConfigAction(prefs, booleKey, booleKey, defaultValue);
     }
 
     /**
-     * Used with {@link at.favre.lib.hood.Hood#createSwitchEntry(BoolConfigAction)}. A changeable boolean value backed by shared preferences,
+     * Used with {@link at.favre.lib.hood.interfaces.HoodAPI#createSwitchEntry(BoolConfigAction)}. A changeable boolean value backed by shared preferences,
      *
      * @param prefs        shared preference containing the key
      * @param booleKey     the key in the pref
      * @param label        label in the ui
      * @param defaultValue the default value if none is found
-     * @return the action encapsolating t
+     * @return the action encapsulating
      */
     public static BoolConfigAction getBoolSharedPreferencesConfigAction(final SharedPreferences prefs, final String booleKey, String label, final boolean defaultValue) {
         return new BoolConfigAction(label, new ChangeableValue<Boolean, Boolean>() {

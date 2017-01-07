@@ -38,7 +38,7 @@ import at.favre.lib.hood.util.TypeTranslators;
 import timber.log.Timber;
 
 /**
- * A set of methods that returns default {@link Hood#createPropertyEntry(CharSequence, DynamicValue)} type page entries.
+ * A set of methods that returns default {@link at.favre.lib.hood.interfaces.HoodAPI#createPropertyEntry(CharSequence, DynamicValue)} type page entries.
  */
 public class DefaultProperties {
 
@@ -328,7 +328,7 @@ public class DefaultProperties {
                     public String getValue() {
                         return String.valueOf(nfcState);
                     }
-                }, nfcState == DeviceStatusUtil.Status.UNSUPPORTED ?
+                }, nfcState == DeviceStatusUtil.Status.UNSUPPORTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ?
                         Hood.ext().createOnClickActionToast() :
                         Hood.ext().createOnClickActionStartIntent(new Intent(Settings.ACTION_NFC_SETTINGS)), false));
             }
@@ -369,61 +369,63 @@ public class DefaultProperties {
     //@RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     public static Section.HeaderSection createSectionTelephonyManger(@Nullable Context context) {
         Section.ModifiableHeaderSection section = Hood.ext().createSection("Telephony Status");
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            section.setErrorMessage("Cannot display data - requires READ_PHONE_STATE permission.");
-        } else if (context != null) {
-            final TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            section.add(Hood.get().createPropertyEntry("sim-serial", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return telephonyManager.getSimSerialNumber();
-                }
-            }));
-            section.add(Hood.get().createPropertyEntry("sim-state", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return TypeTranslators.translateSimState(telephonyManager.getSimState());
-                }
-            }));
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                section.add(Hood.get().createPropertyEntry("sim-slots", new DynamicValue<String>() {
-                    @TargetApi(Build.VERSION_CODES.M)
+        if (context != null) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                section.setErrorMessage("Cannot display data - requires READ_PHONE_STATE permission.");
+            } else {
+                final TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                section.add(Hood.get().createPropertyEntry("sim-serial", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
-                        return String.valueOf(telephonyManager.getPhoneCount());
+                        return telephonyManager.getSimSerialNumber();
+                    }
+                }));
+                section.add(Hood.get().createPropertyEntry("sim-state", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return TypeTranslators.translateSimState(telephonyManager.getSimState());
+                    }
+                }));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    section.add(Hood.get().createPropertyEntry("sim-slots", new DynamicValue<String>() {
+                        @TargetApi(Build.VERSION_CODES.M)
+                        @Override
+                        public String getValue() {
+                            return String.valueOf(telephonyManager.getPhoneCount());
+                        }
+                    }));
+                }
+                section.add(Hood.get().createPropertyEntry("subscriber-id", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return telephonyManager.getSubscriberId();
+                    }
+                }));
+                section.add(Hood.get().createPropertyEntry("operator", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return telephonyManager.getNetworkOperatorName();
+                    }
+                }));
+                section.add(Hood.get().createPropertyEntry("connection-type", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return TypeTranslators.translateTelephonyNetworkType(telephonyManager.getNetworkType());
+                    }
+                }));
+                section.add(Hood.get().createPropertyEntry("MSISDN", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return telephonyManager.getLine1Number();
+                    }
+                }));
+                section.add(Hood.get().createPropertyEntry("IMEI", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        return telephonyManager.getDeviceId();
                     }
                 }));
             }
-            section.add(Hood.get().createPropertyEntry("subscriber-id", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return telephonyManager.getSubscriberId();
-                }
-            }));
-            section.add(Hood.get().createPropertyEntry("operator", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return telephonyManager.getNetworkOperatorName();
-                }
-            }));
-            section.add(Hood.get().createPropertyEntry("connection-type", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return TypeTranslators.translateTelephonyNetworkType(telephonyManager.getNetworkType());
-                }
-            }));
-            section.add(Hood.get().createPropertyEntry("MSISDN", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return telephonyManager.getLine1Number();
-                }
-            }));
-            section.add(Hood.get().createPropertyEntry("IMEI", new DynamicValue<String>() {
-                @Override
-                public String getValue() {
-                    return telephonyManager.getDeviceId();
-                }
-            }));
         }
         return section;
     }

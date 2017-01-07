@@ -23,8 +23,8 @@ import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.page.DebugPages;
 
 /**
- * The view encapsulating the rendering logic of a {@link Page}. Internally has an recyclerview
- * with a {@link DebugEntriesAdapter}.
+ * The view encapsulating the rendering logic of a {@link Page}. Internally has an {@link android.support.v7.widget.RecyclerView}
+ * with  {@link DebugEntriesAdapter}.
  */
 public class HoodDebugPageView extends FrameLayout {
 

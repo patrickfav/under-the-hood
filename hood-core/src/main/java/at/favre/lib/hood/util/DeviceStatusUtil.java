@@ -31,7 +31,7 @@ public class DeviceStatusUtil {
      * @param context
      * @return state
      */
-    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+    //@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     public static ConnectionState getNetworkConnectivityState(@NonNull Context context) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -69,14 +69,15 @@ public class DeviceStatusUtil {
      * @param context
      * @return state
      */
-    @RequiresPermission(Manifest.permission.BLUETOOTH)
+    //@RequiresPermission(Manifest.permission.BLUETOOTH)
     public static Status getBluetoothStatus(@NonNull Context context) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
             return Status.UNSUPPORTED;
         } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
             return Status.NEEDS_PERMISSION;
-        } else if (bluetoothAdapter.isEnabled()) {
+        } else //noinspection MissingPermission
+            if (bluetoothAdapter.isEnabled()) {
             return Status.ENABLED;
         } else {
             return Status.DISABLED;
@@ -89,9 +90,9 @@ public class DeviceStatusUtil {
      * @param context
      * @return state
      */
-    @RequiresPermission(Manifest.permission.ACCESS_WIFI_STATE)
+    //@RequiresPermission(Manifest.permission.ACCESS_WIFI_STATE)
     public static Status getWifiStatus(Context context) {
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifi == null) {
             return Status.UNSUPPORTED;
         } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
@@ -109,7 +110,7 @@ public class DeviceStatusUtil {
      * @param context
      * @return state
      */
-    @RequiresPermission(Manifest.permission.NFC)
+    //@RequiresPermission(Manifest.permission.NFC)
     public static Status getNfcState(Context context) {
         NfcManager nfcManager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
         NfcAdapter adapter = nfcManager.getDefaultAdapter();

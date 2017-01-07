@@ -14,6 +14,7 @@
             android:id="@+id/label"
             style="@style/HoodLibTextViewSingleLine"
             android:layout_weight="1"
+            android:layout_width="0dp"
             android:background="@android:color/transparent"
             tools:text="Enable debug info"/>
 

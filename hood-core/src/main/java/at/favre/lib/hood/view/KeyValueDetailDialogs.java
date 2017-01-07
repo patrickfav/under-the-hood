@@ -116,7 +116,7 @@ public class KeyValueDetailDialogs {
     }
 
     /**
-     * Basic, nativate styled dialog
+     * Basic, native styled dialog
      */
     public static class NativeDialog extends AlertDialog {
         private final CharSequence key;

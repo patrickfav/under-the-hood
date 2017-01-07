@@ -216,13 +216,14 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             return label.subSequence(i, i1);
         }
 
+        @NonNull
         @Override
         public String toString() {
             return label.toString();
         }
 
         @Override
-        public int compareTo(Label label) {
+        public int compareTo(@NonNull Label label) {
             return this.label.toString().compareTo(label.label.toString());
         }
     }

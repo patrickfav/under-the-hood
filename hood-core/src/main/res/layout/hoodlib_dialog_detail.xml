@@ -23,7 +23,8 @@
             android:paddingTop="32dp"
             android:textColor="#ffffff"
             android:textSize="32sp"
-            tools:text="version_name"/>
+            tools:text="version_name"
+            tools:targetApi="jelly_bean"/>
 
     </FrameLayout>
 

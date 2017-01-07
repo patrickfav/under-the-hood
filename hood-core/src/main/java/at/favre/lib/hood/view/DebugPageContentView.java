@@ -3,6 +3,8 @@ package at.favre.lib.hood.view;
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,9 +22,13 @@ import at.favre.lib.hood.interfaces.Page;
 public class DebugPageContentView extends FrameLayout {
     private RecyclerView mRecyclerView;
     private NestedScrollingChildHelper mScrollingChildHelper;
-    private Page page;
+    private final Page page;
 
-    public DebugPageContentView(Context context, Page page, @ColorInt int zebraColor) {
+    public DebugPageContentView(@NonNull Context context) {
+        this(context, null, ResourcesCompat.getColor(context.getResources(), R.color.hoodlib_zebra_color, context.getTheme()));
+    }
+
+    public DebugPageContentView(@NonNull Context context, Page page, @ColorInt int zebraColor) {
         super(context);
         this.page = page;
         setup(zebraColor);
@@ -48,6 +54,7 @@ public class DebugPageContentView extends FrameLayout {
 
     @Override
     public Parcelable onSaveInstanceState() {
+        super.onSaveInstanceState();
         if (mRecyclerView != null) {
             return mRecyclerView.getLayoutManager().onSaveInstanceState();
         }
@@ -56,6 +63,7 @@ public class DebugPageContentView extends FrameLayout {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
         if (mRecyclerView != null && state != null) {
             mRecyclerView.getLayoutManager().onRestoreInstanceState(state);
         }

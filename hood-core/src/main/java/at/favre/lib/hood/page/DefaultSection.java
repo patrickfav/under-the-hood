@@ -24,10 +24,10 @@ public class DefaultSection implements Section.ModifiableHeaderSection {
 
     private String header;
     private String errorMessage;
-    private List<PageEntry<?>> entries;
+    private final List<PageEntry<?>> entries;
 
     private DefaultSection() {
-        this((String) null);
+        this(null);
     }
 
     public DefaultSection(String header) {

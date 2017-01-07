@@ -68,7 +68,7 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
     }
 
     private static class Template implements ViewTemplate<List<ButtonDefinition>> {
-        private boolean isSingleAction;
+        private final boolean isSingleAction;
 
         public Template(boolean isSingleAction) {
             this.isSingleAction = isSingleAction;

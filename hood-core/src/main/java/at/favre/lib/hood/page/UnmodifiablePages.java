@@ -15,11 +15,11 @@ import at.favre.lib.hood.interfaces.Pages;
 /**
  * Used to prevent changes to the pages object. Is a simple delegate.
  */
-class ImmutablePagesDelegate implements Pages {
+class UnmodifiablePages implements Pages {
     private final Pages debugPages;
     private final List<Page> unmodifiablePages;
 
-    ImmutablePagesDelegate(Pages pages) {
+    UnmodifiablePages(Pages pages) {
         this.debugPages = pages;
         this.unmodifiablePages = createImmutablePagesList(pages);
     }

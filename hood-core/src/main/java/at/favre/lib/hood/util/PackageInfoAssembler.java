@@ -338,7 +338,7 @@ public class PackageInfoAssembler {
     }
 
     /**
-     * Creates page-entries for all the apk's signatures and shows sh256 hash of it
+     * Creates page-entries for all the apks signatures and shows sh256 hash of it
      *
      * @param packageInfo from {@link PackageManager#getPackageInfo(String, int)} requiring {@link PackageManager#GET_SIGNATURES} flag
      * @return entries

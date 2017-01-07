@@ -17,7 +17,7 @@ import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.util.DebugCrashException;
 
 /**
- * A couple of default action implementations used with {@link at.favre.lib.hood.Hood#createActionEntry(ButtonDefinition)}
+ * A couple of default action implementations used with {@link at.favre.lib.hood.interfaces.HoodAPI#createActionEntry(ButtonDefinition)}
  */
 public class DefaultButtonDefinitions {
 
@@ -61,7 +61,7 @@ public class DefaultButtonDefinitions {
      * Will open the "Set lock screen" wizard of the OS
      */
     public static ButtonDefinition getSetLockScreenAction() {
-        return new ButtonDefinition("Set Lockscreen", new OnClickAction() {
+        return new ButtonDefinition("Set Lock-Screen", new OnClickAction() {
             @Override
             public void onClick(View v, Map.Entry<CharSequence, String> value) {
                 v.getContext().startActivity(new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD));
@@ -89,7 +89,7 @@ public class DefaultButtonDefinitions {
         return getGenericAndroidSettingsAction("Developer Settings", Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS, null);
     }
 
-    public static ButtonDefinition getBattSaverSettingsAction() {
+    public static ButtonDefinition getBatterySaverSettingsAction() {
         return getGenericAndroidSettingsAction("Battery Saver Settings", Settings.ACTION_BATTERY_SAVER_SETTINGS, Build.VERSION_CODES.LOLLIPOP_MR1);
     }
 
@@ -129,7 +129,7 @@ public class DefaultButtonDefinitions {
      * Will open an Android setting
      * @param label ui text
      * @param settingsIntentAction the settings name wrapped as intent
-     * @param minSdkVersion if non-null a sdk-int that is requried to use this settings
+     * @param minSdkVersion if non-null a sdk-int that is required to use this settings
      * @return a non-null action if sdk-int is null or greater or equal than minSdkVersion
      */
     @Nullable

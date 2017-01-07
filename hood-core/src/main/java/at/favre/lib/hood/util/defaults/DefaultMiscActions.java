@@ -38,9 +38,7 @@ public class DefaultMiscActions {
             intent.setData(Uri.parse("package:" + ctx.getPackageName()));
             return intent;
         } catch (ActivityNotFoundException e) {
-            //Open the generic Apps page:
-            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-            return intent;
+            return new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
         }
     }
 

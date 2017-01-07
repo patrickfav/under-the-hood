@@ -129,11 +129,11 @@
 
     <!-- CONFIG  -->
 
-    <style name="HoodLibConfigWrapper" parent="HoodLibKeyValue"></style>
+    <style name="HoodLibConfigWrapper" parent="HoodLibKeyValue"/>
 
-    <style name="HoodLibConfigInnerWrapper" parent="HoodLibKeyValueInner"></style>
+    <style name="HoodLibConfigInnerWrapper" parent="HoodLibKeyValueInner"/>
 
-    <!-- CONFIG SPINNNER -->
+    <!-- CONFIG SPINNER -->
 
     <style name="HoodLibTextViewSingleLine.SpinnerItem">
         <item name="android:layout_width">match_parent</item>

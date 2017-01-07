@@ -41,7 +41,7 @@ public interface ViewTemplate<T> {
      * a "zebra" effect (even-odd coloring)
      * @param view a non-null view of the correct type
      * @param zebraColor the highlighted "zebra" color as defined by the view
-     * @param isOdd to easy identify which view has a highlighted zebra background and which not (ie. isOdd has highlighed background)
+     * @param isOdd to easy identify which view has a highlighted zebra background and which not (ie. isOdd has highlighted background)
      */
     void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd);
 }

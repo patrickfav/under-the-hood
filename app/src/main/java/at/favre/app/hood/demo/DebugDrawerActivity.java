@@ -38,7 +38,6 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
 
     private DrawerLayout drawerLayout;
     private HoodDebugPageView hoodDebugPageView;
-    private Toolbar toolbar;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, DebugDrawerActivity.class);
@@ -52,7 +51,7 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         hoodDebugPageView = (HoodDebugPageView) findViewById(R.id.left_drawer);
         hoodDebugPageView.setPageData(createPages());
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViewById(R.id.toggle_drawer).setOnClickListener(new View.OnClickListener() {

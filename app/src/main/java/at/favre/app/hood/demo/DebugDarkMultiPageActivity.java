@@ -97,7 +97,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getNfcPaymentSettingsAction(), DefaultButtonDefinitions.getDevSettingsAction());
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getDateSettingsAction(), DefaultButtonDefinitions.getAirplaneModeSettingsAction());
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getSetLockScreenAction(), DefaultButtonDefinitions.getDeviceInfoSettingsAction());
-        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getBattSaverSettingsAction(), DefaultButtonDefinitions.getDisplaySettingsAction());
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getBatterySaverSettingsAction(), DefaultButtonDefinitions.getDisplaySettingsAction());
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getInputModeSettingsAction(), DefaultButtonDefinitions.getStorageSettingsAction());
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getSecuritySettingsAction(), DefaultButtonDefinitions.getInstalledAppSettings());
 

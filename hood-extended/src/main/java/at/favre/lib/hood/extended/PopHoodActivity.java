@@ -68,6 +68,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
 
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && debugView.getPages().size() > 1) {
                     //because of a lack of a better API to disable the elevation in the AppBarLayout, uses deprecated method
+                    //noinspection deprecation
                     ((AppBarLayout) findViewById(R.id.app_bar_layout)).setTargetElevation(0);
                 }
             }
@@ -112,7 +113,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         debugView.refresh();
     }
 
