@@ -54,18 +54,18 @@ public class DebugPageContentView extends FrameLayout {
 
     @Override
     public Parcelable onSaveInstanceState() {
-        super.onSaveInstanceState();
         if (mRecyclerView != null) {
             return mRecyclerView.getLayoutManager().onSaveInstanceState();
         }
-        return null;
+        return super.onSaveInstanceState();
     }
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
         if (mRecyclerView != null && state != null) {
             mRecyclerView.getLayoutManager().onRestoreInstanceState(state);
+        } else {
+            super.onRestoreInstanceState(state);
         }
     }
 
