@@ -4,6 +4,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0-beta1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
     }
 }
 
@@ -18,7 +20,8 @@ task clean(type: Delete) {
 }
 
 ext {
-    versionNameLib = "0.1.0"
+    versionNameApp = "0.1.0"
+    versionNameLib = "$versionNameApp"
     versionCode = 1
 
     compileSdkVersion = 25
@@ -32,6 +35,15 @@ ext {
             espresso: "2.2.2",
             junit   : "4.12"
     ]
+}
+
+//disables Java8 javadoc lint which is way to restrictive
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
 }
 
 //this defines an Android compatible provided scope, see: https://sinking.in/blog/provided-scope-in-gradle/
