@@ -1,6 +1,7 @@
 package at.favre.lib.hood.util;
 
 import android.content.pm.PackageInfo;
+import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
 
 /**
@@ -76,8 +77,63 @@ public class TypeTranslators {
                 return "INTERNAL_ONLY";
             case PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL:
                 return "PREFER_EXTERNAL";
+            case -1:
+                return "UNSPECIFIED";
             default:
                 return "UNKNOWN (" + installLocationType + ")";
+        }
+    }
+
+    public static String translateBatteryStatus(int batteryStatus) {
+        switch (batteryStatus) {
+            case BatteryManager.BATTERY_STATUS_CHARGING:
+                return "CHARGING";
+            case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                return "DISCHARGING";
+            case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
+                return "NOT CHARGING";
+            case BatteryManager.BATTERY_STATUS_FULL:
+                return "FULL";
+            case BatteryManager.BATTERY_STATUS_UNKNOWN:
+                return "STATUS UNKNOWN";
+            default:
+                return "UNKNOWN (" + batteryStatus + ")";
+        }
+    }
+
+    public static String translateBatteryHealth(int batteryHealth) {
+        switch (batteryHealth) {
+            case BatteryManager.BATTERY_HEALTH_UNKNOWN:
+                return "UNKNOWN HEALTH";
+            case BatteryManager.BATTERY_HEALTH_GOOD:
+                return "GOOD";
+            case BatteryManager.BATTERY_HEALTH_OVERHEAT:
+                return "OVERHEAT";
+            case BatteryManager.BATTERY_HEALTH_DEAD:
+                return "DEAD";
+            case BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE:
+                return "OVER VOLTAGE";
+            case BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE:
+                return "UNSPECIFIED FAILURE";
+            case BatteryManager.BATTERY_HEALTH_COLD:
+                return "COLD";
+            default:
+                return "UNKNOWN (" + batteryHealth + ")";
+        }
+    }
+
+    public static String translateBatteryPlugged(int batteryPlugged) {
+        switch (batteryPlugged) {
+            case 0:
+                return "UNPLUGGED";
+            case BatteryManager.BATTERY_PLUGGED_AC:
+                return "AC";
+            case BatteryManager.BATTERY_PLUGGED_USB:
+                return "USB";
+            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
+                return "WIRELESS";
+            default:
+                return "UNKNOWN (" + batteryPlugged + ")";
         }
     }
 }

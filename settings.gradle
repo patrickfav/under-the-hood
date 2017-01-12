@@ -1,1 +1,1 @@
-include ':app', ':hood-interface', ':hood-core', ':hood-extended'
+include ':app', ':hood-core', ':hood-extended'

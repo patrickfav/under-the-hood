@@ -6,7 +6,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Debug;
 import android.os.StrictMode;
@@ -528,6 +530,58 @@ public class DefaultProperties {
         }
         if (ciBuildTime != null) {
             section.add(Hood.get().createPropertyEntry("ci-build-time", ciBuildTime));
+        }
+        return section;
+    }
+
+    /**
+     * Creates a section with current battery status and health
+     *
+     * @param context can be null, but will just return an empty section
+     * @return section
+     */
+    public static Section.HeaderSection createSectionBatteryInfo(@Nullable final Context context) {
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Battery Info");
+        if (context != null) {
+            final IntentFilter battIntentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+            final Intent batteryStatus = context.registerReceiver(null, battIntentFilter);
+            if (batteryStatus != null) {
+                section.add(Hood.get().createPropertyEntry("level", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        final Intent batteryStatus = context.registerReceiver(null, battIntentFilter);
+                        float level = (float) batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                        float maxScale = (float) batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                        float battPercent = level / maxScale * 100;
+                        return String.valueOf(battPercent) + "%";
+                    }
+                }));
+                section.add(Hood.get().createPropertyEntry("status", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        final Intent batteryStatus = context.registerReceiver(null, battIntentFilter);
+                        return TypeTranslators.translateBatteryStatus(batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1))
+                                + " (" + TypeTranslators.translateBatteryPlugged(batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1)) + ")";
+                    }
+                }));
+                section.add(Hood.get().createPropertyEntry("health", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        final Intent batteryStatus = context.registerReceiver(null, battIntentFilter);
+                        return TypeTranslators.translateBatteryHealth(batteryStatus.getIntExtra(BatteryManager.EXTRA_HEALTH, -1));
+                    }
+                }));
+                section.add(Hood.get().createPropertyEntry("temp/volt", new DynamicValue<String>() {
+                            @Override
+                            public String getValue() {
+                                final Intent batteryStatus = context.registerReceiver(null, battIntentFilter);
+                                return String.valueOf((float) batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10f + "°C/" +
+                                        String.valueOf(batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1))) + "mV";
+                            }
+                        }
+                ));
+
+            }
         }
         return section;
     }

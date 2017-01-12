@@ -44,6 +44,7 @@ public class DebugLightActivity extends PopHoodActivity {
         firstPage.add(Hood.get().createSpinnerEntry(DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(null, getPreferences(MODE_PRIVATE), "W_BACKEND_KEY", null, getBackendElements())));
 
         firstPage.add(DefaultProperties.createSectionTelephonyManger(this));
+        firstPage.add(DefaultProperties.createSectionBatteryInfo(this));
 
         PageUtil.addHeader(firstPage, "Misc Actions");
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getAppInfoAction());

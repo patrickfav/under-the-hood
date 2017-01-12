@@ -41,9 +41,6 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.4.0'
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
-
-    compile project(path: ':hood-interface', configuration: 'release')
-    //compile 'at.favre.hood:hood-interface:0.1.0'
 }
 
 //apply from: "$rootDir/publish.gradle"
