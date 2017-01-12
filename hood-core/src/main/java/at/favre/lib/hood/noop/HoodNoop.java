@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import java.util.List;
 
@@ -16,7 +17,9 @@ import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
 import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
+import at.favre.lib.hood.interfaces.actions.Stoppable;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
+import at.favre.lib.hood.util.ArbitraryTapListener;
 
 /**
  * A no-op implementation
@@ -132,8 +135,18 @@ public final class HoodNoop implements HoodAPI {
         }
 
         @Override
-        public void registerShakeToOpenDebugActivity(Context ctx, Intent intent) {
-            //no-op
+        public Stoppable registerShakeToOpenDebugActivity(Context ctx, Intent intent) {
+            return new Stoppable() {
+                @Override
+                public void stop() {
+                    //no-op
+                }
+            };
+        }
+
+        @Override
+        public View.OnTouchListener createArbitraryTapListener(int numOfTaps, @NonNull View.OnClickListener onClickListener) {
+            return new ArbitraryTapListener();
         }
     }
 }

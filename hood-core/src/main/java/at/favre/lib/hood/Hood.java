@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import com.squareup.seismic.ShakeDetector;
 
@@ -23,6 +24,7 @@ import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
 import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
+import at.favre.lib.hood.interfaces.actions.Stoppable;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.noop.HoodNoop;
 import at.favre.lib.hood.page.DebugPages;
@@ -33,6 +35,7 @@ import at.favre.lib.hood.page.entries.ConfigSpinnerEntry;
 import at.favre.lib.hood.page.entries.HeaderEntry;
 import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.page.entries.TextMessageEntry;
+import at.favre.lib.hood.util.ArbitraryTapListener;
 import timber.log.Timber;
 
 /**
@@ -195,8 +198,8 @@ public final class Hood {
         }
 
         @Override
-        public void registerShakeToOpenDebugActivity(final Context ctx, final Intent intent) {
-            ShakeDetector shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
+        public Stoppable registerShakeToOpenDebugActivity(final Context ctx, final Intent intent) {
+            final ShakeDetector shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
                 @Override
                 public void hearShake() {
                     if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
@@ -207,6 +210,17 @@ public final class Hood {
                 }
             });
             shakeDetector.start((SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE));
+            return new Stoppable() {
+                @Override
+                public void stop() {
+                    shakeDetector.stop();
+                }
+            };
+        }
+
+        @Override
+        public View.OnTouchListener createArbitraryTapListener(int numOfTaps, @NonNull View.OnClickListener onClickListener) {
+            return new ArbitraryTapListener(numOfTaps, onClickListener);
         }
     }
 }

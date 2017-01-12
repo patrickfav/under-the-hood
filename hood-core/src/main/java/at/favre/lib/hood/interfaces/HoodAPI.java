@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
 import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
+import at.favre.lib.hood.interfaces.actions.Stoppable;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 
 /**
@@ -150,6 +152,8 @@ public interface HoodAPI {
 
         CharSequence createFullLabel(CharSequence shortLabel, CharSequence fullLabel);
 
-        void registerShakeToOpenDebugActivity(Context ctx, Intent intent);
+        Stoppable registerShakeToOpenDebugActivity(Context ctx, Intent intent);
+
+        View.OnTouchListener createArbitraryTapListener(int numOfTaps, @NonNull View.OnClickListener onClickListener);
     }
 }

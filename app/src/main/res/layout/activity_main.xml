@@ -59,13 +59,13 @@
             android:minWidth="220dp"
             android:text="Start Drawer Debugview"/>
 
-        <TextView
-            android:paddingTop="16dp"
+        <Button
+            android:id="@+id/btn_more"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:textColor="#aaaaaa"
-            android:textSize="24sp"
-            android:text="Try Shaking"/>
+            android:layout_gravity="center"
+            android:minWidth="220dp"
+            android:text="More"/>
     </LinearLayout>
 </merge>

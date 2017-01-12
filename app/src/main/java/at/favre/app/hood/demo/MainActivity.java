@@ -7,8 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import at.favre.lib.hood.Hood;
-
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
 
@@ -48,8 +46,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkActivity.createIntent(this, DebugDarkActivity.class));
-
+        findViewById(R.id.btn_more).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MoreActivity.start(MainActivity.this);
+            }
+        });
         Log.d(TAG, "Main Activity started - Test debug log");
     }
 }

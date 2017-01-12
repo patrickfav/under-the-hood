@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MoreActivity"
+    >
+
+    <TextView
+        android:id="@+id/tv_try_shake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:fontFamily="sans-serif-thin"
+        android:paddingTop="16dp"
+        android:text="Try Shaking"
+        android:textColor="#d4d4d4"
+        android:textSize="48sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_stop_shake"
+            style="@style/Base.Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minWidth="220dp"
+            android:text="Stop Shake Feature"/>
+
+        <TextView
+            android:id="@+id/tv_doubletap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:fontFamily="sans-serif-light"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            android:text="Double Tap Me"
+            android:textColor="#aaaaaa"
+            android:textSize="28sp"/>
+
+        <TextView
+            android:id="@+id/tv_tripletap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:fontFamily="sans-serif-light"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            android:text="Triple Tap Me"
+            android:textColor="#aaaaaa"
+            android:textSize="28sp"/>
+    </LinearLayout>
+
+</FrameLayout>

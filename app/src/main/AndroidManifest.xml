@@ -36,6 +36,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="at.favre.app.hood.demo.MoreActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name="at.favre.app.hood.demo.DebugDrawerActivity"
             android:label="Drawer Debug View"
             android:theme="@style/AppTheme"/>
