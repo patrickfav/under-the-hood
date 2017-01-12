@@ -39,6 +39,7 @@ dependencies {
     compile "com.android.support:support-core-utils:$rootProject.ext.dependencies.support"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
     compile 'com.jakewharton.timber:timber:4.4.0'
+    compile 'com.squareup:seismic:1.0.2'
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 }

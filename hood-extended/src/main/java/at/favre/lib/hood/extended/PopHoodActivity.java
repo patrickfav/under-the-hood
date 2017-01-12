@@ -30,10 +30,14 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     private Toolbar toolbar;
 
     public static void start(Context context, Class<?> activityClass) {
+        context.startActivity(createIntent(context, activityClass));
+    }
+
+    public static Intent createIntent(Context context, Class<?> activityClass) {
         Intent starter = new Intent(context, activityClass);
         starter.putExtra(KEY_HEADLESS, false);
         starter.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        context.startActivity(starter);
+        return starter;
     }
 
     @Override

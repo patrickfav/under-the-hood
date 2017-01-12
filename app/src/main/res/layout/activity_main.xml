@@ -58,5 +58,14 @@
             android:layout_gravity="center"
             android:minWidth="220dp"
             android:text="Start Drawer Debugview"/>
+
+        <TextView
+            android:paddingTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#aaaaaa"
+            android:textSize="24sp"
+            android:text="Try Shaking"/>
     </LinearLayout>
 </merge>

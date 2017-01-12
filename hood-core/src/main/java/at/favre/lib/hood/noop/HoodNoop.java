@@ -1,6 +1,7 @@
 package at.favre.lib.hood.noop;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
@@ -128,6 +129,11 @@ public final class HoodNoop implements HoodAPI {
         @Override
         public CharSequence createFullLabel(CharSequence shortLabel, CharSequence fullLabel) {
             return placeholderCharSequence;
+        }
+
+        @Override
+        public void registerShakeToOpenDebugActivity(Context ctx, Intent intent) {
+            //no-op
         }
     }
 }

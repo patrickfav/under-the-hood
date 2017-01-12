@@ -7,8 +7,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import at.favre.lib.hood.Hood;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
                 DebugDrawerActivity.start(MainActivity.this);
             }
         });
+
+        Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkActivity.createIntent(this, DebugDarkActivity.class));
 
         Log.d(TAG, "Main Activity started - Test debug log");
     }

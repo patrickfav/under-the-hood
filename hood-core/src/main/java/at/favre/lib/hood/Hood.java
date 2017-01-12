@@ -1,8 +1,16 @@
 package at.favre.lib.hood;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.SensorManager;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+
+import com.squareup.seismic.ShakeDetector;
 
 import java.util.List;
 
@@ -184,6 +192,21 @@ public final class Hood {
         @Override
         public CharSequence createFullLabel(CharSequence shortLabel, CharSequence fullLabel) {
             return new KeyValueEntry.Label(shortLabel, fullLabel);
+        }
+
+        @Override
+        public void registerShakeToOpenDebugActivity(final Context ctx, final Intent intent) {
+            ShakeDetector shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
+                @Override
+                public void hearShake() {
+                    if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
+                        Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
+                        vibrator.vibrate(200);
+                    }
+                    ctx.startActivity(intent);
+                }
+            });
+            shakeDetector.start((SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE));
         }
     }
 }
