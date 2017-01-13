@@ -10,9 +10,9 @@ import java.util.List;
 
 import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
 import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
+import at.favre.lib.hood.interfaces.actions.ManagerControl;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
-import at.favre.lib.hood.interfaces.actions.Stoppable;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 
 /**
@@ -152,7 +152,7 @@ public interface HoodAPI {
 
         CharSequence createFullLabel(CharSequence shortLabel, CharSequence fullLabel);
 
-        Stoppable registerShakeToOpenDebugActivity(Context ctx, Intent intent);
+        ManagerControl registerShakeToOpenDebugActivity(Context ctx, Intent intent);
 
         View.OnTouchListener createArbitraryTapListener(int numOfTaps, @NonNull View.OnClickListener onClickListener);
     }

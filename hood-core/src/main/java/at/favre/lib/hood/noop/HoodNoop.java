@@ -15,9 +15,9 @@ import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
 import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
+import at.favre.lib.hood.interfaces.actions.ManagerControl;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
-import at.favre.lib.hood.interfaces.actions.Stoppable;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.util.ArbitraryTapListener;
 
@@ -135,8 +135,13 @@ public final class HoodNoop implements HoodAPI {
         }
 
         @Override
-        public Stoppable registerShakeToOpenDebugActivity(Context ctx, Intent intent) {
-            return new Stoppable() {
+        public ManagerControl registerShakeToOpenDebugActivity(Context ctx, Intent intent) {
+            return new ManagerControl() {
+                @Override
+                public void start() {
+                    //no-op
+                }
+
                 @Override
                 public void stop() {
                     //no-op

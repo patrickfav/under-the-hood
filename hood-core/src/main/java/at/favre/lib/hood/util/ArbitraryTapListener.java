@@ -48,7 +48,7 @@ public class ArbitraryTapListener implements View.OnTouchListener {
         if (onClickListener == null) {
             return false;
         }
-
+        boolean consume = false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 Log.d(TAG, "down");
@@ -68,6 +68,7 @@ public class ArbitraryTapListener implements View.OnTouchListener {
                         && (System.currentTimeMillis() - lastTapTimeMs) < ViewConfiguration.getDoubleTapTimeout()) {
                     numberOfTaps += 1;
                     Log.d(TAG, "+1");
+                    consume = true;
                 } else {
                     Log.d(TAG, "1");
                     numberOfTaps = 1;
@@ -80,8 +81,9 @@ public class ArbitraryTapListener implements View.OnTouchListener {
                     onClickListener.onClick(v);
                     numberOfTaps = 0;
                     lastTapTimeMs = 0;
+                    consume = true;
                 }
         }
-        return true;
+        return consume;
     }
 }

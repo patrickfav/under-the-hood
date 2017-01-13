@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import at.favre.lib.hood.Hood;
-import at.favre.lib.hood.interfaces.actions.Stoppable;
+import at.favre.lib.hood.interfaces.actions.ManagerControl;
 
 public class MoreActivity extends AppCompatActivity {
-    private Stoppable shakeStopper;
+    private ManagerControl shakeControl;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, MoreActivity.class);
@@ -23,14 +24,14 @@ public class MoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more);
 
-        shakeStopper = Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkMultiPageActivity.createIntent(this, DebugDarkMultiPageActivity.class));
+        shakeControl = Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkMultiPageActivity.createIntent(this, DebugDarkMultiPageActivity.class));
 
         findViewById(R.id.btn_stop_shake).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.tv_try_shake).setVisibility(View.INVISIBLE);
                 v.setEnabled(false);
-                shakeStopper.stop();
+                shakeControl.stop();
             }
         });
 
@@ -41,6 +42,14 @@ public class MoreActivity extends AppCompatActivity {
             }
         }));
 
+        findViewById(R.id.tv_doubletap).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(MoreActivity.this, "LOOOONG CLIICK", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
         findViewById(R.id.tv_tripletap).setOnTouchListener(Hood.ext().createArbitraryTapListener(3, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,5 +57,17 @@ public class MoreActivity extends AppCompatActivity {
             }
         }));
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        shakeControl.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        shakeControl.stop();
     }
 }

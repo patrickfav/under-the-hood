@@ -22,9 +22,9 @@ import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.interfaces.actions.BoolConfigAction;
 import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
+import at.favre.lib.hood.interfaces.actions.ManagerControl;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
-import at.favre.lib.hood.interfaces.actions.Stoppable;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.noop.HoodNoop;
 import at.favre.lib.hood.page.DebugPages;
@@ -198,7 +198,7 @@ public final class Hood {
         }
 
         @Override
-        public Stoppable registerShakeToOpenDebugActivity(final Context ctx, final Intent intent) {
+        public ManagerControl registerShakeToOpenDebugActivity(final Context ctx, final Intent intent) {
             final ShakeDetector shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
                 @Override
                 public void hearShake() {
@@ -209,8 +209,15 @@ public final class Hood {
                     ctx.startActivity(intent);
                 }
             });
-            shakeDetector.start((SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE));
-            return new Stoppable() {
+            final SensorManager sensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
+            return new ManagerControl() {
+                @Override
+                public void start() {
+                    if (sensorManager != null) {
+                        shakeDetector.start(sensorManager);
+                    }
+                }
+
                 @Override
                 public void stop() {
                     shakeDetector.stop();
