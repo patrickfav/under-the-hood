@@ -1,7 +1,7 @@
 def siteUrl = 'https://github.com/patrickfav/under-the-hood'      // Homepage URL of the library
 def gitUrl = 'https://github.com/patrickfav/under-the-hood.git'   // Git repository URL
-group = "at.favre.lib.hood"                      // Maven Group ID for the artifact
-
+def groupId = "at.favre.lib.hood"                      // Maven Group ID for the artifact
+def moduleName = "hood-core"
 
 install {
     repositories.mavenInstaller {
@@ -12,7 +12,8 @@ install {
                 packaging 'aar'
 
                 // Add your description here
-                name "hood-interface"
+                name moduleName
+                group groupId
                 description = 'A debug view library for Android'
                 url siteUrl
 
@@ -69,14 +70,21 @@ bintray {
     key = properties.getProperty("bintray.apikey")
 
     configurations = ['archives']
+    dryRun = false
+    publish = false //Whether version should be auto published after an upload
+    override = false //[Default: false] Whether to override version artifacts already published
+
     pkg {
         repo = "maven"
         // it is the name that appears in bintray when logged
-        name = "hood-interface"
+        name = moduleName
+        desc = 'An Android Debug Page Library'
+        issueTrackerUrl = 'https://github.com/patrickfav/under-the-hood/issues'
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
-        publish = true
+        githubRepo = 'patrickfav/under-the-hood'
+        githubReleaseNotesFile = 'CHANGELOG'
         version {
             name = rootProject.ext.versionNameLib
             vcsTag = rootProject.ext.versionNameLib
