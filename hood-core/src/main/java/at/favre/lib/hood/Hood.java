@@ -56,10 +56,10 @@ public final class Hood {
      */
     public static HoodAPI get() {
         if (instance == null) {
-            if (BuildConfig.NO_OP) {
-                instance = new HoodNoop();
-            } else {
+            if (isLibEnabled()) {
                 instance = new HoodImpl();
+            } else {
+                instance = new HoodNoop();
             }
         }
         return instance;
@@ -72,13 +72,23 @@ public final class Hood {
      */
     public static HoodAPI.Extension ext() {
         if (extensionInstance == null) {
-            if (BuildConfig.NO_OP) {
-                extensionInstance = new HoodNoop.HoodExtensionNoop();
-            } else {
+            if (isLibEnabled()) {
                 extensionInstance = new HoodExtensionImpl();
+            } else {
+                extensionInstance = new HoodNoop.HoodExtensionNoop();
             }
         }
         return extensionInstance;
+    }
+
+    /**
+     * This will return false if the no-op flavour is used. Use this in your app to be able to
+     * omit initializing your debugging code in release builds.
+     *
+     * @return true if the lib is enabled and all of its features fully functional
+     */
+    public static boolean isLibEnabled() {
+        return !BuildConfig.NO_OP;
     }
 
     private static final class HoodImpl implements HoodAPI {

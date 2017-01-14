@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import at.favre.lib.hood.BuildConfig;
 import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Pages;
@@ -43,7 +42,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!BuildConfig.NO_OP) {
+        if (Hood.isLibEnabled()) {
             if (getIntent().getBooleanExtra(KEY_HEADLESS, false)) {
                 getPageData(getPageData(Hood.get().createPages(getConfig()))).logPages();
                 finish();
@@ -76,6 +75,8 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
                     ((AppBarLayout) findViewById(R.id.app_bar_layout)).setTargetElevation(0);
                 }
             }
+        } else {
+            finish();
         }
     }
 
