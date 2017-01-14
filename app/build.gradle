@@ -18,6 +18,10 @@ android {
 
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     buildTypes {
         develop {
             minifyEnabled false

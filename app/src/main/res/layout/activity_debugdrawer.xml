@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                        xmlns:tools="http://schemas.android.com/tools"
-                                        android:id="@+id/drawer_layout"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
-    <!-- The main content view -->
-    <FrameLayout
-        android:id="@+id/content_frame"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <!-- The main content view -->
+        <FrameLayout
+            android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="@dimen/hoodlib_toolbar_elevation"
+                android:theme="@style/AppThemeActionBar"
+                tools:targetApi="lollipop"/>
+
+            <Button
+                android:id="@+id/toggle_drawer"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Toggle Drawer"/>
+
+        </FrameLayout>
+
+        <at.favre.lib.hood.view.HoodDebugPageView
+            android:id="@+id/debug_view"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="?android:windowBackground"
             android:elevation="@dimen/hoodlib_toolbar_elevation"
-            android:theme="@style/AppThemeActionBar"
+            android:theme="@style/HoodLibThemeOverlay.Dark.Small"
             tools:targetApi="lollipop"/>
-
-        <Button
-            android:id="@+id/toggle_drawer"
-            style="@style/Base.Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Toggle Drawer" />
-
-    </FrameLayout>
-
-    <at.favre.lib.hood.view.HoodDebugPageView
-        android:id="@+id/left_drawer"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:elevation="@dimen/hoodlib_toolbar_elevation"
-        android:theme="@style/HoodLibThemeOverlay.Dark.Small"
-        android:background="?android:windowBackground"
-        tools:targetApi="lollipop" />
-</android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.DrawerLayout>
+</layout>

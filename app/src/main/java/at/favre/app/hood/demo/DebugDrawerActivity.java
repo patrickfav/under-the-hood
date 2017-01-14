@@ -2,11 +2,11 @@ package at.favre.app.hood.demo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import at.favre.app.hood.demo.databinding.ActivityDebugdrawerBinding;
 import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
@@ -31,13 +32,11 @@ import at.favre.lib.hood.util.defaults.DefaultButtonDefinitions;
 import at.favre.lib.hood.util.defaults.DefaultConfigActions;
 import at.favre.lib.hood.util.defaults.DefaultProperties;
 import at.favre.lib.hood.view.HoodController;
-import at.favre.lib.hood.view.HoodDebugPageView;
 
 public class DebugDrawerActivity extends AppCompatActivity implements HoodController {
     private static final int DRAWER_POSITION = GravityCompat.END;
 
-    private DrawerLayout drawerLayout;
-    private HoodDebugPageView hoodDebugPageView;
+    private ActivityDebugdrawerBinding binding;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, DebugDrawerActivity.class);
@@ -47,20 +46,19 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_debugdrawer);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        hoodDebugPageView = (HoodDebugPageView) findViewById(R.id.left_drawer);
-        hoodDebugPageView.setPageData(createPages());
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_debugdrawer);
+
+        binding.debugView.setPageData(createPages());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         findViewById(R.id.toggle_drawer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.openDrawer(DRAWER_POSITION);
+                binding.drawerLayout.openDrawer(DRAWER_POSITION);
             }
         });
-        drawerLayout.setOnTouchListener(hoodDebugPageView.getTouchInterceptorListener());
+        binding.drawerLayout.setOnTouchListener(binding.debugView.getTouchInterceptorListener());
     }
 
     @Override
@@ -99,12 +97,12 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
             @Override
             public void onClick(final View view, Map.Entry<CharSequence, String> value) {
                 view.setEnabled(false);
-                hoodDebugPageView.setProgressBarVisible(true);
+                binding.debugView.setProgressBarVisible(true);
                 view.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         view.setEnabled(true);
-                        hoodDebugPageView.setProgressBarVisible(false);
+                        binding.debugView.setProgressBarVisible(false);
                     }
                 }, 3000);
             }
@@ -129,13 +127,13 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
     @NonNull
     @Override
     public Pages getCurrentPagesFromThisView() {
-        return hoodDebugPageView.getPages();
+        return binding.debugView.getPages();
     }
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(DRAWER_POSITION)) {
-            drawerLayout.closeDrawer(DRAWER_POSITION, true);
+        if (binding.drawerLayout.isDrawerOpen(DRAWER_POSITION)) {
+            binding.drawerLayout.closeDrawer(DRAWER_POSITION, true);
         } else {
             super.onBackPressed();
         }
