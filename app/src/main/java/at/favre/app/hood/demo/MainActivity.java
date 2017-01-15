@@ -22,21 +22,21 @@ public class MainActivity extends AppCompatActivity {
         binding.btnStartDarkMultiPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DebugDarkMultiPageActivity.start(MainActivity.this, DebugDarkMultiPageActivity.class);
+                DebugDarkMultiPageActivity.start(MainActivity.this, true, DebugDarkMultiPageActivity.class);
             }
         });
 
         binding.btnStartLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DebugLightActivity.start(MainActivity.this, DebugLightActivity.class);
+                DebugLightActivity.start(MainActivity.this, true, DebugLightActivity.class);
             }
         });
 
         binding.btnStartDark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DebugDarkActivity.start(MainActivity.this, DebugDarkActivity.class);
+                DebugDarkActivity.start(MainActivity.this, false, DebugDarkActivity.class);
             }
         });
 

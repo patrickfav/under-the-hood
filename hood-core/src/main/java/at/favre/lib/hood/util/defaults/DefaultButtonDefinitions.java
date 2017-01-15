@@ -93,6 +93,10 @@ public class DefaultButtonDefinitions {
         return getGenericAndroidSettingsAction("Battery Saver Settings", Settings.ACTION_BATTERY_SAVER_SETTINGS, Build.VERSION_CODES.LOLLIPOP_MR1);
     }
 
+    public static ButtonDefinition getBatterySummarySettingsAction() {
+        return getGenericAndroidSettingsAction("Battery Settings", Intent.ACTION_POWER_USAGE_SUMMARY, Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
     public static ButtonDefinition getDisplaySettingsAction() {
         return getGenericAndroidSettingsAction("Device Info Settings", Settings.ACTION_DEVICE_INFO_SETTINGS, null);
     }
@@ -127,9 +131,10 @@ public class DefaultButtonDefinitions {
 
     /**
      * Will open an Android setting
-     * @param label ui text
+     *
+     * @param label                ui text
      * @param settingsIntentAction the settings name wrapped as intent
-     * @param minSdkVersion if non-null a sdk-int that is required to use this settings
+     * @param minSdkVersion        if non-null a sdk-int that is required to use this settings
      * @return a non-null action if sdk-int is null or greater or equal than minSdkVersion
      */
     @Nullable

@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Debug;
+import android.os.PowerManager;
 import android.os.StrictMode;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -555,7 +556,7 @@ public class DefaultProperties {
                         float battPercent = level / maxScale * 100;
                         return String.valueOf(battPercent) + "%";
                     }
-                }));
+                }, DefaultButtonDefinitions.getBatterySummarySettingsAction().onClickAction, false));
                 section.add(Hood.get().createPropertyEntry("status", new DynamicValue<String>() {
                     @Override
                     public String getValue() {
@@ -580,7 +581,16 @@ public class DefaultProperties {
                             }
                         }
                 ));
-
+                section.add(Hood.get().createPropertyEntry("batt-saving", new DynamicValue<String>() {
+                    @Override
+                    public String getValue() {
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                            return String.valueOf(powerManager.isPowerSaveMode());
+                        }
+                        return "unsupported";
+                    }
+                }, DefaultButtonDefinitions.getBatterySaverSettingsAction().onClickAction, false));
             }
         }
         return section;
@@ -606,7 +616,8 @@ public class DefaultProperties {
         return createFromEntrySet(hashMap.entrySet());
     }
 
-    private static List<PageEntry<?>> createFromEntrySet(Set<? extends Map.Entry<?, ?>> entrySet) {
+    private static List<PageEntry<?>> createFromEntrySet(Set<? extends Map.Entry<?, ?>>
+                                                                 entrySet) {
         List<PageEntry<?>> entries = new ArrayList<>();
         for (Map.Entry propEntry : entrySet) {
             if (propEntry != null && propEntry.getKey() != null && propEntry.getValue() != null) {

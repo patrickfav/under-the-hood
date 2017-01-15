@@ -13,4 +13,9 @@ public interface ManagerControl {
      * Stops the current listener or continuous action
      */
     void stop();
+
+    /**
+     * @return true if the object you control (eg. sensors) is supported by your device
+     */
+    boolean isSupported();
 }

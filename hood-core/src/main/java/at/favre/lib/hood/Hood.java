@@ -212,6 +212,7 @@ public final class Hood {
             final ShakeDetector shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
                 @Override
                 public void hearShake() {
+                    Timber.d("hear shake");
                     if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
                         Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
                         vibrator.vibrate(200);
@@ -221,16 +222,23 @@ public final class Hood {
             });
             final SensorManager sensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
             return new ManagerControl() {
+                boolean isSupported = true;
+
                 @Override
                 public void start() {
                     if (sensorManager != null) {
-                        shakeDetector.start(sensorManager);
+                        isSupported = shakeDetector.start(sensorManager);
                     }
                 }
 
                 @Override
                 public void stop() {
                     shakeDetector.stop();
+                }
+
+                @Override
+                public boolean isSupported() {
+                    return isSupported;
                 }
             };
         }

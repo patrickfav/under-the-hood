@@ -146,6 +146,11 @@ public final class HoodNoop implements HoodAPI {
                 public void stop() {
                     //no-op
                 }
+
+                @Override
+                public boolean isSupported() {
+                    return false;
+                }
             };
         }
 

@@ -113,7 +113,12 @@ public class HoodDebugPageView extends FrameLayout {
      */
     public void refresh() {
         checkPreconditions();
-        viewPager.getAdapter().notifyDataSetChanged();
+        viewPager.post(new Runnable() {
+            @Override
+            public void run() {
+                viewPager.getAdapter().notifyDataSetChanged();
+            }
+        });
     }
 
     /**
