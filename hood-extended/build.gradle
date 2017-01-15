@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     publishNonDefault true
@@ -33,11 +35,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    provided "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
     compile "com.android.support:design:$rootProject.ext.dependencies.support"
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 
+    debugCompile project(path: ':hood-core', configuration: 'debug')
     releaseNoopCompile project(path: ':hood-core', configuration: 'releaseNoop')
     releaseCompile project(path: ':hood-core', configuration: 'release')
 }
+
+apply from: "$rootDir/publish.gradle"

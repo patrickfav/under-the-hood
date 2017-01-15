@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
     publishNonDefault true
@@ -44,7 +46,7 @@ dependencies {
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 }
 
-//apply from: "$rootDir/publish.gradle"
+apply from: "$rootDir/publish.gradle"
 
 //bintray.pkg.name "hood-core"
 //pom.project.name "hood-core"
