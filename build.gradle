@@ -58,3 +58,9 @@ configurations {
     }
     compile.extendsFrom provided
 }
+
+task publishLibs(dependsOn: [':clean', 'hood-core:assemble', ':hood-core:install', ':hood-extended:install', ':hood-core:bintrayUpload']) {
+    doLast {
+        println "published"
+    }
+}

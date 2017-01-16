@@ -1,7 +1,6 @@
 def siteUrl = 'https://github.com/patrickfav/under-the-hood'      // Homepage URL of the library
 def gitUrl = 'https://github.com/patrickfav/under-the-hood.git'   // Git repository URL
 group = "at.favre.lib.hood"                      // Maven Group ID for the artifact
-def moduleName = "hood-core"
 
 install {
     repositories.mavenInstaller {
@@ -44,6 +43,7 @@ task sourcesJar(type: Jar) {
 }
 
 task javadoc(type: Javadoc) {
+    failOnError false
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }

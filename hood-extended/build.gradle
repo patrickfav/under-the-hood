@@ -3,7 +3,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 android {
-    publishNonDefault true
+    publishNonDefault false
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -17,13 +17,7 @@ android {
     }
 
     buildTypes {
-        releaseNoop {
-        }
-
         release {
-        }
-
-        buildTypes.all {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -37,12 +31,9 @@ dependencies {
 
     compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
     compile "com.android.support:design:$rootProject.ext.dependencies.support"
+    compile project(path: ':hood-core', configuration: 'release')
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
-
-    debugCompile project(path: ':hood-core', configuration: 'debug')
-    releaseNoopCompile project(path: ':hood-core', configuration: 'releaseNoop')
-    releaseCompile project(path: ':hood-core', configuration: 'release')
 }
 
-//apply from: "$rootDir/publish.gradle"
+apply from: "$rootDir/publish.gradle"
