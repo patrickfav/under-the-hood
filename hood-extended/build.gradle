@@ -45,4 +45,4 @@ dependencies {
     releaseCompile project(path: ':hood-core', configuration: 'release')
 }
 
-apply from: "$rootDir/publish.gradle"
+//apply from: "$rootDir/publish.gradle"

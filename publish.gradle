@@ -66,14 +66,14 @@ bintray {
     key = properties.getProperty("bintray.apikey")
 
     configurations = ['archives']
-    dryRun = false
-    publish = false //Whether version should be auto published after an upload
+    dryRun = true
+    publish = true //Whether version should be auto published after an upload
     override = false //[Default: false] Whether to override version artifacts already published
 
     pkg {
         repo = "maven"
         // it is the name that appears in bintray when logged
-        name = project.buildDir.name
+        name = project.buildDir.getParentFile().name
         desc = 'An Android Debug Page Library'
         issueTrackerUrl = 'https://github.com/patrickfav/under-the-hood/issues'
         websiteUrl = siteUrl
@@ -88,7 +88,6 @@ bintray {
             gpg {
                 sign = true //Determines whether to GPG sign the files. The default is false
                 passphrase = properties.getProperty("bintray.gpg.password")
-                //Optional. The passphrase for GPG signing'
             }
 //            mavenCentralSync {
 //                sync = true //Optional (true by default). Determines whether to sync the version to Maven Central.

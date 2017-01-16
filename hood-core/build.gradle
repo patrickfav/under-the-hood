@@ -28,7 +28,6 @@ android {
             minifyEnabled false
             consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
     }
 }
 
@@ -47,6 +46,3 @@ dependencies {
 }
 
 apply from: "$rootDir/publish.gradle"
-
-//bintray.pkg.name "hood-core"
-//pom.project.name "hood-core"
