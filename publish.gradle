@@ -1,5 +1,6 @@
 def siteUrl = 'https://github.com/patrickfav/under-the-hood'      // Homepage URL of the library
 def gitUrl = 'https://github.com/patrickfav/under-the-hood.git'   // Git repository URL
+def descriptionText = 'A debug view library for Android. Very flexible through a simple templating system but easy to use due to a lot of defaults. Also has a no-op flavor for your release build.'
 group = "at.favre.lib.hood"                      // Maven Group ID for the artifact
 
 install {
@@ -10,7 +11,7 @@ install {
             project {
                 packaging 'aar'
                 // Add your description here
-                description = 'A debug view library for Android'
+                description descriptionText
                 url siteUrl
 
                 // Set your license
@@ -52,6 +53,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
+
 artifacts {
     archives javadocJar
     archives sourcesJar
@@ -66,7 +68,7 @@ bintray {
     key = properties.getProperty("bintray.apikey")
 
     configurations = ['archives']
-    dryRun = true
+    dryRun = false
     publish = true //Whether version should be auto published after an upload
     override = false //[Default: false] Whether to override version artifacts already published
 
@@ -74,13 +76,14 @@ bintray {
         repo = "maven"
         // it is the name that appears in bintray when logged
         name = project.buildDir.getParentFile().name
-        desc = 'An Android Debug Page Library'
+        desc = descriptionText
         issueTrackerUrl = 'https://github.com/patrickfav/under-the-hood/issues'
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
         githubRepo = 'patrickfav/under-the-hood'
         githubReleaseNotesFile = 'CHANGELOG'
+        labels = ['android', 'debugging', 'noop', 'debug-view']
         version {
             name = rootProject.ext.versionNameLib
             vcsTag = rootProject.ext.versionNameLib

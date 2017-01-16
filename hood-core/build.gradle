@@ -19,7 +19,7 @@ android {
     }
 
     buildTypes {
-        releaseNoop {
+        noop {
             minifyEnabled false
             buildConfigField "boolean", "NO_OP", "true"
             consumerProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-noop.pro'
