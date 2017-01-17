@@ -25,6 +25,7 @@
             android:id="@+id/progress_bar"
             style="@android:style/Widget.ProgressBar.Small"
             android:layout_gravity="center"
+            android:paddingTop="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"/>

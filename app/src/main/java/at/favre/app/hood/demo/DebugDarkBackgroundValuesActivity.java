@@ -21,18 +21,19 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
     @NonNull
     @Override
     public Pages getPageData(@NonNull Pages pages) {
-        Page firstPage = pages.addNewPage("General");
+        Page firstPage = pages.addNewPage();
 
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
 
 
         for (int i = 0; i < 35; i++) {
-            firstPage.add(new KeyValueEntry("Test Loading " + i, new DynamicValue.Async<String>() {
+            final String id = String.valueOf(i);
+            firstPage.add(new KeyValueEntry("Test Loading " + id, new DynamicValue.Async<String>() {
                 @Override
                 public String getValue() {
                     int wait = new Random().nextInt(2000) + 1000;
                     SystemClock.sleep(wait);
-                    return "done (" + wait + "ms)";
+                    return id + " done (" + wait + "ms)";
                 }
             }));
         }
@@ -51,8 +52,6 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getDateSettingsAction(), DefaultButtonDefinitions.getAirplaneModeSettingsAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getSetLockScreenAction(), DefaultButtonDefinitions.getDeviceInfoSettingsAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getBatterySaverSettingsAction(), DefaultButtonDefinitions.getDisplaySettingsAction());
-        PageUtil.addAction(firstPage, DefaultButtonDefinitions.getInputModeSettingsAction(), DefaultButtonDefinitions.getStorageSettingsAction());
-        PageUtil.addAction(firstPage, DefaultButtonDefinitions.getSecuritySettingsAction(), DefaultButtonDefinitions.getInstalledAppSettings());
 
         return pages;
     }

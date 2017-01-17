@@ -173,8 +173,13 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             if (entry.getValue().needsRefresh && entry.getValue().processInBackground) {
                 tvValue.setVisibility(View.GONE);
                 view.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
-                view.setOnClickListener(null);
-                view.setClickable(false);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(view.getContext(), "Loading", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                view.setClickable(true);
 
                 ValueBackgroundTask task;
                 if (taskMap.containsKey(entry.getValue().id)) {
