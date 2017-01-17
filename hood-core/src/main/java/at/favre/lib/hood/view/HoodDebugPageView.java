@@ -111,7 +111,7 @@ public class HoodDebugPageView extends FrameLayout {
     /**
      * Refreshes all dynamic values
      */
-    public void refresh(boolean refreshAlsoExpensiveValues) {
+    public void refresh() {
         checkPreconditions();
         viewPager.post(new Runnable() {
             @Override

@@ -57,7 +57,7 @@ public class HeaderEntry implements PageEntry<CharSequence> {
     }
 
     @Override
-    public void refresh(boolean refreshAlsoExpensiveValues) {
+    public void refresh() {
         //no-op
     }
 

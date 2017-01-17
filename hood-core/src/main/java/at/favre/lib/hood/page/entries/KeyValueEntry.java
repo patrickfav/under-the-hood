@@ -131,10 +131,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     @Override
-    public void refresh(boolean refreshAlsoExpensiveValues) {
-        if (refreshAlsoExpensiveValues || !data.getValue().processInBackground) {
-            data.getValue().setNeedsRefresh();
-        }
+    public void refresh() {
+        data.getValue().setNeedsRefresh();
     }
 
     @Override
@@ -175,13 +173,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             if (entry.getValue().needsRefresh && entry.getValue().processInBackground) {
                 tvValue.setVisibility(View.GONE);
                 view.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(view.getContext(), "Loading", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                view.setClickable(true);
+                view.setOnClickListener(null);
+                view.setClickable(false);
 
                 ValueBackgroundTask task;
                 if (taskMap.containsKey(entry.getValue().id)) {

@@ -49,10 +49,9 @@ public interface Page {
     void add(@NonNull Section section);
 
     /**
-     * Calls {@link PageEntry#refresh(boolean)} on every entry.
-     * @param refreshAlsoExpensiveValues if true will also refresh {@link at.favre.lib.hood.interfaces.values.DynamicValue.Async} type values
+     * Calls {@link PageEntry#refresh()} on every entry.
      */
-    void refreshData(boolean refreshAlsoExpensiveValues);
+    void refreshData();
 
     /**
      * Logs the whole page data

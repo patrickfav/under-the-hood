@@ -58,7 +58,7 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
     }
 
     @Override
-    public void refresh(boolean refreshAlsoExpensiveValues) {
+    public void refresh() {
         //no-op
     }
 

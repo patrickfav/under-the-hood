@@ -69,9 +69,9 @@ public class DebugPages implements Pages {
     }
 
     @Override
-    public void refreshData(boolean refreshAlsoExpensiveValues) {
+    public void refreshData() {
         for (Page page : pages) {
-            page.refreshData(refreshAlsoExpensiveValues);
+            page.refreshData();
         }
     }
 

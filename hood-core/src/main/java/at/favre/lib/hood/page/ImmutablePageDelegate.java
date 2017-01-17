@@ -49,8 +49,8 @@ class ImmutablePageDelegate implements Page {
         throw new UnsupportedOperationException("cannot add page anymore");
     }
 
-    public void refreshData(boolean refreshAlsoExpensiveValues) {
-        page.refreshData(refreshAlsoExpensiveValues);
+    public void refreshData() {
+        page.refreshData();
     }
 
     public void logPage() {

@@ -54,11 +54,12 @@ public class DebugViewPageAdapter extends PagerAdapter {
         }
     }
 
-    public void notifyDataSetChanged(boolean refreshAlsoExpensiveValues) {
+    @Override
+    public void notifyDataSetChanged() {
         if (viewPager != null) {
             for (int i = 0; i < viewPager.getChildCount(); i++) {
                 if (viewPager.getChildAt(i) instanceof DebugPageContentView) {
-                    ((DebugPageContentView) viewPager.getChildAt(i)).refresh(refreshAlsoExpensiveValues);
+                    ((DebugPageContentView) viewPager.getChildAt(i)).refresh();
                 }
             }
         }

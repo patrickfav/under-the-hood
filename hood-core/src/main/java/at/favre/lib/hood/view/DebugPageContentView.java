@@ -47,8 +47,8 @@ public class DebugPageContentView extends FrameLayout {
         return page;
     }
 
-    public void refresh(boolean refreshAlsoExpensiveValues) {
-        page.refreshData(refreshAlsoExpensiveValues);
+    public void refresh() {
+        page.refreshData();
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 

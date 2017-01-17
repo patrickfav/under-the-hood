@@ -29,9 +29,6 @@ public interface PageEntry<T> {
 
     /**
      * This should refresh the UI content. Will be called by the framework.
-     *
-     * @param refreshAlsoExpensiveValues if true will also refresh {@link at.favre.lib.hood.interfaces.values.DynamicValue.Async} type values
-     *
      */
-    void refresh(boolean refreshAlsoExpensiveValues);
+    void refresh();
 }
