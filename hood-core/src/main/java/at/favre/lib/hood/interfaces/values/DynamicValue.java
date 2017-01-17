@@ -30,4 +30,13 @@ public interface DynamicValue<T> {
             return value;
         }
     }
+
+    /**
+     * Marker interface that tells the logic to fetch the value async in the background
+     *
+     * @param <T>
+     */
+    interface Async<T> extends DynamicValue<T> {
+
+    }
 }

@@ -50,7 +50,7 @@ public class DebugDarkActivity extends PopHoodActivity {
                 SystemClock.sleep(3800);
                 return "done3";
             }
-        }, new KeyValueEntry.DialogClickAction(), false, true));
+        }));
 
         firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
@@ -61,7 +61,7 @@ public class DebugDarkActivity extends PopHoodActivity {
                 SystemClock.sleep(4000);
                 return "done";
             }
-        }, new KeyValueEntry.DialogClickAction(), false, true));
+        }, new KeyValueEntry.DialogClickAction(), false));
 
         firstPage.add(new KeyValueEntry("Test Loading1", new DynamicValue<String>() {
             @Override
@@ -69,7 +69,7 @@ public class DebugDarkActivity extends PopHoodActivity {
                 SystemClock.sleep(4300);
                 return "done1";
             }
-        }, new KeyValueEntry.DialogClickAction(), false, true));
+        }, new KeyValueEntry.DialogClickAction(), false));
 
         firstPage.add(Hood.get().createPropertyEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 

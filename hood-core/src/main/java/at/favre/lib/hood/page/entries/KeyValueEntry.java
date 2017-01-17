@@ -2,7 +2,9 @@ package at.favre.lib.hood.page.entries;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -17,6 +19,10 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import at.favre.lib.hood.R;
 import at.favre.lib.hood.interfaces.PageEntry;
@@ -35,23 +41,10 @@ import timber.log.Timber;
  * and dynamic values.
  */
 public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> {
+    private final static ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(4, 4, 10, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>(1024));
 
     private Map.Entry<CharSequence, Value<String>> data;
     private final Template template;
-
-    /**
-     * Creates Key-Value style page entry.
-     *
-     * @param key        as shown in ui
-     * @param value      dynamic value (e.g. from {@link android.content.SharedPreferences}
-     * @param action     used when clicked on
-     * @param multiLine  if a different layout should be used for long values
-     * @param asyncValue if true will retrieve the value in a background thread and cache it until the view is refreshed
-     */
-    public KeyValueEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine, boolean asyncValue) {
-        this.data = new AbstractMap.SimpleEntry<>(key, new Value<>(value, asyncValue));
-        this.template = new Template(multiLine, action);
-    }
 
     /**
      * Creates Key-Value style page entry.
@@ -62,7 +55,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
      * @param multiLine if a different layout should be used for long values
      */
     public KeyValueEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
-        this(key, value, action, multiLine, false);
+        this.data = new AbstractMap.SimpleEntry<>(key, new Value<>(value, value instanceof DynamicValue.Async));
+        this.template = new Template(multiLine, action);
     }
 
     /**
@@ -133,7 +127,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     @Override
     public String toLogString() {
-        return "\t" + data.getKey() + "=" + data.getValue();
+        return "\t" + data.getKey() + "=" + data.getValue().getCachedValue();
     }
 
     @Override
@@ -188,21 +182,18 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
                 } else {
                     task = new ValueBackgroundTask(entry.getValue());
                     taskMap.put(entry.getValue().id, task);
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    THREAD_POOL_EXECUTOR.execute(task);
                 }
 
                 task.setCallback(new Runnable() {
                     @Override
                     public void run() {
                         taskMap.remove(entry.getValue().id);
-                        setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().cache), view, entry.getValue().id);
+                        setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().id);
                     }
                 });
             } else {
-                if (entry.getValue().needsRefresh) {
-                    entry.getValue().updateValue();
-                }
-                setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().cache), view, entry.getValue().id);
+                setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().id);
             }
         }
 
@@ -233,12 +224,15 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
     }
 
-    public static class ValueBackgroundTask extends AsyncTask<Void, Void, String> {
+    public static class ValueBackgroundTask implements Runnable, Comparable<ValueBackgroundTask> {
+        private final long timestamp = SystemClock.elapsedRealtime();
         private Value<String> value;
         private Runnable callback;
+        private Handler handler;
 
         public ValueBackgroundTask(Value<String> value) {
             this.value = value;
+            this.handler = new Handler(Looper.getMainLooper());
         }
 
         public void setCallback(Runnable callback) {
@@ -246,14 +240,14 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            return value.dynamicValue.getValue();
+        public void run() {
+            value.setProcessedValue(value.dynamicValue.getValue());
+            handler.post(callback);
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            value.setProcessedValue(result);
-            callback.run();
+        public int compareTo(@NonNull ValueBackgroundTask o) {
+            return Long.valueOf(o.timestamp).compareTo(timestamp);
         }
     }
 
@@ -284,11 +278,6 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             needsRefresh = false;
         }
 
-        public void updateValue() {
-            cache = dynamicValue.getValue();
-            needsRefresh = false;
-        }
-
         public void setNeedsRefresh() {
             if (processInBackground) {
                 cache = null;
@@ -297,6 +286,18 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
                 cache = dynamicValue.getValue();
                 needsRefresh = false;
             }
+        }
+
+        public T getCachedValue() {
+            if (needsRefresh && !processInBackground) {
+                cache = dynamicValue.getValue();
+            }
+            return cache;
+        }
+
+        @Override
+        public String toString() {
+            return cache != null ? cache.toString() : "null";
         }
     }
 

@@ -27,24 +27,24 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
 
 
         for (int i = 0; i < 35; i++) {
-            firstPage.add(new KeyValueEntry("Test Loading " + i, new DynamicValue<String>() {
+            firstPage.add(new KeyValueEntry("Test Loading " + i, new DynamicValue.Async<String>() {
                 @Override
                 public String getValue() {
-                    int wait = new Random().nextInt(2000) + 2000;
+                    int wait = new Random().nextInt(2000) + 1000;
                     SystemClock.sleep(wait);
                     return "done (" + wait + "ms)";
                 }
-            }, new KeyValueEntry.DialogClickAction(), false, true));
+            }));
         }
 
-        firstPage.add(new KeyValueEntry("Test Loading ML", new DynamicValue<String>() {
+        firstPage.add(new KeyValueEntry("Test Loading ML", new DynamicValue.Async<String>() {
             @Override
             public String getValue() {
-                int wait = new Random().nextInt(2000) + 2000;
+                int wait = new Random().nextInt(2000) + 1000;
                 SystemClock.sleep(wait);
                 return "done ml (" + wait + "ms)";
             }
-        }, new KeyValueEntry.DialogClickAction(), true, true));
+        }, new KeyValueEntry.DialogClickAction(), true));
 
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getGlobalSettingsAction(), DefaultButtonDefinitions.getNfcSettingsAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getNfcPaymentSettingsAction(), DefaultButtonDefinitions.getDevSettingsAction());
