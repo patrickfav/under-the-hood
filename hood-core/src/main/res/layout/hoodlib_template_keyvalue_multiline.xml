@@ -16,9 +16,17 @@
             style="@style/HoodLibTextViewSingleLine.HoodLibKeyValueTextView.Key"
             tools:text="version"/>
 
-            <TextView
-                android:id="@+id/value"
-                style="@style/HoodKeyValueMultiLineValue"
-                tools:text="v2.3.4 this is longer and longer and so on this goes \non and on\nmultiline stuff\nmultiline stuff\nmultiline stuff\nmultiline stuff\nmultiline stuff"/>
+        <TextView
+            android:id="@+id/value"
+            style="@style/HoodKeyValueMultiLineValue"
+            tools:text="v2.3.4 this is longer and longer and so on this goes \non and on\nmultiline stuff\nmultiline stuff\nmultiline stuff\nmultiline stuff\nmultiline stuff"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@android:style/Widget.ProgressBar.Small"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
 </FrameLayout>

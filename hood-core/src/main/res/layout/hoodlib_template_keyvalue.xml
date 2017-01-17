@@ -24,5 +24,11 @@
             android:background="@android:color/transparent"
             tools:text="v2.3.4 this is longer and longer and so on"/>
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@android:style/Widget.ProgressBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
 </FrameLayout>
