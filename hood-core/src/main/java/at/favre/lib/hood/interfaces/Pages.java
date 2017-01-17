@@ -55,8 +55,10 @@ public interface Pages {
 
     /**
      * Calls {@link PageEntry#refresh()} on every entry.
+     *
+     * @param refreshAlsoExpensiveValues if true will also refresh {@link at.favre.lib.hood.interfaces.values.DynamicValue.Async} type values
      */
-    void refreshData();
+    void refreshData(boolean refreshAlsoExpensiveValues);
 
     /**
      * The default implementation of what should happen when a component wants to log something.

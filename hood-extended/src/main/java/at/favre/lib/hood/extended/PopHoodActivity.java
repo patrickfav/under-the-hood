@@ -103,13 +103,13 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     protected void onResume() {
         super.onResume();
         if (debugView != null) {
-            debugView.refresh();
+            debugView.refresh(false);
 
             if (getIntent().getBooleanExtra(KEY_AUTO_REFRESH, false)) {
                 refreshHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        debugView.refresh();
+                        debugView.refresh(false);
                         refreshHandler.postDelayed(this, REFRESH_INTERVAL);
                     }
                 }, REFRESH_INTERVAL);
@@ -134,7 +134,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_refresh) {
-            debugView.refresh();
+            debugView.refresh(true);
         } else if (i == R.id.action_app_info) {
             startActivity(DefaultMiscActions.getAppInfoIntent(this));
         } else if (i == R.id.action_uninstall) {
@@ -154,7 +154,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        debugView.refresh();
+        debugView.refresh(false);
     }
 
     protected Toolbar getToolbar() {

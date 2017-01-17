@@ -58,8 +58,8 @@ class UnmodifiablePages implements Pages {
         return debugPages.size();
     }
 
-    public void refreshData() {
-        debugPages.refreshData();
+    public void refreshData(boolean refreshAlsoExpensiveValues) {
+        debugPages.refreshData(refreshAlsoExpensiveValues);
     }
 
     public void log(String message) {

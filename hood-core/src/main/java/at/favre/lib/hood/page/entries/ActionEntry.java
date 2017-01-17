@@ -63,7 +63,7 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
     }
 
     @Override
-    public void refresh() {
+    public void refresh(boolean refreshAlsoExpensiveValues) {
         //no-op
     }
 

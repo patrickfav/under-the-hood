@@ -50,7 +50,7 @@ public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
     }
 
     @Override
-    public void refresh() {
+    public void refresh(boolean refreshAlsoExpensiveValues) {
         //no-op
     }
 

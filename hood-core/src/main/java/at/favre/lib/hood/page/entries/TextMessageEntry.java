@@ -48,7 +48,7 @@ public class TextMessageEntry implements PageEntry<CharSequence> {
     }
 
     @Override
-    public void refresh() {
+    public void refresh(boolean refreshAlsoExpensiveValues) {
         //no-op
     }
 
