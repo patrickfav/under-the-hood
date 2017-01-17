@@ -49,6 +49,11 @@
             android:label="Dark Debug View"
             android:theme="@style/HoodThemeDark"/>
         <activity
+            android:name="at.favre.app.hood.demo.DebugDarkBackgroundValuesActivity"
+            android:exported="true"
+            android:label="Dark Debug Background Tasks View"
+            android:theme="@style/HoodThemeDark"/>
+        <activity
             android:name="at.favre.app.hood.demo.DebugDarkMultiPageActivity"
             android:exported="true"
             android:label="Dark Multi Page Debug View"

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import at.favre.app.hood.demo.databinding.ActivityMainBinding;
+import at.favre.lib.hood.extended.PopHoodActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
@@ -22,21 +23,26 @@ public class MainActivity extends AppCompatActivity {
         binding.btnStartDarkMultiPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DebugDarkMultiPageActivity.start(MainActivity.this, true, DebugDarkMultiPageActivity.class);
+                PopHoodActivity.start(MainActivity.this, true, DebugDarkMultiPageActivity.class);
             }
         });
-
+        binding.btnStartBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopHoodActivity.start(MainActivity.this, false, DebugDarkBackgroundValuesActivity.class);
+            }
+        });
         binding.btnStartLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DebugLightActivity.start(MainActivity.this, true, DebugLightActivity.class);
+                PopHoodActivity.start(MainActivity.this, true, DebugLightActivity.class);
             }
         });
 
         binding.btnStartDark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DebugDarkActivity.start(MainActivity.this, false, DebugDarkActivity.class);
+                PopHoodActivity.start(MainActivity.this, false, DebugDarkActivity.class);
             }
         });
 

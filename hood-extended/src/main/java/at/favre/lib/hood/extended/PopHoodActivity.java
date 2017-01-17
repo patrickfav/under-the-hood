@@ -27,7 +27,7 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 public abstract class PopHoodActivity extends AppCompatActivity implements HoodController {
     private static final String KEY_HEADLESS = "HEADLESS";
     private static final String KEY_AUTO_REFRESH = "AUTO_REFRESH";
-    private static final long REFRESH_INTERVAL = 5000;
+    private static final long REFRESH_INTERVAL = 10_000;
 
     private HoodDebugPageView debugView;
     private Toolbar toolbar;

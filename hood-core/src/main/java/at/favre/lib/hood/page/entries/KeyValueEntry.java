@@ -50,7 +50,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
      */
     public KeyValueEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine, boolean asyncValue) {
         this.data = new AbstractMap.SimpleEntry<>(key, new Value<>(value, asyncValue));
-        this.template = new Template(multiLine, action, value);
+        this.template = new Template(multiLine, action);
     }
 
     /**
@@ -138,7 +138,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     @Override
     public void refresh() {
-        data.getValue().refresh();
+        data.getValue().setNeedsRefresh();
     }
 
     @Override
@@ -149,13 +149,11 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     private static class Template implements ViewTemplate<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> {
         private final boolean multiLine;
         private OnClickAction clickAction;
-        private final DynamicValue<String> dynamicValue;
         private ConcurrentHashMap<String, ValueBackgroundTask> taskMap = new ConcurrentHashMap<>();
 
-        public Template(boolean multiLine, OnClickAction clickAction, DynamicValue<String> dynamicValue) {
+        public Template(boolean multiLine, OnClickAction clickAction) {
             this.multiLine = multiLine;
             this.clickAction = clickAction;
-            this.dynamicValue = dynamicValue;
         }
 
         @Override
@@ -178,9 +176,11 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             TextView tvValue = ((TextView) view.findViewById(R.id.value));
 
             tvValue.setTag(entry.getValue().id);
-            if (entry.getValue().needsRefresh) {
+            if (entry.getValue().needsRefresh && entry.getValue().processInBackground) {
                 tvValue.setVisibility(View.GONE);
                 view.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+                view.setOnClickListener(null);
+                view.setClickable(false);
 
                 ValueBackgroundTask task;
                 if (taskMap.containsKey(entry.getValue().id)) {
@@ -199,6 +199,9 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
                     }
                 });
             } else {
+                if (entry.getValue().needsRefresh) {
+                    entry.getValue().updateValue();
+                }
                 setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().cache), view, entry.getValue().id);
             }
         }
@@ -266,7 +269,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         final boolean processInBackground;
         boolean needsRefresh;
 
-        public Value(DynamicValue<T> dynamicValue, boolean processInBackground) {
+        public Value(@NonNull DynamicValue<T> dynamicValue, boolean processInBackground) {
             this.id = UUID.randomUUID().toString();
             this.processInBackground = processInBackground;
             this.dynamicValue = dynamicValue;
@@ -281,7 +284,12 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             needsRefresh = false;
         }
 
-        public void refresh() {
+        public void updateValue() {
+            cache = dynamicValue.getValue();
+            needsRefresh = false;
+        }
+
+        public void setNeedsRefresh() {
             if (processInBackground) {
                 cache = null;
                 needsRefresh = true;
