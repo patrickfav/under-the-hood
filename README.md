@@ -14,9 +14,11 @@ without error-prone if-debug chains.
 
 ![screenshot gallery](doc/screenshot_gallery.png)
 
+[![play store banner](doc/playstore_banner.png)](https://play.google.com/store/apps/details?id=at.favre.app.hood.demo)
+
 ## Quick Start
 
-Add the following to your dependencies
+Add the following to your dependencies (binaries are deployed to jcenter)
 
         compile('at.favre.lib.hood:hood-extended:0.2.0') {
             compile(group: 'at.favre.lib.hood', name: 'hood-core', version: '0.2.0',

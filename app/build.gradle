@@ -1,8 +1,18 @@
 apply plugin: 'com.android.application'
+def Properties localProps = getSigningProperties()
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
+    signingConfigs {
+        release {
+            storeFile file(localProps.getProperty('RELEASE_KEYSTORE_PATH', 'fillhere'))
+            storePassword localProps.getProperty('RELEASE_KEYSTORE_PW', '')
+            keyAlias localProps.getProperty('RELEASE_KEY_ALIAS', '')
+            keyPassword localProps.getProperty('RELEASE_KEY_PW', '')
+        }
+    }
 
     defaultConfig {
         applicationId "at.favre.app.hood.demo"
@@ -43,17 +53,21 @@ android {
         releaseNoop {
             minifyEnabled true
             shrinkResources true
+            signingConfig signingConfigs.release
         }
 
         release {
             minifyEnabled true
             shrinkResources true
+            signingConfig signingConfigs.release
         }
 
         buildTypes.all {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
 }
 
 dependencies {
@@ -76,8 +90,7 @@ dependencies {
 //        compile(group: 'at.favre.lib.hood', name: 'hood-core', version: '0.2.0', classifier: 'release', ext: 'aar', transitive: true)
 //    }
 
-    debugCompile project(path: ':hood-extended')
-    releaseCompile project(path: ':hood-extended')
+    compile project(path: ':hood-extended')
 }
 
 def String getGitRev() {
@@ -109,4 +122,13 @@ def String getGitBranch() {
     }
     git_branch = git_branch.toString().trim()
     return git_branch
+}
+
+def getSigningProperties() {
+    def Properties props = new Properties()
+    try {
+        props.load(new FileInputStream(file('../local.properties')))
+    } catch (Exception e) {
+    }
+    return props
 }
