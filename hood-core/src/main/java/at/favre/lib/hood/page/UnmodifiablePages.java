@@ -14,6 +14,7 @@ import at.favre.lib.hood.interfaces.Pages;
 
 /**
  * Used to prevent changes to the pages object. Is a simple delegate.
+ * Will throw exception when mutators are called.
  */
 class UnmodifiablePages implements Pages {
     private final Pages debugPages;
@@ -27,7 +28,7 @@ class UnmodifiablePages implements Pages {
     private List<Page> createImmutablePagesList(Pages pages) {
         List<Page> copy = new ArrayList<>(pages.size());
         for (Page page : pages.getAll()) {
-            copy.add(new ImmutablePageDelegate(page));
+            copy.add(new UnmodifiablePageDelegate(page));
         }
         return Collections.unmodifiableList(copy);
     }

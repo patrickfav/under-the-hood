@@ -51,6 +51,7 @@ public final class Hood {
 
     /**
      * Gets the main API. See {@link HoodAPI}
+     * Dependent on the build type may get a null-safe no-op version (see {@link #isLibEnabled()} for release builds
      *
      * @return singleton instance
      */
@@ -67,6 +68,8 @@ public final class Hood {
 
     /**
      * Gets the extension API. See {@link at.favre.lib.hood.interfaces.HoodAPI.Extension}
+     *
+     * Dependent on the build type may get a null-safe no-op version (see {@link #isLibEnabled()} for release builds
      *
      * @return singleton instance
      */
@@ -188,13 +191,18 @@ public final class Hood {
         }
 
         @Override
-        public OnClickAction createOnClickActionAskPermission(String perm, Activity activity) {
-            return new KeyValueEntry.AskPermissionClickAction(perm, activity);
+        public OnClickAction createOnClickActionAskPermission(String androidPermission, Activity activity) {
+            return new KeyValueEntry.AskPermissionClickAction(androidPermission, activity);
         }
 
         @Override
         public OnClickAction createOnClickActionStartIntent(Intent intent) {
             return new KeyValueEntry.StartIntentAction(intent);
+        }
+
+        @Override
+        public OnClickAction createOnClickActionDialog() {
+            return new KeyValueEntry.DialogClickAction();
         }
 
         @Override

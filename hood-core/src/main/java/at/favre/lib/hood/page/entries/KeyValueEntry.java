@@ -229,18 +229,21 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         }
     }
 
-    public static class ValueBackgroundTask implements Runnable, Comparable<ValueBackgroundTask> {
+    /**
+     * Task getting an async background value
+     */
+    static class ValueBackgroundTask implements Runnable, Comparable<ValueBackgroundTask> {
         private final long timestamp = SystemClock.elapsedRealtime();
         private Value<String> value;
         private Runnable callback;
         private Handler handler;
 
-        public ValueBackgroundTask(Value<String> value) {
+        ValueBackgroundTask(Value<String> value) {
             this.value = value;
             this.handler = new Handler(Looper.getMainLooper());
         }
 
-        public void setCallback(Runnable callback) {
+        void setCallback(Runnable callback) {
             this.callback = callback;
         }
 
@@ -278,12 +281,12 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             }
         }
 
-        public void setProcessedValue(T processedValue) {
+        void setProcessedValue(T processedValue) {
             cache = processedValue;
             needsRefresh = false;
         }
 
-        public void setNeedsRefresh() {
+        void setNeedsRefresh() {
             if (processInBackground) {
                 cache = null;
                 needsRefresh = true;
@@ -293,7 +296,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             }
         }
 
-        public T getCachedValue() {
+        T getCachedValue() {
             if (needsRefresh && !processInBackground) {
                 cache = dynamicValue.getValue();
             }

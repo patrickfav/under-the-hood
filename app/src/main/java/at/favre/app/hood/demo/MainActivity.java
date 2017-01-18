@@ -23,26 +23,26 @@ public class MainActivity extends AppCompatActivity {
         binding.btnStartDarkMultiPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopHoodActivity.start(MainActivity.this, true, DebugDarkMultiPageActivity.class);
+                PopHoodActivity.start(MainActivity.this, DebugDarkMultiPageActivity.class);
             }
         });
         binding.btnStartBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopHoodActivity.start(MainActivity.this, false, DebugDarkBackgroundValuesActivity.class);
+                PopHoodActivity.start(MainActivity.this, DebugDarkBackgroundValuesActivity.class);
             }
         });
         binding.btnStartLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopHoodActivity.start(MainActivity.this, true, DebugLightActivity.class);
+                PopHoodActivity.start(MainActivity.this, DebugLightActivity.class);
             }
         });
 
         binding.btnStartDark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopHoodActivity.start(MainActivity.this, false, DebugDarkActivity.class);
+                PopHoodActivity.start(MainActivity.this, DebugDarkActivity.class);
             }
         });
 

@@ -11,10 +11,17 @@ import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
 import timber.log.Timber;
 
+/**
+ * Default implementation of a the {@link Pages} interface. Can only be creted with given
+ * factory {@link DebugPages.Factory}
+ */
 public class DebugPages implements Pages {
     private final List<Page> pages = new ArrayList<>();
     private final Config config;
 
+    /**
+     * Use this factory to create instance of this object
+     */
     public static class Factory {
         public static Pages create(@NonNull Config config) {
             return new DebugPages(config);
@@ -111,6 +118,4 @@ public class DebugPages implements Pages {
         result = 31 * result + (config != null ? config.hashCode() : 0);
         return result;
     }
-
-
 }

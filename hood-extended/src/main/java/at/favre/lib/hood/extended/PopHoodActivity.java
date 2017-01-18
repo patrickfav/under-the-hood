@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -26,34 +24,29 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 
 public abstract class PopHoodActivity extends AppCompatActivity implements HoodController {
     private static final String KEY_HEADLESS = "HEADLESS";
-    private static final String KEY_AUTO_REFRESH = "AUTO_REFRESH";
-    private static final long REFRESH_INTERVAL = 10_000;
 
     private HoodDebugPageView debugView;
     private Toolbar toolbar;
-    private Handler refreshHandler = new Handler(Looper.getMainLooper());
 
     /**
      * Starts the activity with given settings.
      * <p>
-     * See {@link #createIntent(Context, boolean, Class)}
+     * See {@link #createIntent(Context, Class)}
      */
-    public static void start(Context context, boolean enableAutoRefresh, Class<?> activityClass) {
-        context.startActivity(createIntent(context, enableAutoRefresh, activityClass));
+    public static void start(Context context, Class<?> activityClass) {
+        context.startActivity(createIntent(context, activityClass));
     }
 
     /**
      * Creates the intent for starting this
      *
      * @param context           non-null
-     * @param enableAutoRefresh if true will auto refresh the view every {@link #REFRESH_INTERVAL} ms
      * @param activityClass     the actual implementation class (cannot be figured out in static context)
      * @return the intent ready to start
      */
-    public static Intent createIntent(@NonNull Context context, boolean enableAutoRefresh, Class<?> activityClass) {
+    public static Intent createIntent(@NonNull Context context, Class<?> activityClass) {
         Intent starter = new Intent(context, activityClass);
         starter.putExtra(KEY_HEADLESS, false);
-        starter.putExtra(KEY_AUTO_REFRESH, enableAutoRefresh);
         starter.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return starter;
     }
@@ -104,29 +97,18 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
         super.onResume();
         if (debugView != null) {
             debugView.refresh();
-
-            if (getIntent().getBooleanExtra(KEY_AUTO_REFRESH, false)) {
-                refreshHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        debugView.refresh();
-                        refreshHandler.postDelayed(this, REFRESH_INTERVAL);
-                    }
-                }, REFRESH_INTERVAL);
-            }
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        refreshHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_pophood, menu);
+        inflater.inflate(R.menu.hoodlib_menu_pophood, menu);
         return true;
     }
 

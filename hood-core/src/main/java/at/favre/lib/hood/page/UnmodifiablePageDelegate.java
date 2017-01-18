@@ -14,13 +14,14 @@ import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.interfaces.ViewTemplate;
 
 /**
- * Immutable delegate for a {@link Page}. Used to prevent changes.
+ * Unmodifiable delegate for a {@link Page}. Used to prevent changes.
+ * Will throw exception when mutators are called.
  */
-class ImmutablePageDelegate implements Page {
+class UnmodifiablePageDelegate implements Page {
     private final Page page;
     private final List<PageEntry> unmodifiableEntries;
 
-    ImmutablePageDelegate(Page page) {
+    UnmodifiablePageDelegate(Page page) {
         this.page = page;
         this.unmodifiableEntries = Collections.unmodifiableList(page.getEntries());
     }

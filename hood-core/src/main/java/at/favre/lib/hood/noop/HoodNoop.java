@@ -110,12 +110,12 @@ public final class HoodNoop implements HoodAPI {
         }
 
         @Override
-        public Section.ModifiableHeaderSection createSection(String header, List<PageEntry<?>> entries) {
+        public Section.ModifiableHeaderSection createSection(String header, @NonNull List<PageEntry<?>> entries) {
             return placeholderSection;
         }
 
         @Override
-        public OnClickAction createOnClickActionAskPermission(String perm, Activity activity) {
+        public OnClickAction createOnClickActionAskPermission(String androidPermission, Activity activity) {
             return placeholderOnClickAction;
         }
 
@@ -126,6 +126,11 @@ public final class HoodNoop implements HoodAPI {
 
         @Override
         public OnClickAction createOnClickActionToast() {
+            return placeholderOnClickAction;
+        }
+
+        @Override
+        public OnClickAction createOnClickActionDialog() {
             return placeholderOnClickAction;
         }
 

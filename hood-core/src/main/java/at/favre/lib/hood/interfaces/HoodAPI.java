@@ -140,20 +140,85 @@ public interface HoodAPI {
      * Extension of the API to allow creation of {@link Section} and {@link OnClickAction} for {@link PageEntry}
      */
     interface Extension {
+        /**
+         * Creates an empty {@link Section} with given header element
+         *
+         * @param header of this section
+         * @return section
+         */
         Section.ModifiableHeaderSection createSection(String header);
 
-        Section.ModifiableHeaderSection createSection(String header, List<PageEntry<?>> entries);
+        /**
+         * Creates an section with given header an page entry elements
+         *
+         * @param header  of this section
+         * @param entries added to this section
+         * @return section
+         */
+        Section.ModifiableHeaderSection createSection(String header, @NonNull List<PageEntry<?>> entries);
 
-        OnClickAction createOnClickActionAskPermission(String perm, Activity activity);
+        /**
+         * Creates an {@link OnClickAction} used mainly for {@link #createPropertyEntry} type of entries.
+         * This click action will open an runtime permission dialog if given permission was not granted or
+         * the app info if it was or is blocked.
+         *
+         * @param androidPermission the permission as string, as defined in AndroidManifest.xml e.g. "android.permission.BLUETOOTH"
+         * @param activity          the current activity as context
+         * @return the click action
+         */
+        OnClickAction createOnClickActionAskPermission(String androidPermission, Activity activity);
 
+        /**
+         * Creates an {@link OnClickAction} used mainly for {@link #createPropertyEntry} type of entries.
+         * This click action will start an activity with provided intent.
+         * @param intent will be used to start an activity
+         * @return the click action
+         */
         OnClickAction createOnClickActionStartIntent(Intent intent);
 
+        /**
+         * Creates an {@link OnClickAction} used mainly for {@link #createPropertyEntry} type of entries.
+         * This click action will show a toast message properties of the {@link PageEntry}
+         * @return the click action
+         */
         OnClickAction createOnClickActionToast();
 
+        /**
+         * Creates an {@link OnClickAction} used mainly for {@link #createPropertyEntry} type of entries.
+         * This click action will show a dialog with properties of the {@link PageEntry}
+         *
+         * @return the click action
+         */
+        OnClickAction createOnClickActionDialog();
+
+        /**
+         * Creates a label that can be used {@link #createPropertyEntry} type of entries.
+         * @param shortLabel will be shown in the overview
+         * @param fullLabel will be shown in a detail view (use {@link #createOnClickActionDialog()}
+         * @return the label as char sequence
+         */
         CharSequence createFullLabel(CharSequence shortLabel, CharSequence fullLabel);
 
+        /**
+         * Creates a shake listener that will start the activity for given intent. Must be started and
+         * stopped manually with returned control object.
+         *
+         * @param ctx
+         * @param intent to start when a shake is detected
+         * @return control to start an stop the shake detector
+         */
         ManagerControl registerShakeToOpenDebugActivity(Context ctx, Intent intent);
 
+        /**
+         * A click listener for arbitrary sequences of taps (ie. for double-tap). Will not block set {@link android.view.View.OnClickListener}
+         * or {@link android.view.View.OnLongClickListener} on a view. Used with {@link View#setOnTouchListener(View.OnTouchListener)} of a view.
+         *
+         * Can be used to support "secret" tap method on semi-prominent views in your app to show a debug view. (e.g. triple tap on a text view)
+         *
+         * @param numOfTaps required to fire the underlying onClickListener
+         * @param onClickListener will be called if the tap sequence was successful
+         * @return the listener
+         */
         View.OnTouchListener createArbitraryTapListener(int numOfTaps, @NonNull View.OnClickListener onClickListener);
     }
 }

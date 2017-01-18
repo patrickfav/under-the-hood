@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">hood-extended</string>
     <string name="hood_action_refresh">Refresh</string>
     <string name="hood_action_app_info">App Info</string>
     <string name="hood_action_uninstall">Uninstall</string>

@@ -108,7 +108,7 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
     }
 
     private static class ConfigSpinnerAdapter extends ArrayAdapter<SpinnerElement> {
-        public ConfigSpinnerAdapter(Context context, List<SpinnerElement> objects) {
+        ConfigSpinnerAdapter(Context context, List<SpinnerElement> objects) {
             super(context, 0, objects);
         }
 

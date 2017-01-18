@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Px;
@@ -28,13 +30,14 @@ import at.favre.lib.hood.page.DebugPages;
  */
 public class HoodDebugPageView extends FrameLayout {
 
+    private final Handler refreshHandler = new Handler(Looper.getMainLooper());
     private SwitchableViewpager viewPager;
     private PagerTitleStrip tabs;
     private Pages pages;
     private View progressBarView;
-    private
     @ColorInt
-    int zebraColor;
+    private int zebraColor;
+
 
     public HoodDebugPageView(Context context) {
         super(context);
@@ -64,6 +67,14 @@ public class HoodDebugPageView extends FrameLayout {
         setTabsElevation(getContext().getResources().getDimensionPixelSize(R.dimen.hoodlib_toolbar_elevation));
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (pages != null) {
+            setupAutoRefresh(pages);
+        }
+    }
+
     /**
      * Sets the page data (required to for the ui to show anything)
      *
@@ -77,6 +88,8 @@ public class HoodDebugPageView extends FrameLayout {
             pages.logPages();
         }
 
+        setupAutoRefresh(pages);
+
         if (!(getContext() instanceof HoodController)) {
             pages.log("activity does not implement IHoodDebugController - some features might not work");
         }
@@ -85,6 +98,20 @@ public class HoodDebugPageView extends FrameLayout {
             tabs.setVisibility(GONE);
         } else {
             tabs.setVisibility(VISIBLE);
+        }
+    }
+
+    private void setupAutoRefresh(@NonNull Pages pages) {
+        if (pages.getConfig().autoRefresh) {
+            final long intervalMs = pages.getConfig().autoRefreshIntervalMs;
+            refreshHandler.removeCallbacksAndMessages(this);
+            refreshHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refresh();
+                    refreshHandler.postDelayed(this, intervalMs);
+                }
+            }, intervalMs);
         }
     }
 
@@ -155,6 +182,12 @@ public class HoodDebugPageView extends FrameLayout {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && tabs != null && tabs.getVisibility() == VISIBLE) {
             tabs.setElevation(dimensionPixel);
         }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        refreshHandler.removeCallbacksAndMessages(null);
     }
 
     /**

@@ -26,7 +26,7 @@ public class MoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final ActivityMoreBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_more);
 
-        shakeControl = Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkMultiPageActivity.createIntent(this, false, DebugDarkMultiPageActivity.class));
+        shakeControl = Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkMultiPageActivity.createIntent(this, DebugDarkMultiPageActivity.class));
 
         binding.btnStopShake.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +40,7 @@ public class MoreActivity extends AppCompatActivity {
         binding.tvDoubletap.setOnTouchListener(Hood.ext().createArbitraryTapListener(2, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DebugDarkActivity.start(MoreActivity.this, false, DebugDarkActivity.class);
+                DebugDarkActivity.start(MoreActivity.this, DebugDarkActivity.class);
             }
         }));
 
@@ -55,7 +55,7 @@ public class MoreActivity extends AppCompatActivity {
         binding.tvTripletap.setOnTouchListener(Hood.ext().createArbitraryTapListener(3, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DebugLightActivity.start(MoreActivity.this, false, DebugLightActivity.class);
+                DebugLightActivity.start(MoreActivity.this, DebugLightActivity.class);
             }
         }));
 

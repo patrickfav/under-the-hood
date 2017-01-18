@@ -6,13 +6,17 @@ public class Config {
     public final boolean showZebra;
     public final boolean showHighlightContent;
     public final boolean autoLog;
+    public final boolean autoRefresh;
+    public final long autoRefreshIntervalMs;
     public final String logTag;
     public final boolean showPagesIndicator;
 
-    private Config(boolean showZebra, boolean showHighlightContent, boolean autoLog, String logTag, boolean showPagesIndicator) {
+    private Config(boolean showZebra, boolean showHighlightContent, boolean autoLog, boolean autoRefresh, long autoRefreshIntervalMs, String logTag, boolean showPagesIndicator) {
         this.showZebra = showZebra;
         this.showHighlightContent = showHighlightContent;
         this.autoLog = autoLog;
+        this.autoRefresh = autoRefresh;
+        this.autoRefreshIntervalMs = autoRefreshIntervalMs;
         this.logTag = logTag;
         this.showPagesIndicator = showPagesIndicator;
     }
@@ -21,6 +25,8 @@ public class Config {
         private boolean showZebra = true;
         private boolean showHighlightContent = false;
         private boolean autoLog = true;
+        private boolean autoRefresh = false;
+        private long autoRefreshIntervalMs = 10_000;
         private String logTag = TAG;
         private boolean showPagesIndicator = true;
 
@@ -48,10 +54,32 @@ public class Config {
          * If true will automatically log the whole page content to console when the view
          * is instantiated.
          *
-         * @param autoLog
+         * @param autoLogEnabled
          */
-        public Builder setAutoLog(boolean autoLog) {
-            this.autoLog = autoLog;
+        public Builder setAutoLog(boolean autoLogEnabled) {
+            this.autoLog = autoLogEnabled;
+            return this;
+        }
+
+        /**
+         * If true will auto refresh the view
+         *
+         * @param autoRefreshEnabled
+         */
+        public Builder setAutoRefresh(boolean autoRefreshEnabled) {
+            this.autoRefresh = autoRefreshEnabled;
+            return this;
+        }
+
+        /**
+         * If true will auto refresh the view. This call can set the refresh interval in ms (min is 300ms)
+         *
+         * @param autoRefreshEnabled
+         * @param intervalMs         min is 300ms - time between refreshes
+         */
+        public Builder setAutoRefresh(boolean autoRefreshEnabled, long intervalMs) {
+            this.autoRefresh = autoRefreshEnabled;
+            this.autoRefreshIntervalMs = Math.max(300, intervalMs);
             return this;
         }
 
@@ -76,7 +104,7 @@ public class Config {
         }
 
         public Config build() {
-            return new Config(showZebra, showHighlightContent, autoLog, logTag, showPagesIndicator);
+            return new Config(showZebra, showHighlightContent, autoLog, autoRefresh, autoRefreshIntervalMs, logTag, showPagesIndicator);
         }
     }
 }

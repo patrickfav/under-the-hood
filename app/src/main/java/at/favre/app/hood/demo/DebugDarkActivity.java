@@ -44,7 +44,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
         firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
 
-        firstPage.add(new KeyValueEntry("Test Loading3", new DynamicValue<String>() {
+        firstPage.add(new KeyValueEntry("Test Loading3", new DynamicValue.Async<String>() {
             @Override
             public String getValue() {
                 SystemClock.sleep(3800);
@@ -55,21 +55,13 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
 
-        firstPage.add(new KeyValueEntry("Test Loading", new DynamicValue<String>() {
+        firstPage.add(new KeyValueEntry("Test Loading", new DynamicValue.Async<String>() {
             @Override
             public String getValue() {
                 SystemClock.sleep(4000);
                 return "done";
             }
-        }, new KeyValueEntry.DialogClickAction(), false));
-
-        firstPage.add(new KeyValueEntry("Test Loading1", new DynamicValue<String>() {
-            @Override
-            public String getValue() {
-                SystemClock.sleep(4300);
-                return "done1";
-            }
-        }, new KeyValueEntry.DialogClickAction(), false));
+        }));
 
         firstPage.add(Hood.get().createPropertyEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
