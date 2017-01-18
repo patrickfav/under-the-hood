@@ -7,7 +7,6 @@ import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
-import at.favre.lib.hood.page.entries.ActionEntry;
 
 /**
  * Convenience methods for modifying pages. Most of them are null-safe.
@@ -38,7 +37,7 @@ public class PageUtil {
         } else if (action1 != null && action2 == null) {
             addAction(page, action1);
         } else if (action1 != null && action2 != null) {
-            page.add(new ActionEntry(action1, action2));
+            page.add(Hood.get().createActionEntry(action1, action2));
         }
     }
 }

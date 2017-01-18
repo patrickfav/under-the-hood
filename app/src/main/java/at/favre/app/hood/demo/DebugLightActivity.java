@@ -93,6 +93,6 @@ public class DebugLightActivity extends PopHoodActivity {
     @NonNull
     @Override
     public Config getConfig() {
-        return new Config.Builder().setLogTag(TAG).setAutoLog(false).setAutoRefresh(true).build();
+        return Config.newBuilder().setLogTag(TAG).setAutoLog(false).setAutoRefresh(true).build();
     }
 }

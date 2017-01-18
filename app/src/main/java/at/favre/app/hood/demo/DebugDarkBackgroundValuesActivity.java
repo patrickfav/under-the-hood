@@ -5,12 +5,12 @@ import android.support.annotation.NonNull;
 
 import java.util.Random;
 
+import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.extended.PopHoodActivity;
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
-import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.util.PageUtil;
 import at.favre.lib.hood.util.defaults.DefaultButtonDefinitions;
 import at.favre.lib.hood.util.defaults.DefaultProperties;
@@ -28,7 +28,7 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
 
         for (int i = 0; i < 35; i++) {
             final String id = String.valueOf(i);
-            firstPage.add(new KeyValueEntry("Test Loading " + id, new DynamicValue.Async<String>() {
+            firstPage.add(Hood.get().createPropertyEntry("Test Loading " + id, new DynamicValue.Async<String>() {
                 @Override
                 public String getValue() {
                     int wait = new Random().nextInt(2000) + 1000;
@@ -38,14 +38,14 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
             }));
         }
 
-        firstPage.add(new KeyValueEntry("Test Loading ML", new DynamicValue.Async<String>() {
+        firstPage.add(Hood.get().createPropertyEntry("Test Loading ML", new DynamicValue.Async<String>() {
             @Override
             public String getValue() {
                 int wait = new Random().nextInt(2000) + 1000;
                 SystemClock.sleep(wait);
                 return "done ml (" + wait + "ms)";
             }
-        }, new KeyValueEntry.DialogClickAction(), true));
+        }, Hood.ext().createOnClickActionToast(), true));
 
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getGlobalSettingsAction(), DefaultButtonDefinitions.getNfcSettingsAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getNfcPaymentSettingsAction(), DefaultButtonDefinitions.getDevSettingsAction());
@@ -59,7 +59,7 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
     @NonNull
     @Override
     public Config getConfig() {
-        return new Config.Builder()
+        return Config.newBuilder()
                 .setShowHighlightContent(false)
                 .setLogTag(TAG).build();
     }

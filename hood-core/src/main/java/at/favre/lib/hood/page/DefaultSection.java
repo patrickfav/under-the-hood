@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Section;
-import at.favre.lib.hood.page.entries.HeaderEntry;
-import at.favre.lib.hood.page.entries.TextMessageEntry;
 
 /**
  * The default implementation of the {@link Section} interface. Has a header, which can be removed
@@ -101,10 +100,10 @@ public class DefaultSection implements Section.ModifiableHeaderSection {
 
         List<PageEntry<?>> entriesOut = new ArrayList<>(entries.size() + 1);
         if (header != null) {
-            entriesOut.add(new HeaderEntry(header));
+            entriesOut.add(Hood.get().createHeaderEntry(header));
         }
         if (errorMessage != null) {
-            entriesOut.add(new TextMessageEntry(errorMessage));
+            entriesOut.add(Hood.get().createMessageEntry(errorMessage));
         }
 
         entriesOut.addAll(entries);

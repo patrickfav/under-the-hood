@@ -16,7 +16,7 @@ import at.favre.lib.hood.interfaces.ViewTemplate;
  * A no-op implementation
  */
 class PageNoop implements Page {
-    private final Config placeholderConfig = new Config.Builder().build();
+    private final Config placeholderConfig = Config.newBuilder().build();
     private final String placeHolderTitle = String.valueOf("");
     private final ViewTemplate<?> placeViewTemplate = new ViewTemplateNoop();
 

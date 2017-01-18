@@ -68,7 +68,7 @@ public final class Hood {
 
     /**
      * Gets the extension API. See {@link at.favre.lib.hood.interfaces.HoodAPI.Extension}
-     *
+     * <p>
      * Dependent on the build type may get a null-safe no-op version (see {@link #isLibEnabled()} for release builds
      *
      * @return singleton instance
@@ -173,6 +173,11 @@ public final class Hood {
         @Override
         public PageEntry<?> createPropertyEntry(CharSequence key, String value) {
             return new KeyValueEntry(key, value);
+        }
+
+        @Override
+        public PageEntry<?> createSimpleMessageEntry(@NonNull CharSequence message) {
+            return new TextMessageEntry(message);
         }
     }
 

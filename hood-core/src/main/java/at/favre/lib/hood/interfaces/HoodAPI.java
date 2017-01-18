@@ -112,7 +112,7 @@ public interface HoodAPI {
      *
      * @param key       as shown in ui
      * @param value     static value
-     * @param action    used when clicked on
+     * @param action    used when clicked on (see {@link HoodAPI.Extension} createOnClickAction*() methods
      * @param multiLine if a different layout should be used for long values
      */
     PageEntry<?> createPropertyEntry(CharSequence key, String value, OnClickAction action, boolean multiLine);
@@ -135,6 +135,12 @@ public interface HoodAPI {
      */
     PageEntry<?> createPropertyEntry(CharSequence key, String value);
 
+    /**
+     * Creates a simple non interactive element displaying given message
+     *
+     * @param message to display
+     */
+    PageEntry<?> createSimpleMessageEntry(@NonNull CharSequence message);
 
     /**
      * Extension of the API to allow creation of {@link Section} and {@link OnClickAction} for {@link PageEntry}

@@ -72,11 +72,12 @@ dependencies {
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 
-//    compile('at.favre.lib.hood:hood-extended:0.1.0') {
-//        compile(group: 'at.favre.lib.hood', name: 'hood-core', version: '0.1.0', classifier: 'noop', ext: 'aar', transitive: true)
+//    compile('at.favre.lib.hood:hood-extended:0.2.0') {
+//        compile(group: 'at.favre.lib.hood', name: 'hood-core', version: '0.2.0', classifier: 'release', ext: 'aar', transitive: true)
 //    }
 
-    compile project(path: ':hood-extended')
+    debugCompile project(path: ':hood-extended')
+    releaseCompile project(path: ':hood-extended')
 }
 
 def String getGitRev() {

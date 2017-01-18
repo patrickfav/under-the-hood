@@ -21,6 +21,10 @@ public class Config {
         this.showPagesIndicator = showPagesIndicator;
     }
 
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public static class Builder {
         private boolean showZebra = true;
         private boolean showHighlightContent = false;
@@ -29,6 +33,9 @@ public class Config {
         private long autoRefreshIntervalMs = 10_000;
         private String logTag = TAG;
         private boolean showPagesIndicator = true;
+
+        private Builder() {
+        }
 
         /**
          * UI showing zebra pattern (highlighting every other row)

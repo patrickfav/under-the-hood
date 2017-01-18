@@ -132,7 +132,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
     @NonNull
     @Override
     public Config getConfig() {
-        return new Config.Builder()
+        return Config.newBuilder()
                 .setShowHighlightContent(false)
                 .setLogTag(TAG).build();
     }

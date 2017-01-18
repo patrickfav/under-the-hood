@@ -66,7 +66,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
                 setSupportActionBar(toolbar);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                debugView.addViewPagerChangeListner(new ViewPager.OnPageChangeListener() {
+                debugView.addViewPagerChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     }
@@ -163,7 +163,7 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
      */
     @NonNull
     public Config getConfig() {
-        return new Config.Builder().build();
+        return Config.newBuilder().build();
     }
 
 

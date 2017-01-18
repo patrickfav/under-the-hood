@@ -161,7 +161,7 @@ public class HoodDebugPageView extends FrameLayout {
         viewPager.setPagingEnabled(!isVisible);
     }
 
-    public void addViewPagerChangeListner(ViewPager.OnPageChangeListener listener) {
+    public void addViewPagerChangeListener(ViewPager.OnPageChangeListener listener) {
         checkPreconditions();
         viewPager.addOnPageChangeListener(listener);
     }

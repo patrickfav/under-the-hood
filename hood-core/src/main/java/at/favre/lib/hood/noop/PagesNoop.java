@@ -15,7 +15,7 @@ import at.favre.lib.hood.interfaces.Pages;
  */
 public class PagesNoop implements Pages {
     private final PageNoop placeholderPage = new PageNoop();
-    private final Config placeholderConfig = new Config.Builder().build();
+    private final Config placeholderConfig = Config.newBuilder().build();
 
     @Override
     public Page addNewPage() {

@@ -3,6 +3,7 @@ package at.favre.app.hood.demo;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,6 @@ import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
-import at.favre.lib.hood.page.entries.KeyValueEntry;
 import at.favre.lib.hood.util.Backend;
 import at.favre.lib.hood.util.HoodUtil;
 import at.favre.lib.hood.util.PackageInfoAssembler;
@@ -44,7 +44,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
         firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
 
-        firstPage.add(new KeyValueEntry("Test Loading3", new DynamicValue.Async<String>() {
+        firstPage.add(Hood.get().createPropertyEntry("Test Loading3", new DynamicValue.Async<String>() {
             @Override
             public String getValue() {
                 SystemClock.sleep(3800);
@@ -52,10 +52,17 @@ public class DebugDarkActivity extends PopHoodActivity {
             }
         }));
 
+        Hood.get().createPropertyEntry("uptime", new DynamicValue<String>() {
+            @Override
+            public String getValue() {
+                return HoodUtil.millisToDaysHoursMinString(SystemClock.elapsedRealtime());
+            }
+        }, Hood.ext().createOnClickActionToast(), false);
+
         firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         firstPage.add(DefaultProperties.createDetailedDeviceInfo(this));
 
-        firstPage.add(new KeyValueEntry("Test Loading", new DynamicValue.Async<String>() {
+        firstPage.add(Hood.get().createPropertyEntry("Test Loading", new DynamicValue.Async<String>() {
             @Override
             public String getValue() {
                 SystemClock.sleep(4000);
@@ -93,7 +100,9 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
 
         firstPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
-
+        firstPage.add(Hood.get().createHeaderEntry("System Features"));
+        firstPage.add(Hood.get().createPropertyEntry("The Key", "The value"));
+        firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
         PageUtil.addHeader(firstPage, "System Features");
         Map<CharSequence, String> systemFeatureMap = new HashMap<>();
         systemFeatureMap.put("hasHce", "android.hardware.nfc.hce");
@@ -108,7 +117,12 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.SIGNATURE).createSection(this, false));
         firstPage.add(DefaultProperties.createSectionTelephonyManger(this));
         firstPage.add(Hood.get().createHeaderEntry("Settings", true));
-
+        firstPage.add(Hood.get().createActionEntry(new ButtonDefinition("Click me", new OnClickAction() {
+            @Override
+            public void onClick(View v, Map.Entry<CharSequence, String> value) {
+                Toast.makeText(v.getContext(), "On button clicked", Toast.LENGTH_SHORT).show();
+            }
+        })));
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getGlobalSettingsAction(), DefaultButtonDefinitions.getNfcSettingsAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getNfcPaymentSettingsAction(), DefaultButtonDefinitions.getDevSettingsAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getDateSettingsAction(), DefaultButtonDefinitions.getAirplaneModeSettingsAction());
@@ -141,7 +155,7 @@ public class DebugDarkActivity extends PopHoodActivity {
     @NonNull
     @Override
     public Config getConfig() {
-        return new Config.Builder()
+        return Config.newBuilder()
                 .setShowHighlightContent(false)
                 .setLogTag(TAG).build();
     }
