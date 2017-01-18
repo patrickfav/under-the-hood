@@ -2,11 +2,11 @@
 
 Under the Hood is a flexible and powerful Android debug view library. It
 uses a modular template system that can be easily extended to your needs,
-although coming with many useful elements built-in. There are a lot of
+although coming with many useful elements built-in. There is a lot of
 "default" debug data that can be easily embedded (e.g. current runtime-permission
 status, app version and device info). There are 2 basic themes (dark and light)
 which can be customized.
-The lib is divided in 2 modules: `hood-core` containing the basic view that
+The lib is divided into 2 modules: `hood-core` containing the basic view that
 can be embedded anywhere and `hood-extended` which comes with a ready-to-use
 activity with a lot of convenience features. The lib has also a null-safe
 no-op flavor indented to be used in release builds, disabling all debug features
@@ -54,12 +54,7 @@ See demo app for extended samples.
 
 Add the view to your layout:
 
-    <at.favre.lib.hood.view.HoodDebugPageView
-            android:id="@+id/debug_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:windowBackground"
-            android:theme="@style/HoodLibThemeOverlay.Dark.Small" />
+
 
 Set up in your controller (`Activity` or `Fragment`):
 
@@ -77,7 +72,7 @@ Set up in your controller (`Activity` or `Fragment`):
 ## The HoodAPI
 
 The main interface of the App is the `HoodAPI` or `HoodAPI.Extension` accessed
-through the `Hood` singleton. It is required to use these interface to take
+through the `Hood` singleton. It is required to use these interfaces to take
 advantage of using the no-op flavor.
 
 ### The DebugView
@@ -120,7 +115,7 @@ Following configs can be changed:
 
 ### Template Concept
 
-The template hast the following main components
+The template has the following main components
 
 * `Pages` is responsible for creating and managing a collection of `Page`
 and contains the main config
@@ -179,7 +174,7 @@ when the user clicks on it:
         }, Hood.ext().createOnClickActionToast(),false);
 
 If you want the lib to evaluate the value in background instead of the main
-thread use `DynamicValue.Async<String>` instead of `DynamicValue<String>`
+thread use `DynamicValue.Async` instead of `DynamicValue`
 
 Default actions are: Toast, Dialog, Start-Intent and ask runtime permission.
 
@@ -190,7 +185,7 @@ see `DefaultProperties.*`
 
 ![example in the ui](doc/example_buttons.png)
 
-Will be rendered as a simple button starting an custom action on click.
+Will be rendered as a simple button starting a custom action on click.
 Supports single and double column actions (ie. having two buttons in the same row)
 
 Here is a simple example:
@@ -255,7 +250,7 @@ To display a simple message use the following:
 
 A `PageEntry` must implement the interface with the same name. It holds
 a distinct value, can be refreshed and returns a loggable string. The most
-important part though, is the `ViewTemplate` that defines how this entry
+important part, though, is the `ViewTemplate` that defines how this entry
 is rendered. The `constructView` and `setContent` are similar to the
 `onCreateViewHolder` and `onBindViewHolder` in a `RecyclerView`. It is important
 that `ViewTemplate` must return a distinct type as int (values over 65536 are
@@ -285,7 +280,7 @@ The library comes in 2 flavors:
 
 ### Module `hood-core`
 Contains only the base code without the default implementation of the debug activity.
-The advantage is that there is only minimal dependencies of `support*` libraries and
+The advantage is that there is only minimal dependencies on `support*` libraries and
 therefore very lightweight, not adding too much methods or `res` to your app.
 
 The core module comes in 2 flavours (or classifier):
@@ -303,12 +298,12 @@ main template system. All creator methods of `HoodAPI` (`Hood.get()`) and `HoodA
 If you use implementation from `at.favre.lib.hood.page.**` directly this will have no effect.
 
 The `PopHoodActivity` will also respect the no-op switch and just finish.
- The no-op state can be check with `Hood.isLibEnabled()` from any caller.
+ The no-op state can be checked with `Hood.isLibEnabled()` from any caller.
 
 
 ### Module `hood-extended`
 
-Extends the `hood-core` with an default implementation of a debug activity using `appcompat-v7` support library.
+Extends the `hood-core` with a default implementation of a debug activity using `appcompat-v7` support library.
 
 You need to provide the correct flavor of `hood-core` module in the classifier:
 
