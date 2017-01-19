@@ -20,17 +20,16 @@ without error-prone if-debug chains.
 
 Add the following to your dependencies (binaries are deployed to jcenter)
 
-        compile('at.favre.lib.hood:hood-extended:0.2.0') {
-            compile(group: 'at.favre.lib.hood', name: 'hood-core', version: '0.2.0',
-            classifier: 'release', ext: 'aar', transitive: true)
-        }
+    dependencies {
+        compile('at.favre.lib.hood:hood-extended:0.2.2')
+    }
 
 Create an activity and extend `PopHoodActivity`. Define it in your `AndroidManifest`:
 
-        <activity
-            android:name="com.example.your.MyDebugActivity"
-            android:theme="@style/HoodThemeDark">
-        </activity>
+    <activity
+        android:name="com.example.your.MyDebugActivity"
+        android:theme="@style/HoodThemeDark">
+    </activity>
 
 Implement the config and page setter in the `Activity`:
 

@@ -31,6 +31,12 @@ android {
     }
 }
 
+android.variantFilter { variant ->
+    if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
+        variant.setIgnore(true);
+    }
+}
+
 dependencies {
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.dependencies.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'

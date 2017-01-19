@@ -24,6 +24,12 @@ android {
     }
 }
 
+android.variantFilter { variant ->
+    if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
+        variant.setIgnore(true);
+    }
+}
+
 dependencies {
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.dependencies.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -32,7 +38,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
     compile "com.android.support:design:$rootProject.ext.dependencies.support"
 
-    compile project(path: ':hood-core')
+    compile project(path: ':hood-core', configuration: 'release')
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 }
