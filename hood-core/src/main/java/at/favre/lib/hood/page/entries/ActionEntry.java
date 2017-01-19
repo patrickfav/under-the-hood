@@ -24,7 +24,6 @@ import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
 
     private final List<ButtonDefinition> actionList;
-    private final Template template;
 
     /**
      * Single column action
@@ -33,7 +32,6 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
      */
     public ActionEntry(ButtonDefinition action) {
         this.actionList = Collections.singletonList(action);
-        template = new Template(actionList.size() == 1);
     }
 
     /**
@@ -44,7 +42,6 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
      */
     public ActionEntry(ButtonDefinition actionLeft, ButtonDefinition actionRight) {
         this.actionList = Collections.unmodifiableList(Arrays.asList(actionLeft, actionRight));
-        template = new Template(actionList.size() == 1);
     }
 
     @Override
@@ -53,8 +50,8 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
     }
 
     @Override
-    public ViewTemplate<List<ButtonDefinition>> getViewTemplate() {
-        return template;
+    public ViewTemplate<List<ButtonDefinition>> createViewTemplate() {
+        return new Template(actionList.size() == 1);
     }
 
     @Override

@@ -278,7 +278,7 @@ Use `android:exported="true"` if you want to be able to start your activity with
 
 ## Library Modules and Flavours
 
-The library comes in 2 flavors: 
+The library comes in 2 modules:
 
 ### Module `hood-core`
 Contains only the base code without the default implementation of the debug activity.
@@ -406,7 +406,7 @@ The `.aar` files can then be found in `/hood-*/build/outputs/aar` folder
 
 * [Bee - Debug and QA tool for android](https://github.com/orhanobut/bee)
 * [DebugDrawer - Android Debug Drawer for faster development](https://github.com/palaima/DebugDrawer)
-* [debugdrawer - Debug Drawer for android debug builds](https://github.com/palaima/DebugDrawer)
+* [debugdrawer - Debug Drawer for android debug builds](https://github.com/williamwebb/debugdrawer)
 
 # License
 

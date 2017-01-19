@@ -22,7 +22,6 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
 
     private final BoolConfigAction action;
-    private final Template template;
 
     /**
      * Creates an interactive switch like entry
@@ -31,7 +30,6 @@ public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
      */
     public ConfigBoolEntry(BoolConfigAction action) {
         this.action = action;
-        template = new Template();
     }
 
     @Override
@@ -40,8 +38,8 @@ public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
     }
 
     @Override
-    public ViewTemplate<BoolConfigAction> getViewTemplate() {
-        return template;
+    public ViewTemplate<BoolConfigAction> createViewTemplate() {
+        return new Template();
     }
 
     @Override

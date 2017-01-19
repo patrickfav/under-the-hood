@@ -44,7 +44,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     private final static ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(4, 4, 10, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>(1024));
 
     private Map.Entry<CharSequence, Value<String>> data;
-    private final Template template;
+    private final boolean multiLine;
 
     /**
      * Creates Key-Value style page entry.
@@ -55,8 +55,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
      * @param multiLine if a different layout should be used for long values
      */
     public KeyValueEntry(CharSequence key, DynamicValue<String> value, OnClickAction action, boolean multiLine) {
-        this.data = new AbstractMap.SimpleEntry<>(key, new Value<>(value, value instanceof DynamicValue.Async));
-        this.template = new Template(multiLine, action);
+        this.data = new AbstractMap.SimpleEntry<>(key, new Value<>(value, value instanceof DynamicValue.Async, action));
+        this.multiLine = multiLine;
     }
 
     /**
@@ -121,8 +121,8 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     @Override
-    public ViewTemplate<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> getViewTemplate() {
-        return template;
+    public ViewTemplate<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> createViewTemplate() {
+        return new Template(multiLine);
     }
 
     @Override
@@ -142,12 +142,10 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     private static class Template implements ViewTemplate<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> {
         private final boolean multiLine;
-        private OnClickAction clickAction;
         private ConcurrentHashMap<String, ValueBackgroundTask> taskMap = new ConcurrentHashMap<>();
 
-        public Template(boolean multiLine, OnClickAction clickAction) {
+        public Template(boolean multiLine) {
             this.multiLine = multiLine;
-            this.clickAction = clickAction;
         }
 
         @Override
@@ -194,25 +192,25 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
                     @Override
                     public void run() {
                         taskMap.remove(entry.getValue().id);
-                        setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().id);
+                        setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().clickAction, entry.getValue().id);
                     }
                 });
             } else {
-                setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().id);
+                setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().clickAction, entry.getValue().id);
             }
         }
 
-        private void setValueToView(final Map.Entry<CharSequence, String> entry, @NonNull final View view, final String tagId) {
+        private void setValueToView(final Map.Entry<CharSequence, String> entry, @NonNull final View view, final OnClickAction onClickAction, final String tagId) {
             TextView tvValue = ((TextView) view.findViewById(R.id.value));
             if (tagId.equals(tvValue.getTag())) {
                 view.findViewById(R.id.progress_bar).setVisibility(View.GONE);
                 tvValue.setVisibility(View.VISIBLE);
                 tvValue.setText(entry.getValue());
-                if (clickAction != null) {
+                if (onClickAction != null) {
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            clickAction.onClick(v, entry);
+                            onClickAction.onClick(v, entry);
                         }
                     });
                     view.setClickable(true);
@@ -270,8 +268,10 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         final DynamicValue<T> dynamicValue;
         final boolean processInBackground;
         boolean needsRefresh;
+        final OnClickAction clickAction;
 
-        public Value(@NonNull DynamicValue<T> dynamicValue, boolean processInBackground) {
+        public Value(@NonNull DynamicValue<T> dynamicValue, boolean processInBackground, OnClickAction clickAction) {
+            this.clickAction = clickAction;
             this.id = UUID.randomUUID().toString();
             this.processInBackground = processInBackground;
             this.dynamicValue = dynamicValue;

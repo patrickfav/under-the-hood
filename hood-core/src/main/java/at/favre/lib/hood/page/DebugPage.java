@@ -56,7 +56,8 @@ public class DebugPage implements Page {
     public void add(@Nullable PageEntry<?> pageEntry) {
         if (pageEntry != null) {
             entries.add(pageEntry);
-            templateMap.put(pageEntry.getViewTemplate().getViewType(), pageEntry.getViewTemplate());
+            ViewTemplate<?> template = pageEntry.createViewTemplate();
+            templateMap.put(template.getViewType(), template);
         }
     }
 

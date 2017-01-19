@@ -20,7 +20,6 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 public class TextMessageEntry implements PageEntry<CharSequence> {
 
     private final CharSequence message;
-    private final Template template;
 
     /**
      * Creates a simple, non-interactive text message
@@ -29,7 +28,6 @@ public class TextMessageEntry implements PageEntry<CharSequence> {
      */
     public TextMessageEntry(@NonNull CharSequence message) {
         this.message = message;
-        this.template = new Template();
     }
 
     @Override
@@ -38,8 +36,8 @@ public class TextMessageEntry implements PageEntry<CharSequence> {
     }
 
     @Override
-    public ViewTemplate<CharSequence> getViewTemplate() {
-        return template;
+    public ViewTemplate<CharSequence> createViewTemplate() {
+        return new Template();
     }
 
     @Override

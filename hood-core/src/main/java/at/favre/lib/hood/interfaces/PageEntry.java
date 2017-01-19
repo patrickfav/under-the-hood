@@ -16,9 +16,10 @@ public interface PageEntry<T> {
     T getValue();
 
     /**
+     * Creates a new ViewTemplate object
      * @return the view-template that defines how this view will be drawn
      */
-    ViewTemplate<T> getViewTemplate();
+    ViewTemplate<T> createViewTemplate();
 
     /**
      * If this entry does not need to log its content (e.g. if it just represents a "spacer") may

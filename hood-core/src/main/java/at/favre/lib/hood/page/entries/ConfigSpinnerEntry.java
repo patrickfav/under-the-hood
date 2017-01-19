@@ -30,7 +30,6 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigAction> {
 
     private final SingleSelectListConfigAction action;
-    private final Template template;
 
     /**
      * Creates a single-select from list entry (ie. spinner or drop-down list)
@@ -39,7 +38,6 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
      */
     public ConfigSpinnerEntry(SingleSelectListConfigAction action) {
         this.action = action;
-        template = new Template();
     }
 
     @Override
@@ -48,8 +46,8 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
     }
 
     @Override
-    public ViewTemplate<SingleSelectListConfigAction> getViewTemplate() {
-        return template;
+    public ViewTemplate<SingleSelectListConfigAction> createViewTemplate() {
+        return new Template();
     }
 
     @Override
@@ -141,7 +139,7 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
         }
 
         public int getPosForItem(SpinnerElement element) {
-            if(element != null) {
+            if (element != null) {
                 for (int i = 0; i < getCount(); i++) {
                     if (element.equals(getItem(i))) {
                         return i;

@@ -18,7 +18,6 @@ import at.favre.lib.hood.interfaces.ViewTypes;
 public class HeaderEntry implements PageEntry<CharSequence> {
 
     private final CharSequence header;
-    private final Template template;
     private final boolean hideInLog;
 
     /**
@@ -34,7 +33,6 @@ public class HeaderEntry implements PageEntry<CharSequence> {
      */
     public HeaderEntry(CharSequence header, boolean hideInLog) {
         this.header = header;
-        this.template = new Template();
         this.hideInLog = hideInLog;
     }
 
@@ -44,8 +42,8 @@ public class HeaderEntry implements PageEntry<CharSequence> {
     }
 
     @Override
-    public ViewTemplate<CharSequence> getViewTemplate() {
-        return template;
+    public ViewTemplate<CharSequence> createViewTemplate() {
+        return new Template();
     }
 
     @Override

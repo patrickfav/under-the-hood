@@ -37,7 +37,7 @@ public class DebugEntriesAdapter extends RecyclerView.Adapter<DebugEntriesAdapte
 
     @Override
     public void onBindViewHolder(DebugViewHolder holder, int position) {
-        ViewTemplate<Object> template = page.getEntries().get(position).getViewTemplate();
+        ViewTemplate<Object> template = page.getEntries().get(position).createViewTemplate();
         template.setContent(page.getEntries().get(position).getValue(), holder.holderView);
         if (page.getConfig().showZebra || page.getConfig().showHighlightContent) {
             template.decorateViewWithZebra(holder.holderView, zebraColor, page.getConfig().showHighlightContent || position % 2 == 1);
@@ -51,7 +51,7 @@ public class DebugEntriesAdapter extends RecyclerView.Adapter<DebugEntriesAdapte
 
     @Override
     public int getItemViewType(int position) {
-        return page.getEntries().get(position).getViewTemplate().getViewType();
+        return page.getEntries().get(position).createViewTemplate().getViewType();
     }
 
     static class DebugViewHolder extends RecyclerView.ViewHolder {
