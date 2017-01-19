@@ -1,6 +1,6 @@
 package at.favre.lib.hood.interfaces;
 
-public class Config {
+public final class Config {
     private static final String TAG = Config.class.getName();
 
     public final boolean showZebra;
