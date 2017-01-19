@@ -31,7 +31,7 @@ dependencies {
 
     compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
     compile "com.android.support:design:$rootProject.ext.dependencies.support"
-    compile project(path: ':hood-core', configuration: 'release')
+    compile project(path: ':hood-core')
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 }

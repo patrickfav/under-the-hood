@@ -41,7 +41,8 @@ Implement the config and page setter in the `Activity`:
             firstPage.add(Hood.get().createHeaderEntry("System Features"));
             firstPage.add(Hood.get().createPropertyEntry("The Key", "The value"));
             firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
-            firstPage.add(DefaultButtonDefinitions.getGlobalSettingsAction());
+            firstPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getGlobalSettingsAction()));
+            return pages;
         }
 
         @Override
@@ -216,24 +217,24 @@ to your demands.
 For a simple switch that changes a boolean in the shared preference see
 this example:
 
-        Hood.get().createSwitchEntry(
-            DefaultConfigActions.getBoolSharedPreferencesConfigAction(
-                getPreferences(MODE_PRIVATE),
-                "SHARED_PREF_KEY", "Enable debug feat#1", false));
+    Hood.get().createSwitchEntry(
+        DefaultConfigActions.getBoolSharedPreferencesConfigAction(
+            getPreferences(MODE_PRIVATE),
+            "SHARED_PREF_KEY", "Enable debug feat#1", false));
 
 ![example in the ui](doc/example_switch.png)
 
 
 This code will create a simple backend switcher:
 
-        Hood.get().createSpinnerEntry(
-            DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(
-            "Backend", getPreferences(MODE_PRIVATE),
-            "BACKEND_ID", null, getBackendElements())));
+    Hood.get().createSpinnerEntry(
+        DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(
+        "Backend", getPreferences(MODE_PRIVATE),
+        "BACKEND_ID", null, getBackendElements())));
 
-        private List<SpinnerElement> getBackendElements() {
-           //return your backends
-        }
+    private List<SpinnerElement> getBackendElements() {
+       //return your backends
+    }
 
 ![example in the ui](doc/example_spinner.png)
 
@@ -267,12 +268,12 @@ reserved by the lib)
 The easiest way is the create an `Activity` in your App and extend `PopHoodActivity`.
  Define it in your AndroidManifest:
 
-        <activity
-            android:name="com.example.your.Activity"
-            android:exported="true"
-            android:label="App Info"
-            android:theme="@style/HoodThemeLight">
-        </activity>
+    <activity
+        android:name="com.example.your.Activity"
+        android:exported="true"
+        android:label="App Info"
+        android:theme="@style/HoodThemeLight">
+    </activity>
 
 As theme either use `@style/HoodThemeDark` or `@style/HoodThemeLight`.
 If you want to customize the theme extend either of the basic ones and
@@ -316,7 +317,7 @@ You need to provide the correct flavor of `hood-core` module in the classifier:
     compile('at.favre.lib.hood:hood-extended:x.x.x') {
             compile(group: 'at.favre.lib.hood', name: 'hood-core', version: 'x.x.x',
             classifier: '<release>|<noop>', ext: 'aar', transitive: true)
-        }
+    }
 
 ## Additional Features
 
@@ -351,7 +352,7 @@ a triple click on a view that does not look clickable use the following code:
             public void onClick(View v) {
                 PopHoodActivity.start(WrappingActivity.this, MyDebugActivity.class);
             }
-        }));
+     }));
 
 
 ## Possible conflicts and things to mind
