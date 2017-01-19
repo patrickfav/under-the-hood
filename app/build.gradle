@@ -33,21 +33,9 @@ android {
     }
 
     buildTypes {
-        develop {
+        debug {
             minifyEnabled false
             shrinkResources false
-        }
-
-        releaseTestNoop {
-            minifyEnabled true
-            shrinkResources true
-            signingConfig signingConfigs.debug
-        }
-
-        releaseTest {
-            minifyEnabled true
-            shrinkResources true
-            signingConfig signingConfigs.debug
         }
 
         releaseNoop {
@@ -66,8 +54,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-
 }
 
 dependencies {
@@ -89,6 +75,15 @@ dependencies {
 //    compile('at.favre.lib.hood:hood-extended:0.2.0') {
 //        compile(group: 'at.favre.lib.hood', name: 'hood-core', version: '0.2.0', classifier: 'release', ext: 'aar', transitive: true)
 //    }
+
+//    debugCompile project(path: ':hood-extended')
+//    debugCompile project(path: ':hood-core', configuration: 'release')
+//
+//    releaseCompile project(path: ':hood-extended')
+//    releaseCompile project(path: ':hood-core', configuration: 'release')
+//
+//    releaseNoopCompile project(path: ':hood-extended')
+//    releaseNoopCompile project(path: ':hood-core', configuration: 'noop')
 
     compile project(path: ':hood-extended')
 }

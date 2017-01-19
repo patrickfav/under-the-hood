@@ -19,10 +19,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.R;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
-import at.favre.lib.hood.page.DebugPages;
 
 /**
  * The view encapsulating the rendering logic of a {@link Page}. Internally has an {@link android.support.v7.widget.RecyclerView}
@@ -82,7 +82,7 @@ public class HoodDebugPageView extends FrameLayout {
      */
     public void setPageData(@NonNull Pages pages) {
         this.viewPager.setAdapter(new DebugViewPageAdapter(viewPager, pages, zebraColor));
-        this.pages = DebugPages.Factory.createImmutableCopy(pages);
+        this.pages = Hood.ext().createUnmodifiablePages(pages);
 
         if (pages.getConfig().autoLog) {
             pages.logPages();

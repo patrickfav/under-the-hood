@@ -46,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding.btnStartPerf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopHoodActivity.start(MainActivity.this, DebugPerformanceTestActivity.class);
+            }
+        });
+
         binding.btnStartDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -59,9 +59,13 @@
             android:label="Dark Multi Page Debug View"
             android:theme="@style/HoodThemeDark"/>
         <activity
+            android:name="at.favre.app.hood.demo.DebugPerformanceTestActivity"
+            android:exported="true"
+            android:label="Light Performance View"
+            android:theme="@style/HoodThemeLight"/>
+        <activity
             android:name="at.favre.app.hood.demo.DebugLightActivity"
             android:label="Light Debug View"
             android:theme="@style/CustomHoodThemeLight"/>
     </application>
-
 </manifest>

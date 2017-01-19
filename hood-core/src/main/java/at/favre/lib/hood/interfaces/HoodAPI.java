@@ -136,13 +136,6 @@ public interface HoodAPI {
     PageEntry<?> createPropertyEntry(CharSequence key, String value);
 
     /**
-     * Creates a simple non interactive element displaying given message
-     *
-     * @param message to display
-     */
-    PageEntry<?> createSimpleMessageEntry(@NonNull CharSequence message);
-
-    /**
      * Extension of the API to allow creation of {@link Section} and {@link OnClickAction} for {@link PageEntry}
      */
     interface Extension {
@@ -226,5 +219,19 @@ public interface HoodAPI {
          * @return the listener
          */
         View.OnTouchListener createArbitraryTapListener(int numOfTaps, @NonNull View.OnClickListener onClickListener);
+
+        /**
+         * Wraps given pages in an unmodifiable wrapper
+         *
+         * @param pages to wrap
+         * @return wrapped pages
+         */
+        Pages createUnmodifiablePages(Pages pages);
+    }
+
+    interface Factory {
+        HoodAPI createHoodApi();
+
+        HoodAPI.Extension createHoodApiExtension();
     }
 }

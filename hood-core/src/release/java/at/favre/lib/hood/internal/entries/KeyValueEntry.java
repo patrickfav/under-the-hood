@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page.entries;
+package at.favre.lib.hood.internal.entries;
 
 import android.app.Activity;
 import android.content.Intent;

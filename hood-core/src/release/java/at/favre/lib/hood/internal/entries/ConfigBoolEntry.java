@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page.entries;
+package at.favre.lib.hood.internal.entries;
 
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;

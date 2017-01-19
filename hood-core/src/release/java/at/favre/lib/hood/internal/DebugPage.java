@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page;
+package at.favre.lib.hood.internal;
 
 
 import android.support.annotation.NonNull;
@@ -104,6 +104,11 @@ public class DebugPage implements Page {
 
     private String getDebugDataAsString() {
         StringBuilder sb = new StringBuilder();
+
+        if (title != null && !title.trim().isEmpty() && !DebugPages.DEFAULT_TITLE.equals(title)) {
+            sb.append("# ").append(title).append("\n");
+        }
+
         for (PageEntry pageEntry : entries) {
             String log = pageEntry.toLogString();
             if (log != null) {

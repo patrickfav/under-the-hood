@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page.entries;
+package at.favre.lib.hood.internal.entries;
 
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -11,34 +11,28 @@ import at.favre.lib.hood.R;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.ViewTemplate;
 import at.favre.lib.hood.interfaces.ViewTypes;
+import at.favre.lib.hood.view.HoodDebugPageView;
+
 
 /**
- * A simple, non-interactive header used to separate other entries
+ * A simple, non-interactive entry that displays a simple text message
  */
-public class HeaderEntry implements PageEntry<CharSequence> {
+public class TextMessageEntry implements PageEntry<CharSequence> {
 
-    private final CharSequence header;
-    private final boolean hideInLog;
-
-    /**
-     * @param header as shown in ui
-     */
-    public HeaderEntry(CharSequence header) {
-        this(header, false);
-    }
+    private final CharSequence message;
 
     /**
-     * @param header    as shown in ui
-     * @param hideInLog will omit it in log
+     * Creates a simple, non-interactive text message
+     *
+     * @param message as shown in
      */
-    public HeaderEntry(CharSequence header, boolean hideInLog) {
-        this.header = header;
-        this.hideInLog = hideInLog;
+    public TextMessageEntry(@NonNull CharSequence message) {
+        this.message = message;
     }
 
     @Override
     public CharSequence getValue() {
-        return header;
+        return message;
     }
 
     @Override
@@ -48,10 +42,7 @@ public class HeaderEntry implements PageEntry<CharSequence> {
 
     @Override
     public String toLogString() {
-        if (!hideInLog) {
-            return "#" + header.toString();
-        }
-        return null;
+        return message.toString();
     }
 
     @Override
@@ -62,22 +53,22 @@ public class HeaderEntry implements PageEntry<CharSequence> {
     private static class Template implements ViewTemplate<CharSequence> {
         @Override
         public int getViewType() {
-            return ViewTypes.VIEWTYPE_HEADER;
+            return ViewTypes.VIEWTYPE_MESSAGE;
         }
 
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
-            return inflater.inflate(R.layout.hoodlib_template_header, viewGroup, false);
+            return inflater.inflate(R.layout.hoodlib_template_message, viewGroup, false);
         }
 
         @Override
         public void setContent(CharSequence value, @NonNull View view) {
-            ((TextView) view.findViewById(R.id.title)).setText(value);
+            ((TextView) view.findViewById(R.id.message)).setText(value);
         }
 
         @Override
         public void decorateViewWithZebra(@NonNull View view, @ColorInt int zebraColor, boolean isOdd) {
-            //no-op
+            HoodDebugPageView.setZebraToView(view, zebraColor, isOdd);
         }
     }
 }

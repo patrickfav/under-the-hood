@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page;
+package at.favre.lib.hood.internal;
 
 
 import android.support.annotation.NonNull;

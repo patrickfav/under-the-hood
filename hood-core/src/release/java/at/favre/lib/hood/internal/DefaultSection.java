@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page;
+package at.favre.lib.hood.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -99,11 +99,6 @@ public final class HoodNoop implements HoodAPI {
         return placeholderPageEntry;
     }
 
-    @Override
-    public PageEntry<?> createSimpleMessageEntry(@NonNull CharSequence message) {
-        return placeholderPageEntry;
-    }
-
     public static final class HoodExtensionNoop implements HoodAPI.Extension {
         private final CharSequence placeholderCharSequence = String.valueOf("");
         private final OnClickAction placeholderOnClickAction = new OnClickActionNoop();
@@ -167,6 +162,11 @@ public final class HoodNoop implements HoodAPI {
         @Override
         public View.OnTouchListener createArbitraryTapListener(int numOfTaps, @NonNull View.OnClickListener onClickListener) {
             return new ArbitraryTapListener();
+        }
+
+        @Override
+        public Pages createUnmodifiablePages(Pages pages) {
+            return pages;
         }
     }
 }

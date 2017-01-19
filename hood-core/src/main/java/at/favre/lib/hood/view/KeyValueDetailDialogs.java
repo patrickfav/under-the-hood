@@ -18,8 +18,8 @@ import at.favre.lib.hood.R;
 import timber.log.Timber;
 
 /**
- * Dialogs used as detail view in {@link at.favre.lib.hood.page.entries.KeyValueEntry}. See
- * {@link at.favre.lib.hood.page.entries.KeyValueEntry.DialogClickAction}
+ * Dialogs used as detail view in {@link at.favre.lib.hood.internal.entries.KeyValueEntry}. See
+ * {@link at.favre.lib.hood.internal.entries.KeyValueEntry.DialogClickAction}
  */
 public class KeyValueDetailDialogs {
     private static final String TAG = KeyValueDetailDialogs.class.getName();

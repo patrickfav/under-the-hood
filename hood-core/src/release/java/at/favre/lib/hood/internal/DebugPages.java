@@ -1,4 +1,4 @@
-package at.favre.lib.hood.page;
+package at.favre.lib.hood.internal;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +16,7 @@ import timber.log.Timber;
  * factory {@link DebugPages.Factory}
  */
 public class DebugPages implements Pages {
+    public final static String DEFAULT_TITLE = "<not set>";
     private final List<Page> pages = new ArrayList<>();
     private final Config config;
 
@@ -38,7 +39,7 @@ public class DebugPages implements Pages {
 
     @Override
     public Page addNewPage() {
-        Page p = DebugPage.Factory.create(this, "<not set>");
+        Page p = DebugPage.Factory.create(this, DEFAULT_TITLE);
         pages.add(p);
         return p;
     }
