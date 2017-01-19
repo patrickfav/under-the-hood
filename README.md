@@ -56,7 +56,11 @@ See demo app for extended samples.
 
 Add the view to your layout:
 
-
+    <at.favre.lib.hood.view.HoodDebugPageView
+            android:id="@+id/debug_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:windowBackground" />
 
 Set up in your controller (`Activity` or `Fragment`):
 
@@ -258,7 +262,7 @@ is rendered. The `constructView` and `setContent` are similar to the
 that `ViewTemplate` must return a distinct type as int (values over 65536 are
 reserved by the lib)
 
-## Using PopHoodActivity
+## Themes and PopHoodActivity
 
 The easiest way is the create an `Activity` in your App and extend `PopHoodActivity`.
  Define it in your AndroidManifest:
