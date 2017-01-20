@@ -45,6 +45,7 @@ install {
                 found.type = "aar"
             }
         }
+        println "xxxx: " + new File(project.buildDir, "outputs/aar")
     }
 }
 
@@ -78,6 +79,13 @@ bintray {
     key = properties.getProperty("bintray.apikey")
 
     configurations = ['archives']
+    filesSpec { //When uploading any arbitrary files ('filesSpec' is a standard Gradle CopySpec)
+        from new File(project.buildDir, "outputs/aar")
+        include '*-noop.aar'
+        into "$group/$rootProject.ext.versionNameLib/"
+        rename { name -> "hood-core-$rootProject.ext.versionNameLib-noop.aar" }
+    }
+
     dryRun = false
     publish = true //Whether version should be auto published after an upload
     override = false //[Default: false] Whether to override version artifacts already published

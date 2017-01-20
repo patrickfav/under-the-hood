@@ -3,7 +3,9 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 android {
-    publishNonDefault true
+    publishNonDefault false
+    defaultPublishConfig "release"
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -29,6 +31,18 @@ android {
             consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+//    libraryVariants.all { variant ->
+//        println "xxxv base: " + variant.getBaseName()
+//        variant.outputs.each { output ->
+//            if (variant.name == "release") {
+//                output.outputFile = new File(
+//                        output.outputFile.parent,
+//                        output.outputFile.name.replace(("-release.aar"), ".aar"))
+//            }
+//        }
+//    }
+
 }
 
 android.variantFilter { variant ->
