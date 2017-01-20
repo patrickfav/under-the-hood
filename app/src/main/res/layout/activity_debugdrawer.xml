@@ -27,7 +27,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Toggle Drawer"/>
-
         </FrameLayout>
 
         <at.favre.lib.hood.view.HoodDebugPageView

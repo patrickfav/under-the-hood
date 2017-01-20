@@ -3,5 +3,6 @@
     <attr name="hoodZebraColor" format="color"/>
     <attr name="hoodTextSizeNormal" format="reference|dimension" />
     <attr name="hoodTextSizeHeader" format="reference|dimension" />
-    <attr name="colorPrimary" format="color"/>
+    <attr name="hoodViewpagerTabTextColor" format="color"/>
+    <attr name="hoodViewpagerTabBackgroundColor" format="color"/>
 </resources>

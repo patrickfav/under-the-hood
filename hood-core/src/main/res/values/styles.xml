@@ -15,6 +15,7 @@
     <!-- GENERAL -->
 
     <style name="HoodLibTextViewSingleLine">
+        <item name="android:textSize">?hoodTextSizeNormal</item>
         <item name="android:maxLines">1</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">middle</item>
@@ -157,6 +158,13 @@
     <style name="HoodKeyValueDialogMinWidth">
         <item name="android:windowMinWidthMajor">95%</item>
         <item name="android:windowMinWidthMinor">65%</item>
+    </style>
+
+    <!-- VIEWPAGER TAB TEXT -->
+
+    <style name="HoodPageTabStrip">
+        <item name="android:background">?attr/hoodViewpagerTabBackgroundColor</item>
+        <item name="android:textColor">?attr/hoodViewpagerTabTextColor</item>
     </style>
 
 </resources>

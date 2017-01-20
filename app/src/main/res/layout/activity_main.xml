@@ -15,76 +15,91 @@
             android:theme="@style/AppThemeActionBar"
             tools:targetApi="lollipop"/>
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-
-            <Button
-                android:id="@+id/btn_start_light"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:minWidth="220dp"
-                android:text="Start Light Debugview"/>
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_start_dark"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:minWidth="220dp"
-                android:text="Start Dark Debugview"/>
 
-            <Button
-                android:id="@+id/btn_start_dark_multi_page"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:minWidth="220dp"
-                android:text="Start Multi Page"/>
+                <Button
+                    android:id="@+id/btn_start_light"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="220dp"
+                    android:text="Start Light Debugview"/>
 
-            <Button
-                android:id="@+id/btn_start_background"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:minWidth="220dp"
-                android:text="Start Async Debugview"/>
+                <Button
+                    android:id="@+id/btn_start_dark"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="220dp"
+                    android:text="Start Dark Debugview"/>
 
-            <Button
-                android:id="@+id/btn_start_perf"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:minWidth="220dp"
-                android:text="Start Performance Test"/>
+                <Button
+                    android:id="@+id/btn_start_dark_multi_page"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="220dp"
+                    android:text="Start Multi Page"/>
 
-            <Button
-                android:id="@+id/btn_start_drawer"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:minWidth="220dp"
-                android:text="Start Drawer Debugview"/>
-            <Button
-                android:id="@+id/btn_more"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:minWidth="220dp"
-                android:text="More"/>
-        </LinearLayout>
+                <Button
+                    android:id="@+id/btn_start_custom_theme"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="220dp"
+                    android:text="Start Custom Theme"/>
+
+                <Button
+                    android:id="@+id/btn_start_background"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="220dp"
+                    android:text="Start Async Debugview"/>
+
+                <Button
+                    android:id="@+id/btn_start_perf"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="220dp"
+                    android:text="Start Performance Test"/>
+
+                <Button
+                    android:id="@+id/btn_start_drawer"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="220dp"
+                    android:text="Start Drawer Debugview"/>
+
+                <Button
+                    android:id="@+id/btn_more"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:minWidth="220dp"
+                    android:text="More"/>
+            </LinearLayout>
+        </ScrollView>
     </merge>
 </layout>

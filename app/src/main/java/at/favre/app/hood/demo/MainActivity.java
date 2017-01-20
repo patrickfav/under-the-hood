@@ -38,28 +38,30 @@ public class MainActivity extends AppCompatActivity {
                 PopHoodActivity.start(MainActivity.this, DebugLightActivity.class);
             }
         });
-
         binding.btnStartDark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopHoodActivity.start(MainActivity.this, DebugDarkActivity.class);
             }
         });
-
+        binding.btnStartCustomTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopHoodActivity.start(MainActivity.this, DebugCustomThemeActivity.class);
+            }
+        });
         binding.btnStartPerf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopHoodActivity.start(MainActivity.this, DebugPerformanceTestActivity.class);
             }
         });
-
         binding.btnStartDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DebugDrawerActivity.start(MainActivity.this);
             }
         });
-
         binding.btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

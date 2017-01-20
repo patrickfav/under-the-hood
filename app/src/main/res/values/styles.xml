@@ -10,9 +10,33 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-    <style name="CustomHoodThemeLight" parent="HoodThemeLight">
+    <style name="CustomHoodThemeLight" parent="HoodThemeBaseLight">
         <item name="colorPrimary">#9b26af</item>
         <item name="colorPrimaryDark">#7a1ea1</item>
         <item name="colorAccent">#68efad</item>
+    </style>
+
+    <style name="CustomHoodThemeLight2" parent="HoodThemeBaseLight">
+        <item name="colorPrimary">#CDDC39</item>
+        <item name="colorPrimaryDark">#AFB42B</item>
+        <item name="colorAccent">#C62828</item>
+    </style>
+
+    <style name="CustomHoodThemeLight3" parent="HoodThemeBaseLight">
+        <item name="colorPrimary">#FFC107</item>
+        <item name="colorPrimaryDark">#FFA000</item>
+        <item name="colorAccent">#6900FF</item>
+    </style>
+
+    <style name="CustomHoodThemeLightStandalone" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#FFC107</item>
+        <item name="colorPrimaryDark">#FF8F00</item>
+        <item name="colorAccent">#6900FF</item>
+
+        <item name="hoodZebraColor">#fffaec</item>
+        <item name="hoodTextSizeNormal">18sp</item>
+        <item name="hoodTextSizeHeader">28sp</item>
+        <item name="hoodViewpagerTabTextColor">#6900FF</item>
+        <item name="hoodViewpagerTabBackgroundColor">#ffd760</item>
     </style>
 </resources>
