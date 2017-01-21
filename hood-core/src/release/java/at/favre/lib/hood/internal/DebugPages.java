@@ -67,6 +67,7 @@ public class DebugPages implements Pages {
     }
 
     @Override
+    @NonNull
     public List<Page> getAll() {
         return pages;
     }
@@ -97,7 +98,7 @@ public class DebugPages implements Pages {
 
     @NonNull
     @Override
-    public at.favre.lib.hood.interfaces.Config getConfig() {
+    public Config getConfig() {
         return config;
     }
 
@@ -106,10 +107,10 @@ public class DebugPages implements Pages {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DebugPages that = (DebugPages) o;
+        DebugPages pages1 = (DebugPages) o;
 
-        if (pages != null ? !pages.equals(that.pages) : that.pages != null) return false;
-        return config != null ? config.equals(that.config) : that.config == null;
+        if (pages != null ? !pages.equals(pages1.pages) : pages1.pages != null) return false;
+        return config != null ? config.equals(pages1.config) : pages1.config == null;
 
     }
 

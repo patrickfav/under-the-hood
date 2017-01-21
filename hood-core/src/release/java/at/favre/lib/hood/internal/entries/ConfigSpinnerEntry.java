@@ -83,7 +83,7 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
                 textView.setVisibility(View.VISIBLE);
             }
 
-            spinnerView.setAdapter(new ConfigSpinnerAdapter(view.getContext(), value.changeableValue.getAlPossibleValues()));
+            spinnerView.setAdapter(new ConfigSpinnerAdapter(view.getContext(), value.changeableValue.getAllPossibleValues()));
             spinnerView.setOnItemSelectedListener(null);
             spinnerView.setSelection(((ConfigSpinnerAdapter) spinnerView.getAdapter()).getPosForItem(value.changeableValue.getValue()));
             spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

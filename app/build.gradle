@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-def Properties localProps = getSigningProperties()
+def Properties localProps = rootProject.getSigningProperties()
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -57,14 +57,7 @@ android {
 }
 
 dependencies {
-    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$rootProject.ext.dependencies.espresso", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-    }
-
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.dependencies.espresso", {
+    androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
@@ -82,6 +75,12 @@ dependencies {
     }
 
 //    compile project(path: ':hood-extended')
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
 }
 
 def String getGitRev() {
@@ -113,13 +112,4 @@ def String getGitBranch() {
     }
     git_branch = git_branch.toString().trim()
     return git_branch
-}
-
-def getSigningProperties() {
-    def Properties props = new Properties()
-    try {
-        props.load(new FileInputStream(file('../local.properties')))
-    } catch (Exception e) {
-    }
-    return props
 }

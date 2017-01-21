@@ -43,8 +43,10 @@ public interface Pages {
 
     /**
      * Returns the actual reference, not a copy.
+     *
      * @return all contained pages
      */
+    @NonNull
     List<Page> getAll();
 
     /**

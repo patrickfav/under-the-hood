@@ -1,8 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 android {
+    testBuildType "release"
     publishNonDefault false
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -31,7 +30,7 @@ android.variantFilter { variant ->
 }
 
 dependencies {
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.dependencies.espresso", {
+    androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 

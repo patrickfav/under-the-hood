@@ -1,13 +1,25 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'de.mobilej.unmock'
+
+
+def Properties localProps = rootProject.getSigningProperties()
 
 android {
     publishNonDefault false
     defaultPublishConfig "release"
+    testBuildType "release"
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
+    signingConfigs {
+        release {
+            storeFile file(localProps.getProperty('RELEASE_KEYSTORE_PATH', 'fillhere'))
+            storePassword localProps.getProperty('RELEASE_KEYSTORE_PW', '')
+            keyAlias localProps.getProperty('RELEASE_KEY_ALIAS', '')
+            keyPassword localProps.getProperty('RELEASE_KEY_PW', '')
+        }
+    }
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -25,24 +37,21 @@ android {
             minifyEnabled false
             buildConfigField "boolean", "NO_OP", "true"
             consumerProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-noop.pro'
+            signingConfig signingConfigs.release
         }
+
         release {
             minifyEnabled false
             consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
-//    libraryVariants.all { variant ->
-//        println "xxxv base: " + variant.getBaseName()
-//        variant.outputs.each { output ->
-//            if (variant.name == "release") {
-//                output.outputFile = new File(
-//                        output.outputFile.parent,
-//                        output.outputFile.name.replace(("-release.aar"), ".aar"))
-//            }
-//        }
-//    }
-
+    unMock {
+        keepStartingWith "android.util"
+        keepStartingWith "com.android.internal"
+        keep "android.view.MotionEvent"
+    }
 }
 
 android.variantFilter { variant ->
@@ -52,7 +61,7 @@ android.variantFilter { variant ->
 }
 
 dependencies {
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.dependencies.espresso", {
+    androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
@@ -63,6 +72,7 @@ dependencies {
     compile 'com.squareup:seismic:1.0.2'
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
+    unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 
 apply from: "$rootDir/publish.gradle"

@@ -150,11 +150,11 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     /**
      * Implement this method to pass a {@link Pages} filled with pages entries.
      *
-     * @param emptyPages use this to add entries (or create new one)
+     * @param pages use this to add entries (or create new one)
      * @return non-null set up page
      */
     @NonNull
-    public abstract Pages getPageData(@NonNull Pages emptyPages);
+    public abstract Pages getPageData(@NonNull Pages pages);
 
     /**
      * Create a config with this method. See {@link Config.Builder}

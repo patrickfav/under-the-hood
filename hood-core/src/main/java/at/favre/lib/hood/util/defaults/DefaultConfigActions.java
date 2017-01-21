@@ -76,7 +76,7 @@ public class DefaultConfigActions {
             }
 
             @Override
-            public List<SpinnerElement> getAlPossibleValues() {
+            public List<SpinnerElement> getAllPossibleValues() {
                 return elements;
             }
         });

@@ -19,6 +19,7 @@ public interface Page {
     /**
      * @return list of all defined entries
      */
+    @NonNull
     List<PageEntry> getEntries();
 
     /**

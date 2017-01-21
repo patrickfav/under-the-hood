@@ -75,4 +75,24 @@ class UnmodifiablePages implements Pages {
     public Config getConfig() {
         return debugPages.getConfig();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UnmodifiablePages that = (UnmodifiablePages) o;
+
+        if (debugPages != null ? !debugPages.equals(that.debugPages) : that.debugPages != null)
+            return false;
+        return unmodifiablePages != null ? unmodifiablePages.equals(that.unmodifiablePages) : that.unmodifiablePages == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = debugPages != null ? debugPages.hashCode() : 0;
+        result = 31 * result + (unmodifiablePages != null ? unmodifiablePages.hashCode() : 0);
+        return result;
+    }
 }

@@ -12,8 +12,10 @@ activity with a lot of convenience features. The lib has also a null-safe
 no-op flavor indented to be used in release builds, disabling all debug features
 without error-prone if-debug chains.
 
-To check it out, download the demo app from the Playstore.
+To check it out, download the demo app from the Playstore. Lib and demo app require SDK 14+.
 
+[![Download](https://api.bintray.com/packages/patrickfav/maven/hood-extended/images/download.svg) ](https://bintray.com/patrickfav/maven/hood-extended/_latestVersion)
+[![Download](https://api.bintray.com/packages/patrickfav/maven/hood-core/images/download.svg) ](https://bintray.com/patrickfav/maven/hood-core/_latestVersion)
 [![play store banner](doc/playstore_banner.png)](https://play.google.com/store/apps/details?id=at.favre.app.hood.demo)
 
 ![screenshot gallery](doc/screenshot_gallery.png)
@@ -24,7 +26,7 @@ Add the following to your dependencies ([add jcenter to your repositories](https
 
 ```gradle
     dependencies {
-        compile('at.favre.lib.hood:hood-extended:0.2.3')
+        compile 'at.favre.lib.hood:hood-extended:0.2.3'
     }
 ```
 

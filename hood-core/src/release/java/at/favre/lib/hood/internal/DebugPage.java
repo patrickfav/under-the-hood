@@ -43,6 +43,7 @@ public class DebugPage implements Page {
     }
 
     @Override
+    @NonNull
     public List<PageEntry> getEntries() {
         return entries;
     }
@@ -127,17 +128,14 @@ public class DebugPage implements Page {
 
         if (entries != null ? !entries.equals(debugPage.entries) : debugPage.entries != null)
             return false;
-        if (templateMap != null ? !templateMap.equals(debugPage.templateMap) : debugPage.templateMap != null)
-            return false;
-        return pages != null ? pages.equals(debugPage.pages) : debugPage.pages == null;
+        return title != null ? title.equals(debugPage.title) : debugPage.title == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = entries != null ? entries.hashCode() : 0;
-        result = 31 * result + (templateMap != null ? templateMap.hashCode() : 0);
-        result = 31 * result + (pages != null ? pages.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
         return result;
     }
 }
