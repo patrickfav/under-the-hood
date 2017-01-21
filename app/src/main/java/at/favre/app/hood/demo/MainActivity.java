@@ -3,11 +3,13 @@ package at.favre.app.hood.demo;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import at.favre.app.hood.demo.databinding.ActivityMainBinding;
+import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.extended.PopHoodActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,5 +71,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         Log.d(TAG, "Main Activity started - Test debug log");
+
+        if (!Hood.isLibEnabled()) {
+            findViewById(R.id.main_content).setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.disabled_background, null));
+            setTitle(getTitle() + " (no-op)");
+        }
     }
 }

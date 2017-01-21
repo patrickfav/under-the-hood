@@ -24,7 +24,7 @@ ext {
     versionNameApp = "0.3.0"
     versionNameLib = "$versionNameApp"
     versionCode = 3
-    versionNameDep = "0.2.3"
+    versionNameDep = "0.3.0"
 
 
     compileSdkVersion = 25

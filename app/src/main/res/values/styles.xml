@@ -1,4 +1,5 @@
 <resources>
+    <color name="disabled_background">#838383</color>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#62A869</item>
@@ -10,19 +11,19 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-    <style name="CustomHoodThemeLight" parent="HoodThemeBaseLight">
+    <style name="CustomHoodThemeLight" parent="HoodThemeLight">
         <item name="colorPrimary">#9b26af</item>
         <item name="colorPrimaryDark">#7a1ea1</item>
         <item name="colorAccent">#68efad</item>
     </style>
 
-    <style name="CustomHoodThemeLight2" parent="HoodThemeBaseLight">
+    <style name="CustomHoodThemeLight2" parent="HoodThemeLight">
         <item name="colorPrimary">#CDDC39</item>
         <item name="colorPrimaryDark">#AFB42B</item>
         <item name="colorAccent">#C62828</item>
     </style>
 
-    <style name="CustomHoodThemeLight3" parent="HoodThemeBaseLight">
+    <style name="CustomHoodThemeLight3" parent="HoodThemeLight">
         <item name="colorPrimary">#FFC107</item>
         <item name="colorPrimaryDark">#FFA000</item>
         <item name="colorAccent">#6900FF</item>

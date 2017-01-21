@@ -351,6 +351,10 @@ Here is a piratical example to use default flavor in debug and noop in release:
 The `PopHoodActivity` will also respect the no-op switch and just finish.
  The no-op state can be checked with `Hood.isLibEnabled()` from any caller.
 
+Here is a example of a noop view being rendered
+
+![example image](doc/noop_example.png)
+
 ### Module `hood-extended`
 
 Extends the `hood-core` with a default implementation of a debug activity

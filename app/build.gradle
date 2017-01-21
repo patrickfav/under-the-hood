@@ -34,11 +34,13 @@ android {
 
     buildTypes {
         debug {
+            applicationIdSuffix '.debug'
             minifyEnabled false
             shrinkResources false
         }
 
         releaseNoop {
+            applicationIdSuffix '.noop'
             minifyEnabled true
             shrinkResources true
             signingConfig signingConfigs.release
