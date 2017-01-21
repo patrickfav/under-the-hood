@@ -22,19 +22,23 @@ To check it out, download the demo app from the Playstore.
 
 Add the following to your dependencies ([add jcenter to your repositories](https://developer.android.com/studio/build/index.html#top-level) if you haven't)
 
+```gradle
     dependencies {
         compile('at.favre.lib.hood:hood-extended:0.2.3')
     }
+```
 
 Create an activity and extend `PopHoodActivity`. Define it in your `AndroidManifest`:
 
+```xml
     <activity
         android:name="com.example.your.MyDebugActivity"
         android:theme="@style/HoodThemeDark">
     </activity>
-
+```
 Implement the config and page setter in the `Activity`:
 
+```java
     public class MyDebugActivity extends PopHoodActivity {
         @Override
         public Pages getPageData(@NonNull Pages pages) {
@@ -53,6 +57,7 @@ Implement the config and page setter in the `Activity`:
             return Config.newBuilder().setLogTag("MyDebugActivity").build();
         }
     }
+```
 
 See demo app for extended samples.
 
@@ -60,14 +65,17 @@ See demo app for extended samples.
 
 Add the view to your layout:
 
+```xml
     <at.favre.lib.hood.view.HoodDebugPageView
             android:id="@+id/debug_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:theme="@style/CustomHoodViewOverlayDark" />
+```
 
 Create the following style:
 
+```xml
     <style name="CustomHoodViewOverlayDark" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:background">?android:windowBackground</item>
         <item name="hoodZebraColor">@color/hoodlib_zebra_color_dark</item>
@@ -76,9 +84,11 @@ Create the following style:
         <item name="hoodViewpagerTabTextColor">@android:color/primary_text_dark</item>
         <item name="hoodViewpagerTabBackgroundColor">?attr/colorPrimary</item>
     </style>
+```
 
 Set up in your controller (`Activity` or `Fragment`):
 
+```java
     HoodDebugPageView debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
 
     Pages pages = Hood.get().createPages(Config.newBuilder().setShowHighlightContent(false).build());
@@ -90,6 +100,7 @@ Set up in your controller (`Activity` or `Fragment`):
     secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
     ...
     debugView.setPageData(pages);
+```
 
 ## The HoodAPI
 
@@ -170,6 +181,7 @@ with additional convenience logic, like displaying an optional error message.
 
 Creating a simple page is easy:
 
+```java
     Pages pages = Hood.get().createPages(Config.newBuilder().build());
     Page firstPage = pages.addNewPage("Title Page 1");
     firstPage.add(...);
@@ -178,14 +190,17 @@ Creating a simple page is easy:
     Page secondPage = pages.addNewPage("Title Page 2");
     secondPage.add(...);
     ...
+```
 
 `PageEntry` elements, that can be added to a `Page` can be created like this:
 
+```java
     page.add(Hood.get().createHeaderEntry(...))
     page.add(Hood.get().createPropertyEntry(...))
     page.add(Hood.get().createActionEntry(...))
     page.add(Hood.get().createSwitchEntry(...))
     page.add(Hood.get().createSpinnerEntry(...))
+```
 
 ### Built-In PageEntry Elements
 
