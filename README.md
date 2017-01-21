@@ -210,8 +210,9 @@ Creating a simple page is easy:
 
 Create with:
 
+```java
     Hood.get().createPropertyEntry("The Key", "The value")
-
+```
 Will render a row with a the key string on the one side and the value on
 the other. Supports dynamic values (ie. every refresh will be reevaluated),
 multi-line layout for longer values and custom on-tap-actions and background
@@ -221,13 +222,14 @@ For example a property element that will show the uptime (which will get
  update if the DebugView will be refreshed) and a toast message
 when the user clicks on it:
 
+```java
     Hood.get().createPropertyEntry("uptime", new DynamicValue<String>() {
             @Override
             public String getValue() {
                 return HoodUtil.millisToDaysHoursMinString(SystemClock.elapsedRealtime());
             }
         }, Hood.ext().createOnClickActionToast(),false);
-
+```
 If you want the lib to evaluate the value in background instead of the main
 thread use `DynamicValue.Async` instead of `DynamicValue`
 
@@ -245,13 +247,14 @@ Supports single and double column actions (ie. having two buttons in the same ro
 
 Here is a simple example:
 
+```java
     Hood.get().createActionEntry(new ButtonDefinition("Click me", new OnClickAction() {
             @Override
             public void onClick(View v, Map.Entry<CharSequence, String> value) {
                 Toast.makeText(v.getContext(), "On button clicked", Toast.LENGTH_SHORT).show();
             }
         }));
-
+```
 For a lot of default actions, e.g. android settings, app-info or uninstall
 and kill process, see `DefaultButtonDefinitions` class.
 
@@ -265,16 +268,18 @@ to your demands.
 For a simple switch that changes a boolean in the shared preference see
 this example:
 
+```java
     Hood.get().createSwitchEntry(
         DefaultConfigActions.getBoolSharedPreferencesConfigAction(
             getPreferences(MODE_PRIVATE),
             "SHARED_PREF_KEY", "Enable debug feat#1", false));
-
+```
 ![example in the ui](doc/example_switch.png)
 
 
 This code will create a simple backend switcher:
 
+```java
     Hood.get().createSpinnerEntry(
         DefaultConfigActions.getDefaultSharedPrefBackedSpinnerAction(
         "Backend", getPreferences(MODE_PRIVATE),
@@ -283,7 +288,7 @@ This code will create a simple backend switcher:
     private List<SpinnerElement> getBackendElements() {
        //return your backends
     }
-
+```
 ![example in the ui](doc/example_spinner.png)
 
 There is a standard implementation for `ConfigBoolEntry` in `DefaultConfigActions`
@@ -293,14 +298,16 @@ There is a standard implementation for `ConfigBoolEntry` in `DefaultConfigAction
 
 Group your entries with a header
 
+```java
     Hood.get().createHeaderEntry("App Version")
-
+```
 ![example in the ui](doc/example_header.png)
 
 To display a simple message use the following:
 
+```java
     Hood.get().createSimpleMessageEntry("This is a simple message shown in ui")
-
+```
 ### Custom PageEntries
 
 A `PageEntry` must implement the interface with the same name. It holds
@@ -325,9 +332,9 @@ The core module comes in 2 flavours (or classifier):
 #### `release`
 The standard version of the lib with all features. You could use this
 version in only in your debug builds with:
-
+```gradle
     compile("at.favre.lib.hood:hood-core:x.x.x")
-
+```
 #### `noop`
 The no-op version of the lib internally using null-safe no-op versions of the
 main template system. All creator methods of `HoodAPI` (`Hood.get()`) and `HoodAPI.Extension`
@@ -335,10 +342,10 @@ main template system. All creator methods of `HoodAPI` (`Hood.get()`) and `HoodA
 If you use implementation from `at.favre.lib.hood.page.**` directly this will have no effect.
 
 Here is a piratical example to use default flavor in debug and noop in release:
-
+```gradle
     debugCompile('at.favre.lib.hood:hood-core:x.x.x')
     releaseCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: 'x.x.x', classifier: 'noop', ext: 'aar', transitive: true)
-
+```
 The `PopHoodActivity` will also respect the no-op switch and just finish.
  The no-op state can be checked with `Hood.isLibEnabled()` from any caller.
 
@@ -348,14 +355,14 @@ Extends the `hood-core` with a default implementation of a debug activity
 using `appcompat-v7` support library.
 
 If you want to use the noop version in release use something like this:
-
+```gradle
     debugCompile('at.favre.lib.hood:hood-extended:x.x.x')
     releaseCompile('at.favre.lib.hood:hood-extended:x.x.x') {
             exclude group: 'at.favre.lib.hood', module: 'hood-core'
             releaseCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: 'x.x.x',
             classifier: 'noop', ext: 'aar', transitive: true)
     }
-
+```
 ## Theme
 
 The lib defines some required attributes, so they need to be set in order
@@ -382,7 +389,7 @@ but you must define the following attributes in it:
 * `hoodViewpagerTabBackgroundColor`: background of pager tabs (only relevant for 2+ pages)
 
 Here is an example with useful defaults:
-
+```xml
     <style name="HoodThemeDark" parent="Theme.AppCompat.NoActionBar">
         ...
         <item name="hoodZebraColor">@color/hoodlib_zebra_color_dark</item>
@@ -391,18 +398,18 @@ Here is an example with useful defaults:
         <item name="hoodViewpagerTabTextColor">@android:color/primary_text_dark</item>
         <item name="hoodViewpagerTabBackgroundColor">?attr/colorPrimary</item>
     </style>
-
+```
 ## Additional Features
 
 ### Using the Shake Detector to open the Debug View
 
 Use the HoodAPI.Extension interface to register your intent:
-
+```java
     shakeControl = Hood.ext().registerShakeToOpenDebugActivity(getApplicationContext(),
         PopHoodActivity.createIntent(this, MyDebugActivity.class));
-
+```
 Then start/stop the detector `onResume()`/`onPause()`
-
+```java
     @Override
     protected void onResume() {
         super.onResume();
@@ -414,19 +421,19 @@ Then start/stop the detector `onResume()`/`onPause()`
         super.onPause();
         shakeControl.stop();
     }
-
+```
 ### Using the Arbitrary Tap ClickListener
 
 If you want to obfuscate the access point of your debug view with e.g.
 a triple click on a view that does not look clickable use the following code:
-
+```java
     myView.setOnTouchListener(Hood.ext().createArbitraryTapListener(3, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopHoodActivity.start(WrappingActivity.this, MyDebugActivity.class);
             }
      }));
-
+```
 
 ## Possible conflicts and things to mind
 
