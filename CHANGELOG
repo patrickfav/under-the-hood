@@ -1,9 +1,18 @@
 # Releases
 
-## v0.2.3
+## v0.3.0 (2017-01-21)
 
-## v0.2.0
+* fixes typo in interface ValueSet
+* renames HoodThemeBaseLight to HoodThemeLight
 
-## v0.1.0 (2016-01-15)
+## v0.2.3 (2017-01-20)
+
+* fixes theming issues
+* moves noop to own uild type
+* fixes publish script
+* fixes correct use of ViewTemplate
+* adds doc
+
+## v0.2.0 (2017-01-18)
 
 initial release
