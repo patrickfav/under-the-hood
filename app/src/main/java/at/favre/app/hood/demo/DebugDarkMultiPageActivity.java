@@ -106,7 +106,11 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO).createSection(this, true));
 
         Page thirdPage = pages.addNewPage("Package Manager");
-        thirdPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.ACTIVITIES, PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.Type.PROVIDER, PackageInfoAssembler.Type.RECEIVERS, PackageInfoAssembler.Type.SERVICES, PackageInfoAssembler.Type.SIGNATURE, PackageInfoAssembler.Type.USES_FEATURE).createSection(this, true));
+        thirdPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO,
+                PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.ACTIVITIES,
+                PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.Type.PROVIDER,
+                PackageInfoAssembler.Type.RECEIVERS, PackageInfoAssembler.Type.SERVICES,
+                PackageInfoAssembler.Type.SIGNATURE, PackageInfoAssembler.Type.USES_FEATURE).createSection(this, true));
 
         return pages;
     }

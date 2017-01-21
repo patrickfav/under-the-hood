@@ -29,7 +29,7 @@
         <item name="hoodTextSizeHeader">@dimen/hoodlib_header_text_size_sm</item>
     </style>
 
-    <style name="HoodThemeBaseLight" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="HoodThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/hoodLibDefaultColorPrimary</item>
         <item name="colorPrimaryDark">@color/hoodLibDefaultColorPrimaryDark</item>
         <item name="colorAccent">@color/hoodLibDefaultColorAccent</item>

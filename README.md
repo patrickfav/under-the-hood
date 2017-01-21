@@ -5,23 +5,25 @@ uses a modular template system that can be easily extended to your needs,
 although coming with many useful elements built-in. There is a lot of
 "default" debug data that can be easily embedded (e.g. current runtime-permission
 status, app version and device info). There are 2 basic themes (dark and light)
-which can be customized.
+which can be customized to your needs.
 The lib is divided into 2 modules: `hood-core` containing the basic view that
 can be embedded anywhere and `hood-extended` which comes with a ready-to-use
 activity with a lot of convenience features. The lib has also a null-safe
 no-op flavor indented to be used in release builds, disabling all debug features
 without error-prone if-debug chains.
 
-![screenshot gallery](doc/screenshot_gallery.png)
+To check it out, download the demo app from the Playstore.
 
 [![play store banner](doc/playstore_banner.png)](https://play.google.com/store/apps/details?id=at.favre.app.hood.demo)
 
+![screenshot gallery](doc/screenshot_gallery.png)
+
 ## Quick Start
 
-Add the following to your dependencies (binaries are deployed to jcenter)
+Add the following to your dependencies ([add jcenter to your repositories](https://developer.android.com/studio/build/index.html#top-level) if you haven't)
 
     dependencies {
-        compile('at.favre.lib.hood:hood-extended:0.2.2')
+        compile('at.favre.lib.hood:hood-extended:0.2.3')
     }
 
 Create an activity and extend `PopHoodActivity`. Define it in your `AndroidManifest`:
@@ -41,6 +43,8 @@ Implement the config and page setter in the `Activity`:
             firstPage.add(Hood.get().createPropertyEntry("The Key", "The value"));
             firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
             firstPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getGlobalSettingsAction()));
+            firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.USES_FEATURE).createSection(this, true));
+
             return pages;
         }
 
@@ -52,7 +56,7 @@ Implement the config and page setter in the `Activity`:
 
 See demo app for extended samples.
 
-### Using only the raw View
+### Using only the View
 
 Add the view to your layout:
 
@@ -60,18 +64,30 @@ Add the view to your layout:
             android:id="@+id/debug_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?android:windowBackground" />
+            android:theme="@style/CustomHoodViewOverlayDark" />
+
+Create the following style:
+
+    <style name="CustomHoodViewOverlayDark" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:background">?android:windowBackground</item>
+        <item name="hoodZebraColor">@color/hoodlib_zebra_color_dark</item>
+        <item name="hoodTextSizeNormal">@dimen/hoodlib_standard_text_size</item>
+        <item name="hoodTextSizeHeader">@dimen/hoodlib_header_text_size</item>
+        <item name="hoodViewpagerTabTextColor">@android:color/primary_text_dark</item>
+        <item name="hoodViewpagerTabBackgroundColor">?attr/colorPrimary</item>
+    </style>
 
 Set up in your controller (`Activity` or `Fragment`):
 
     HoodDebugPageView debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
 
-    Pages pages = Hood.get().createPages(new Config.Builder().setShowHighlightContent(false).build());
+    Pages pages = Hood.get().createPages(Config.newBuilder().setShowHighlightContent(false).build());
     Page firstPage = pages.addNewPage("Debug Info");
     firstPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getCrashAction()));
     ...
     Page secondPage = pages.addNewPage("Debug Features");
     secondPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
+    secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
     ...
     debugView.setPageData(pages);
 
@@ -81,11 +97,29 @@ The main interface of the App is the `HoodAPI` or `HoodAPI.Extension` accessed
 through the `Hood` singleton. It is required to use these interfaces to take
 advantage of using the no-op flavor.
 
+The interface is used with the `Hood` singleton:
+
+    Hood.get().*
+    Hood.ext().*
+
+For default properties/actions/etc checkout the classes in
+
+    at.favre.lib.hood.util.defaults.*
+
+as well as `PackageInfoAssembler`.
+
 ### The DebugView
 
 Responsible for rendering and the main interface for the Activity/Fragment
-to the debug pages is the `HoodDebugPageView`. The initialize the view it
-needs a `Pages` object:
+to the debug pages is the `HoodDebugPageView`. Define it in your view
+
+    <at.favre.lib.hood.view.HoodDebugPageView
+        ...
+    />
+
+For themes see section below.
+
+To initialize the view it needs a `Pages` object:
 
     debugView.setPageData(pages);
 
@@ -185,7 +219,7 @@ thread use `DynamicValue.Async` instead of `DynamicValue`
 Default actions are: Toast, Dialog, Start-Intent and ask runtime permission.
 
 For a lot of default data, e.g. device info, set permissions and build data,
-see `DefaultProperties.*`
+see `DefaultProperties.*` and `PackageInfoAssembler`
 
 #### ActionEntry
 
@@ -262,24 +296,6 @@ is rendered. The `constructView` and `setContent` are similar to the
 that `ViewTemplate` must return a distinct type as int (values over 65536 are
 reserved by the lib)
 
-## Themes and PopHoodActivity
-
-The easiest way is the create an `Activity` in your App and extend `PopHoodActivity`.
- Define it in your AndroidManifest:
-
-    <activity
-        android:name="com.example.your.Activity"
-        android:exported="true"
-        android:label="App Info"
-        android:theme="@style/HoodThemeLight">
-    </activity>
-
-As theme either use `@style/HoodThemeDark` or `@style/HoodThemeLight`.
-If you want to customize the theme extend either of the basic ones and
-override e.g. `colorPrimary`, `colorPrimaryDark` and colorAccent as well as `hoodZebraColor`.
-
-Use `android:exported="true"` if you want to be able to start your activity with adb.
-
 ## Library Modules and Flavours
 
 The library comes in 2 modules:
@@ -295,7 +311,7 @@ The core module comes in 2 flavours (or classifier):
 The standard version of the lib with all features. You could use this
 version in only in your debug builds with:
 
-    debugCompile (group: 'at.favre.lib.hood', name: 'hood-core', version: 'x.x.x', classifier: 'release', ext: 'aar', transitive: true)
+    compile("at.favre.lib.hood:hood-core:x.x.x")
 
 #### `noop`
 The no-op version of the lib internally using null-safe no-op versions of the
@@ -303,20 +319,63 @@ main template system. All creator methods of `HoodAPI` (`Hood.get()`) and `HoodA
 (`Hood.ext()`) support the no-op switch and return dummy implementations.
 If you use implementation from `at.favre.lib.hood.page.**` directly this will have no effect.
 
+Here is a piratical example to use default flavor in debug and noop in release:
+
+    debugCompile('at.favre.lib.hood:hood-core:x.x.x')
+    releaseCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: 'x.x.x', classifier: 'noop', ext: 'aar', transitive: true)
+
 The `PopHoodActivity` will also respect the no-op switch and just finish.
  The no-op state can be checked with `Hood.isLibEnabled()` from any caller.
 
-
 ### Module `hood-extended`
 
-Extends the `hood-core` with a default implementation of a debug activity using `appcompat-v7` support library.
+Extends the `hood-core` with a default implementation of a debug activity
+using `appcompat-v7` support library.
 
-You need to provide the correct flavor of `hood-core` module in the classifier:
+If you want to use the noop version in release use something like this:
 
-    compile('at.favre.lib.hood:hood-extended:x.x.x') {
-            compile(group: 'at.favre.lib.hood', name: 'hood-core', version: 'x.x.x',
-            classifier: '<release>|<noop>', ext: 'aar', transitive: true)
+    debugCompile('at.favre.lib.hood:hood-extended:x.x.x')
+    releaseCompile('at.favre.lib.hood:hood-extended:x.x.x') {
+            exclude group: 'at.favre.lib.hood', module: 'hood-core'
+            releaseCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: 'x.x.x',
+            classifier: 'noop', ext: 'aar', transitive: true)
     }
+
+## Theme
+
+The lib defines some required attributes, so they need to be set in order
+to be able to render the view. The easiest way is to use the build-in themes
+(`hood-extended`) for Activities (which extend from `Theme.AppCompat`)
+
+* `HoodThemeLight`
+* `HoodThemeDark`
+
+and overlays for standalone views:
+
+* `HoodLibThemeOverlay.Dark`
+* `HoodLibThemeOverlay.Light`
+* `HoodLibThemeOverlay.Dark.Small`
+* `HoodLibThemeOverlay.Light.Small`
+
+You can also define your own theme (extending `Theme.AppCompat` or `ThemeOverlay.AppCompat`)
+but you must define the following attributes in it:
+
+* `hoodZebraColor`: highlighting color for odd rows
+* `hoodTextSizeNormal`: default text size
+* `hoodTextSizeHeader`: header text size
+* `hoodViewpagerTabTextColor`: text color pager tabs labels (only relevant for 2+ pages)
+* `hoodViewpagerTabBackgroundColor`: background of pager tabs (only relevant for 2+ pages)
+
+Here is an example with useful defaults:
+
+    <style name="HoodThemeDark" parent="Theme.AppCompat.NoActionBar">
+        ...
+        <item name="hoodZebraColor">@color/hoodlib_zebra_color_dark</item>
+        <item name="hoodTextSizeNormal">@dimen/hoodlib_standard_text_size</item>
+        <item name="hoodTextSizeHeader">@dimen/hoodlib_header_text_size</item>
+        <item name="hoodViewpagerTabTextColor">@android:color/primary_text_dark</item>
+        <item name="hoodViewpagerTabBackgroundColor">?attr/colorPrimary</item>
+    </style>
 
 ## Additional Features
 
@@ -360,8 +419,8 @@ This lib uses [Timber](https://github.com/JakeWharton/timber) lib, but will
  only add `DebugTree` if there is none found (added the first time the Hood
  singleton is called).
 
- All res assets are prefixed with `hoodlib_` so there should be no conflict
- when merging the resources
+ All `res` assets are prefixed with `hoodlib_` so there should be no conflict
+ when merging the resources.
 
 ## Recipes
 

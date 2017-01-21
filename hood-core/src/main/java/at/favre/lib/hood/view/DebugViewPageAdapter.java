@@ -17,7 +17,7 @@ import timber.log.Timber;
  * The pager adapter for the main viewpager containing {@link DebugPageContentView} views.
  * Supports saving and restoring of the view's states.
  */
-public class DebugViewPageAdapter extends PagerAdapter {
+class DebugViewPageAdapter extends PagerAdapter {
     private static final String TAG_VIEWS = "tagViews";
 
     private final Pages pages;

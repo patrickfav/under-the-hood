@@ -19,7 +19,7 @@ import at.favre.lib.hood.interfaces.Page;
  * Implements the {@link NestedScrollingChild} to be able to be
  * used in a CoordinatorLayout.
  */
-public class DebugPageContentView extends FrameLayout {
+class DebugPageContentView extends FrameLayout {
     private RecyclerView mRecyclerView;
     private NestedScrollingChildHelper mScrollingChildHelper;
     private final Page page;

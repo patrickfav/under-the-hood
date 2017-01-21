@@ -5,7 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class SwitchableViewpager extends ViewPager {
+class SwitchableViewpager extends ViewPager {
     private boolean enabled;
 
     public SwitchableViewpager(Context context, AttributeSet attrs) {
