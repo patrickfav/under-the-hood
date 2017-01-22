@@ -450,6 +450,11 @@ This lib uses [Timber](https://github.com/JakeWharton/timber) lib, but will
  All `res` assets are prefixed with `hoodlib_` so there should be no conflict
  when merging the resources.
 
+## Proguard
+
+The lib includes it's own proguard consumer rules and should work out of
+the box with obfuscated builds.
+
 ## Recipes
 
 ### Suggestions on what Properties/Actions to add to your Page
