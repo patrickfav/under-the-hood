@@ -3,19 +3,9 @@ language: android
 android:
   components:
   - android-25
+   - build-tools-25.0.2
   - extra-google-m2repository
   - extra-android-m2repository
 
-  script:
-    - ./gradlew clean :assemble
-
-  sudo: required
-
-  before_cache:
-    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-    - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
-  cache:
-    directories:
-      - $HOME/.m2
-      - $HOME/.gradle
+script:
+    - ./gradlew clean assemble
