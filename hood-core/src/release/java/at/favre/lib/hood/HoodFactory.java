@@ -173,33 +173,32 @@ final class HoodFactory implements HoodAPI.Factory {
 
         @Override
         public ManagerControl registerShakeToOpenDebugActivity(final Context ctx, final Intent intent) {
-            final ShakeDetector shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
-                private long lastEvent = 0;
-
-                @Override
-                public void hearShake() {
-                    if (SystemClock.elapsedRealtime() - lastEvent < 1000) {
-                        return;
-                    }
-
-                    if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
-                        Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrator.vibrate(200);
-                    }
-
-                    lastEvent = SystemClock.elapsedRealtime();
-                    ctx.startActivity(intent);
-                }
-            });
             final SensorManager sensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
             return new ManagerControl() {
-                boolean isSupported = true;
-
+                private boolean isSupported = true;
+                private ShakeDetector shakeDetector;
                 @Override
                 public void start() {
-                    if (sensorManager != null) {
-                        isSupported = shakeDetector.start(sensorManager);
-                    }
+                    shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
+                        private long lastEvent = 0;
+
+                        @Override
+                        public void hearShake() {
+                            if (SystemClock.elapsedRealtime() - lastEvent < 1000) {
+                                return;
+                            }
+
+                            if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
+                                Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
+                                vibrator.vibrate(200);
+                            }
+
+                            lastEvent = SystemClock.elapsedRealtime();
+                            ctx.startActivity(intent);
+                        }
+                    });
+
+                    isSupported = shakeDetector.start(sensorManager);
                 }
 
                 @Override

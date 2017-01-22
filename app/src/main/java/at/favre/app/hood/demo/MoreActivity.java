@@ -25,8 +25,10 @@ public class MoreActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final ActivityMoreBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_more);
-        binding.
-                btnStopShake.setOnClickListener(new View.OnClickListener() {
+
+        shakeControl = Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkMultiPageActivity.createIntent(this, DebugDarkMultiPageActivity.class));
+
+        binding.btnStopShake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.tvTryShake.setVisibility(View.INVISIBLE);
@@ -61,9 +63,7 @@ public class MoreActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        shakeControl = Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkMultiPageActivity.createIntent(this, DebugDarkMultiPageActivity.class));
         shakeControl.start();
-
     }
 
     @Override
