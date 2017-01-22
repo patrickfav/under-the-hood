@@ -71,16 +71,16 @@ dependencies {
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 
-    debugCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
-    releaseCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
+//    debugCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
+//    releaseCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
+//
+//    releaseNoopCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep") {
+//        exclude group: 'at.favre.lib.hood', module: 'hood-core'
+//        releaseNoopCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: rootProject.ext.versionNameDep,
+//                classifier: 'noop', ext: 'aar', transitive: true)
+//    }
 
-    releaseNoopCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep") {
-        exclude group: 'at.favre.lib.hood', module: 'hood-core'
-        releaseNoopCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: rootProject.ext.versionNameDep,
-                classifier: 'noop', ext: 'aar', transitive: true)
-    }
-
-//    compile project(path: ':hood-extended')
+    compile project(path: ':hood-extended')
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'

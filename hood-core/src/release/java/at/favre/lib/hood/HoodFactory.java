@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -173,13 +174,20 @@ final class HoodFactory implements HoodAPI.Factory {
         @Override
         public ManagerControl registerShakeToOpenDebugActivity(final Context ctx, final Intent intent) {
             final ShakeDetector shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
+                private long lastEvent = 0;
+
                 @Override
                 public void hearShake() {
-                    Timber.d("hear shake");
+                    if (SystemClock.elapsedRealtime() - lastEvent < 1000) {
+                        return;
+                    }
+
                     if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
                         Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
                         vibrator.vibrate(200);
                     }
+
+                    lastEvent = SystemClock.elapsedRealtime();
                     ctx.startActivity(intent);
                 }
             });
