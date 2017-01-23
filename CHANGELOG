@@ -1,5 +1,9 @@
 # Releases
 
+## v0.3.1 (unreleased)
+
+* fixes shake detector starting activity twice
+
 ## v0.3.0 (2017-01-21)
 
 * fixes typo in interface ValueSet
