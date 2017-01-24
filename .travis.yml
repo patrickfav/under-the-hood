@@ -23,9 +23,21 @@ android:
       - 'android-sdk-license-.+'
       - 'google-gdk-license-.+'
 
+env:
+  global:
+   # install timeout in minutes (2 minutes by default)
+    - ADB_INSTALL_TIMEOUT=8
+
 before_install:
   - openssl aes-256-cbc -K $encrypted_376031a79878_key -iv $encrypted_376031a79878_iv -in credentials.tar.enc -out credentials.tar -d
   - tar xvf credentials.tar
+
+# Emulator Management: Create, Start and Wait
+before_script:
+  - echo no | android create avd --force -n test -t android-25 --abi x86_64
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 
 script:
     - ./gradlew clean
