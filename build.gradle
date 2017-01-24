@@ -73,3 +73,19 @@ def getSigningProperties() {
     }
     return props
 }
+
+def boolean isCiBuild() {
+    def ciBuild = false;
+    if (System.getenv().CI != null) {
+        ciBuild = Boolean.valueOf(System.getenv().CI)
+    }
+    return ciBuild;
+}
+
+def String getCiBuildNumber() {
+    def buildNumber = 1;
+    if (System.getenv().TRAVIS_BUILD_NUMBER != null) {
+        buildNumber = System.getenv().TRAVIS_BUILD_NUMBER
+    }
+    return buildNumber;
+}

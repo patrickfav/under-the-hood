@@ -23,8 +23,8 @@ android:
       - 'google-gdk-license-.+'
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_376031a79878_key -iv $encrypted_376031a79878_iv -in local.properties.enc -out local.properties -d
-  - openssl aes-256-cbc -K $encrypted_376031a79878_key -iv $encrypted_376031a79878_iv -in release.jks.enc -out release.jks -d
+  - openssl aes-256-cbc -K $encrypted_376031a79878_key -iv $encrypted_376031a79878_iv -in creds.tar.enc -out creds.tar -d
+  - tar xvf creds.tar
 
 script:
     - ./gradlew clean assemble

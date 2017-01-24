@@ -13,6 +13,8 @@ android {
         versionName rootProject.ext.versionNameLib
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
     }
 
     buildTypes {

@@ -29,6 +29,7 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
         buildConfigField "boolean", "NO_OP", "false"
     }
 

@@ -25,7 +25,8 @@ android {
         buildConfigField "String", "GIT_REV", "\"" + getGitRev() + "\""
         buildConfigField "String", "GIT_BRANCH", "\"" + getGitBranch() + "\""
         buildConfigField "String", "GIT_DATE", "\"" + getGitCommitDate() + "\""
-
+        buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
+        buildConfigField "boolean", "IS_CI_BUILD", "${isCiBuild()}"
     }
 
     dataBinding {
