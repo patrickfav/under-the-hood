@@ -69,3 +69,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
+
+notifications:
+  slack: pfopensourceprojects:wUegYD7N4Llmh94bQ6lWKUZG
+  email: false
