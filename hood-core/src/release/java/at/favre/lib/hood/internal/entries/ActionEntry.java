@@ -51,7 +51,12 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
 
     @Override
     public ViewTemplate<List<ButtonDefinition>> createViewTemplate() {
-        return new Template(actionList.size() == 1);
+        return new Template(getViewType());
+    }
+
+    @Override
+    public int getViewType() {
+        return actionList.size() == 1 ? ViewTypes.VIEWTYPE_ACTION : ViewTypes.VIEWTYPE_ACTION_DOUBLE;
     }
 
     @Override
@@ -65,20 +70,20 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
     }
 
     private static class Template implements ViewTemplate<List<ButtonDefinition>> {
-        private final boolean isSingleAction;
+        private final int viewType;
 
-        public Template(boolean isSingleAction) {
-            this.isSingleAction = isSingleAction;
+        Template(int viewType) {
+            this.viewType = viewType;
         }
 
         @Override
         public int getViewType() {
-            return isSingleAction ? ViewTypes.VIEWTYPE_ACTION : ViewTypes.VIEWTYPE_ACTION_DOUBLE;
+            return viewType;
         }
 
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
-            if (isSingleAction) {
+            if (viewType == ViewTypes.VIEWTYPE_ACTION) {
                 return inflater.inflate(R.layout.hoodlib_template_action_single, viewGroup, false);
             } else {
                 return inflater.inflate(R.layout.hoodlib_template_action_double, viewGroup, false);
@@ -87,7 +92,7 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
 
         @Override
         public void setContent(final List<ButtonDefinition> value, @NonNull View view) {
-            if (isSingleAction) {
+            if (viewType == ViewTypes.VIEWTYPE_ACTION) {
                 ((TextView) view.findViewById(R.id.button)).setText(value.get(0).label);
                 view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
                     @Override

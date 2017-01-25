@@ -19,7 +19,7 @@ import at.favre.lib.hood.interfaces.Section;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
 
-public class TestDebugPage {
+public class DebugPageTest {
     private Page page;
 
     @Before

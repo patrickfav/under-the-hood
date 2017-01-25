@@ -12,7 +12,7 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-public class TestUnmodifiablePages {
+public class UnmodifiablePagesTest {
     private Pages original;
     private Pages unmodifiablePages;
 

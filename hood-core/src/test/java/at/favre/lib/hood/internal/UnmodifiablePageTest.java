@@ -16,7 +16,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-public class TestUnmodifiablePage {
+public class UnmodifiablePageTest {
     private Page original;
     private Page unmodifiablePages;
 

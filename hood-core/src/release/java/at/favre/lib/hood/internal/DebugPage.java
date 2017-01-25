@@ -58,7 +58,9 @@ public class DebugPage implements Page {
         if (pageEntry != null) {
             entries.add(pageEntry);
             ViewTemplate<?> template = pageEntry.createViewTemplate();
-            templateMap.put(template.getViewType(), template);
+            if (templateMap.indexOfKey(template.getViewType()) < 0) {
+                templateMap.put(template.getViewType(), template);
+            }
         }
     }
 

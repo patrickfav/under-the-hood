@@ -42,6 +42,7 @@ import timber.log.Timber;
  */
 public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> {
     private final static ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(4, 4, 10, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>(1024));
+    private final static Object monitor = new Object();
 
     private Map.Entry<CharSequence, Value<String>> data;
     private final boolean multiLine;
@@ -122,7 +123,12 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     @Override
     public ViewTemplate<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> createViewTemplate() {
-        return new Template(multiLine);
+        return new Template(getViewType());
+    }
+
+    @Override
+    public int getViewType() {
+        return multiLine ? ViewTypes.VIEWTYPE_KEYVALUE_MULTILINE : ViewTypes.VIEWTYPE_KEYVALUE;
     }
 
     @Override
@@ -141,21 +147,22 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
     }
 
     private static class Template implements ViewTemplate<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> {
-        private final boolean multiLine;
         private ConcurrentHashMap<String, ValueBackgroundTask> taskMap = new ConcurrentHashMap<>();
+        private final int viewType;
 
-        public Template(boolean multiLine) {
-            this.multiLine = multiLine;
+        Template(int viewType) {
+            this.viewType = viewType;
         }
 
         @Override
         public int getViewType() {
-            return multiLine ? ViewTypes.VIEWTYPE_KEYVALUE_MULTILINE : ViewTypes.VIEWTYPE_KEYVALUE;
+            return viewType;
         }
+
 
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
-            if (multiLine) {
+            if (viewType == ViewTypes.VIEWTYPE_KEYVALUE_MULTILINE) {
                 return inflater.inflate(R.layout.hoodlib_template_keyvalue_multiline, viewGroup, false);
             } else {
                 return inflater.inflate(R.layout.hoodlib_template_keyvalue, viewGroup, false);
@@ -179,44 +186,51 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
                 });
                 view.setClickable(true);
 
-                ValueBackgroundTask task;
-                if (taskMap.containsKey(entry.getValue().id)) {
-                    task = taskMap.get(entry.getValue().id);
-                } else {
-                    task = new ValueBackgroundTask(entry.getValue());
-                    taskMap.put(entry.getValue().id, task);
-                    THREAD_POOL_EXECUTOR.execute(task);
-                }
-
-                task.setCallback(new Runnable() {
-                    @Override
-                    public void run() {
-                        taskMap.remove(entry.getValue().id);
-                        setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().clickAction, entry.getValue().id);
+                synchronized (monitor) {
+                    ValueBackgroundTask task;
+                    if (taskMap.containsKey(entry.getValue().id)) {
+                        task = taskMap.get(entry.getValue().id);
+                    } else {
+                        Timber.d("starting task " + entry.getKey() + " id:" + entry.getValue().id);
+                        task = new ValueBackgroundTask(entry.getValue());
+                        taskMap.put(entry.getValue().id, task);
+                        THREAD_POOL_EXECUTOR.execute(task);
                     }
-                });
+
+                    task.setCallback(new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (monitor) {
+                                taskMap.remove(entry.getValue().id);
+                                setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().clickAction, entry.getValue().id);
+                            }
+                        }
+                    });
+                }
             } else {
                 setValueToView(new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue().getCachedValue()), view, entry.getValue().clickAction, entry.getValue().id);
             }
         }
 
         private void setValueToView(final Map.Entry<CharSequence, String> entry, @NonNull final View view, final OnClickAction onClickAction, final String tagId) {
-            TextView tvValue = ((TextView) view.findViewById(R.id.value));
-            if (tagId.equals(tvValue.getTag())) {
-                view.findViewById(R.id.progress_bar).setVisibility(View.GONE);
-                tvValue.setVisibility(View.VISIBLE);
-                tvValue.setText(entry.getValue());
-                if (onClickAction != null) {
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onClickAction.onClick(v, entry);
-                        }
-                    });
-                    view.setClickable(true);
-                } else {
-                    view.setOnClickListener(null);
-                    view.setClickable(false);
+            synchronized (monitor) {
+                TextView tvValue = ((TextView) view.findViewById(R.id.value));
+                if (tagId.equals(tvValue.getTag())) {
+                    view.findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                    tvValue.setVisibility(View.VISIBLE);
+                    tvValue.setText(entry.getValue());
+                    if (onClickAction != null) {
+                        view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onClickAction.onClick(v, entry);
+                            }
+                        });
+                        view.setClickable(true);
+                    } else {
+                        view.setOnClickListener(null);
+                        view.setClickable(false);
+                    }
                 }
             }
         }

@@ -1,7 +1,9 @@
 # Releases
 
-## v0.3.1 (unreleased)
-
+## v0.4.0
+* adds view type to PageEntry interface
+* fixes async property loading
+* fixes reusing view templates instead of creating new ones
 * fixes shake detector starting activity twice
 
 ## v0.3.0 (2017-01-21)
@@ -12,7 +14,7 @@
 ## v0.2.3 (2017-01-20)
 
 * fixes theming issues
-* moves noop to own uild type
+* moves no-op to own build type
 * fixes publish script
 * fixes correct use of ViewTemplate
 * adds doc

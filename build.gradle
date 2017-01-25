@@ -21,9 +21,9 @@ task clean(type: Delete) {
 }
 
 ext {
-    versionNameApp = "0.3.0"
+    versionNameApp = "0.4.0"
     versionNameLib = "$versionNameApp"
-    versionCode = 3
+    versionCode = 4
     versionNameDep = "0.3.0"
 
 

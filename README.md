@@ -20,6 +20,15 @@ To check it out, [download the demo app from the Playstore](https://play.google.
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Under%20the%20Hood-yellowgreen.svg?style=flat)](https://android-arsenal.com/details/1/5131)
 [![play store banner](doc/playstore_badge_new_sm.png)](https://play.google.com/store/apps/details?id=at.favre.app.hood.demo)
 
+## Features
+
+* Extensible template based view including property, button, switch and spinner views
+* Extensible dark and light theme
+* Plentiful default debug data (app version, permissions, system features, etc.)
+* Use as activity or standalone view embeddable into your layouts
+* No-op flavor of the lib for your release build
+* Shake listener and Multi Click Listener
+
 ![screenshot gallery](doc/screenshot_gallery.png)
 
 ## Quick Start

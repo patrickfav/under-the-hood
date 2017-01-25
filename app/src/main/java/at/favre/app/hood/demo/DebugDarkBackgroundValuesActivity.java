@@ -31,7 +31,7 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
             firstPage.add(Hood.get().createPropertyEntry("Test Loading " + id, new DynamicValue.Async<String>() {
                 @Override
                 public String getValue() {
-                    int wait = new Random().nextInt(2000) + 1000;
+                    int wait = new Random().nextInt(2000) + 25;
                     SystemClock.sleep(wait);
                     return id + " done (" + wait + "ms)";
                 }
@@ -41,7 +41,7 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
         firstPage.add(Hood.get().createPropertyEntry("Test Loading ML", new DynamicValue.Async<String>() {
             @Override
             public String getValue() {
-                int wait = new Random().nextInt(2000) + 1000;
+                int wait = new Random().nextInt(2000) + 25;
                 SystemClock.sleep(wait);
                 return "done ml (" + wait + "ms)";
             }

@@ -18,11 +18,13 @@ import at.favre.lib.hood.interfaces.actions.ButtonDefinition;
 import at.favre.lib.hood.interfaces.actions.OnClickAction;
 import at.favre.lib.hood.interfaces.actions.SingleSelectListConfigAction;
 import at.favre.lib.hood.interfaces.values.ChangeableValue;
+import at.favre.lib.hood.interfaces.values.DynamicValue;
 import at.favre.lib.hood.interfaces.values.SpinnerElement;
 import at.favre.lib.hood.interfaces.values.SpinnerValue;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 public class HoodAPITest {
     private HoodAPI hoodAPI;
@@ -39,8 +41,8 @@ public class HoodAPITest {
 
     @Test
     public void testCreateProperty() throws Exception {
-        checkNotNull(hoodAPI.createPropertyEntry("key", "value"));
-        checkNotNull(hoodAPI.createPropertyEntry("key", "value", true));
+        checkPageEntry(hoodAPI.createPropertyEntry("key", "value"));
+        checkPageEntry(hoodAPI.createPropertyEntry("key", "value", true));
 
         PageEntry<?> pageEntry = hoodAPI.createPropertyEntry("key", "value", new OnClickAction() {
             @Override
@@ -48,7 +50,23 @@ public class HoodAPITest {
 
             }
         }, false);
-        checkNotNull(pageEntry);
+        checkPageEntry(pageEntry);
+
+        pageEntry = hoodAPI.createPropertyEntry("key", new DynamicValue<String>() {
+            @Override
+            public String getValue() {
+                return "value";
+            }
+        });
+        checkPageEntry(pageEntry);
+
+        pageEntry = hoodAPI.createPropertyEntry("key", new DynamicValue.Async<String>() {
+            @Override
+            public String getValue() {
+                return "value";
+            }
+        });
+        checkPageEntry(pageEntry);
     }
 
     @Test
@@ -59,7 +77,7 @@ public class HoodAPITest {
 
             }
         }));
-        checkNotNull(pageEntry);
+        checkPageEntry(pageEntry);
 
         pageEntry = hoodAPI.createActionEntry(new ButtonDefinition("empty", new OnClickAction() {
             @Override
@@ -72,17 +90,17 @@ public class HoodAPITest {
 
             }
         }));
-        checkNotNull(pageEntry);
+        checkPageEntry(pageEntry);
     }
 
     @Test
     public void testCreateHeader() throws Exception {
-        checkNotNull(hoodAPI.createHeaderEntry("title"));
+        checkPageEntry(hoodAPI.createHeaderEntry("title"));
     }
 
     @Test
     public void testCreateMessage() throws Exception {
-        checkNotNull(hoodAPI.createMessageEntry("message"));
+        checkPageEntry(hoodAPI.createMessageEntry("message"));
     }
 
     @Test
@@ -98,7 +116,7 @@ public class HoodAPITest {
                 return null;
             }
         }));
-        checkNotNull(pageEntry);
+        checkPageEntry(pageEntry);
     }
 
     @Test
@@ -119,7 +137,7 @@ public class HoodAPITest {
                 return null;
             }
         }));
-        checkNotNull(pageEntry);
+        checkPageEntry(pageEntry);
     }
 
     @Test
@@ -135,9 +153,12 @@ public class HoodAPITest {
         assertEquals(pages.size(), pages.getAll().size());
     }
 
-    private static void checkNotNull(PageEntry<?> pageEntry) {
+    private static void checkPageEntry(PageEntry<?> pageEntry) {
+        pageEntry.refresh();
+        pageEntry.toLogString();
         assertNotNull(pageEntry.getValue());
         assertNotNull(pageEntry);
+        assertTrue(pageEntry.getViewType() >= (1 << 16));
         assertNotNull(pageEntry.createViewTemplate());
     }
 }

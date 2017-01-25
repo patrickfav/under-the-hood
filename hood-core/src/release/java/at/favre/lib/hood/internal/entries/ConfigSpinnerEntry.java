@@ -47,7 +47,12 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
 
     @Override
     public ViewTemplate<SingleSelectListConfigAction> createViewTemplate() {
-        return new Template();
+        return new Template(getViewType());
+    }
+
+    @Override
+    public int getViewType() {
+        return ViewTypes.VIEWTYPE_CONFIG_SPINNER;
     }
 
     @Override
@@ -61,9 +66,15 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
     }
 
     private static class Template implements ViewTemplate<SingleSelectListConfigAction> {
+        private final int viewType;
+
+        Template(int viewType) {
+            this.viewType = viewType;
+        }
+
         @Override
         public int getViewType() {
-            return ViewTypes.VIEWTYPE_CONFIG_SPINNER;
+            return viewType;
         }
 
         @Override

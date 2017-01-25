@@ -43,7 +43,12 @@ public class HeaderEntry implements PageEntry<CharSequence> {
 
     @Override
     public ViewTemplate<CharSequence> createViewTemplate() {
-        return new Template();
+        return new Template(getViewType());
+    }
+
+    @Override
+    public int getViewType() {
+        return ViewTypes.VIEWTYPE_HEADER;
     }
 
     @Override
@@ -60,9 +65,15 @@ public class HeaderEntry implements PageEntry<CharSequence> {
     }
 
     private static class Template implements ViewTemplate<CharSequence> {
+        private final int viewType;
+
+        Template(int viewType) {
+            this.viewType = viewType;
+        }
+
         @Override
         public int getViewType() {
-            return ViewTypes.VIEWTYPE_HEADER;
+            return viewType;
         }
 
         @Override

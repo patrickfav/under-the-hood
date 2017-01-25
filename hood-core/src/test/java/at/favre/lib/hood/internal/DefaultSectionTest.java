@@ -13,7 +13,7 @@ import at.favre.lib.hood.interfaces.Section;
 
 import static junit.framework.Assert.assertEquals;
 
-public class TestDefaultSection {
+public class DefaultSectionTest {
     private Section.ModifiableHeaderSection section;
 
     @Before

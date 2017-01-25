@@ -39,7 +39,12 @@ public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
 
     @Override
     public ViewTemplate<BoolConfigAction> createViewTemplate() {
-        return new Template();
+        return new Template(getViewType());
+    }
+
+    @Override
+    public int getViewType() {
+        return ViewTypes.VIEWTYPE_CONFIG_BOOL;
     }
 
     @Override
@@ -53,9 +58,15 @@ public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
     }
 
     private static class Template implements ViewTemplate<BoolConfigAction> {
+        private final int viewType;
+
+        Template(int viewType) {
+            this.viewType = viewType;
+        }
+
         @Override
         public int getViewType() {
-            return ViewTypes.VIEWTYPE_CONFIG_BOOL;
+            return viewType;
         }
 
         @Override
