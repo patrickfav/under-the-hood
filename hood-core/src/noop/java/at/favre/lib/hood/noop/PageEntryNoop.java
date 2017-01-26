@@ -22,6 +22,11 @@ class PageEntryNoop implements PageEntry<String> {
         return placeViewTemplate;
     }
 
+    @Override
+    public int getViewType() {
+        return -1;
+    }
+
     @Nullable
     @Override
     public String toLogString() {
