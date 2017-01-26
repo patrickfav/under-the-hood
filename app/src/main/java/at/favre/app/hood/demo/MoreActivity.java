@@ -26,7 +26,7 @@ public class MoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final ActivityMoreBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_more);
 
-        shakeControl = Hood.ext().registerShakeToOpenDebugActivity(this.getApplicationContext(), DebugDarkMultiPageActivity.createIntent(this, DebugDarkMultiPageActivity.class));
+        shakeControl = Hood.ext().registerShakeToOpenDebugActivity(this, DebugDarkMultiPageActivity.createIntent(this, DebugDarkMultiPageActivity.class));
 
         binding.btnStopShake.setOnClickListener(new View.OnClickListener() {
             @Override
