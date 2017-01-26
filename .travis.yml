@@ -64,7 +64,8 @@ deploy:
      - 'hood-extended/build/outputs/aar/hood-extended-release.aar'
     skip_cleanup: true
     on:
-      tags
+      branch: master
+      tags: true
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
