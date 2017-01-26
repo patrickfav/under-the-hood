@@ -47,34 +47,34 @@ script:
     - ./gradlew testReleaseUnitTest --info
 #    - ./gradlew connectedDebugAndroidTest
 
-#deploy:
-#  - provider: script
-#    script: ./gradlew install bintrayUpload --info
-#    skip_cleanup: true
-#    on:
-#      tags
-#  - provider: releases
-#    api_key:
-#      secure: "pnYV4mnpvtOHWx8arKgY0SQY7C6VDP4p5S6tin9WQujmcIO6fRldpjdRWN+qaxrK3CyVr26EQlUhwyyPDpWc+gTW/9QmmQG3o8TKBgMeEBzsJUFnMjM9c0kWeEFup14HeTakoq6waegvKuCMbP/O76BA23K+lENOerF2CK0UAJHwzYWNVt0CH8SE5nghoSbEWU9fI2FSeAMHiKYDEAbDEXcgSuVIdrgH7BPtPE55NoINAAkDrwK9V3lNDY6rPM0YAOcQ373vOWeBwvHjIaV9rdVzjRQEB6YAog0whu9zNRGfdI9an9sm/asEy4y8Zw4xtFnd7xmAeIQGrvBXK67KTlsLAhMkaqiS2YL7aDRKlMqfRGgnAY666sgZ+arLtMfJVhqwtIf0Xy0hr6pa26Nqju3/xf6KdHCMgDEyKiW3M0KnX2FSfviAj9bi119GPVDMIyMABYeFjTaUih9BkLxjCRldWLusuiR8lSb6ZPFzjr6We6Z4Gr/nEvulHrYMp0XDehN5xdlqoB1cE7shxgNg2M3WptcJNJv5odKAug0zT0TzHCIOIVeIUSZvqfyYodrHE77jR3/Sqw/2U3hs8gKV5Dbnv5iXzrc7wYEpufn2lWMRrclGw0m8xjIiDSKzL4s34iKO2Olj3rFt8gvFGfYCEIEufyAuuN4G3VdNFuWH6Fg="
-#    file:
-#     - 'app/build/outputs/apk/app-releaseNoop.apk'
-#     - 'app/build/outputs/apk/app-release.apk'
-#     - 'hood-core/build/outputs/aar/hood-core-noop.aar'
-#     - 'hood-core/build/outputs/aar/hood-core-release.aar'
-#     - 'hood-extended/build/outputs/aar/hood-extended-release.aar'
-#    skip_cleanup: true
-#    on:
-#      tags
+deploy:
+  - provider: script
+    script: ./gradlew install bintrayUpload --info
+    skip_cleanup: true
+    on:
+      tags
+  - provider: releases
+    api_key:
+      secure: "pnYV4mnpvtOHWx8arKgY0SQY7C6VDP4p5S6tin9WQujmcIO6fRldpjdRWN+qaxrK3CyVr26EQlUhwyyPDpWc+gTW/9QmmQG3o8TKBgMeEBzsJUFnMjM9c0kWeEFup14HeTakoq6waegvKuCMbP/O76BA23K+lENOerF2CK0UAJHwzYWNVt0CH8SE5nghoSbEWU9fI2FSeAMHiKYDEAbDEXcgSuVIdrgH7BPtPE55NoINAAkDrwK9V3lNDY6rPM0YAOcQ373vOWeBwvHjIaV9rdVzjRQEB6YAog0whu9zNRGfdI9an9sm/asEy4y8Zw4xtFnd7xmAeIQGrvBXK67KTlsLAhMkaqiS2YL7aDRKlMqfRGgnAY666sgZ+arLtMfJVhqwtIf0Xy0hr6pa26Nqju3/xf6KdHCMgDEyKiW3M0KnX2FSfviAj9bi119GPVDMIyMABYeFjTaUih9BkLxjCRldWLusuiR8lSb6ZPFzjr6We6Z4Gr/nEvulHrYMp0XDehN5xdlqoB1cE7shxgNg2M3WptcJNJv5odKAug0zT0TzHCIOIVeIUSZvqfyYodrHE77jR3/Sqw/2U3hs8gKV5Dbnv5iXzrc7wYEpufn2lWMRrclGw0m8xjIiDSKzL4s34iKO2Olj3rFt8gvFGfYCEIEufyAuuN4G3VdNFuWH6Fg="
+    file:
+     - 'app/build/outputs/apk/app-releaseNoop.apk'
+     - 'app/build/outputs/apk/app-release.apk'
+     - 'hood-core/build/outputs/aar/hood-core-noop.aar'
+     - 'hood-core/build/outputs/aar/hood-core-release.aar'
+     - 'hood-extended/build/outputs/aar/hood-extended-release.aar'
+    skip_cleanup: true
+    on:
+      tags
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
+#cache:
+#  directories:
+#    - $HOME/.gradle/caches/
+#    - $HOME/.gradle/wrapper/
+#    - $HOME/.android/build-cache
 
 notifications:
   slack: pfopensourceprojects:wUegYD7N4Llmh94bQ6lWKUZG
