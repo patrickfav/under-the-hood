@@ -1,3 +1,5 @@
+apply from: "$rootDir/gradle/common-build.gradle"
+
 buildscript {
     repositories {
         jcenter()
@@ -63,29 +65,4 @@ task publishLibs(dependsOn: [':clean', 'hood-core:assemble', ':hood-core:install
     doLast {
         println "published"
     }
-}
-
-def getSigningProperties() {
-    def Properties props = new Properties()
-    try {
-        props.load(new FileInputStream(file('local.properties')))
-    } catch (Exception e) {
-    }
-    return props
-}
-
-def boolean isCiBuild() {
-    def ciBuild = false;
-    if (System.getenv().CI != null) {
-        ciBuild = Boolean.valueOf(System.getenv().CI)
-    }
-    return ciBuild;
-}
-
-static def Integer getCiBuildNumber() {
-    def buildNumber = 1;
-    if (System.getenv().TRAVIS_BUILD_NUMBER != null) {
-        buildNumber = System.getenv().TRAVIS_BUILD_NUMBER
-    }
-    return Integer.valueOf(buildNumber);
 }

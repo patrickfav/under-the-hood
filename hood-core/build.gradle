@@ -80,4 +80,4 @@ dependencies {
     unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
 
-apply from: "$rootDir/publish.gradle"
+apply from: "$rootDir/gradle/publish.gradle"
