@@ -23,7 +23,7 @@ task clean(type: Delete) {
 ext {
     versionNameApp = "0.4.1"
     versionNameLib = "$versionNameApp"
-    versionCode = 5
+    versionCode = getCiBuildNumber()
     versionNameDep = "0.4.0"
 
 
@@ -82,10 +82,10 @@ def boolean isCiBuild() {
     return ciBuild;
 }
 
-def String getCiBuildNumber() {
+static def Integer getCiBuildNumber() {
     def buildNumber = 1;
     if (System.getenv().TRAVIS_BUILD_NUMBER != null) {
         buildNumber = System.getenv().TRAVIS_BUILD_NUMBER
     }
-    return buildNumber;
+    return Integer.valueOf(buildNumber);
 }
