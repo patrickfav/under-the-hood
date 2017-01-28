@@ -31,7 +31,7 @@ public class DebugLightActivity extends PopHoodActivity {
         Page firstPage = pages.addNewPage();
 
 
-        firstPage.add(DefaultProperties.createSectionSourceControlAndCI(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH, BuildConfig.GIT_DATE, null, null, null));
+        firstPage.add(DefaultProperties.createSectionSourceControlAndCI(BuildConfig.GIT_REV, BuildConfig.GIT_BRANCH, BuildConfig.GIT_DATE, BuildConfig.BUILD_NUMBER, null, null));
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(at.favre.lib.hood.BuildConfig.class));
 
         firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
