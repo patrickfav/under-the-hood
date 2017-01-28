@@ -30,6 +30,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
+        buildConfigField "String", "BUILD_DATE", "\"" + getBuildTime() + "\""
         buildConfigField "boolean", "NO_OP", "false"
     }
 
@@ -56,6 +57,14 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    output.outputFile.name.replace((".aar"), "-${version}.aar"))
+        }
     }
 }
 

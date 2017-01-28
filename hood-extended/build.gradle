@@ -27,6 +27,14 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    output.outputFile.name.replace((".aar"), "-${version}.aar"))
+        }
+    }
 }
 
 android.variantFilter { variant ->

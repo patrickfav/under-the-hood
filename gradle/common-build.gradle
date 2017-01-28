@@ -5,6 +5,7 @@ ext {
     getSigningProperties = this.&getSigningProperties
     isCiBuild = this.&isCiBuild;
     getCiBuildNumber = this.&getCiBuildNumber
+    getBuildTime = this.&getBuildTime
 }
 
 def String getGitRev() {
@@ -45,6 +46,10 @@ def getSigningProperties() {
     } catch (Exception e) {
     }
     return props
+}
+
+def String getBuildTime() {
+    return new Date().toString();
 }
 
 static def boolean isCiBuild() {

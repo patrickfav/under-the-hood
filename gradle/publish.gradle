@@ -48,7 +48,6 @@ install {
                 found.type = "aar"
             }
         }
-        println "xxxx: " + new File(project.buildDir, "outputs/aar")
     }
 }
 
