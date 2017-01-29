@@ -2,14 +2,23 @@ package at.favre.lib.hood.extended;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,8 +49,8 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     /**
      * Creates the intent for starting this
      *
-     * @param context           non-null
-     * @param activityClass     the actual implementation class (cannot be figured out in static context)
+     * @param context       non-null
+     * @param activityClass the actual implementation class (cannot be figured out in static context)
      * @return the intent ready to start
      */
     public static Intent createIntent(@NonNull Context context, Class<?> activityClass) {
@@ -109,7 +118,27 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.hoodlib_menu_pophood, menu);
+
+        tintMenuItem(menu, R.id.action_refresh);
+        tintMenuItem(menu, R.id.action_app_info);
         return true;
+    }
+
+    private void tintMenuItem(Menu menu, @IdRes int iconId) {
+        MenuItem favoriteItem = menu.findItem(iconId);
+        Drawable favoriteIcon = DrawableCompat.wrap(favoriteItem.getIcon());
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getTheme();
+        theme.resolveAttribute(R.attr.hoodToolbarTextColor, typedValue, true);
+
+        TypedArray ta = obtainStyledAttributes(new int[]{R.attr.hoodToolbarTextColor});
+        @ColorRes int color = ta.getResourceId(0, android.R.color.white);
+        ta.recycle();
+
+        ColorStateList colorSelector = ResourcesCompat.getColorStateList(getResources(), color, getTheme());
+        DrawableCompat.setTintList(favoriteIcon, colorSelector);
+        favoriteItem.setIcon(favoriteIcon);
     }
 
     @Override

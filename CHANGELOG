@@ -1,5 +1,10 @@
 # Releases
 
+## v0.4.2
+
+* adds feature to be able to theme toolbar text & icons
+* adds playstore link default
+
 ## v0.4.1 (2017-01-27)
 
 * fixes bug in demo activity were application context was used in shake detector to start activity

@@ -33,6 +33,7 @@
         <item name="colorPrimary">@color/hoodLibDefaultColorPrimary</item>
         <item name="colorPrimaryDark">@color/hoodLibDefaultColorPrimaryDark</item>
         <item name="colorAccent">@color/hoodLibDefaultColorAccent</item>
+        <item name="hoodToolbarTextColor">@android:color/white</item>
         <item name="hoodZebraColor">@color/hoodlib_zebra_color</item>
         <item name="hoodTextSizeNormal">@dimen/hoodlib_standard_text_size</item>
         <item name="hoodTextSizeHeader">@dimen/hoodlib_header_text_size</item>
@@ -44,10 +45,15 @@
         <item name="colorPrimary">@color/hoodLibDefaultColorPrimary</item>
         <item name="colorPrimaryDark">@color/hoodLibDefaultColorPrimaryDark</item>
         <item name="colorAccent">@color/hoodLibDefaultColorAccent</item>
+        <item name="hoodToolbarTextColor">@android:color/white</item>
         <item name="hoodZebraColor">@color/hoodlib_zebra_color_dark</item>
         <item name="hoodTextSizeNormal">@dimen/hoodlib_standard_text_size</item>
         <item name="hoodTextSizeHeader">@dimen/hoodlib_header_text_size</item>
         <item name="hoodViewpagerTabTextColor">@android:color/primary_text_dark</item>
         <item name="hoodViewpagerTabBackgroundColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="HoodThemeToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">?hoodToolbarTextColor</item>
     </style>
 </resources>

@@ -38,7 +38,7 @@ Add the following to your dependencies ([add jcenter to your repositories](https
 
 ```gradle
     dependencies {
-        compile 'at.favre.lib.hood:hood-extended:0.4.1'
+        compile 'at.favre.lib.hood:hood-extended:0.4.2'
     }
 ```
 
@@ -400,6 +400,7 @@ and overlays for standalone views:
 You can also define your own theme (extending `Theme.AppCompat` or `ThemeOverlay.AppCompat`)
 but you must define the following attributes in it:
 
+* `hoodToolbarTextColor`: toolbar text and icon color
 * `hoodZebraColor`: highlighting color for odd rows
 * `hoodTextSizeNormal`: default text size
 * `hoodTextSizeHeader`: header text size
@@ -410,6 +411,7 @@ Here is an example with useful defaults:
 ```xml
     <style name="HoodThemeDark" parent="Theme.AppCompat.NoActionBar">
         ...
+        <item name="hoodToolbarTextColor">@android:color/primary_text_dark</item>
         <item name="hoodZebraColor">@color/hoodlib_zebra_color_dark</item>
         <item name="hoodTextSizeNormal">@dimen/hoodlib_standard_text_size</item>
         <item name="hoodTextSizeHeader">@dimen/hoodlib_header_text_size</item>

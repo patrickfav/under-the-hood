@@ -4,6 +4,7 @@ package at.favre.lib.hood.util.defaults;
 import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -181,5 +182,24 @@ public class DefaultButtonDefinitions {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Opens the app with given package name either in play store app or as a normal link
+     *
+     * @param packageName ie. the applicationId
+     * @return the button def
+     */
+    public static ButtonDefinition getPlayStoreLink(final String packageName) {
+        return new ButtonDefinition("Open in Playstore", new OnClickAction() {
+            @Override
+            public void onClick(View v, Map.Entry<CharSequence, String> value) {
+                try {
+                    v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+                }
+            }
+        });
     }
 }

@@ -102,6 +102,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getBatterySaverSettingsAction(), DefaultButtonDefinitions.getDisplaySettingsAction());
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getInputModeSettingsAction(), DefaultButtonDefinitions.getStorageSettingsAction());
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getSecuritySettingsAction(), DefaultButtonDefinitions.getInstalledAppSettings());
+        PageUtil.addAction(secondPage, DefaultButtonDefinitions.getPlayStoreLink(BuildConfig.APPLICATION_ID));
 
         secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO).createSection(this, true));
 
