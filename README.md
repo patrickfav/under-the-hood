@@ -9,7 +9,7 @@ which can be customized to your needs.
 The lib is divided into 2 modules: `hood-core` containing the basic view that
 can be embedded anywhere and `hood-extended` which comes with a ready-to-use
 activity with a lot of convenience features. The lib has also a null-safe
-no-op flavor indented to be used in release builds, disabling all debug features
+[no-op](https://en.wikipedia.org/wiki/NOP) flavor indented to be used in release builds, disabling all debug features
 without error-prone if-debug chains.
 
 [![Download](https://api.bintray.com/packages/patrickfav/maven/hood-extended/images/download.svg) ](https://bintray.com/patrickfav/maven/hood-extended/_latestVersion)
@@ -26,7 +26,8 @@ To check it out, [download the demo app from the Playstore](https://play.google.
 * Extensible dark and light theme
 * Plentiful default debug data (app version, permissions, system features, etc.)
 * Use as activity or standalone view embeddable into your layouts
-* No-op flavor of the lib for your release build
+* Lightweight and uses minimal dependencies using core module
+* [No-op](https://en.wikipedia.org/wiki/NOP) flavor of the lib for your release build
 * Shake listener and Multi Click Listener
 
 ![screenshot gallery](doc/screenshot_gallery.png)
@@ -349,7 +350,7 @@ version in only in your debug builds with:
     compile("at.favre.lib.hood:hood-core:x.x.x")
 ```
 #### `noop`
-The no-op version of the lib internally using null-safe no-op versions of the
+The [no-op version](https://en.wikipedia.org/wiki/NOP) of the lib internally using null-safe no-op versions of the
 main template system. All creator methods of `HoodAPI` (`Hood.get()`) and `HoodAPI.Extension`
 (`Hood.ext()`) support the no-op switch and return dummy implementations.
 If you use implementation from `at.favre.lib.hood.page.**` directly this will have no effect.
