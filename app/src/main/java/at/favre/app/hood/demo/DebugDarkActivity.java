@@ -88,7 +88,6 @@ public class DebugDarkActivity extends PopHoodActivity {
             }
         }));
 
-
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getCrashAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getKillProcessAction(this), DefaultButtonDefinitions.getClearAppDataAction());
         PageUtil.addAction(firstPage, HoodUtil.getConditionally(DefaultButtonDefinitions.getKillProcessAction(this), BuildConfig.DEBUG));

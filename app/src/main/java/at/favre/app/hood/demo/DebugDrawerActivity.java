@@ -70,7 +70,6 @@ public class DebugDrawerActivity extends AppCompatActivity implements HoodContro
         return true;
     }
 
-
     public Pages createPages() {
         Pages pages = Hood.get().createPages(Config.newBuilder().setShowHighlightContent(false).build());
         Page firstPage = pages.addNewPage("Debug Info");
