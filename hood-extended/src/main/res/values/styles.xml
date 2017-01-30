@@ -55,5 +55,7 @@
 
     <style name="HoodThemeToolbarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">?hoodToolbarTextColor</item>
+        <item name="android:textColor">?hoodToolbarTextColor</item>
+        <item name="android:colorBackground">?attr/colorPrimary</item>
     </style>
 </resources>

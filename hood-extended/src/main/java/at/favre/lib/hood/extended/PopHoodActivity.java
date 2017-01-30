@@ -2,18 +2,15 @@ package at.favre.lib.hood.extended;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -125,20 +122,19 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     }
 
     private void tintMenuItem(Menu menu, @IdRes int iconId) {
-        MenuItem favoriteItem = menu.findItem(iconId);
-        Drawable favoriteIcon = DrawableCompat.wrap(favoriteItem.getIcon());
+        MenuItem item = menu.findItem(iconId);
+        Drawable icon = DrawableCompat.wrap(item.getIcon());
 
+        @ColorInt int color;
         TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = getTheme();
-        theme.resolveAttribute(R.attr.hoodToolbarTextColor, typedValue, true);
+        if (getTheme().resolveAttribute(R.attr.hoodToolbarTextColor, typedValue, true)) {
+            color = typedValue.data;
+        } else {
+            color = Color.WHITE;
+        }
 
-        TypedArray ta = obtainStyledAttributes(new int[]{R.attr.hoodToolbarTextColor});
-        @ColorRes int color = ta.getResourceId(0, android.R.color.white);
-        ta.recycle();
-
-        ColorStateList colorSelector = ResourcesCompat.getColorStateList(getResources(), color, getTheme());
-        DrawableCompat.setTintList(favoriteIcon, colorSelector);
-        favoriteItem.setIcon(favoriteIcon);
+        DrawableCompat.setTint(icon, color);
+        item.setIcon(icon);
     }
 
     @Override

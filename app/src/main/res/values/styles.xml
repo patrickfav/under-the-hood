@@ -34,7 +34,7 @@
         <item name="colorPrimaryDark">#FF8F00</item>
         <item name="colorAccent">#6900FF</item>
 
-        <item name="hoodToolbarTextColor">@android:color/primary_text_dark</item>
+        <item name="hoodToolbarTextColor">#b80000</item>
         <item name="hoodZebraColor">#fffaec</item>
         <item name="hoodTextSizeNormal">18sp</item>
         <item name="hoodTextSizeHeader">28sp</item>

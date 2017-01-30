@@ -1,5 +1,9 @@
 # Releases
 
+## v0.4.3
+
+* fixes toolbar tinting/coloring regression
+
 ## v0.4.2
 
 * adds feature to be able to theme toolbar text & icons
