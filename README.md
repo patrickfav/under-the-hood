@@ -118,6 +118,11 @@ Set up in your controller (`Activity` or `Fragment`):
     debugView.setPageData(pages);
 ```
 
+### Showcase Demo App
+
+![animation of ui](doc/showcase.gif)
+
+
 ## The HoodAPI
 
 The main interface of the App is the `HoodAPI` or `HoodAPI.Extension` accessed
