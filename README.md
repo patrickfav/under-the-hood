@@ -16,6 +16,7 @@ without error-prone if-debug chains.
 [![Download](https://api.bintray.com/packages/patrickfav/maven/hood-core/images/download.svg) ](https://bintray.com/patrickfav/maven/hood-core/_latestVersion)
 [![Build Status](https://travis-ci.org/patrickfav/under-the-hood.svg?branch=master)](https://travis-ci.org/patrickfav/under-the-hood)
 [![Javadocs](https://www.javadoc.io/badge/at.favre.lib.hood/hood-core.svg)](https://www.javadoc.io/doc/at.favre.lib.hood/hood-core)
+[![API 14+](https://img.shields.io/badge/API-14%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=14)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Under%20the%20Hood-yellowgreen.svg?style=flat)](https://android-arsenal.com/details/1/5131)
 [![play store banner](doc/playstore_badge_new_sm.png)](https://play.google.com/store/apps/details?id=at.favre.app.hood.demo)
 
