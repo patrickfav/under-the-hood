@@ -39,7 +39,7 @@ Add the following to your dependencies ([add jcenter to your repositories](https
 
 ```gradle
     dependencies {
-        compile 'at.favre.lib.hood:hood-extended:0.4.3'
+        compile 'at.favre.lib.hood:hood-extended:0.5.0'
     }
 ```
 
