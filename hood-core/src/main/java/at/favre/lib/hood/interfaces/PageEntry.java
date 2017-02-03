@@ -44,6 +44,12 @@ public interface PageEntry<T> {
     String toLogString();
 
     /**
+     * Disables any output when trying to log. {@link #toLogString()} will always
+     * return null after calling this method.
+     */
+    void disableLogging();
+
+    /**
      * This should refresh the UI content. Will be called by the framework.
      */
     void refresh();

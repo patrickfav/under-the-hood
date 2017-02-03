@@ -18,22 +18,13 @@ import at.favre.lib.hood.interfaces.ViewTypes;
 public class HeaderEntry implements PageEntry<CharSequence> {
 
     private final CharSequence header;
-    private final boolean hideInLog;
+    private boolean loggingEnabled = true;
 
     /**
      * @param header as shown in ui
      */
     public HeaderEntry(CharSequence header) {
-        this(header, false);
-    }
-
-    /**
-     * @param header    as shown in ui
-     * @param hideInLog will omit it in log
-     */
-    public HeaderEntry(CharSequence header, boolean hideInLog) {
         this.header = header;
-        this.hideInLog = hideInLog;
     }
 
     @Override
@@ -53,10 +44,12 @@ public class HeaderEntry implements PageEntry<CharSequence> {
 
     @Override
     public String toLogString() {
-        if (!hideInLog) {
-            return "## " + header.toString();
-        }
-        return null;
+        return loggingEnabled ? "## " + header.toString() : null;
+    }
+
+    @Override
+    public void disableLogging() {
+        loggingEnabled = false;
     }
 
     @Override

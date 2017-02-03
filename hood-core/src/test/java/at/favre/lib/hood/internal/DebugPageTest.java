@@ -15,9 +15,12 @@ import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.interfaces.Section;
+import at.favre.lib.hood.util.defaults.DefaultButtonDefinitions;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertNull;
 
 public class DebugPageTest {
     private Page page;
@@ -132,5 +135,40 @@ public class DebugPageTest {
         Page page4a = DebugPage.Factory.create(defaultPages, "one");
         Page page4b = DebugPage.Factory.create(defaultPages, "one");
         assertEquals(page4a, page4b);
+    }
+
+    @Test
+    public void testDisableLogging() {
+        Pages defaultPages = DebugPages.Factory.create(Config.newBuilder().build());
+        Page page = defaultPages.addNewPage("test");
+
+        for (int i = 0; i < 5; i++) {
+            page.add(Hood.get().createPropertyEntry("key" + i, "value" + i));
+            page.add(Hood.get().createMessageEntry("message" + i));
+            page.add(Hood.get().createHeaderEntry("header" + i));
+            page.add(Hood.get().createSwitchEntry(new MockBoolConfigAction("testbool" + i)));
+            page.add(Hood.get().createSpinnerEntry(new MockSingleSelectConfigAction("testspinner" + i)));
+        }
+
+        for (PageEntry pageEntry : page.getEntries()) {
+            assertNotNull(pageEntry.toLogString());
+        }
+
+        page.disableLogging();
+
+        for (PageEntry pageEntry : page.getEntries()) {
+            assertNull(pageEntry.toLogString());
+        }
+
+        page.add(Hood.get().createPropertyEntry("new", "newvalue"));
+        page.add(Hood.get().createMessageEntry("message"));
+        page.add(Hood.get().createHeaderEntry("header"));
+        page.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getCrashAction()));
+        page.add(Hood.get().createSwitchEntry(new MockBoolConfigAction("testbool")));
+        page.add(Hood.get().createSpinnerEntry(new MockSingleSelectConfigAction("testspinner")));
+
+        for (PageEntry pageEntry : page.getEntries()) {
+            assertNull(pageEntry.toLogString());
+        }
     }
 }

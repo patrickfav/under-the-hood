@@ -30,6 +30,7 @@ class UnmodifiablePageDelegate implements Page {
         return page.getTitle();
     }
 
+    @NonNull
     public List<PageEntry> getEntries() {
         return unmodifiableEntries;
     }
@@ -60,6 +61,11 @@ class UnmodifiablePageDelegate implements Page {
 
     public void removeEntries() {
         throw new UnsupportedOperationException("cannot remove pages anymore");
+    }
+
+    @Override
+    public void disableLogging() {
+        throw new UnsupportedOperationException("cannot disable logging anymore");
     }
 
     @NonNull

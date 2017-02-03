@@ -50,11 +50,6 @@ public final class HoodNoop implements HoodAPI {
     }
 
     @Override
-    public PageEntry<?> createHeaderEntry(CharSequence header, boolean hideInLog) {
-        return placeholderPageEntry;
-    }
-
-    @Override
     public PageEntry<?> createMessageEntry(CharSequence message) {
         return placeholderPageEntry;
     }

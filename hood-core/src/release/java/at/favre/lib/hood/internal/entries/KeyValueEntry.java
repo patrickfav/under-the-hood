@@ -46,6 +46,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     private Map.Entry<CharSequence, Value<String>> data;
     private final boolean multiLine;
+    private boolean loggingEnabled = true;
 
     /**
      * Creates Key-Value style page entry.
@@ -133,7 +134,12 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
     @Override
     public String toLogString() {
-        return "\t" + data.getKey() + "=" + data.getValue().getCachedValue();
+        return loggingEnabled ? "\t" + data.getKey() + "=" + data.getValue().getCachedValue() : null;
+    }
+
+    @Override
+    public void disableLogging() {
+        loggingEnabled = false;
     }
 
     @Override

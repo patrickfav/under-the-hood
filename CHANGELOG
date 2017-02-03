@@ -1,5 +1,14 @@
 # Releases
 
+## v0.5.0 (2017-02-04)
+
+* adds feature to disable logging for entries or entire pages
+* adds feature to get log of pages as StringBuilder
+* fix showing null if uses-feature requires glEsVersion and has no name (used often for Google Maps)
+### Migration from v0.4.x
+
+* Use PageEntry.disableLogging() instead of Hood.get().createHeaderEntry(String,bool) to disable it in logging
+
 ## v0.4.4 (2017-01-30)
 
 * minor demo app layout fix

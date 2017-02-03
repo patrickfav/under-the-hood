@@ -65,6 +65,11 @@ public class ActionEntry implements PageEntry<List<ButtonDefinition>> {
     }
 
     @Override
+    public void disableLogging() {
+        //no-op
+    }
+
+    @Override
     public void refresh() {
         //no-op
     }

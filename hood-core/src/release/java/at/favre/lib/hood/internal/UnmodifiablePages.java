@@ -71,6 +71,11 @@ class UnmodifiablePages implements Pages {
         debugPages.logPages();
     }
 
+    @Override
+    public StringBuilder getLogString() {
+        return debugPages.getLogString();
+    }
+
     @NonNull
     public Config getConfig() {
         return debugPages.getConfig();

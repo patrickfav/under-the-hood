@@ -22,6 +22,7 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
 
     private final BoolConfigAction action;
+    private boolean loggingEnabled = true;
 
     /**
      * Creates an interactive switch like entry
@@ -49,7 +50,12 @@ public class ConfigBoolEntry implements PageEntry<BoolConfigAction> {
 
     @Override
     public String toLogString() {
-        return "\t" + action.label + ": " + action.changeableValue.getValue();
+        return loggingEnabled ? "\t" + action.label + ": " + action.changeableValue.getValue() : null;
+    }
+
+    @Override
+    public void disableLogging() {
+        loggingEnabled = false;
     }
 
     @Override

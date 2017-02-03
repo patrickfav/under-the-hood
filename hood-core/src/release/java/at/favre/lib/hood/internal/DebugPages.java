@@ -12,7 +12,7 @@ import at.favre.lib.hood.interfaces.Pages;
 import timber.log.Timber;
 
 /**
- * Default implementation of a the {@link Pages} interface. Can only be creted with given
+ * Default implementation of a the {@link Pages} interface. Can only be created with given
  * factory {@link DebugPages.Factory}
  */
 public class DebugPages implements Pages {
@@ -39,9 +39,7 @@ public class DebugPages implements Pages {
 
     @Override
     public Page addNewPage() {
-        Page p = DebugPage.Factory.create(this, DEFAULT_TITLE);
-        pages.add(p);
-        return p;
+        return addNewPage(DEFAULT_TITLE);
     }
 
     @Override
@@ -94,6 +92,15 @@ public class DebugPages implements Pages {
         for (Page page : pages) {
             page.logPage();
         }
+    }
+
+    @Override
+    public StringBuilder getLogString() {
+        StringBuilder sb = new StringBuilder();
+        for (Page page : pages) {
+            sb.append(DebugPage.getDebugDataAsString(page.getEntries(), page.getTitle())).append("\n");
+        }
+        return sb;
     }
 
     @NonNull

@@ -64,6 +64,11 @@ public class PagesNoop implements Pages {
         //no-op
     }
 
+    @Override
+    public StringBuilder getLogString() {
+        return new StringBuilder();
+    }
+
     @NonNull
     @Override
     public Config getConfig() {

@@ -30,6 +30,7 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigAction> {
 
     private final SingleSelectListConfigAction action;
+    private boolean loggingEnabled = true;
 
     /**
      * Creates a single-select from list entry (ie. spinner or drop-down list)
@@ -57,7 +58,12 @@ public class ConfigSpinnerEntry implements PageEntry<SingleSelectListConfigActio
 
     @Override
     public String toLogString() {
-        return "\t" + action.label + ": " + action.changeableValue.getValue();
+        return loggingEnabled ? "\t" + action.label + ": " + action.changeableValue.getValue() : null;
+    }
+
+    @Override
+    public void disableLogging() {
+        loggingEnabled = false;
     }
 
     @Override

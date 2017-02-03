@@ -25,6 +25,7 @@ class PageNoop implements Page {
         return placeHolderTitle;
     }
 
+    @NonNull
     @Override
     public List<PageEntry> getEntries() {
         return Collections.emptyList();
@@ -62,6 +63,11 @@ class PageNoop implements Page {
 
     @Override
     public void removeEntries() {
+        //no-op
+    }
+
+    @Override
+    public void disableLogging() {
         //no-op
     }
 

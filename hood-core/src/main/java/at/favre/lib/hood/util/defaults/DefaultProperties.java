@@ -4,9 +4,11 @@ package at.favre.lib.hood.util.defaults;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ConfigurationInfo;
 import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Build;
@@ -354,8 +356,16 @@ public class DefaultProperties {
     public static List<PageEntry<?>> createSystemFeatureInfo(@Nullable Context context, Map<CharSequence, String> labelSystemFeatureMap) {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (context != null) {
+
             for (Map.Entry<CharSequence, String> entry : labelSystemFeatureMap.entrySet()) {
-                entries.add(Hood.get().createPropertyEntry(entry.getKey(), String.valueOf(context.getPackageManager().hasSystemFeature(entry.getValue()))));
+                boolean supported;
+                if (entry.getValue().matches("^-?\\d+$")) {
+                    final ConfigurationInfo configurationInfo = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getDeviceConfigurationInfo();
+                    supported = configurationInfo.reqGlEsVersion >= Integer.valueOf(entry.getValue());
+                } else {
+                    supported = context.getPackageManager().hasSystemFeature(entry.getValue());
+                }
+                entries.add(Hood.get().createPropertyEntry(entry.getKey(), String.valueOf(supported)));
             }
         }
         return entries;

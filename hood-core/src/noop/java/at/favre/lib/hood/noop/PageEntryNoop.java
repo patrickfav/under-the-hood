@@ -34,6 +34,11 @@ class PageEntryNoop implements PageEntry<String> {
     }
 
     @Override
+    public void disableLogging() {
+        //no-op
+    }
+
+    @Override
     public void refresh() {
         //no-op
     }

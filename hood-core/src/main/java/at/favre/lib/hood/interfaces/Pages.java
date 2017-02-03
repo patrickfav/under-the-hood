@@ -72,6 +72,12 @@ public interface Pages {
     void logPages();
 
     /**
+     * Same as {@link #logPages()} but returns the string that would be logged instead
+     * @return the log of the page as {@link StringBuilder}
+     */
+    StringBuilder getLogString();
+
+    /**
      * The config should be passed to this class
      *
      * @return the currently set config

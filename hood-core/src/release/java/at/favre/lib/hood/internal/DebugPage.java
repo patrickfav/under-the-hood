@@ -8,6 +8,7 @@ import android.util.SparseArray;
 import java.util.LinkedList;
 import java.util.List;
 
+import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Pages;
@@ -17,11 +18,12 @@ import at.favre.lib.hood.interfaces.ViewTemplate;
 /**
  * The default implementation of the debug view page. Use factory to create instance.
  */
-public class DebugPage implements Page {
+class DebugPage implements Page {
     private final List<PageEntry> entries = new LinkedList<>();
     private final SparseArray<ViewTemplate<?>> templateMap = new SparseArray<>();
     private final Pages pages;
     private final String title;
+    private boolean loggingDisabled = false;
 
     /**
      * Use this factory to create a instance of {@link DebugPage}
@@ -61,6 +63,10 @@ public class DebugPage implements Page {
             if (templateMap.indexOfKey(template.getViewType()) < 0) {
                 templateMap.put(template.getViewType(), template);
             }
+
+            if (loggingDisabled) {
+                pageEntry.disableLogging();
+            }
         }
     }
 
@@ -82,9 +88,17 @@ public class DebugPage implements Page {
         templateMap.clear();
     }
 
+    @Override
+    public void disableLogging() {
+        loggingDisabled = true;
+        for (PageEntry entry : entries) {
+            entry.disableLogging();
+        }
+    }
+
     @NonNull
     @Override
-    public at.favre.lib.hood.interfaces.Config getConfig() {
+    public Config getConfig() {
         return pages.getConfig();
     }
 
@@ -97,15 +111,17 @@ public class DebugPage implements Page {
 
     @Override
     public void logPage() {
-        pages.log(getDebugDataAsString());
+        if (!loggingDisabled) {
+            pages.log(getDebugDataAsString(entries, title));
+        }
     }
 
     @Override
     public String toString() {
-        return getDebugDataAsString();
+        return getDebugDataAsString(entries, title);
     }
 
-    private String getDebugDataAsString() {
+    static String getDebugDataAsString(List<PageEntry> entries, String title) {
         StringBuilder sb = new StringBuilder();
 
         if (title != null && !title.trim().isEmpty() && !DebugPages.DEFAULT_TITLE.equals(title)) {

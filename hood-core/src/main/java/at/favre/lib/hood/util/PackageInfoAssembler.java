@@ -17,8 +17,10 @@ import android.support.annotation.Nullable;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -137,11 +139,13 @@ public class PackageInfoAssembler {
         }
     }
 
-    private final EnumSet<Type> typeSet;
+    private final List<Type> typeList;
     private final String packageName;
 
     /**
-     * Same as {@link PackageInfoAssembler} constructor, but will use the current's packageName
+     * Same as {@link PackageInfoAssembler} constructor, but will use the current's packageName.
+     * Note that the order in which the type parameters are set will be honored, also it is possible
+     * to include a type multiple times.
      *
      * @param type must provide types - each type will request a certain packageManager info category (see {@link Type}
      */
@@ -158,7 +162,11 @@ public class PackageInfoAssembler {
      */
     public PackageInfoAssembler(String packageName, @NonNull Type type, Type... types) {
         this.packageName = packageName;
-        this.typeSet = EnumSet.of(type, types);
+        this.typeList = new LinkedList<>();
+        typeList.add(type);
+        if (types != null) {
+            typeList.addAll(Arrays.asList(types));
+        }
     }
 
     /**
@@ -185,13 +193,13 @@ public class PackageInfoAssembler {
             String targetPackageName = packageName == null ? context.getPackageName() : packageName;
             try {
                 @SuppressWarnings("WrongConstant")
-                PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), getRequiredRequestFlags(typeSet));
+                PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), getRequiredRequestFlags(typeList));
 
                 if (packageInfo == null) {
                     throw new IllegalStateException("info was null");
                 }
 
-                for (Type type : typeSet) {
+                for (Type type : typeList) {
                     mainSection.add(Hood.ext().createSection(addSectionHeaders ? type.header : null, type.pageEntryProvider.getEntries(context, packageInfo)));
                 }
             } catch (Exception e) {
@@ -202,10 +210,10 @@ public class PackageInfoAssembler {
         return mainSection.removeHeader();
     }
 
-    private int getRequiredRequestFlags(EnumSet<Type> requestedTypes) {
+    private int getRequiredRequestFlags(List<Type> requestedTypes) {
         int flags = 0;
-
-        for (Type requestedType : requestedTypes) {
+        EnumSet<Type> set = EnumSet.copyOf(requestedTypes);
+        for (Type requestedType : set) {
             if (requestedType.requestFlag != null) {
                 flags |= requestedType.requestFlag;
             }
@@ -406,8 +414,19 @@ public class PackageInfoAssembler {
             if (packageInfo.reqFeatures != null && packageInfo.reqFeatures.length > 0) {
                 for (FeatureInfo reqFeature : packageInfo.reqFeatures) {
                     boolean required = reqFeature.flags == FeatureInfo.FLAG_REQUIRED;
-                    String fullLabel = reqFeature.name + (required ? " (req)" : "");
-                    featureMap.put(Hood.ext().createFullLabel(fullLabel.replace("android.hardware.", ""), fullLabel), reqFeature.name);
+                    String fullLabel;
+                    String id;
+                    if ((reqFeature.name == null || reqFeature.name.trim().isEmpty())
+                            && reqFeature.getGlEsVersion() != null && !reqFeature.getGlEsVersion().isEmpty()) {
+                        fullLabel = "glEsVersion " + reqFeature.getGlEsVersion();
+                        id = String.valueOf(reqFeature.reqGlEsVersion);
+                    } else {
+                        fullLabel = reqFeature.name;
+                        id = reqFeature.name;
+                    }
+
+                    fullLabel += (required ? " (req)" : "");
+                    featureMap.put(Hood.ext().createFullLabel(fullLabel.replace("android.hardware.", ""), fullLabel), id);
                 }
             }
 

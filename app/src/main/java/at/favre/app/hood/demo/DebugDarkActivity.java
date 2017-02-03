@@ -1,5 +1,6 @@
 package at.favre.app.hood.demo;
 
+import android.content.pm.FeatureInfo;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -27,6 +28,7 @@ import at.favre.lib.hood.util.PageUtil;
 import at.favre.lib.hood.util.defaults.DefaultButtonDefinitions;
 import at.favre.lib.hood.util.defaults.DefaultConfigActions;
 import at.favre.lib.hood.util.defaults.DefaultProperties;
+import timber.log.Timber;
 
 public class DebugDarkActivity extends PopHoodActivity {
     private static final String TAG = DebugDarkActivity.class.getName();
@@ -72,7 +74,7 @@ public class DebugDarkActivity extends PopHoodActivity {
 
         firstPage.add(Hood.get().createPropertyEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
-        firstPage.add(Hood.get().createHeaderEntry("Misc Action", true));
+        firstPage.add(Hood.get().createHeaderEntry("Misc Action"));
         PageUtil.addAction(firstPage, new ButtonDefinition("Test Loading", new OnClickAction() {
             @Override
             public void onClick(final View view, Map.Entry<CharSequence, String> value) {
@@ -87,6 +89,10 @@ public class DebugDarkActivity extends PopHoodActivity {
                 }, 3000);
             }
         }));
+
+        for (FeatureInfo featureInfo : getPackageManager().getSystemAvailableFeatures()) {
+            Timber.d(String.valueOf(featureInfo) + "\n");
+        }
 
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getCrashAction());
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getKillProcessAction(this), DefaultButtonDefinitions.getClearAppDataAction());
@@ -115,7 +121,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
         firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.SIGNATURE).createSection(this, false));
         firstPage.add(DefaultProperties.createSectionTelephonyManger(this));
-        firstPage.add(Hood.get().createHeaderEntry("Settings", true));
+        firstPage.add(Hood.get().createHeaderEntry("Settings"));
         firstPage.add(Hood.get().createActionEntry(new ButtonDefinition("Click me", new OnClickAction() {
             @Override
             public void onClick(View v, Map.Entry<CharSequence, String> value) {

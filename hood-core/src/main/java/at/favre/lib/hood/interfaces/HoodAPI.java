@@ -51,14 +51,6 @@ public interface HoodAPI {
     PageEntry<?> createHeaderEntry(CharSequence header);
 
     /**
-     * Creates a header entry
-     *
-     * @param header    as shown in ui
-     * @param hideInLog will omit it in log
-     */
-    PageEntry<?> createHeaderEntry(CharSequence header, boolean hideInLog);
-
-    /**
      * Creates a simple, non-interactive text message
      *
      * @param message as shown in

@@ -20,6 +20,7 @@ import at.favre.lib.hood.view.HoodDebugPageView;
 public class TextMessageEntry implements PageEntry<CharSequence> {
 
     private final CharSequence message;
+    private boolean loggingEnabled = true;
 
     /**
      * Creates a simple, non-interactive text message
@@ -47,7 +48,12 @@ public class TextMessageEntry implements PageEntry<CharSequence> {
 
     @Override
     public String toLogString() {
-        return message.toString();
+        return loggingEnabled ? message.toString() : null;
+    }
+
+    @Override
+    public void disableLogging() {
+        loggingEnabled = false;
     }
 
     @Override

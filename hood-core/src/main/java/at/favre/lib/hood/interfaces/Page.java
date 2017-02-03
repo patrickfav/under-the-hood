@@ -60,9 +60,16 @@ public interface Page {
     void logPage();
 
     /**
-     * Clears all the entries
+     * Clears all the entries attached to this view
      */
     void removeEntries();
+
+    /**
+     * Disables any output or action when trying to log this page. Will disable logging on
+     * all attached page entries and every entry that gets added later. Affects calls like
+     * {@link #logPage()} and {@link PageEntry#toLogString()}
+     */
+    void disableLogging();
 
     /**
      * The config should be passed to this class

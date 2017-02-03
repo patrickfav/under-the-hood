@@ -48,7 +48,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
 
         firstPage.add(Hood.get().createPropertyEntry("MultiLine Test", "I am displaying text in a textview that appears to\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\nbe too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code\ne too long to fit into one screen. \nI need to make my TextView scrollable. How can i do\nthat? Here is the code", true));
 
-        firstPage.add(Hood.get().createHeaderEntry("Misc Action", true));
+        firstPage.add(Hood.get().createHeaderEntry("Misc Action"));
         PageUtil.addAction(firstPage, new ButtonDefinition("Test Loading", new OnClickAction() {
             @Override
             public void onClick(final View view, Map.Entry<CharSequence, String> value) {
@@ -93,7 +93,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         secondPage.add(DefaultProperties.createSectionStrictMode());
         secondPage.add(DefaultProperties.createSectionBatteryInfo(this));
         secondPage.add(DefaultProperties.createSectionAndroidDebugSettings(this));
-        secondPage.add(Hood.get().createHeaderEntry("Settings", true));
+        secondPage.add(Hood.get().createHeaderEntry("Settings"));
 
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getGlobalSettingsAction(), DefaultButtonDefinitions.getNfcSettingsAction());
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getNfcPaymentSettingsAction(), DefaultButtonDefinitions.getDevSettingsAction());
@@ -107,11 +107,10 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO, PackageInfoAssembler.Type.APK_INSTALL_INFO).createSection(this, true));
 
         Page thirdPage = pages.addNewPage("Package Manager");
-        thirdPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_VERSION_INFO,
+        thirdPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.USES_FEATURE, PackageInfoAssembler.Type.APK_VERSION_INFO,
                 PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.ACTIVITIES,
-                PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.Type.PROVIDER,
-                PackageInfoAssembler.Type.RECEIVERS, PackageInfoAssembler.Type.SERVICES,
-                PackageInfoAssembler.Type.SIGNATURE, PackageInfoAssembler.Type.USES_FEATURE).createSection(this, true));
+                PackageInfoAssembler.Type.SIGNATURE, PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.Type.PROVIDER,
+                PackageInfoAssembler.Type.RECEIVERS, PackageInfoAssembler.Type.SERVICES, PackageInfoAssembler.Type.ACTIVITIES).createSection(this, true));
 
         return pages;
     }
