@@ -39,40 +39,38 @@ To check it out, [download the demo app from the Playstore](https://play.google.
 Add the following to your dependencies ([add jcenter to your repositories](https://developer.android.com/studio/build/index.html#top-level) if you haven't)
 
 ```gradle
-    dependencies {
-        compile 'at.favre.lib.hood:hood-extended:0.5.0'
-    }
+compile 'at.favre.lib.hood:hood-extended:0.5.0'
 ```
 
 Create an activity and extend `PopHoodActivity`. Define it in your `AndroidManifest`:
 
 ```xml
-    <activity
-        android:name="com.example.your.MyDebugActivity"
-        android:theme="@style/HoodThemeDark">
-    </activity>
+<activity
+    android:name="com.example.your.MyDebugActivity"
+    android:theme="@style/HoodThemeDark">
+</activity>
 ```
 Implement the config and page setter in the `Activity`:
 
 ```java
-    public class MyDebugActivity extends PopHoodActivity {
-        @Override
-        public Pages getPageData(@NonNull Pages pages) {
-            Page firstPage = pages.addNewPage();
-            firstPage.add(Hood.get().createHeaderEntry("System Features"));
-            firstPage.add(Hood.get().createPropertyEntry("The Key", "The value"));
-            firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
-            firstPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getGlobalSettingsAction()));
-            firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.USES_FEATURE).createSection(this, true));
+public class MyDebugActivity extends PopHoodActivity {
+    @Override
+    public Pages getPageData(@NonNull Pages pages) {
+        Page firstPage = pages.addNewPage();
+        firstPage.add(Hood.get().createHeaderEntry("System Features"));
+        firstPage.add(Hood.get().createPropertyEntry("The Key", "The value"));
+        firstPage.add(DefaultProperties.createSectionBasicDeviceInfo());
+        firstPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getGlobalSettingsAction()));
+        firstPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.PERMISSIONS, PackageInfoAssembler.USES_FEATURE).createSection(this, true));
 
-            return pages;
-        }
-
-        @Override
-        public Config getConfig() {
-            return Config.newBuilder().setLogTag("MyDebugActivity").build();
-        }
+         return pages;
     }
+
+    @Override
+    public Config getConfig() {
+        return Config.newBuilder().setLogTag("MyDebugActivity").build();
+    }
+}
 ```
 
 See demo app for extended samples.
@@ -82,40 +80,40 @@ See demo app for extended samples.
 Add the view to your layout:
 
 ```xml
-    <at.favre.lib.hood.view.HoodDebugPageView
-            android:id="@+id/debug_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/CustomHoodViewOverlayDark" />
+<at.favre.lib.hood.view.HoodDebugPageView
+        android:id="@+id/debug_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/CustomHoodViewOverlayDark" />
 ```
 
 Create the following style:
 
 ```xml
-    <style name="CustomHoodViewOverlayDark" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:background">?android:windowBackground</item>
-        <item name="hoodZebraColor">@color/hoodlib_zebra_color_dark</item>
-        <item name="hoodTextSizeNormal">@dimen/hoodlib_standard_text_size</item>
-        <item name="hoodTextSizeHeader">@dimen/hoodlib_header_text_size</item>
-        <item name="hoodViewpagerTabTextColor">@android:color/primary_text_dark</item>
-        <item name="hoodViewpagerTabBackgroundColor">?attr/colorPrimary</item>
-    </style>
+<style name="CustomHoodViewOverlayDark" parent="ThemeOverlay.AppCompat.Dark">
+     <item name="android:background">?android:windowBackground</item>
+    <item name="hoodZebraColor">@color/hoodlib_zebra_color_dark</item>
+    <item name="hoodTextSizeNormal">@dimen/hoodlib_standard_text_size</item>
+    <item name="hoodTextSizeHeader">@dimen/hoodlib_header_text_size</item>
+    <item name="hoodViewpagerTabTextColor">@android:color/primary_text_dark</item>
+    <item name="hoodViewpagerTabBackgroundColor">?attr/colorPrimary</item>
+</style>
 ```
 
 Set up in your controller (`Activity` or `Fragment`):
 
 ```java
-    HoodDebugPageView debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
+HoodDebugPageView debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
 
-    Pages pages = Hood.get().createPages(Config.newBuilder().setShowHighlightContent(false).build());
-    Page firstPage = pages.addNewPage("Debug Info");
-    firstPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getCrashAction()));
-    ...
-    Page secondPage = pages.addNewPage("Debug Features");
-    secondPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
-    secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
-    ...
-    debugView.setPageData(pages);
+Pages pages = Hood.get().createPages(Config.newBuilder().setShowHighlightContent(false).build());
+Page firstPage = pages.addNewPage("Debug Info");
+firstPage.add(Hood.get().createActionEntry(DefaultButtonDefinitions.getCrashAction()));
+...
+Page secondPage = pages.addNewPage("Debug Features");
+secondPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
+secondPage.add(new PackageInfoAssembler(PackageInfoAssembler.Type.APK_INSTALL_INFO, PackageInfoAssembler.Type.PERMISSIONS).createSection(this, true));
+...
+debugView.setPageData(pages);
 ```
 
 ### Showcase Demo App
@@ -540,6 +538,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-
-Umstieg auf eine Amerikanische Tastatur
