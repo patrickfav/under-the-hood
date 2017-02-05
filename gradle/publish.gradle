@@ -1,48 +1,77 @@
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def siteUrl = 'https://github.com/patrickfav/under-the-hood'      // Homepage URL of the library
-def gitUrl = 'https://github.com/patrickfav/under-the-hood.git'   // Git repository URL
-def descriptionText = 'A debug view library for Android. Very flexible through a simple templating system but easy to use due to a lot of defaults. Also has a no-op flavor for your release build.'
-group = "at.favre.lib.hood"                      // Maven Group ID for the artifact
+def final publishConfig = [
+        name                    : 'Under the Hood',
+        group                   : 'at.favre.lib.hood',
+        version                 : rootProject.ext.versionNameLib,
+        descriptionText         : 'A debug view library for Android. Very flexible through a simple templating system but easy to use due to a lot of defaults. Also has a no-op flavor for your release build.',
+        inceptionYear           : '2016',
+        siteUrl                 : 'https://github.com/patrickfav/under-the-hood',
+        gitUrl                  : 'https://github.com/patrickfav/under-the-hood.git',
+        issueTrackerUrl         : 'https://github.com/patrickfav/under-the-hood/issues',
+        issueTrackerName        : 'Github',
+        githubRepo              : 'patrickfav/under-the-hood',
+
+        pomDevId                : 'pfavre',
+        pomDevName              : 'Patrick Favre-Bulle',
+        pomDevMail              : 'patrick.favrebulle@gmail.com',
+
+        licenseName             : 'The Apache Software License, Version 2.0',
+        licenseBintray          : ['Apache-2.0'],
+        licenseUrl              : 'http://www.apache.org/licenses/LICENSE-2.0.txt',
+
+        bintrayLabels           : ['android', 'debugging', 'noop', 'debug-view'],
+
+        bintrayUploadDryRun     : false, //Whether to only mock uploading
+        bintrayUploadAutoPublish: true, //Whether version should be auto published after an upload
+        bintrayUploadOverride   : true, //[Default: false] Whether to override version artifacts already published
+        bintrayPubDlNumbers     : true, //Whether to show public dl stats in bintray
+        bintraySyncMavenCentral : true
+]
 
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
         pom {
-            version rootProject.ext.versionNameLib
+            version publishConfig.version
             project {
-                name 'Under the Hood'
+                name publishConfig.name
+                groupId publishConfig.group
                 packaging 'aar'
-                // Add your description here
-                description descriptionText
-                url siteUrl
+                description publishConfig.descriptionText
+                url publishConfig.siteUrl
+                inceptionYear publishConfig.inceptionYear
 
-                // Set your license
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name publishConfig.licenseName
+                        url publishConfig.licenseUrl
                     }
                 }
                 developers {
                     developer {
-                        id 'pfavre'
-                        name 'Patrick Favre-Bulle'
-                        email 'patrick.favrebulle@gmail.com'
+                        id publishConfig.pomDevId
+                        name publishConfig.pomDevName
+                        email publishConfig.pomDevMail
                     }
                 }
                 scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
+                    connection publishConfig.gitUrl
+                    developerConnection publishConfig.gitUrl
+                    url publishConfig.siteUrl
+                }
+
+                issueManagement {
+                    system publishConfig.issueTrackerName
+                    url publishConfig.issueTrackerUrl
                 }
             }
         }
 
         pom.whenConfigured { pom ->
             def found = pom.dependencies.find { dep ->
-                dep.groupId == 'at.favre.lib.hood'
+                dep.groupId == publishConfig.group
             }
 
             if (found != null) {
@@ -89,32 +118,43 @@ bintray {
         rename { name -> "hood-core-$rootProject.ext.versionNameLib-noop.aar" }
     }
 
-    dryRun = false
-    publish = true //Whether version should be auto published after an upload
-    override = false //[Default: false] Whether to override version artifacts already published
+    dryRun = publishConfig.bintrayUploadDryRun
+    publish = publishConfig.bintrayUploadAutoPublish
+    //Whether version should be auto published after an upload
+    override = publishConfig.bintrayUploadOverride
+    //[Default: false] Whether to override version artifacts already published
 
     pkg {
         repo = "maven"
         // it is the name that appears in bintray when logged
         name = project.buildDir.getParentFile().name
-        desc = descriptionText
-        issueTrackerUrl = 'https://github.com/patrickfav/under-the-hood/issues'
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        githubRepo = 'patrickfav/under-the-hood'
+        group publishConfig.group
+
+
+        desc = publishConfig.descriptionText
+        issueTrackerUrl = publishConfig.issueTrackerUrl
+        websiteUrl = publishConfig.siteUrl
+        vcsUrl = publishConfig.gitUrl
+
+        licenses = publishConfig.licenseBintray
+
+        githubRepo = publishConfig.githubRepo
         githubReleaseNotesFile = 'CHANGELOG'
-        labels = ['android', 'debugging', 'noop', 'debug-view']
+        labels = publishConfig.bintrayLabels
+        publicDownloadNumbers = publishConfig.bintrayPubDlNumbers
+
         version {
-            name = rootProject.ext.versionNameLib
-            vcsTag = rootProject.ext.versionNameLib
+            name = publishConfig.version
+            vcsTag = publishConfig.version
             released = new Date()
+
             gpg {
                 sign = true //Determines whether to GPG sign the files. The default is false
                 passphrase = properties.getProperty("bintray.gpg.password")
             }
+
             mavenCentralSync {
-                sync = true
+                sync = publishConfig.bintraySyncMavenCentral
                 //Optional (true by default). Determines whether to sync the version to Maven Central.
                 user = properties.getProperty("bintray.oss.user") //OSS user token
                 password = properties.getProperty("bintray.oss.password") //OSS user password
