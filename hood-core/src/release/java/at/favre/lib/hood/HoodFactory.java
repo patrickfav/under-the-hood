@@ -173,6 +173,7 @@ final class HoodFactory implements HoodAPI.Factory {
             return new ManagerControl() {
                 private boolean isSupported = true;
                 private ShakeDetector shakeDetector;
+
                 @Override
                 public void start() {
                     shakeDetector = new ShakeDetector(new ShakeDetector.Listener() {
@@ -186,7 +187,9 @@ final class HoodFactory implements HoodAPI.Factory {
 
                             if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.VIBRATE) == PackageManager.PERMISSION_GRANTED) {
                                 Vibrator vibrator = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
-                                vibrator.vibrate(200);
+                                if (vibrator.hasVibrator()) {
+                                    vibrator.vibrate(200);
+                                }
                             }
 
                             lastEvent = SystemClock.elapsedRealtime();
