@@ -141,6 +141,11 @@ public class HoodAPITest {
     }
 
     @Test
+    public void testSpace() throws Exception {
+        checkPageEntry(hoodAPI.createSpacer(), true);
+    }
+
+    @Test
     public void testCreatePages() throws Exception {
         Config config = Config.newBuilder()
                 .setShowZebra(false)
@@ -153,12 +158,18 @@ public class HoodAPITest {
         assertEquals(pages.size(), pages.getAll().size());
     }
 
-    private static void checkPageEntry(PageEntry<?> pageEntry) {
+    private static void checkPageEntry(PageEntry<?> pageEntry, boolean valueNullable) {
         pageEntry.refresh();
         pageEntry.toLogString();
-        assertNotNull(pageEntry.getValue());
+        if (!valueNullable) {
+            assertNotNull(pageEntry.getValue());
+        }
         assertNotNull(pageEntry);
         assertTrue(pageEntry.getViewType() >= (1 << 16));
         assertNotNull(pageEntry.createViewTemplate());
+    }
+
+    private static void checkPageEntry(PageEntry<?> pageEntry) {
+        checkPageEntry(pageEntry, false);
     }
 }

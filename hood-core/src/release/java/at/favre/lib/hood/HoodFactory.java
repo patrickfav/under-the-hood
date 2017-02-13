@@ -34,6 +34,7 @@ import at.favre.lib.hood.internal.entries.ConfigBoolEntry;
 import at.favre.lib.hood.internal.entries.ConfigSpinnerEntry;
 import at.favre.lib.hood.internal.entries.HeaderEntry;
 import at.favre.lib.hood.internal.entries.KeyValueEntry;
+import at.favre.lib.hood.internal.entries.SpacerEntry;
 import at.favre.lib.hood.internal.entries.TextMessageEntry;
 import at.favre.lib.hood.util.ArbitraryTapListener;
 import timber.log.Timber;
@@ -125,6 +126,11 @@ final class HoodFactory implements HoodAPI.Factory {
         @Override
         public PageEntry<?> createPropertyEntry(CharSequence key, String value) {
             return new KeyValueEntry(key, value);
+        }
+
+        @Override
+        public PageEntry<?> createSpacer() {
+            return new SpacerEntry();
         }
     }
 

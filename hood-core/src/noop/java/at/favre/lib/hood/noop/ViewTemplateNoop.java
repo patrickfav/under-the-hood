@@ -2,6 +2,7 @@ package at.favre.lib.hood.noop;
 
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.Space;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ class ViewTemplateNoop implements ViewTemplate<String> {
 
     @Override
     public View constructView(ViewGroup parent, LayoutInflater inflater) {
-        return new ViewStub(parent.getContext());
+        return new Space(parent.getContext());
     }
 
     @Override

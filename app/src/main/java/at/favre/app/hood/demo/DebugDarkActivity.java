@@ -45,7 +45,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST", "Enable debug feat#1", false)));
         firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST2", "Enable debug feat#2", false)));
         firstPage.add(Hood.get().createSwitchEntry(DefaultConfigActions.getBoolSharedPreferencesConfigAction(getPreferences(MODE_PRIVATE), "KEY_TEST3", "Enable debug feat#3", false)));
-
+        firstPage.add(Hood.get().createSpacer());
         firstPage.add(Hood.get().createPropertyEntry("Test Loading3", new DynamicValue.Async<String>() {
             @Override
             public String getValue() {

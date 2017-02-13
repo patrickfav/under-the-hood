@@ -127,6 +127,13 @@ public interface HoodAPI {
      */
     PageEntry<?> createPropertyEntry(CharSequence key, String value);
 
+
+    /**
+     * Creates an empty spacer element creating gaps. Per default it is 16dp high; use multiple times
+     * to create bigger gaps.
+     */
+    PageEntry<?> createSpacer();
+
     /**
      * Extension of the API to allow creation of {@link Section} and {@link OnClickAction} for {@link PageEntry}
      */

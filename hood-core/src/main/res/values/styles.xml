@@ -153,6 +153,13 @@
         <item name="android:paddingRight">@dimen/hoodlib_side_padding</item>
     </style>
 
+    <!-- SPACER -->
+
+    <style name="HoodLibSpacer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">16dp</item>
+    </style>
+
     <!-- DIALOG -->
 
     <style name="HoodKeyValueDialogMinWidth">

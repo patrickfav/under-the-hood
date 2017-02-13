@@ -13,4 +13,6 @@ public final class ViewTypes {
     public static final int VIEWTYPE_CONFIG_SPINNER = 1 << 16 + 5;
     public static final int VIEWTYPE_KEYVALUE_MULTILINE = 1 << 16 + 6;
     public static final int VIEWTYPE_MESSAGE = 1 << 16 + 7;
+    public static final int VIEWTYPE_SPACER = 1 << 16 + 8;
+
 }

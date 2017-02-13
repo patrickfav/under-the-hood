@@ -94,6 +94,11 @@ public final class HoodNoop implements HoodAPI {
         return placeholderPageEntry;
     }
 
+    @Override
+    public PageEntry<?> createSpacer() {
+        return placeholderPageEntry;
+    }
+
     public static final class HoodExtensionNoop implements HoodAPI.Extension {
         private final CharSequence placeholderCharSequence = String.valueOf("");
         private final OnClickAction placeholderOnClickAction = new OnClickActionNoop();
