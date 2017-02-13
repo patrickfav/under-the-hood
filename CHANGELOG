@@ -1,6 +1,6 @@
 # Releases
 
-## Unreleased
+## v0.5.1
 
 * adds spacer element in HoodApi
 * error in single package assembler type will not prevent other types from being shown
