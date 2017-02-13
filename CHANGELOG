@@ -4,6 +4,7 @@
 
 * adds spacer element in HoodApi
 * error in single package assembler type will not prevent other types from being shown
+* fix bug where vibrator would not be checked if any existed in shake debug feature
 
 ## v0.5.0 (2017-02-04)
 
