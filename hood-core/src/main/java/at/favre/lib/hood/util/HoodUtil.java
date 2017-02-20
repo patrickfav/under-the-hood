@@ -2,11 +2,14 @@ package at.favre.lib.hood.util;
 
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.os.Build;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -84,5 +87,28 @@ public class HoodUtil {
 
     public static String toSimpleDateTimeFormat(long millisEpochUtc) {
         return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US).format(new Date(millisEpochUtc));
+    }
+
+    /**
+     * Use with {@link PackageInfoAssembler#createPmSignatureHashInfo(PackageInfo)}. Used to be able to
+     * name certificates, if you use multiple in e.g. testing. Uses {@link String#startsWith(String)}
+     * to check if they are equal.
+     *
+     * @param certificatesFingerprint            the raw (title,sha256-fingerprint)
+     * @param knownCertificateFingerPrintNameMap map of known certificates with (name,sha256-fingerprint)
+     * @return map with names
+     */
+    public static Map<String, String> appendCertificateNameToSha256Fingerprint(Map<String, String> certificatesFingerprint, Map<String, String> knownCertificateFingerPrintNameMap) {
+        Map<String, String> out = new HashMap<>();
+        for (Map.Entry<String, String> entry : certificatesFingerprint.entrySet()) {
+            for (Map.Entry<String, String> knownCertEntry : knownCertificateFingerPrintNameMap.entrySet()) {
+                if (entry.getValue().toLowerCase().startsWith(knownCertEntry.getValue().toLowerCase())) {
+                    out.put(entry.getKey() + " (" + knownCertEntry.getKey() + ")", entry.getValue());
+                    break;
+                }
+            }
+            out.put(entry.getKey(), entry.getValue());
+        }
+        return out;
     }
 }
