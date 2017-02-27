@@ -89,7 +89,7 @@ public class PackageInfoAssembler {
         SIGNATURE(PackageManager.GET_SIGNATURES, "Signatures", new PageEntryProvider() {
             @Override
             public List<PageEntry<?>> getEntries(@NonNull Context context, @NonNull PackageInfo packageInfo) {
-                return createPmSignatureHashInfo(packageInfo);
+                return createPmSignatureHashInfo(packageInfo, Collections.<String, String>emptyMap());
             }
         }),
         /**
@@ -192,8 +192,7 @@ public class PackageInfoAssembler {
         if (context != null) {
             String targetPackageName = packageName == null ? context.getPackageName() : packageName;
             try {
-                @SuppressWarnings("WrongConstant")
-                PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), getRequiredRequestFlags(typeList));
+                PackageInfo packageInfo = getPackageInfo(context, getRequiredRequestFlags(typeList));
 
                 if (packageInfo == null) {
                     throw new IllegalStateException("info was null");
@@ -231,7 +230,15 @@ public class PackageInfoAssembler {
         List<PageEntry<?>> getEntries(@NonNull Context context, @NonNull PackageInfo packageInfo);
     }
 
-    /* *************************************************************************** SUb-ASSEMBLERS */
+    /* *************************************************************************** SUB-ASSEMBLERS */
+
+    public static PackageInfo getPackageInfo(Context ctx, int flags) {
+        try {
+            return ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), flags);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new IllegalStateException("could not get package info", e);
+        }
+    }
 
     /**
      * Includes info about when and where the apk was installed
@@ -353,16 +360,25 @@ public class PackageInfoAssembler {
     /**
      * Creates page-entries for all the apks signatures and shows sh256 hash of it
      *
-     * @param packageInfo from {@link PackageManager#getPackageInfo(String, int)} requiring {@link PackageManager#GET_SIGNATURES} flag
+     * @param packageInfo  from {@link PackageManager#getPackageInfo(String, int)} requiring {@link PackageManager#GET_SIGNATURES} flag
+     * @param refSha256Map a map of key: name of signature and value: first x digits of sha256 hash of signature; used for adding name to specific signature (i.e. "debug key")
      * @return entries
      */
-    public static List<PageEntry<?>> createPmSignatureHashInfo(@NonNull PackageInfo packageInfo) {
+    public static List<PageEntry<?>> createPmSignatureHashInfo(@NonNull PackageInfo packageInfo, @NonNull Map<String, String> refSha256Map) {
         List<PageEntry<?>> entries = new ArrayList<>();
         try {
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
                 md.update(signature.toByteArray());
-                entries.add(Hood.get().createPropertyEntry("apk-signature-sha256", HoodUtil.byteToHex(md.digest()), true));
+
+                String sha256 = HoodUtil.byteToHex(md.digest());
+                String key = "apk-signature-sha256";
+                for (Map.Entry<String, String> refEntry : refSha256Map.entrySet()) {
+                    if (sha256.toLowerCase().startsWith(refEntry.getValue().toLowerCase())) {
+                        key += " (" + refEntry.getKey() + ")";
+                    }
+                }
+                entries.add(Hood.get().createPropertyEntry(key, sha256, true));
             }
         } catch (Exception e) {
             throw new IllegalStateException("could not create hash", e);

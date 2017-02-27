@@ -1,5 +1,6 @@
 package at.favre.app.hood.demo;
 
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -8,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.extended.PopHoodActivity;
@@ -74,6 +76,10 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
 
         PageUtil.addHeader(firstPage, "Property File");
         firstPage.add(DefaultProperties.createPropertiesEntries(getTestProperties()));
+        firstPage.add(Hood.get().createPropertyEntry("obfuscate-1", HoodUtil.obfuscateAndShorten(UUID.randomUUID().toString(), 7, '*')));
+        firstPage.add(Hood.get().createPropertyEntry("obfuscate-2", HoodUtil.obfuscateAndShorten(UUID.randomUUID().toString(), 7, '*')));
+        firstPage.add(Hood.get().createPropertyEntry("obfuscate-3", HoodUtil.obfuscateAndShorten(UUID.randomUUID().toString(), 7, '*')));
+        firstPage.add(PackageInfoAssembler.createPmSignatureHashInfo(PackageInfoAssembler.getPackageInfo(this, PackageManager.GET_SIGNATURES), createSigRefMap()));
 
         firstPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
 
@@ -115,6 +121,13 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
                 PackageInfoAssembler.Type.RECEIVERS, PackageInfoAssembler.Type.SERVICES, PackageInfoAssembler.Type.ACTIVITIES).createSection(this, true));
 
         return pages;
+    }
+
+    private Map<String, String> createSigRefMap() {
+        Map<String, String> refMap = new HashMap<>(2);
+        refMap.put("debug", "da33c57");
+        refMap.put("release", "1b9803b");
+        return refMap;
     }
 
     private Properties getTestProperties() {

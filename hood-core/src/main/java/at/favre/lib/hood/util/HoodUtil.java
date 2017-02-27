@@ -2,14 +2,12 @@ package at.favre.lib.hood.util;
 
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.os.Build;
+import android.support.annotation.Nullable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -90,25 +88,29 @@ public class HoodUtil {
     }
 
     /**
-     * Use with {@link PackageInfoAssembler#createPmSignatureHashInfo(PackageInfo)}. Used to be able to
-     * name certificates, if you use multiple in e.g. testing. Uses {@link String#startsWith(String)}
-     * to check if they are equal.
+     * Shortens the string to 2x maxCharLengthLeftOrRight and obfuscates the middle with 3x obfuscationChar
      *
-     * @param certificatesFingerprint            the raw (title,sha256-fingerprint)
-     * @param knownCertificateFingerPrintNameMap map of known certificates with (name,sha256-fingerprint)
-     * @return map with names
+     * @param original                 text to obfuscate
+     * @param maxCharLengthLeftOrRight how many chars to keep on each side
+     * @param obfuscationChar          the char used to obfuscate (usally e.g. '*')
+     * @return the obfuscated string
      */
-    public static Map<String, String> appendCertificateNameToSha256Fingerprint(Map<String, String> certificatesFingerprint, Map<String, String> knownCertificateFingerPrintNameMap) {
-        Map<String, String> out = new HashMap<>();
-        for (Map.Entry<String, String> entry : certificatesFingerprint.entrySet()) {
-            for (Map.Entry<String, String> knownCertEntry : knownCertificateFingerPrintNameMap.entrySet()) {
-                if (entry.getValue().toLowerCase().startsWith(knownCertEntry.getValue().toLowerCase())) {
-                    out.put(entry.getKey() + " (" + knownCertEntry.getKey() + ")", entry.getValue());
-                    break;
-                }
-            }
-            out.put(entry.getKey(), entry.getValue());
+    public static String obfuscateAndShorten(@Nullable String original, int maxCharLengthLeftOrRight,
+                                             char obfuscationChar) {
+        if (original == null || original.trim().length() <= 1) {
+            return original;
         }
-        return out;
+
+        if (maxCharLengthLeftOrRight <= 0) {
+            throw new IllegalArgumentException("max char length must be gt 0");
+        }
+
+        String star = String.valueOf(obfuscationChar);
+
+        if (original.length() <= maxCharLengthLeftOrRight * 2) {
+            return original.substring(0, original.length() / 2) + star + star + star + original.substring((original.length() / 2) + 1, original.length());
+        } else {
+            return original.substring(0, maxCharLengthLeftOrRight) + star + star + star + original.substring(original.length() - maxCharLengthLeftOrRight, original.length());
+        }
     }
 }

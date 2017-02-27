@@ -62,4 +62,16 @@ public class HoodUtilTest {
         assertEquals("1.0 MB", HoodUtil.humanReadableByteCount(1000 * 1000, true));
         assertEquals("1.0 GB", HoodUtil.humanReadableByteCount(1000 * 1000 * 1000, true));
     }
+
+    @Test
+    public void testObfuscateAndShorten() {
+        assertEquals("h***o", HoodUtil.obfuscateAndShorten("hello", 1, '*'));
+        assertEquals("he***lo", HoodUtil.obfuscateAndShorten("hello", 2, '*'));
+        assertEquals("he***lo", HoodUtil.obfuscateAndShorten("hello", 3, '*'));
+        assertEquals("he***lo", HoodUtil.obfuscateAndShorten("hello", 4, '*'));
+        assertEquals("mux***tre", HoodUtil.obfuscateAndShorten("muxadgztre", 3, '*'));
+        assertEquals("h", HoodUtil.obfuscateAndShorten("h", 2, '*'));
+        assertEquals("h***", HoodUtil.obfuscateAndShorten("he", 2, '*'));
+        assertEquals("h***x", HoodUtil.obfuscateAndShorten("hex", 2, '*'));
+    }
 }
