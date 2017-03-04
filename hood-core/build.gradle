@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'jacoco-android'
+apply plugin: "com.github.kt3k.coveralls"
 
 def Properties localProps = rootProject.getSigningProperties()
 
