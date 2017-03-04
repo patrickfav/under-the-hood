@@ -36,6 +36,7 @@ android {
 
     buildTypes {
         debug {
+            testCoverageEnabled true
             applicationIdSuffix '.debug'
             minifyEnabled false
             shrinkResources false

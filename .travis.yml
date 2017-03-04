@@ -41,11 +41,13 @@ before_install:
 #  - adb shell input keyevent 82 &
 
 script:
-    - ./gradlew clean
-    - ./gradlew assemble --stacktrace
-    - ./gradlew lint --stacktrace
-    - ./gradlew testReleaseUnitTest --info
-#    - ./gradlew connectedDebugAndroidTest
+  - ./gradlew clean assemble --stacktrace
+  - ./gradlew lint --stacktrace
+  - ./gradlew testReleaseUnitTest --info
+# - ./gradlew connectedDebugAndroidTest
+
+after_success:
+  - ./gradlew jacocoTestReleaseUnitTestReport coveralls --info
 
 deploy:
   - provider: script
