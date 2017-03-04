@@ -16,7 +16,7 @@ without error-prone if-debug chains.
 [![Build Status](https://travis-ci.org/patrickfav/under-the-hood.svg?branch=master)](https://travis-ci.org/patrickfav/under-the-hood)
 [![Javadocs](https://www.javadoc.io/badge/at.favre.lib.hood/hood-core.svg)](https://www.javadoc.io/doc/at.favre.lib.hood/hood-core)
 [![API 14+](https://img.shields.io/badge/API-14%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=14)
-[![Method Cound](https://img.shields.io/badge/Methods%20and%20size-core:%201128%20%7C%20%7C%20167%20KB-e91e63.svg)](http://www.methodscount.com/?lib=at.favre.lib.hood%3Ahood-core%3A%2B)
+[![Method Cound](https://img.shields.io/badge/Methods%20and%20size-core:%201128%20%7C%20167%20KB-e91e63.svg)](http://www.methodscount.com/?lib=at.favre.lib.hood%3Ahood-core%3A%2B)
 [![play store banner](doc/playstore_badge_new_sm.png)](https://play.google.com/store/apps/details?id=at.favre.app.hood.demo)
 
 To check it out, [download the demo app from the Playstore](https://play.google.com/store/apps/details?id=at.favre.app.hood.demo) . Lib and demo app require SDK 14+.
