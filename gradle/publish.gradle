@@ -2,13 +2,14 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 def final publishConfig = [
-        name                    : 'Under the Hood',
-        group                   : 'at.favre.lib.hood',
-        version                 : rootProject.ext.versionNameLib,
-        descriptionText         : 'A debug view library for Android. Very flexible through a simple templating system but easy to use due to a lot of defaults. Also has a no-op flavor for your release build.',
-        inceptionYear           : '2016',
-        siteUrl                 : 'https://github.com/patrickfav/under-the-hood',
-        gitUrl                  : 'https://github.com/patrickfav/under-the-hood.git',
+        name           : 'Under the Hood',
+        repoName       : 'hood', //repo name in bintray 'maven/<reponame>'
+        group          : 'at.favre.lib.hood',
+        version        : rootProject.ext.versionNameLib,
+        descriptionText: 'A debug view library for Android. Very flexible through a simple templating system but easy to use due to a lot of defaults. Also has a no-op flavor for your release build.',
+        inceptionYear  : '2016',
+        siteUrl        : 'https://github.com/patrickfav/under-the-hood',
+        gitUrl         : 'https://github.com/patrickfav/under-the-hood.git',
         issueTrackerUrl         : 'https://github.com/patrickfav/under-the-hood/issues',
         issueTrackerName        : 'Github',
         githubRepo              : 'patrickfav/under-the-hood',
@@ -126,10 +127,8 @@ bintray {
 
     pkg {
         repo = "maven"
-        // it is the name that appears in bintray when logged
-        name = project.buildDir.getParentFile().name
+        name = publishConfig.repoName
         group publishConfig.group
-
 
         desc = publishConfig.descriptionText
         issueTrackerUrl = publishConfig.issueTrackerUrl
