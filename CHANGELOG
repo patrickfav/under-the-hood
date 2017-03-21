@@ -1,5 +1,8 @@
 # Releases
 
+## Unreleased
+* removes allow backup and support rtl from lib manifests
+
 ## v0.5.1
 
 * adds spacer element in HoodApi
