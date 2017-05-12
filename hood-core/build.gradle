@@ -39,13 +39,13 @@ android {
         noop {
             minifyEnabled false
             buildConfigField "boolean", "NO_OP", "true"
-            consumerProguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-noop.pro'
+            consumerProguardFiles 'proguard-noop.pro'
             signingConfig signingConfigs.release
         }
 
         release {
             minifyEnabled false
-            consumerProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
