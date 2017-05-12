@@ -1,9 +1,10 @@
 # Releases
 
-## Unreleased
+## v0.5.2 (2017-05-12)
+
 * removes allow backup and support rtl from lib manifests
 
-## v0.5.1
+## v0.5.1 (2017-02-27)
 
 * adds spacer element in HoodApi
 * error in single package assembler type will not prevent other types from being shown
