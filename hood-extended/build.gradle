@@ -20,6 +20,12 @@ android {
     }
 
     buildTypes {
+        debug {
+
+        }
+        noop {
+
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -30,30 +36,31 @@ android {
         abortOnError false
     }
 
-    libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace((".aar"), "-${version}.aar"))
+/*    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            File outputFile = new File(output.outputFileName)
+            output.outputFileName = new File(
+                    new File("./"),
+                    outputFile.name.replace((".aar"), "-${version}.aar")).absolutePath
         }
-    }
+    }*/
 }
-
+/*
 android.variantFilter { variant ->
     if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
         variant.setIgnore(true);
     }
 }
-
+*/
 dependencies {
     androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
-    compile "com.android.support:design:$rootProject.ext.dependencies.support"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    implementation "com.android.support:design:$rootProject.ext.dependencies.support"
 
-    compile project(path: ':hood-core')
+    api project(path: ':hood-core')
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
 }

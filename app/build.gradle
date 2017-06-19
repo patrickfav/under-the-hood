@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-def Properties localProps = getSigningProperties()
+Properties localProps = getSigningProperties()
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -42,7 +42,7 @@ android {
             shrinkResources false
         }
 
-        releaseNoop {
+        noop {
             applicationIdSuffix '.noop'
             minifyEnabled true
             shrinkResources true
@@ -52,7 +52,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
 
         buildTypes.all {
@@ -64,13 +64,7 @@ android {
         abortOnError false
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
-        }
-    }
+
 }
 
 dependencies {
@@ -78,20 +72,20 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    implementation 'com.jakewharton.timber:timber:4.5.0'
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
+    //    debugCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
+    //    releaseCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
+    //
+    //    releaseNoopCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep") {
+    //        exclude group: 'at.favre.lib.hood', module: 'hood-core'
+    //        releaseNoopCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: rootProject.ext.versionNameDep,
+    //                classifier: 'noop', ext: 'aar', transitive: true)
+    //    }
 
-//    debugCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
-//    releaseCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
-//
-//    releaseNoopCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep") {
-//        exclude group: 'at.favre.lib.hood', module: 'hood-core'
-//        releaseNoopCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: rootProject.ext.versionNameDep,
-//                classifier: 'noop', ext: 'aar', transitive: true)
-//    }
-
-    compile project(path: ':hood-extended')
+    implementation project(':hood-extended')
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'

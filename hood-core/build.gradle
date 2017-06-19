@@ -36,6 +36,9 @@ android {
     }
 
     buildTypes {
+        debug {
+
+        }
         noop {
             minifyEnabled false
             buildConfigField "boolean", "NO_OP", "true"
@@ -60,31 +63,32 @@ android {
         abortOnError false
     }
 
-    libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace((".aar"), "-${version}.aar"))
+/*    android.libraryVariants.all { variant ->
+        variant.outputs.all { output ->
+            File outputFile = new File(output.outputFileName)
+            output.outputFileName = new File(
+                    new File("./"),
+                    outputFile.name.replace((".aar"), "-${version}.aar")).absolutePath
         }
-    }
+    }*/
 }
 
-android.variantFilter { variant ->
+/*android.variantFilter { variant ->
     if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
         variant.setIgnore(true);
     }
-}
+}*/
 
 dependencies {
     androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile "com.android.support:support-compat:$rootProject.ext.dependencies.support"
-    compile "com.android.support:support-core-utils:$rootProject.ext.dependencies.support"
-    compile "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
-    compile 'com.jakewharton.timber:timber:4.4.0'
-    compile 'com.squareup:seismic:1.0.2'
+    implementation "com.android.support:support-compat:$rootProject.ext.dependencies.support"
+    implementation "com.android.support:support-core-utils:$rootProject.ext.dependencies.support"
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
+    implementation 'com.jakewharton.timber:timber:4.5.0'
+    implementation 'com.squareup:seismic:1.0.2'
 
     testCompile "junit:junit:$rootProject.ext.dependencies.junit"
     unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
