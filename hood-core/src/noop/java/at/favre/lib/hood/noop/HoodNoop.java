@@ -95,6 +95,21 @@ public final class HoodNoop implements HoodAPI {
     }
 
     @Override
+    public PageEntry<?> createPropertyEntry(CharSequence key, boolean value) {
+        return placeholderPageEntry;
+    }
+
+    @Override
+    public PageEntry<?> createPropertyEntry(CharSequence key, long value) {
+        return placeholderPageEntry;
+    }
+
+    @Override
+    public PageEntry<?> createPropertyEntry(CharSequence key, double value) {
+        return placeholderPageEntry;
+    }
+
+    @Override
     public PageEntry<?> createSpacer() {
         return placeholderPageEntry;
     }

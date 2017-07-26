@@ -129,6 +129,21 @@ final class HoodFactory implements HoodAPI.Factory {
         }
 
         @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, boolean value) {
+            return new KeyValueEntry(key, String.valueOf(value));
+        }
+
+        @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, long value) {
+            return new KeyValueEntry(key, String.valueOf(value));
+        }
+
+        @Override
+        public PageEntry<?> createPropertyEntry(CharSequence key, double value) {
+            return new KeyValueEntry(key, String.valueOf(value));
+        }
+
+        @Override
         public PageEntry<?> createSpacer() {
             return new SpacerEntry();
         }

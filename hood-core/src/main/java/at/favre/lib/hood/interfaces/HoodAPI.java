@@ -123,10 +123,36 @@ public interface HoodAPI {
      * ist not multi-line enabled.
      *
      * @param key   as shown in ui
-     * @param value static value
+     * @param value static  string value
      */
     PageEntry<?> createPropertyEntry(CharSequence key, String value);
 
+    /**
+     * Creates Key-Value style page entry with a static value. Uses dialog as default click action and
+     * ist not multi-line enabled.
+     *
+     * @param key   as shown in ui
+     * @param value static boolean value
+     */
+    PageEntry<?> createPropertyEntry(CharSequence key, boolean value);
+
+    /**
+     * Creates Key-Value style page entry with a static value. Uses dialog as default click action and
+     * ist not multi-line enabled.
+     *
+     * @param key   as shown in ui
+     * @param value static long value
+     */
+    PageEntry<?> createPropertyEntry(CharSequence key, long value);
+
+    /**
+     * Creates Key-Value style page entry with a static value. Uses dialog as default click action and
+     * ist not multi-line enabled.
+     *
+     * @param key   as shown in ui
+     * @param value static double value
+     */
+    PageEntry<?> createPropertyEntry(CharSequence key, double value);
 
     /**
      * Creates an empty spacer element creating gaps. Per default it is 16dp high; use multiple times

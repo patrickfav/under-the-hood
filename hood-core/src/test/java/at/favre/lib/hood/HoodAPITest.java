@@ -42,6 +42,9 @@ public class HoodAPITest {
     @Test
     public void testCreateProperty() throws Exception {
         checkPageEntry(hoodAPI.createPropertyEntry("key", "value"));
+        checkPageEntry(hoodAPI.createPropertyEntry("key", false));
+        checkPageEntry(hoodAPI.createPropertyEntry("key", 14));
+        checkPageEntry(hoodAPI.createPropertyEntry("key", 17.91772));
         checkPageEntry(hoodAPI.createPropertyEntry("key", "value", true));
 
         PageEntry<?> pageEntry = hoodAPI.createPropertyEntry("key", "value", new OnClickAction() {
