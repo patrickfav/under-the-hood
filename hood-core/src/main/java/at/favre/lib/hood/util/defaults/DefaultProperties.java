@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ConfigurationInfo;
 import android.content.pm.PackageManager;
+import android.net.TrafficStats;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Debug;
@@ -26,6 +27,7 @@ import android.util.DisplayMetrics;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -626,8 +628,7 @@ public class DefaultProperties {
         return createFromEntrySet(hashMap.entrySet());
     }
 
-    private static List<PageEntry<?>> createFromEntrySet(Set<? extends Map.Entry<?, ?>>
-                                                                 entrySet) {
+    private static List<PageEntry<?>> createFromEntrySet(Set<? extends Map.Entry<?, ?>> entrySet) {
         List<PageEntry<?>> entries = new ArrayList<>();
         for (Map.Entry propEntry : entrySet) {
             if (propEntry != null && propEntry.getKey() != null && propEntry.getValue() != null) {
@@ -635,5 +636,48 @@ public class DefaultProperties {
             }
         }
         return entries;
+    }
+
+    /**
+     * Creates a section showing some stats from {@link TrafficStats} showing tx/rx bytes and packages
+     * of tagged sockets from boot until now.
+     *
+     * @param uids optional uid to get rx/tx bytes and packages
+     * @return section
+     */
+    public static Section.HeaderSection createTransferStatSection(int... uids) {
+        Section.ModifiableHeaderSection section = Hood.ext().createSection("Traffic Stats");
+
+        section.add(Hood.get().createPropertyEntry("thread tag", TrafficStats.getThreadStatsTag()));
+        section.add(createTxRxdSection("Mobile", TrafficStats.getMobileTxBytes(), TrafficStats.getMobileTxPackets(),
+                TrafficStats.getMobileRxBytes(), TrafficStats.getMobileRxPackets()));
+        section.add(createTxRxdSection("Total", TrafficStats.getTotalTxBytes(), TrafficStats.getTotalTxPackets(),
+                TrafficStats.getTotalRxBytes(), TrafficStats.getTotalRxPackets()));
+
+        if (uids != null) {
+            for (int uid : uids) {
+                section.add(createTxRxdSection("Socket " + uid, TrafficStats.getUidTxBytes(uid), TrafficStats.getUidTxPackets(uid),
+                        TrafficStats.getUidRxBytes(uid), TrafficStats.getUidRxPackets(uid)));
+            }
+        }
+        return section;
+    }
+
+    private static List<PageEntry<?>> createTxRxdSection(String name, final long txBytes,
+                                                         final long txPackets, final long rxBytes, final long rxPackets) {
+        List<PageEntry<?>> list = new LinkedList<>();
+        list.add(Hood.get().createPropertyEntry(name + " TX", new DynamicValue<String>() {
+            @Override
+            public String getValue() {
+                return txBytes == TrafficStats.UNSUPPORTED ? "UNSUPPORTED" : txPackets + " pkt / " + HoodUtil.humanReadableByteCount(txBytes, false);
+            }
+        }));
+        list.add(Hood.get().createPropertyEntry(name + " RCVD", new DynamicValue<String>() {
+            @Override
+            public String getValue() {
+                return rxPackets == TrafficStats.UNSUPPORTED ? "UNSUPPORTED" : rxPackets + " pkt / " + HoodUtil.humanReadableByteCount(rxBytes, false);
+            }
+        }));
+        return list;
     }
 }

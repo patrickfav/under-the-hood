@@ -99,6 +99,7 @@ public class DebugDarkMultiPageActivity extends PopHoodActivity {
         secondPage.add(DefaultProperties.createSectionStrictMode());
         secondPage.add(DefaultProperties.createSectionBatteryInfo(this));
         secondPage.add(DefaultProperties.createSectionAndroidDebugSettings(this));
+        secondPage.add(DefaultProperties.createTransferStatSection());
         secondPage.add(Hood.get().createHeaderEntry("Settings"));
 
         PageUtil.addAction(secondPage, DefaultButtonDefinitions.getGlobalSettingsAction(), DefaultButtonDefinitions.getNfcSettingsAction());
