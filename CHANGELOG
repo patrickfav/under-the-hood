@@ -1,5 +1,9 @@
 # Releases
 
+## v0.6.0
+
+* update to SDK26
+
 ## v0.5.3 (2017-07-27)
 
 * add some overloaded property factory methods
