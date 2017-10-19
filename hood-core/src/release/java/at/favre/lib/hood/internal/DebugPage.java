@@ -5,8 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
@@ -14,6 +16,9 @@ import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Pages;
 import at.favre.lib.hood.interfaces.Section;
 import at.favre.lib.hood.interfaces.ViewTemplate;
+import at.favre.lib.hood.internal.entries.ConfigBoolEntry;
+import at.favre.lib.hood.internal.entries.ConfigSpinnerEntry;
+import at.favre.lib.hood.internal.entries.KeyValueEntry;
 
 /**
  * The default implementation of the debug view page. Use factory to create instance.
@@ -100,6 +105,31 @@ class DebugPage implements Page {
     @Override
     public Config getConfig() {
         return pages.getConfig();
+    }
+
+    @Override
+    public Map<String, String> createDataMap() {
+        Map<String, String> map = new LinkedHashMap<>();
+        for (PageEntry entry : entries) {
+            if (entry instanceof KeyValueEntry) {
+                Object value = ((KeyValueEntry) entry).getValue().getValue();
+                CharSequence key = ((KeyValueEntry) entry).getValue().getKey();
+                if (!(key == null && value == null)) {
+                    map.put(key != null ? key.toString() : "null", value != null ? value.toString() : "null");
+                }
+            }
+            if (entry instanceof ConfigBoolEntry) {
+                if (((ConfigBoolEntry) entry).getValue().label != null) {
+                    map.put(((ConfigBoolEntry) entry).getValue().label,
+                            String.valueOf(((ConfigBoolEntry) entry).getValue().changeableValue.getValue()));
+                }
+            }
+            if (entry instanceof ConfigSpinnerEntry) {
+                map.put(((ConfigSpinnerEntry) entry).getValue().label,
+                        String.valueOf(((ConfigSpinnerEntry) entry).getValue().changeableValue.getValue()));
+            }
+        }
+        return map;
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
@@ -51,6 +52,7 @@ class UnmodifiablePages implements Pages {
         return debugPages.getPage(index);
     }
 
+    @NonNull
     public List<Page> getAll() {
         return unmodifiablePages;
     }
@@ -79,6 +81,11 @@ class UnmodifiablePages implements Pages {
     @NonNull
     public Config getConfig() {
         return debugPages.getConfig();
+    }
+
+    @Override
+    public Map<String, String> createDataMap() {
+        return Collections.unmodifiableMap(debugPages.createDataMap());
     }
 
     @Override

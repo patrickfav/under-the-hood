@@ -4,6 +4,7 @@
 
 * update to SDK26
 * add new default for section TrafficStats
+* add new createDataMap feature creating a key-value map from pages object
 
 ## v0.5.3 (2017-07-27)
 

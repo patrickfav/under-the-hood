@@ -170,5 +170,8 @@ public class DebugPageTest {
         for (PageEntry pageEntry : page.getEntries()) {
             assertNull(pageEntry.toLogString());
         }
+
+        assertNotNull(page.createDataMap());
+        System.out.println(page.createDataMap());
     }
 }

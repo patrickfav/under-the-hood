@@ -1,6 +1,7 @@
 package at.favre.app.hood.demo;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -77,7 +78,15 @@ public class DebugLightActivity extends PopHoodActivity {
 
         firstPage.add(DefaultProperties.createSectionConnectivityStatusInfo(this));
 
+        logDataMap(pages);
         return pages;
+    }
+
+    private void logDataMap(Pages pages) {
+        Map<String, String> map = pages.createDataMap();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            Log.v(TAG, entry.getKey() + " - " + entry.getValue());
+        }
     }
 
     private List<SpinnerElement> getBackendElements() {

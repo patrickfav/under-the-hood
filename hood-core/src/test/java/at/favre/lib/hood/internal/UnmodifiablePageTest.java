@@ -13,6 +13,7 @@ import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
@@ -65,5 +66,6 @@ public class UnmodifiablePageTest {
         original.add(Hood.get().createHeaderEntry("test"));
         unmodifiablePages = new UnmodifiablePageDelegate(original);
         checkEqual(original, unmodifiablePages);
+        assertNotNull(unmodifiablePages.createDataMap());
     }
 }

@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
@@ -107,6 +109,15 @@ public class DebugPages implements Pages {
     @Override
     public Config getConfig() {
         return config;
+    }
+
+    @Override
+    public Map<String, String> createDataMap() {
+        Map<String, String> map = new LinkedHashMap<>();
+        for (Page page : pages) {
+            map.putAll(page.createDataMap());
+        }
+        return map;
     }
 
     @Override

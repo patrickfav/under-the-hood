@@ -11,6 +11,7 @@ import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
@@ -77,5 +78,6 @@ public class DebugPagesTest {
             assertEquals(i + 1, pages.size());
             assertEquals(pages.size(), pages.getAll().size());
         }
+        assertNotNull(pages.createDataMap());
     }
 }

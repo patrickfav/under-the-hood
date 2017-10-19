@@ -159,6 +159,7 @@ public class HoodAPITest {
         assertEquals(config, pages.getConfig());
         assertEquals(0, pages.size());
         assertEquals(pages.size(), pages.getAll().size());
+        assertEquals(0, pages.createDataMap().size());
     }
 
     private static void checkPageEntry(PageEntry<?> pageEntry, boolean valueNullable) {

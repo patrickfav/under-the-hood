@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Pages {
 
@@ -17,6 +18,7 @@ public interface Pages {
 
     /**
      * Adds a new page to the internal list with given title
+     *
      * @param title of the page
      * @return the newly created page
      */
@@ -51,6 +53,7 @@ public interface Pages {
 
     /**
      * The count of contained pages
+     *
      * @return size
      */
     int size();
@@ -73,6 +76,7 @@ public interface Pages {
 
     /**
      * Same as {@link #logPages()} but returns the string that would be logged instead
+     *
      * @return the log of the page as {@link StringBuilder}
      */
     StringBuilder getLogString();
@@ -84,4 +88,12 @@ public interface Pages {
      */
     @NonNull
     Config getConfig();
+
+    /**
+     * Creates a flat (no pages and sections) map all data elements
+     * that can be represented in a key/value manner
+     *
+     * @return data map
+     */
+    Map<String, String> createDataMap();
 }

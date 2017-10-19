@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import at.favre.lib.hood.interfaces.Config;
 import at.favre.lib.hood.interfaces.Page;
@@ -75,5 +76,10 @@ class PageNoop implements Page {
     @Override
     public Config getConfig() {
         return placeholderConfig;
+    }
+
+    @Override
+    public Map<String, String> createDataMap() {
+        return Collections.emptyMap();
     }
 }
