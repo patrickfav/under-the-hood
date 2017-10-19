@@ -664,18 +664,17 @@ public class DefaultProperties {
     public static Section.HeaderSection createTransferStatSection(int... uids) {
         Section.ModifiableHeaderSection section = Hood.ext().createSection("Traffic Stats");
 
-        section.add(Hood.get().createPropertyEntry("thread tag", TrafficStats.getThreadStatsTag()));
-        section.add(createTxRxdSection("Mobile", TrafficStats.getMobileTxBytes(), TrafficStats.getMobileTxPackets(),
-                TrafficStats.getMobileRxBytes(), TrafficStats.getMobileRxPackets()));
-        section.add(createTxRxdSection("Total", TrafficStats.getTotalTxBytes(), TrafficStats.getTotalTxPackets(),
-                TrafficStats.getTotalRxBytes(), TrafficStats.getTotalRxPackets()));
-
         if (uids != null) {
             for (int uid : uids) {
                 section.add(createTxRxdSection("Socket " + uid, TrafficStats.getUidTxBytes(uid), TrafficStats.getUidTxPackets(uid),
                         TrafficStats.getUidRxBytes(uid), TrafficStats.getUidRxPackets(uid)));
             }
         }
+        section.add(createTxRxdSection("Mobile", TrafficStats.getMobileTxBytes(), TrafficStats.getMobileTxPackets(),
+                TrafficStats.getMobileRxBytes(), TrafficStats.getMobileRxPackets()));
+        section.add(createTxRxdSection("Total", TrafficStats.getTotalTxBytes(), TrafficStats.getTotalTxPackets(),
+                TrafficStats.getTotalRxBytes(), TrafficStats.getTotalRxPackets()));
+
         return section;
     }
 
