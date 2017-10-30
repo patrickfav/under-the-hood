@@ -85,8 +85,11 @@
     </style>
 
     <style name="HoodLibTextViewSingleLine.HoodLibKeyValueTextView.Key">
+        <item name="android:gravity">left|start</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">viewStart</item>
         <item name="android:minWidth">100dp</item>
         <item name="android:paddingRight">4dp</item>
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">4dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textStyle">bold</item>
         <item name="android:typeface">normal</item>
@@ -94,8 +97,8 @@
     </style>
 
     <style name="HoodLibTextViewSingleLine.HoodLibKeyValueTextView.Value">
-        <item name="android:gravity">end</item>
-        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">textEnd</item>
+        <item name="android:gravity">right|end</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">viewEnd</item>
     </style>
 
     <style name="HoodKeyValueMultiLineValue">
@@ -106,6 +109,8 @@
         <item name="android:maxHeight">80dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">left|start</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">viewStart</item>
     </style>
 
     <!-- ACTIONS HEADER -->
@@ -146,6 +151,7 @@
         <item name="android:textSize">18sp</item>
         <item name="android:gravity">center_horizontal|left|start</item>
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:textAlignment" tools:ignore="NewApi">viewStart</item>
     </style>
 
     <style name="HoodLibTextViewSingleLine.SpinnerItemDropdown" parent="HoodLibTextViewSingleLine.SpinnerItem">

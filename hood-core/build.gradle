@@ -3,7 +3,7 @@ apply plugin: 'de.mobilej.unmock'
 apply plugin: 'jacoco-android'
 apply plugin: "com.github.kt3k.coveralls"
 
-def Properties localProps = rootProject.getSigningProperties()
+Properties localProps = rootProject.getSigningProperties()
 
 android {
     publishNonDefault false
@@ -71,7 +71,7 @@ android {
 
 android.variantFilter { variant ->
     if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
-        variant.setIgnore(true);
+        variant.setIgnore(true)
     }
 }
 
@@ -83,6 +83,7 @@ dependencies {
     compile "com.android.support:support-compat:$rootProject.ext.dependencies.support"
     compile "com.android.support:support-core-utils:$rootProject.ext.dependencies.support"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
+    compile "com.android.support.constraint:constraint-layout:1.0.2"
     compile 'com.jakewharton.timber:timber:4.4.0'
     compile 'com.squareup:seismic:1.0.2'
 
