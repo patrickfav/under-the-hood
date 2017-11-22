@@ -11,7 +11,7 @@ android:
     - tools # to get the new `repository-11.xml`
     - platform-tools
     - tools # to install Android SDK tools 25.1.x (x = 6 right now)
-    - build-tools-26.0.1
+    - build-tools-26.0.2
     - android-26
 #    - android-22
 #    - sys-img-armeabi-v7a-android-22
