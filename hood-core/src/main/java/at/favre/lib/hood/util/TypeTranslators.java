@@ -23,7 +23,10 @@ import android.telephony.TelephonyManager;
 /**
  * Translates Android int states to human-readable Strings
  */
-public class TypeTranslators {
+public final class TypeTranslators {
+
+    private TypeTranslators() {
+    }
 
     /**
      * @param simState expected to be from {@link TelephonyManager#getSimState()}

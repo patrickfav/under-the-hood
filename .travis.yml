@@ -41,7 +41,7 @@ before_install:
 
 script:
   - ./gradlew clean assemble --stacktrace
-  - ./gradlew lint --stacktrace
+  - ./gradlew checkstyle lint --stacktrace
   - ./gradlew testReleaseUnitTest --info
 # - ./gradlew connectedDebugAndroidTest
 

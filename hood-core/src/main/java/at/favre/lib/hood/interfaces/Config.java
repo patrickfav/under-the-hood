@@ -41,7 +41,7 @@ public final class Config {
         return new Builder();
     }
 
-    public static class Builder {
+    public static final class Builder {
         private boolean showZebra = true;
         private boolean showHighlightContent = false;
         private boolean autoLog = true;

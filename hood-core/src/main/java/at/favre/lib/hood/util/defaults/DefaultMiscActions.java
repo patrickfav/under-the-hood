@@ -32,8 +32,11 @@ import timber.log.Timber;
 /**
  * Some default actions (also used in other Default* classes)
  */
-public class DefaultMiscActions {
+public final class DefaultMiscActions {
     private static final String TAG = DefaultMiscActions.class.getName();
+
+    private DefaultMiscActions() {
+    }
 
     /**
      * Raw intent to open app's uninstall prompt

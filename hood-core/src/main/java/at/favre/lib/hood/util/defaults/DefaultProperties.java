@@ -62,9 +62,12 @@ import timber.log.Timber;
 /**
  * A set of methods that returns default {@link at.favre.lib.hood.interfaces.HoodAPI#createPropertyEntry(CharSequence, DynamicValue)} type page entries.
  */
-public class DefaultProperties {
+public final class DefaultProperties {
 
     private static final String TAG = DefaultProperties.class.getName();
+
+    private DefaultProperties() {
+    }
 
     /**
      * Returns entries of some basic device data like model number and sdk version.
@@ -597,7 +600,8 @@ public class DefaultProperties {
                         return TypeTranslators.translateBatteryHealth(batteryStatus.getIntExtra(BatteryManager.EXTRA_HEALTH, -1));
                     }
                 }));
-                section.add(Hood.get().createPropertyEntry("temp/volt", new DynamicValue<String>() {
+                section.add(Hood.get().createPropertyEntry("temp/volt",
+                        new DynamicValue<String>() {
                             @Override
                             public String getValue() {
                                 final Intent batteryStatus = context.registerReceiver(null, battIntentFilter);

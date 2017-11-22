@@ -37,7 +37,7 @@ public class UnmodifiablePagesTest {
         try {
             assertNull(unmodifiablePages.getFirstPage());
             fail();
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException ignored) {
         }
     }
 
@@ -46,13 +46,13 @@ public class UnmodifiablePagesTest {
         try {
             unmodifiablePages.addNewPage();
             fail();
-        } catch (UnsupportedOperationException e) {
+        } catch (UnsupportedOperationException ignored) {
         }
 
         try {
             unmodifiablePages.addNewPage("empty");
             fail();
-        } catch (UnsupportedOperationException e) {
+        } catch (UnsupportedOperationException ignored) {
         }
     }
 

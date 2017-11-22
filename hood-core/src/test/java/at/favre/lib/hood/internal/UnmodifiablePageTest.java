@@ -44,19 +44,19 @@ public class UnmodifiablePageTest {
         try {
             unmodifiablePages.add(Hood.get().createHeaderEntry("test"));
             fail();
-        } catch (UnsupportedOperationException e) {
+        } catch (UnsupportedOperationException ignored) {
         }
 
         try {
             unmodifiablePages.add((List) Collections.singletonList(Hood.get().createHeaderEntry("test2")));
             fail();
-        } catch (UnsupportedOperationException e) {
+        } catch (UnsupportedOperationException ignored) {
         }
 
         try {
             unmodifiablePages.add(new DefaultSection("test3"));
             fail();
-        } catch (UnsupportedOperationException e) {
+        } catch (UnsupportedOperationException ignored) {
         }
     }
 

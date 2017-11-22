@@ -22,7 +22,7 @@ import at.favre.lib.hood.internal.entries.KeyValueEntry;
 /**
  * The default implementation of the debug view page. Use factory to create instance.
  */
-class DebugPage implements Page {
+final class DebugPage implements Page {
     private final List<PageEntry> entries = new LinkedList<>();
     private final SparseArray<ViewTemplate<?>> templateMap = new SparseArray<>();
     private final Pages pages;

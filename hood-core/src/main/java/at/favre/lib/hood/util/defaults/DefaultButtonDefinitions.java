@@ -35,7 +35,10 @@ import at.favre.lib.hood.util.DebugCrashException;
 /**
  * A couple of default action implementations used with {@link at.favre.lib.hood.interfaces.HoodAPI#createActionEntry(ButtonDefinition)}
  */
-public class DefaultButtonDefinitions {
+public final class DefaultButtonDefinitions {
+
+    private DefaultButtonDefinitions() {
+    }
 
     /**
      * Will open the app's OS info screen

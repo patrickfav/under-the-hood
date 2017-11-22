@@ -31,13 +31,16 @@ import android.support.v4.content.ContextCompat;
 /**
  * Reads and abstracts Android OS device states (wifi, bt, etc.)
  */
-public class DeviceStatusUtil {
+public final class DeviceStatusUtil {
     public enum Status {
         UNSUPPORTED, NEEDS_PERMISSION, ENABLED, DISABLED
     }
 
     public enum ConnectionState {
         PERMISSION_NEEDED, DISCONNECTED, CONNECTED_WIFI, CONNECTED_MOBILE, CONNECTED_ETHERNET, CONNECTED_BT, CONNECTED_VPN, CONNECTED_OTHER
+    }
+
+    private DeviceStatusUtil() {
     }
 
     /**

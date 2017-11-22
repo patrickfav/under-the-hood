@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+
 Properties localProps = getSigningProperties()
 
 android {

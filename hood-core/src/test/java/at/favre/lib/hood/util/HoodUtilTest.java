@@ -16,7 +16,7 @@ public class HoodUtilTest {
         try {
             HoodUtil.byteToHex(null);
             fail();
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         assertEquals("", HoodUtil.byteToHex(new byte[0]).toLowerCase());

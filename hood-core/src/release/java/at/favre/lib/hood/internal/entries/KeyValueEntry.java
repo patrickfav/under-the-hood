@@ -41,8 +41,8 @@ import timber.log.Timber;
  * and dynamic values.
  */
 public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.Entry<CharSequence, KeyValueEntry.Value<String>>> {
-    private final static ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(4, 4, 10, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>(1024));
-    private final static Object monitor = new Object();
+    private static final ExecutorService THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(4, 4, 10, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>(1024));
+    private static final Object monitor = new Object();
 
     private Map.Entry<CharSequence, Value<String>> data;
     private final boolean multiLine;
@@ -177,7 +177,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
         @Override
         public void setContent(final Map.Entry<CharSequence, KeyValueEntry.Value<String>> entry, @NonNull final View view) {
             ((TextView) view.findViewById(R.id.key)).setText(entry.getKey());
-            TextView tvValue = ((TextView) view.findViewById(R.id.value));
+            TextView tvValue = view.findViewById(R.id.value);
 
             tvValue.setTag(entry.getValue().id);
             if (entry.getValue().needsRefresh && entry.getValue().processInBackground) {
@@ -219,7 +219,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
         private void setValueToView(final Map.Entry<CharSequence, String> entry, @NonNull final View view, final OnClickAction onClickAction, final String tagId) {
             synchronized (monitor) {
-                TextView tvValue = ((TextView) view.findViewById(R.id.value));
+                TextView tvValue = view.findViewById(R.id.value);
                 if (tagId.equals(tvValue.getTag())) {
                     view.findViewById(R.id.progress_bar).setVisibility(View.GONE);
                     tvValue.setVisibility(View.VISIBLE);

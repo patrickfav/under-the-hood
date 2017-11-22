@@ -48,5 +48,4 @@ public class DrawerActivityTest {
         appCompatButton3.perform(scrollTo(), click());
 
     }
-
 }

@@ -36,7 +36,7 @@ public class DebugPagesTest {
         try {
             assertNull(pages.getFirstPage());
             fail();
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException ignored) {
         }
     }
 

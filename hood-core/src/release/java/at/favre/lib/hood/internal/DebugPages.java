@@ -17,8 +17,8 @@ import timber.log.Timber;
  * Default implementation of a the {@link Pages} interface. Can only be created with given
  * factory {@link DebugPages.Factory}
  */
-public class DebugPages implements Pages {
-    public final static String DEFAULT_TITLE = "<not set>";
+public final class DebugPages implements Pages {
+    public static final String DEFAULT_TITLE = "<not set>";
     private final List<Page> pages = new ArrayList<>();
     private final Config config;
 

@@ -25,8 +25,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class HoodUtil {
+public final class HoodUtil {
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+    private HoodUtil() {
+    }
 
     public static String byteToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];

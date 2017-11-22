@@ -29,7 +29,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Gets current runtime permission status
  */
-public class PermissionTranslator {
+public final class PermissionTranslator {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({GRANTED, GRANTED_ON_INSTALL, DENIED, BLOCKED})
     public @interface PermissionState {
@@ -39,6 +39,9 @@ public class PermissionTranslator {
     public static final int GRANTED_ON_INSTALL = 1;
     public static final int DENIED = 2;
     public static final int BLOCKED = 3;
+
+    private PermissionTranslator() {
+    }
 
     /**
      * Gets the current status. Caveat: returns {@link #BLOCKED} the first time before the user accepts or denies a permission

@@ -32,7 +32,10 @@ import at.favre.lib.hood.interfaces.values.SpinnerValue;
 /**
  * Default implementations for Config* type entries
  */
-public class DefaultConfigActions {
+public final class DefaultConfigActions {
+
+    private DefaultConfigActions() {
+    }
 
     /**
      * Used with {@link at.favre.lib.hood.interfaces.HoodAPI#createSwitchEntry(BoolConfigAction)}. A changeable boolean value backed by shared preferences,
