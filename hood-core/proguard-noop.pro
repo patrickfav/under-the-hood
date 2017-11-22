@@ -1,0 +1,1 @@
+-assumenosideeffects class at.favre.lib.hood.noop.** { *; }

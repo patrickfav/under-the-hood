@@ -1,2 +1,1 @@
 -keep public class at.favre.lib.hood.BuildConfig {public static *;}
--assumenosideeffects class at.favre.lib.hood.noop.** { *; }

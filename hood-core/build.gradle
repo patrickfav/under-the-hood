@@ -41,6 +41,7 @@ android {
         noop {
             minifyEnabled false
             buildConfigField "boolean", "NO_OP", "true"
+            consumerProguardFiles 'proguard-rules.pro', 'proguard-noop.pro'
         }
 
         release {
