@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-
 /**
  * This an listener which can be used to require more than x taps before the {@link android.view.View.OnClickListener}
  * will be triggered

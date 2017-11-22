@@ -35,7 +35,6 @@ public interface SpinnerElement {
      */
     String getName();
 
-
     class Default implements SpinnerElement {
         private final String id;
         private final String name;

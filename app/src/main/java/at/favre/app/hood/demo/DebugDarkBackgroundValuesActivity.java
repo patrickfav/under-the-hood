@@ -41,7 +41,6 @@ public class DebugDarkBackgroundValuesActivity extends PopHoodActivity {
 
         firstPage.add(DefaultProperties.createSectionAppVersionInfoFromBuildConfig(BuildConfig.class));
 
-
         for (int i = 0; i < 35; i++) {
             final String id = String.valueOf(i);
             firstPage.add(Hood.get().createPropertyEntry("Test Loading " + id, new DynamicValue.Async<String>() {

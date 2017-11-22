@@ -93,10 +93,10 @@ public class DeviceStatusUtil {
             return Status.NEEDS_PERMISSION;
         } else //noinspection MissingPermission
             if (bluetoothAdapter.isEnabled()) {
-            return Status.ENABLED;
-        } else {
-            return Status.DISABLED;
-        }
+                return Status.ENABLED;
+            } else {
+                return Status.DISABLED;
+            }
     }
 
     /**

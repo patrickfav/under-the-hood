@@ -16,7 +16,6 @@
 
 package at.favre.lib.hood.util.defaults;
 
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -166,7 +165,6 @@ public class DefaultProperties {
         }
         return section;
     }
-
 
     /**
      * Traverses the static fields of given arbitrary class. Will create an entry for each non-null
@@ -318,7 +316,6 @@ public class DefaultProperties {
                     }
                 }, Hood.ext().createOnClickActionStartIntent(new Intent(Settings.ACTION_SETTINGS)), false));
             }
-
 
             if (includeWifiState) {
                 final DeviceStatusUtil.Status wifiState = DeviceStatusUtil.getWifiStatus(context);

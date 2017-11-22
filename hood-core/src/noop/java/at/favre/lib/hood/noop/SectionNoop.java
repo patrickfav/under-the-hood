@@ -6,7 +6,6 @@ import java.util.List;
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.Section;
 
-
 /**
  * A no-op implementation
  */

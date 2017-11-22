@@ -82,7 +82,6 @@ final class HoodFactory implements HoodAPI.Factory {
             return new HeaderEntry(header);
         }
 
-
         @Override
         public PageEntry<?> createMessageEntry(CharSequence message) {
             return new TextMessageEntry(message);

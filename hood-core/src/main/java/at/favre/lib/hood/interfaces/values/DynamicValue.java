@@ -28,7 +28,6 @@ public interface DynamicValue<T> {
      */
     T getValue();
 
-
     /**
      * Used for static values in APIs where dynamic and static values are supported
      *

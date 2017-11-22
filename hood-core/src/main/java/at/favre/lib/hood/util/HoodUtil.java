@@ -16,7 +16,6 @@
 
 package at.favre.lib.hood.util;
 
-
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -25,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
 
 public class HoodUtil {
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();

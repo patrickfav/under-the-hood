@@ -165,7 +165,6 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
             return viewType;
         }
 
-
         @Override
         public View constructView(ViewGroup viewGroup, LayoutInflater inflater) {
             if (viewType == ViewTypes.VIEWTYPE_KEYVALUE_MULTILINE) {

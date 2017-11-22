@@ -13,7 +13,6 @@ import at.favre.lib.hood.interfaces.ViewTemplate;
 import at.favre.lib.hood.interfaces.ViewTypes;
 import at.favre.lib.hood.view.HoodDebugPageView;
 
-
 /**
  * A simple, non-interactive entry that displays a simple text message
  */

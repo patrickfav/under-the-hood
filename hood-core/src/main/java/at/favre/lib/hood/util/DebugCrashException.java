@@ -16,7 +16,6 @@
 
 package at.favre.lib.hood.util;
 
-
 /**
  * Simple synthetic exception used to crash the app for debugging proposes
  */

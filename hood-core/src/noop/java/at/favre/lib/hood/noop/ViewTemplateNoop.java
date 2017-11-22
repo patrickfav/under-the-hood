@@ -6,7 +6,6 @@ import android.support.v4.widget.Space;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 
 import at.favre.lib.hood.interfaces.ViewTemplate;
 

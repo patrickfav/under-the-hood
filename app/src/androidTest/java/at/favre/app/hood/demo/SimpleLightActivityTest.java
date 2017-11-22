@@ -1,6 +1,5 @@
 package at.favre.app.hood.demo;
 
-
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -39,7 +38,6 @@ public class SimpleLightActivityTest {
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.btn_log), withText("Log")));
         appCompatButton2.perform(scrollTo(), click());
-
 
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.btn_copy_clipboard), withText("Copy to Clipboard")));

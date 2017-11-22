@@ -1,6 +1,5 @@
 package at.favre.lib.hood.internal;
 
-
 import org.junit.Before;
 import org.junit.Test;
 

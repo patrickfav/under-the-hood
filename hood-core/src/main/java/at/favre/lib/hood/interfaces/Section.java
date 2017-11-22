@@ -59,6 +59,7 @@ public interface Section {
 
         /**
          * Adds a list of page entries to this section
+         *
          * @param entries
          * @return this changed section
          */
@@ -66,6 +67,7 @@ public interface Section {
 
         /**
          * Adds the content (as retrieved with {@link #asEntryList()}) to this section
+         *
          * @param section
          * @return this section
          */
@@ -81,6 +83,7 @@ public interface Section {
 
         /**
          * Sets an error message that will be shown in UI
+         *
          * @param errorMessage
          * @return this section
          */
@@ -88,6 +91,7 @@ public interface Section {
 
         /**
          * Get the error message set by {@link #setErrorMessage(String)}
+         *
          * @return error message
          */
         String getErrorMessage();

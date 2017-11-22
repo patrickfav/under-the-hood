@@ -16,7 +16,6 @@
 
 package at.favre.lib.hood.interfaces;
 
-
 import android.support.annotation.Nullable;
 
 /**
@@ -42,7 +41,7 @@ public interface PageEntry<T> {
     /**
      * Similar to RecyclerView.Adapter#getItemViewType return a view-type to be able
      * to recognize which views can be recycled. Free range is up to (excluding) 2^16 (65536).
-     *
+     * <p>
      * See {@link ViewTemplate#getViewType()}
      *
      * @return an int unique to the same type (see {@link ViewTypes} on

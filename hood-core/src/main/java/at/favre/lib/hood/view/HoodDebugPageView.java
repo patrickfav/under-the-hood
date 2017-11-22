@@ -54,7 +54,6 @@ public class HoodDebugPageView extends FrameLayout {
     @ColorInt
     private int zebraColor;
 
-
     public HoodDebugPageView(Context context) {
         super(context);
         setup();
@@ -77,9 +76,9 @@ public class HoodDebugPageView extends FrameLayout {
 
         LayoutInflater.from(getContext()).inflate(R.layout.hoodlib_view_root, this, true);
 
-        viewPager = (SwitchableViewpager) findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.view_pager);
         progressBarView = findViewById(R.id.progress_bar);
-        tabs = (PagerTitleStrip) findViewById(R.id.tabs);
+        tabs = findViewById(R.id.tabs);
         setTabsElevation(getContext().getResources().getDimensionPixelSize(R.dimen.hoodlib_toolbar_elevation));
     }
 
@@ -224,7 +223,6 @@ public class HoodDebugPageView extends FrameLayout {
     public PagerTitleStrip getTabs() {
         return tabs;
     }
-
 
     public static void setZebraToView(View view, @ColorInt int zebraColor, boolean isOdd) {
         Drawable zebra = null;

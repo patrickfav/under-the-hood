@@ -29,7 +29,6 @@ import android.os.Build;
 
 import timber.log.Timber;
 
-
 /**
  * Some default actions (also used in other Default* classes)
  */

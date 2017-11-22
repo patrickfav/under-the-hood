@@ -16,7 +16,6 @@
 
 package at.favre.lib.hood.util.defaults;
 
-
 import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
 import android.content.Intent;

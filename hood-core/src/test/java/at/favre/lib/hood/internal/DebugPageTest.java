@@ -1,6 +1,5 @@
 package at.favre.lib.hood.internal;
 
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,6 @@ public class DebugPageTest {
         page.removeEntries();
         assertEquals(0, page.getEntries().size());
     }
-
 
     @Test
     public void testEmptyPage() throws Exception {
