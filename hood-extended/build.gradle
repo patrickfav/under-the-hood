@@ -4,7 +4,6 @@ apply plugin: "com.github.kt3k.coveralls"
 
 android {
     testBuildType "release"
-    publishNonDefault false
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -17,12 +16,16 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
+
+        consumerProguardFiles 'proguard-rules.pro'
     }
 
     buildTypes {
+        noop {
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -31,31 +34,28 @@ android {
     }
 
     libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace((".aar"), "-${version}.aar"))
+        variant.outputs.all {
+            outputFileName = "${project.name}-${variant.name}-${version}.aar"
         }
     }
 }
 
 android.variantFilter { variant ->
     if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
-        variant.setIgnore(true);
+        variant.setIgnore(true)
     }
 }
 
 dependencies {
-    androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    implementation "com.android.support:design:$rootProject.ext.dependencies.support"
+
+    api project(path: ':hood-core')
+
+    androidTestImplementation(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
-    compile "com.android.support:design:$rootProject.ext.dependencies.support"
-
-    compile project(path: ':hood-core')
-
-    testCompile "junit:junit:$rootProject.ext.dependencies.junit"
+    testImplementation "junit:junit:$rootProject.ext.dependencies.junit"
 }
 
 apply from: "$rootDir/gradle/publish.gradle"

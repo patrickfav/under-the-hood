@@ -2,13 +2,14 @@ apply from: "$rootDir/gradle/common-build.gradle"
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'de.mobilej.unmock:UnMockPlugin:0.6.0'
+        classpath 'de.mobilej.unmock:UnMockPlugin:0.6.4'
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
         classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1"
     }
@@ -16,10 +17,8 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
-        maven {
-            url "https://maven.google.com"
-        }
     }
 }
 
@@ -28,21 +27,22 @@ task clean(type: Delete) {
 }
 
 ext {
-    versionNameApp = "0.6.0"
+    versionNameApp = "0.7.0"
     versionNameLib = "$versionNameApp"
     versionCode = getCiBuildNumber()
     versionNameDep = "0.+"
 
     compileSdkVersion = 26
-    buildToolsVersion = "26.0.1"
+    buildToolsVersion = "26.0.2"
     targetSdkVersion = 26
     minSdkVersion = 14
-    javaVersion = JavaVersion.VERSION_1_7
+    javaVersion = JavaVersion.VERSION_1_8
 
     dependencies = [
-            support : "26.1.0",
-            espresso: "2.2.2",
-            junit   : "4.12"
+            support : '26.1.0',
+            espresso: '3.0.1',
+            junit   : '4.12',
+            timber  : '4.5.1'
     ]
 }
 

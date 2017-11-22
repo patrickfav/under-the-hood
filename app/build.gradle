@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-def Properties localProps = getSigningProperties()
+Properties localProps = getSigningProperties()
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -28,6 +28,8 @@ android {
         buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
         buildConfigField "String", "BUILD_DATE", "\"" + getBuildTime() + "\""
         buildConfigField "boolean", "IS_CI_BUILD", "${isCiBuild()}"
+
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
 
     dataBinding {
@@ -40,6 +42,7 @@ android {
             applicationIdSuffix '.debug'
             minifyEnabled false
             shrinkResources false
+            matchingFallbacks = ['release']
         }
 
         releaseNoop {
@@ -47,6 +50,7 @@ android {
             minifyEnabled true
             shrinkResources true
             signingConfig signingConfigs.release
+            matchingFallbacks = ['noop']
         }
 
         release {
@@ -55,9 +59,6 @@ android {
             signingConfig signingConfigs.release
         }
 
-        buildTypes.all {
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
 
     lintOptions {
@@ -65,23 +66,13 @@ android {
     }
 
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
+        variant.outputs.all {
+            outputFileName = "${project.name}-${variant.flavorName}-${variant.buildType.name}-${variant.versionName}.apk"
         }
     }
 }
 
 dependencies {
-    androidTestCompile(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    compile "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
-
-    testCompile "junit:junit:$rootProject.ext.dependencies.junit"
-
 //    debugCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
 //    releaseCompile("at.favre.lib.hood:hood-extended:$rootProject.ext.versionNameDep")
 //
@@ -91,11 +82,19 @@ dependencies {
 //                classifier: 'noop', ext: 'aar', transitive: true)
 //    }
 
-    compile project(path: ':hood-extended')
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+    implementation project(path: ':hood-extended')
+
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    implementation "com.jakewharton.timber:timber:$rootProject.ext.dependencies.timber"
+
+    androidTestImplementation(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.ext.dependencies.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
+    testImplementation "junit:junit:$rootProject.ext.dependencies.junit"
 }
