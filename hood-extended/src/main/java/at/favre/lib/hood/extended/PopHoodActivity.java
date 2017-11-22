@@ -82,9 +82,9 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
                 finish();
             } else {
                 setContentView(R.layout.hoodlib_activity_hood);
-                debugView = (HoodDebugPageView) findViewById(R.id.debug_view);
+                debugView = findViewById(R.id.debug_view);
                 debugView.setPageData(getPageData(Hood.get().createPages(getConfig())));
-                toolbar = ((Toolbar) findViewById(R.id.toolbar));
+                toolbar = findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -206,7 +206,6 @@ public abstract class PopHoodActivity extends AppCompatActivity implements HoodC
     public Config getConfig() {
         return Config.newBuilder().build();
     }
-
 
     @NonNull
     @Override
