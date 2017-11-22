@@ -39,6 +39,8 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField "String", "BUILD_DATE", "\"\""
+
             testCoverageEnabled true
             applicationIdSuffix '.debug'
             minifyEnabled false
