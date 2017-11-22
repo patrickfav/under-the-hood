@@ -1,6 +1,5 @@
 package at.favre.lib.hood.internal;
 
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +45,6 @@ public class DefaultSectionTest {
         section.add(anotherSection);
         assertEquals(2 + 1, section.asEntryList().size());
     }
-
 
     @Test
     public void testAddSection() throws Exception {
