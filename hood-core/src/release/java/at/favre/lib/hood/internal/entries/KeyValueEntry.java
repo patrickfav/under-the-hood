@@ -404,7 +404,7 @@ public class KeyValueEntry implements Comparator<KeyValueEntry>, PageEntry<Map.E
 
         @Override
         public void onClick(View v, Map.Entry<CharSequence, String> value) {
-            Timber.d("check android permissions for " + androidPermissionName);
+            Timber.d("check android permissions for %s", androidPermissionName);
             @PermissionTranslator.PermissionState int permissionState = PermissionTranslator.getPermissionStatus(activity, androidPermissionName);
 
             if (permissionState == PermissionTranslator.GRANTED) {

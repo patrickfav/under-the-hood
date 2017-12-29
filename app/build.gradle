@@ -87,6 +87,7 @@ dependencies {
 
     implementation project(path: ':hood-extended')
 
+    implementation "com.android.support:support-v4:$rootProject.ext.dependencies.support"
     implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
     implementation "com.jakewharton.timber:timber:$rootProject.ext.dependencies.timber"
 

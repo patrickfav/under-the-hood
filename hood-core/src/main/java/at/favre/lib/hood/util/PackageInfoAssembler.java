@@ -219,12 +219,12 @@ public class PackageInfoAssembler {
                         mainSection.add(Hood.ext().createSection(addSectionHeaders ? type.header : null, type.pageEntryProvider.getEntries(context, packageInfo)));
                     } catch (Exception e) {
                         mainSection.add(Hood.get().createMessageEntry("Could not get packageInfo for " + type + " and " + targetPackageName + ": " + e.getClass() + " (" + e.getMessage() + ")"));
-                        Timber.w("error while creating " + type, e);
+                        Timber.w(e, "error while creating %s", type);
                     }
                 }
             } catch (Exception e) {
                 mainSection.setErrorMessage("Could not get packageInfo for " + targetPackageName + ": " + e.getClass() + " (" + e.getMessage() + ")");
-                Timber.w(mainSection.getErrorMessage(), e);
+                Timber.w(e, mainSection.getErrorMessage());
             }
         }
         return mainSection.removeHeader();

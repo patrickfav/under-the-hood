@@ -37,7 +37,6 @@ import at.favre.lib.hood.internal.entries.KeyValueEntry;
 import at.favre.lib.hood.internal.entries.SpacerEntry;
 import at.favre.lib.hood.internal.entries.TextMessageEntry;
 import at.favre.lib.hood.util.ArbitraryTapListener;
-import timber.log.Timber;
 
 final class HoodFactory implements HoodAPI.Factory {
 
@@ -52,13 +51,8 @@ final class HoodFactory implements HoodAPI.Factory {
     }
 
     private static final class HoodImpl implements HoodAPI {
-        /**
-         * This constructor will plant a {@link Timber} tree if none is set.
-         */
+
         private HoodImpl() {
-            if (Timber.forest().isEmpty()) {
-                Timber.plant(new Timber.DebugTree());
-            }
         }
 
         @NonNull

@@ -32,17 +32,17 @@ ext {
     versionCode = getCiBuildNumber()
     versionNameDep = "0.+"
 
-    compileSdkVersion = 26
-    buildToolsVersion = "26.0.2"
-    targetSdkVersion = 26
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.2"
+    targetSdkVersion = 27
     minSdkVersion = 14
     javaVersion = JavaVersion.VERSION_1_8
 
     dependencies = [
-            support : '26.1.0',
+            support : '27.0.2',
             espresso: '3.0.1',
             junit   : '4.12',
-            timber  : '4.5.1'
+            timber  : '4.6.0'
     ]
 }
 

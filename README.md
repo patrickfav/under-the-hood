@@ -461,12 +461,14 @@ a triple click on a view that does not look clickable use the following code:
 
 ## Possible conflicts and things to mind
 
-This lib uses [Timber](https://github.com/JakeWharton/timber) lib, but will
- only add `DebugTree` if there is none found (added the first time the Hood
- singleton is called).
+This lib uses [Timber](https://github.com/JakeWharton/timber) for logging, but will
+never plant a `Tree`, so to not interfere with the root app's desired logging
+behaviour. If you like to see the lib's logging output just plant a DebugTree
 
- All `res` assets are prefixed with `hoodlib_` so there should be no conflict
- when merging the resources.
+    Timber.plant(new Timber.DebugTree());
+
+All `res` assets are prefixed with `hoodlib_` so there should be no conflict
+when merging the resources.
 
 ## Proguard
 

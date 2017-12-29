@@ -96,7 +96,7 @@ public final class DefaultMiscActions {
                 }
             }
         } catch (Exception e) {
-            Timber.e("could not kill process", e);
+            Timber.e(e, "could not kill process");
         } finally {
             android.os.Process.killProcess(android.os.Process.myPid());
         }
