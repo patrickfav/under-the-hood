@@ -14,6 +14,7 @@ without error-prone if-debug chains.
 
 [![Download](https://api.bintray.com/packages/patrickfav/maven/hood/images/download.svg) ](https://bintray.com/patrickfav/maven/hood/_latestVersion)
 [![Build Status](https://travis-ci.org/patrickfav/under-the-hood.svg?branch=master)](https://travis-ci.org/patrickfav/under-the-hood)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f18559eddd85f814944f/maintainability)](https://codeclimate.com/github/patrickfav/under-the-hood/maintainability)
 [![Javadocs](https://www.javadoc.io/badge/at.favre.lib.hood/hood-core.svg)](https://www.javadoc.io/doc/at.favre.lib.hood/hood-core)
 [![API 14+](https://img.shields.io/badge/API-14%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=14)
 [![Method Cound](https://img.shields.io/badge/Methods%20and%20size-core:%201128%20%7C%20167%20KB-e91e63.svg)](http://www.methodscount.com/?lib=at.favre.lib.hood%3Ahood-core%3A%2B)
