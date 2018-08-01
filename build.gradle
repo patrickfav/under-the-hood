@@ -40,9 +40,9 @@ ext {
 
     dependencies = [
             support : '27.1.1',
-            espresso: '3.0.1',
+            espresso: '3.0.2',
             junit   : '4.12',
-            timber  : '4.6.1'
+            timber  : '4.7.1'
     ]
 }
 
