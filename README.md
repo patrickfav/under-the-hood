@@ -38,7 +38,7 @@ To check it out, [download the demo app from the Playstore](https://play.google.
 
 Add the following to your dependencies ([add jcenter to your repositories](https://developer.android.com/studio/build/index.html#top-level) if you haven't)
 
-```gradle
+```groovy
 compile 'at.favre.lib.hood:hood-extended:0.5.1'
 ```
 
@@ -351,7 +351,7 @@ The core module comes in 2 flavours (or classifier):
 #### `release`
 The standard version of the lib with all features. You could use this
 version in only in your debug builds with:
-```gradle
+```groovy
     compile("at.favre.lib.hood:hood-core:x.x.x")
 ```
 #### `noop`
@@ -361,7 +361,7 @@ main template system. All creator methods of `HoodAPI` (`Hood.get()`) and `HoodA
 If you use implementation from `at.favre.lib.hood.page.**` directly this will have no effect.
 
 Here is a piratical example to use default flavor in debug and noop in release:
-```gradle
+```groovy
     debugCompile('at.favre.lib.hood:hood-core:x.x.x')
     releaseCompile(group: 'at.favre.lib.hood', name: 'hood-core', version: 'x.x.x', classifier: 'noop', ext: 'aar', transitive: true)
 ```
@@ -378,7 +378,7 @@ Extends the `hood-core` with a default implementation of a debug activity
 using `appcompat-v7` support library.
 
 If you want to use the noop version in release use something like this:
-```gradle
+```groovy
     debugCompile('at.favre.lib.hood:hood-extended:x.x.x')
     releaseCompile('at.favre.lib.hood:hood-extended:x.x.x') {
             exclude group: 'at.favre.lib.hood', module: 'hood-core'
