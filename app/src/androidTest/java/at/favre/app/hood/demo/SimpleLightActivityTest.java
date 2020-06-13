@@ -1,6 +1,5 @@
 package at.favre.app.hood.demo;
 
-
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
