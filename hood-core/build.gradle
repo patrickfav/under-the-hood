@@ -1,3 +1,5 @@
+import com.android.builder.core.BuilderConstants
+
 apply plugin: 'com.android.library'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'com.vanniktech.android.junit.jacoco'
@@ -69,22 +71,20 @@ android {
 }
 
 android.variantFilter { variant ->
-    if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
+    if (variant.buildType.name == BuilderConstants.DEBUG) {
         variant.setIgnore(true)
     }
 }
 
 dependencies {
-    implementation "androidx.core:core:$rootProject.ext.dependencies.androidx"
+    implementation 'androidx.core:core:1.3.0'
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.dependencies.androidx"
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation "com.jakewharton.timber:timber:$rootProject.ext.dependencies.timber"
     implementation 'com.squareup:seismic:1.0.2'
 
-    androidTestImplementation(group: 'androidx.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     testImplementation "junit:junit:$rootProject.ext.dependencies.junit"
     unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }
