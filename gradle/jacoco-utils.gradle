@@ -1,0 +1,16 @@
+/**
+ * Copy the jacoco unit test report to a standard jacoco out folder, so coveralls plugin can find it
+ */
+
+task copyJacocoReport(type: Copy) {
+    File source = new File("$project.rootDir.absolutePath/$project.name/build/reports/jacoco/release")
+    File target = new File("$project.rootDir.absolutePath/$project.name/build/reports/jacoco/test")
+    String testFileName = "jacoco.xml"
+
+    from source
+    include testFileName
+    rename(testFileName, 'jacocoTestReport.xml')
+    into target
+}
+
+copyJacocoReport.dependsOn 'jacocoTestReportRelease'

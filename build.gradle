@@ -6,12 +6,12 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath 'de.mobilej.unmock:UnMockPlugin:0.6.4'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
-        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2"
+        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.3"
+        classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0'
     }
 }
 
@@ -32,14 +32,14 @@ ext {
     versionCode = getCiBuildNumber()
     versionNameDep = "0.+"
 
-    compileSdkVersion = 28
-    buildToolsVersion = "28.0.3"
-    targetSdkVersion = 28
+    compileSdkVersion = 29
+    buildToolsVersion = "29.0.3"
+    targetSdkVersion = 29
     minSdkVersion = 14
     javaVersion = JavaVersion.VERSION_1_8
 
     dependencies = [
-            support : '27.1.1',
+            support : '28.0.0',
             espresso: '3.0.2',
             junit   : '4.12',
             timber  : '4.7.1'
