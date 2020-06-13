@@ -39,7 +39,7 @@ To check it out, [download the demo app from the Playstore](https://play.google.
 Add the following to your dependencies ([add jcenter to your repositories](https://developer.android.com/studio/build/index.html#top-level) if you haven't)
 
 ```groovy
-compile 'at.favre.lib.hood:hood-extended:0.5.1'
+compile 'at.favre.lib.hood:hood-extended:x.y.z'
 ```
 
 Create an activity and extend `PopHoodActivity`. Define it in your `AndroidManifest`:
