@@ -16,7 +16,7 @@
 
 package at.favre.lib.hood.view;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import at.favre.lib.hood.interfaces.Pages;
 

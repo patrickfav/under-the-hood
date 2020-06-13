@@ -16,13 +16,14 @@
 
 package at.favre.app.hood.demo;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.databinding.DataBindingUtil;
 
 import at.favre.app.hood.demo.databinding.ActivityMainBinding;
 import at.favre.lib.hood.Hood;

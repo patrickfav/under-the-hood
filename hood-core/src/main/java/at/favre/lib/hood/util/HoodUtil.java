@@ -18,7 +18,8 @@ package at.favre.lib.hood.util;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -125,9 +126,9 @@ public final class HoodUtil {
         String star = String.valueOf(obfuscationChar);
 
         if (original.length() <= maxCharLengthLeftOrRight * 2) {
-            return original.substring(0, original.length() / 2) + star + star + star + original.substring((original.length() / 2) + 1, original.length());
+            return original.substring(0, original.length() / 2) + star + star + star + original.substring((original.length() / 2) + 1);
         } else {
-            return original.substring(0, maxCharLengthLeftOrRight) + star + star + star + original.substring(original.length() - maxCharLengthLeftOrRight, original.length());
+            return original.substring(0, maxCharLengthLeftOrRight) + star + star + star + original.substring(original.length() - maxCharLengthLeftOrRight);
         }
     }
 }

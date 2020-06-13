@@ -16,7 +16,7 @@
 
 package at.favre.lib.hood.interfaces;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * One entry in a {@link Page} containing a generic value.

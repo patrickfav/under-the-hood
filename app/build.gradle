@@ -21,7 +21,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionNameApp
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         buildConfigField "String", "GIT_REV", "\"" + getGitRev() + "\""
         buildConfigField "String", "GIT_BRANCH", "\"" + getGitBranch() + "\""
@@ -87,14 +87,14 @@ dependencies {
 
     implementation project(path: ':hood-extended')
 
-    implementation "com.android.support:support-v4:$rootProject.ext.dependencies.support"
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.dependencies.androidx"
     implementation "com.jakewharton.timber:timber:$rootProject.ext.dependencies.timber"
 
-    androidTestImplementation(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
+    androidTestImplementation(group: 'androidx.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.ext.dependencies.espresso", {
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'design'

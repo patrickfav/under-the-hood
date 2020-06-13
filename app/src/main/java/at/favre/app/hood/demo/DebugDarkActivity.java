@@ -18,9 +18,10 @@ package at.favre.app.hood.demo;
 
 import android.content.pm.FeatureInfo;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,7 +110,7 @@ public class DebugDarkActivity extends PopHoodActivity {
         }));
 
         for (FeatureInfo featureInfo : getPackageManager().getSystemAvailableFeatures()) {
-            Timber.d(String.valueOf(featureInfo) + "\n");
+            Timber.d(featureInfo + "\n");
         }
 
         PageUtil.addAction(firstPage, DefaultButtonDefinitions.getCrashAction());

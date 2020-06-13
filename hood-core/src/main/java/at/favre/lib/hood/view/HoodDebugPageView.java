@@ -23,17 +23,19 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.Px;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerTitleStrip;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Px;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerTitleStrip;
+import androidx.viewpager.widget.ViewPager;
 
 import at.favre.lib.hood.Hood;
 import at.favre.lib.hood.R;
@@ -41,7 +43,7 @@ import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.Pages;
 
 /**
- * The view encapsulating the rendering logic of a {@link Page}. Internally has an {@link android.support.v7.widget.RecyclerView}
+ * The view encapsulating the rendering logic of a {@link Page}. Internally has an {@link RecyclerView}
  * with  {@link DebugEntriesAdapter}.
  */
 public class HoodDebugPageView extends FrameLayout {

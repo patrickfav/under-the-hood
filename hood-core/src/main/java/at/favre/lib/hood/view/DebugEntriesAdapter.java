@@ -16,17 +16,18 @@
 
 package at.favre.lib.hood.view;
 
-import android.support.annotation.ColorInt;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.ColorInt;
+import androidx.recyclerview.widget.RecyclerView;
 
 import at.favre.lib.hood.interfaces.Page;
 import at.favre.lib.hood.interfaces.ViewTemplate;
 
 /**
- * The adapter managing the entries from given {@link Page}. Instead of a {@link android.support.v7.widget.RecyclerView.ViewHolder}
+ * The adapter managing the entries from given {@link Page}. Instead of a {@link RecyclerView.ViewHolder}
  * the {@link ViewTemplate} from the entry is used.
  */
 class DebugEntriesAdapter extends RecyclerView.Adapter<DebugEntriesAdapter.DebugViewHolder> {

@@ -8,9 +8,10 @@ import android.content.pm.PackageManager;
 import android.hardware.SensorManager;
 import android.os.SystemClock;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.squareup.seismic.ShakeDetector;
 

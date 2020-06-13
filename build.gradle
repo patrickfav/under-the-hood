@@ -39,9 +39,9 @@ ext {
     javaVersion = JavaVersion.VERSION_1_8
 
     dependencies = [
-            support : '28.0.0',
-            espresso: '3.0.2',
-            junit   : '4.12',
+            androidx: '1.1.0',
+            espresso: '3.1.0',
+            junit   : '4.13',
             timber  : '4.7.1'
     ]
 }

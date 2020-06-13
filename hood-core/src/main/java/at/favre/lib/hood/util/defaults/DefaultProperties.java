@@ -33,11 +33,12 @@ import android.os.PowerManager;
 import android.os.StrictMode;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -156,7 +157,7 @@ public final class DefaultProperties {
             section.add(Hood.get().createPropertyEntry("local/death/proxy objs", new DynamicValue<String>() {
                 @Override
                 public String getValue() {
-                    return String.valueOf(Debug.getBinderLocalObjectCount()) + "/" + String.valueOf(Debug.getBinderDeathObjectCount()) + "/" + String.valueOf(Debug.getBinderProxyObjectCount());
+                    return Debug.getBinderLocalObjectCount() + "/" + Debug.getBinderDeathObjectCount() + "/" + Debug.getBinderProxyObjectCount();
                 }
             }));
             section.add(Hood.get().createPropertyEntry("debugger-connected", new DynamicValue<String>() {
@@ -582,7 +583,7 @@ public final class DefaultProperties {
                         float level = (float) batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
                         float maxScale = (float) batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
                         float battPercent = level / maxScale * 100;
-                        return String.valueOf(battPercent) + "%";
+                        return battPercent + "%";
                     }
                 }, DefaultButtonDefinitions.getBatterySummarySettingsAction().onClickAction, false));
                 section.add(Hood.get().createPropertyEntry("status", new DynamicValue<String>() {
@@ -605,8 +606,8 @@ public final class DefaultProperties {
                             @Override
                             public String getValue() {
                                 final Intent batteryStatus = context.registerReceiver(null, battIntentFilter);
-                                return String.valueOf((float) batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10f + "°C/" +
-                                        String.valueOf(batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1))) + "mV";
+                                return (float) batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10f + "°C/" +
+                                        batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1) + "mV";
                             }
                         }
                 ));

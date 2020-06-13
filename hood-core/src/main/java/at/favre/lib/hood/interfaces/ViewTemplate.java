@@ -16,11 +16,12 @@
 
 package at.favre.lib.hood.interfaces;
 
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 /**
  * Used by the internal adapter as abstraction to a RecyclerView.ViewHolder

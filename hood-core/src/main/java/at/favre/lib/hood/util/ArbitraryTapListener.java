@@ -16,11 +16,12 @@
 
 package at.favre.lib.hood.util;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+
+import androidx.annotation.NonNull;
 
 /**
  * This an listener which can be used to require more than x taps before the {@link android.view.View.OnClickListener}

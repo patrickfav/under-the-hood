@@ -2,8 +2,9 @@ package at.favre.lib.hood.extended;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.test.rule.ActivityTestRule;
+
+import androidx.annotation.NonNull;
+import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Rule;
 

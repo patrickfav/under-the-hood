@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,13 +12,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="@dimen/hoodlib_toolbar_elevation"
                 android:theme="@style/AppThemeActionBar"
-                tools:targetApi="lollipop"/>
+                tools:targetApi="lollipop" />
 
             <Button
                 android:id="@+id/toggle_drawer"
@@ -37,6 +37,6 @@
             android:background="?android:windowBackground"
             android:elevation="@dimen/hoodlib_toolbar_elevation"
             android:theme="@style/HoodLibThemeOverlay.Dark.Small"
-            tools:targetApi="lollipop"/>
-    </android.support.v4.widget.DrawerLayout>
+            tools:targetApi="lollipop" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

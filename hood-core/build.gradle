@@ -29,7 +29,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionNameLib
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
         buildConfigField "String", "BUILD_DATE", "\"" + getBuildTime() + "\""
@@ -75,13 +75,14 @@ android.variantFilter { variant ->
 }
 
 dependencies {
-    implementation "com.android.support:support-compat:$rootProject.ext.dependencies.support"
-    implementation "com.android.support:support-core-utils:$rootProject.ext.dependencies.support"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.dependencies.support"
+    implementation "androidx.core:core:$rootProject.ext.dependencies.androidx"
+    implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.dependencies.androidx"
+    implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation "com.jakewharton.timber:timber:$rootProject.ext.dependencies.timber"
     implementation 'com.squareup:seismic:1.0.2'
 
-    androidTestImplementation(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
+    androidTestImplementation(group: 'androidx.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation "junit:junit:$rootProject.ext.dependencies.junit"

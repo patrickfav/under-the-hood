@@ -2,9 +2,10 @@
 
 ## v0.7.0
 
-* update to SDK 27 and Android Gradle Plugin v3
+* update to SDK 29 and Android Gradle Plugin v4
 * do not plant Timber tree anymore and fix error log issues
 * support RTL
+* Migrate to AndroidX
 
 ## v0.6.0
 

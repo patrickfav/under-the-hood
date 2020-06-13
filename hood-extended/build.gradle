@@ -1,3 +1,5 @@
+import com.android.builder.core.BuilderConstants
+
 apply plugin: 'com.android.library'
 apply plugin: "com.github.kt3k.coveralls"
 apply plugin: 'com.vanniktech.android.junit.jacoco'
@@ -13,7 +15,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionNameLib
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         buildConfigField "String", "BUILD_NUMBER", "\"" + getCiBuildNumber() + "\""
 
@@ -41,18 +43,18 @@ android {
 }
 
 android.variantFilter { variant ->
-    if (variant.buildType.name == com.android.builder.core.BuilderConstants.DEBUG) {
+    if (variant.buildType.name == BuilderConstants.DEBUG) {
         variant.setIgnore(true)
     }
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.dependencies.support"
-    implementation "com.android.support:design:$rootProject.ext.dependencies.support"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.dependencies.androidx"
+    implementation "com.google.android.material:material:$rootProject.ext.dependencies.androidx"
 
     api project(path: ':hood-core')
 
-    androidTestImplementation(group: 'com.android.support.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
+    androidTestImplementation(group: 'androidx.test.espresso', name: 'espresso-core', version: rootProject.ext.dependencies.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation "junit:junit:$rootProject.ext.dependencies.junit"

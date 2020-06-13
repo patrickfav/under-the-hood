@@ -1,6 +1,6 @@
 package at.favre.lib.hood.noop;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import at.favre.lib.hood.interfaces.PageEntry;
 import at.favre.lib.hood.interfaces.ViewTemplate;

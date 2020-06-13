@@ -28,8 +28,9 @@ import android.content.pm.ProviderInfo;
 import android.content.pm.ServiceInfo;
 import android.content.pm.Signature;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -366,7 +367,7 @@ public class PackageInfoAssembler {
     public static List<PageEntry<?>> createApkStateInfo(@NonNull PackageInfo packageInfo) {
         List<PageEntry<?>> entries = new ArrayList<>();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            entries.add(Hood.get().createPropertyEntry("apk-location", String.valueOf(TypeTranslators.translatePMInstallLocation(packageInfo.installLocation))));
+            entries.add(Hood.get().createPropertyEntry("apk-location", TypeTranslators.translatePMInstallLocation(packageInfo.installLocation)));
         }
         entries.add(Hood.get().createPropertyEntry("apk-first-install", HoodUtil.toSimpleDateTimeFormat(packageInfo.firstInstallTime)));
         entries.add(Hood.get().createPropertyEntry("apk-reinstall", HoodUtil.toSimpleDateTimeFormat(packageInfo.lastUpdateTime)));

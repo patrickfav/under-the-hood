@@ -17,8 +17,9 @@
 package at.favre.app.hood.demo;
 
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
