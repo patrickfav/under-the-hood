@@ -2,10 +2,10 @@ package at.favre.lib.hood.noop;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.legacy.widget.Space;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Space;
 
 import at.favre.lib.hood.interfaces.ViewTemplate;
 
